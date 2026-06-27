@@ -9,11 +9,4 @@ build/
 .DS_Store
 coverage/
 .turbo/
-node_modules
-.next
-dist
-.env
-.env.local
-coverage
-.DS_Store
 .vscode/settings.json
