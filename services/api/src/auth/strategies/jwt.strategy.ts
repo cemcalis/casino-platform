@@ -6,9 +6,11 @@ import type { JwtPayload } from '@casino/auth';
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
+    const secret = process.env['JWT_ACCESS_SECRET'];
+    if (!secret) throw new Error('JWT_ACCESS_SECRET not set');
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env['JWT_ACCESS_SECRET'] ?? 'fallback',
+      secretOrKey: secret,
       ignoreExpiration: false,
     });
   }
