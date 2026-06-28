@@ -1,12 +1,11 @@
 {
-  "name": "@casino/types",
+  "name": "@casino/realtime",
   "version": "1.0.0",
   "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
   "scripts": {
-    "build": "echo 'types build'",
-    "lint": "tsc --noEmit",
+    "dev": "echo 'realtime dev'",
+    "build": "echo 'realtime build'",
+    "lint": "echo 'realtime lint'",
     "test": "echo 'No tests yet'",
     "typecheck": "tsc --noEmit"
   },
