@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  PLAYER
+  ADMIN
+  SUPPORT
+}
+
+enum LedgerType {
+  CREDIT
+  DEBIT
+}
+
+model User {
+  id               String         @id @default(cuid())
+  email            String         @unique
+  username         String         @unique
+  passwordHash     String
+  role             Role           @default(PLAYER)
+  refreshTokenHash String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  wallet           Wallet?
+  sessions         GameSession[]
+  ledgerEntries    LedgerEntry[]
+  leaderboard      Leaderboard[]
+}
+
+model Wallet {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  balance   Decimal  @default(0) @db.Decimal(18, 2)
+  version   Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model LedgerEntry {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id])
+  type          LedgerType
+  amount        Decimal    @db.Decimal(18, 2)
+  balanceBefore Decimal    @db.Decimal(18, 2)
+  balanceAfter  Decimal    @db.Decimal(18, 2)
+  referenceId   String?
+  createdAt     DateTime   @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model GameSession {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  gameType   String
+  betAmount  Decimal  @db.Decimal(18, 2)
+  winAmount  Decimal  @db.Decimal(18, 2)
+  result     Json
+  serverSeed String
+  nonce      Int
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Leaderboard {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  gameType  String
+  period    String
+  score     Decimal  @db.Decimal(18, 2)
+  rank      Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, gameType, period])
+  @@index([gameType, period])
+}
