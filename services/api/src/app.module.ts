@@ -4,10 +4,11 @@ import { HealthController } from './health.controller';
 import { PrismaModule } from './database';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { WalletModule } from './wallet/wallet.module';
 import { JwtAuthGuard, RolesGuard } from '@casino/auth';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UsersModule],
+  imports: [PrismaModule, AuthModule, UsersModule, WalletModule],
   controllers: [HealthController],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
