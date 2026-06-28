@@ -19,7 +19,7 @@ $Worktrees = @(
 )
 
 Write-Host ""
-Write-Host "=== Casino Platform — Worktree Setup ===" -ForegroundColor Cyan
+Write-Host "=== Casino Platform Worktree Setup ===" -ForegroundColor Cyan
 Write-Host "Repo root : $RepoRoot"
 Write-Host "Parent dir: $ParentDir"
 Write-Host ""
@@ -34,7 +34,7 @@ foreach ($wt in $Worktrees) {
     }
 
     Write-Host "  [ADD]  $Branch -> $TargetPath" -ForegroundColor Green
-    git -C $RepoRoot worktree add $TargetPath -b $Branch develop
+    git -C $RepoRoot worktree add $TargetPath -b $Branch main
 }
 
 Write-Host ""
