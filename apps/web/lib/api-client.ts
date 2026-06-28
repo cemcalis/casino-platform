@@ -15,12 +15,19 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     credentials: 'include',
     ...init,
   });
-  const body = await res.json();
-  if (!res.ok) throw new ApiError(res.status, body?.message ?? 'Request failed');
-  return body as T;
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new ApiError(res.status, (body as { message?: string }).message ?? 'Request failed');
+  }
+  return res.json() as Promise<T>;
 }
 
 export const apiClient = {
-  post: <T>(path: string, data: unknown) =>
-    request<T>(path, { method: 'POST', body: JSON.stringify(data) }),
+  post: <T>(path: string, data: unknown, headers?: Record<string, string>) =>
+    request<T>(path, { method: 'POST', body: JSON.stringify(data), headers }),
+  get: <T>(path: string, token?: string) =>
+    request<T>(path, {
+      method: 'GET',
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    }),
 };
