@@ -1,12 +1,11 @@
 {
-  "name": "@casino/types",
+  "name": "@casino/support",
   "version": "1.0.0",
   "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
   "scripts": {
-    "build": "echo 'types build'",
-    "lint": "tsc --noEmit",
+    "dev": "echo 'support dev'",
+    "build": "echo 'support build'",
+    "lint": "echo 'support lint'",
     "test": "echo 'No tests yet'",
     "typecheck": "tsc --noEmit"
   },
