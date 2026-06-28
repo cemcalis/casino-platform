@@ -1,8 +1,9 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
-import * as bcrypt from 'bcrypt';
 import {
   comparePassword,
+  compareRefreshToken,
   hashPassword,
+  hashRefreshToken,
   signAccessToken,
   signRefreshToken,
   verifyToken,
@@ -19,6 +20,7 @@ export class AuthService {
   async register(dto: RegisterDto) {
     const existing = await this.prisma.user.findFirst({
       where: { OR: [{ email: dto.email }, { username: dto.username }] },
+      select: { id: true },
     });
     if (existing) {
       throw new ConflictException('Email or username already in use');
@@ -28,6 +30,7 @@ export class AuthService {
     const user = await this.prisma.$transaction(async (tx) => {
       const u = await tx.user.create({
         data: { email: dto.email, username: dto.username, passwordHash },
+        select: { id: true, email: true, role: true },
       });
       await tx.wallet.create({ data: { userId: u.id } });
       return u;
@@ -37,7 +40,10 @@ export class AuthService {
   }
 
   async login(dto: LoginDto) {
-    const user = await this.prisma.user.findUnique({ where: { email: dto.email } });
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+      select: { id: true, email: true, role: true, passwordHash: true },
+    });
     if (!user) throw new UnauthorizedException('Invalid credentials');
 
     const valid = await comparePassword(dto.password, user.passwordHash);
@@ -54,11 +60,15 @@ export class AuthService {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
-    const user = await this.prisma.user.findUnique({ where: { id: payload.sub } });
-    if (!user?.refreshTokenHash) throw new UnauthorizedException('Session expired');
+    const user = await this.prisma.user.findUnique({
+      where: { id: payload.sub },
+      select: { id: true, email: true, role: true, refreshTokenHash: true },
+    });
 
-    const valid = await bcrypt.compare(dto.refreshToken, user.refreshTokenHash);
-    if (!valid) throw new UnauthorizedException('Refresh token reuse detected');
+    if (!user?.refreshTokenHash) throw new UnauthorizedException('Invalid refresh token');
+
+    const valid = await compareRefreshToken(dto.refreshToken, user.refreshTokenHash);
+    if (!valid) throw new UnauthorizedException('Invalid refresh token');
 
     return this.signTokensAndStore(user.id, user.email, user.role);
   }
@@ -83,11 +93,10 @@ export class AuthService {
     const base = { sub: userId, email, role };
     const accessToken = signAccessToken(base);
     const refreshToken = signRefreshToken(base);
-    const refreshTokenHash = await bcrypt.hash(refreshToken, 10);
 
     await this.prisma.user.update({
       where: { id: userId },
-      data: { refreshTokenHash },
+      data: { refreshTokenHash: await hashRefreshToken(refreshToken) },
     });
 
     return { accessToken, refreshToken };

@@ -9,3 +9,11 @@ export async function hashPassword(password: string): Promise<string> {
 export async function comparePassword(password: string, hash: string): Promise<boolean> {
   return bcrypt.compare(password, hash);
 }
+
+export async function hashRefreshToken(token: string): Promise<string> {
+  return bcrypt.hash(token, SALT_ROUNDS);
+}
+
+export async function compareRefreshToken(token: string, hash: string): Promise<boolean> {
+  return bcrypt.compare(token, hash);
+}
