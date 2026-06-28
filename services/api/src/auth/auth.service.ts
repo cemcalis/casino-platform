@@ -11,7 +11,6 @@ import {
 import { PrismaService } from '../database';
 import type { RegisterDto } from './dto/register.dto';
 import type { LoginDto } from './dto/login.dto';
-import type { RefreshDto } from './dto/refresh.dto';
 
 @Injectable()
 export class AuthService {
@@ -52,10 +51,10 @@ export class AuthService {
     return this.signTokensAndStore(user.id, user.email, user.role);
   }
 
-  async refresh(dto: RefreshDto) {
+  async refreshFromToken(refreshToken: string) {
     let payload: ReturnType<typeof verifyToken>;
     try {
-      payload = verifyToken(dto.refreshToken, 'refresh');
+      payload = verifyToken(refreshToken, 'refresh');
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
     }
@@ -67,16 +66,16 @@ export class AuthService {
 
     if (!user?.refreshTokenHash) throw new UnauthorizedException('Invalid refresh token');
 
-    const valid = await compareRefreshToken(dto.refreshToken, user.refreshTokenHash);
+    const valid = await compareRefreshToken(refreshToken, user.refreshTokenHash);
     if (!valid) throw new UnauthorizedException('Invalid refresh token');
 
     return this.signTokensAndStore(user.id, user.email, user.role);
   }
 
-  async logout(dto: RefreshDto) {
+  async logoutFromToken(refreshToken: string) {
     let payload: ReturnType<typeof verifyToken>;
     try {
-      payload = verifyToken(dto.refreshToken, 'refresh');
+      payload = verifyToken(refreshToken, 'refresh');
     } catch {
       throw new UnauthorizedException('Invalid refresh token');
     }
@@ -85,8 +84,6 @@ export class AuthService {
       where: { id: payload.sub },
       data: { refreshTokenHash: null },
     });
-
-    return { success: true };
   }
 
   private async signTokensAndStore(userId: string, email: string, role: string) {

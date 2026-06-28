@@ -110,10 +110,10 @@ describe.skipIf(!hasDb)('AuthService integration', () => {
     });
   });
 
-  describe('refresh', () => {
+  describe('refreshFromToken', () => {
     it('returns a new token pair when presented with a valid refresh token', async () => {
       const { tokens } = await registerFresh('refresh-ok');
-      const newTokens = await authService.refresh({ refreshToken: tokens.refreshToken });
+      const newTokens = await authService.refreshFromToken(tokens.refreshToken);
       expect(typeof newTokens.accessToken).toBe('string');
       expect(typeof newTokens.refreshToken).toBe('string');
     });
@@ -121,25 +121,24 @@ describe.skipIf(!hasDb)('AuthService integration', () => {
     it('throws UnauthorizedException when the refresh token has already been rotated', async () => {
       const { tokens } = await registerFresh('refresh-reuse');
       // First use — valid, rotates the stored hash
-      await authService.refresh({ refreshToken: tokens.refreshToken });
+      await authService.refreshFromToken(tokens.refreshToken);
       // Second use of the same token — hash no longer matches
       await expect(
-        authService.refresh({ refreshToken: tokens.refreshToken }),
+        authService.refreshFromToken(tokens.refreshToken),
       ).rejects.toThrow(UnauthorizedException);
     });
 
     it('throws UnauthorizedException for a completely invalid token string', async () => {
       await expect(
-        authService.refresh({ refreshToken: 'not-a-valid-jwt' }),
+        authService.refreshFromToken('not-a-valid-jwt'),
       ).rejects.toThrow(UnauthorizedException);
     });
   });
 
-  describe('logout', () => {
-    it('clears refreshTokenHash in the DB and returns { success: true }', async () => {
+  describe('logoutFromToken', () => {
+    it('clears refreshTokenHash in the DB', async () => {
       const { tokens, user } = await registerFresh('logout-ok');
-      const result = await authService.logout({ refreshToken: tokens.refreshToken });
-      expect(result).toEqual({ success: true });
+      await authService.logoutFromToken(tokens.refreshToken);
 
       const updated = await prisma.user.findUnique({ where: { id: user!.id } });
       expect(updated?.refreshTokenHash).toBeNull();
@@ -147,7 +146,7 @@ describe.skipIf(!hasDb)('AuthService integration', () => {
 
     it('throws UnauthorizedException for an invalid token on logout', async () => {
       await expect(
-        authService.logout({ refreshToken: 'garbage' }),
+        authService.logoutFromToken('garbage'),
       ).rejects.toThrow(UnauthorizedException);
     });
   });
