@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { userApi, type UserProfile, type WalletBalance } from '../../lib/api-user';
 import { authClient } from '../../lib/auth-client';
-import { apiClient } from '../../lib/api-client';
+import { apiClient, ApiError } from '../../lib/api-client';
 
 interface PlayerStats {
   totalSpins: number;
@@ -31,6 +31,12 @@ export default function DashboardPage() {
   const [stats, setStats] = useState<PlayerStats | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+
+  // Username edit state
+  const [editing, setEditing] = useState(false);
+  const [newUsername, setNewUsername] = useState('');
+  const [editError, setEditError] = useState('');
+  const [editSaving, setEditSaving] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem('accessToken');
@@ -62,6 +68,29 @@ export default function DashboardPage() {
     router.push('/login');
   }
 
+  function startEdit() {
+    setNewUsername(profile?.username ?? '');
+    setEditError('');
+    setEditing(true);
+  }
+
+  async function saveUsername() {
+    const token = sessionStorage.getItem('accessToken');
+    if (!token || !newUsername.trim()) return;
+
+    setEditSaving(true);
+    setEditError('');
+    try {
+      const updated = await apiClient.patch<UserProfile>('/users/me', { username: newUsername.trim() }, token);
+      setProfile(updated);
+      setEditing(false);
+    } catch (err) {
+      setEditError(err instanceof ApiError ? err.message : 'Failed to update username');
+    } finally {
+      setEditSaving(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
@@ -89,12 +118,52 @@ export default function DashboardPage() {
 
         {profile && (
           <div className="bg-gray-900 rounded-xl p-6">
-            <h2 className="text-lg font-semibold text-gray-300 mb-4">Profile</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-300">Profile</h2>
+              {!editing && (
+                <button
+                  onClick={startEdit}
+                  className="text-xs text-yellow-400 hover:text-yellow-300 transition-colors uppercase tracking-widest"
+                >
+                  Edit Username
+                </button>
+              )}
+            </div>
             <dl className="space-y-2">
-              <div className="flex justify-between">
+              <div className="flex justify-between items-center">
                 <dt className="text-gray-400">Username</dt>
-                <dd className="font-medium">{profile.username}</dd>
+                {editing ? (
+                  <dd className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={newUsername}
+                      onChange={(e) => setNewUsername(e.target.value)}
+                      className="bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-white w-40 focus:outline-none focus:border-yellow-400"
+                      maxLength={32}
+                      autoFocus
+                      onKeyDown={(e) => { if (e.key === 'Enter') saveUsername(); if (e.key === 'Escape') setEditing(false); }}
+                    />
+                    <button
+                      onClick={saveUsername}
+                      disabled={editSaving}
+                      className="text-xs text-green-400 hover:text-green-300 disabled:opacity-50"
+                    >
+                      {editSaving ? '...' : 'Save'}
+                    </button>
+                    <button
+                      onClick={() => setEditing(false)}
+                      className="text-xs text-gray-500 hover:text-gray-300"
+                    >
+                      Cancel
+                    </button>
+                  </dd>
+                ) : (
+                  <dd className="font-medium">{profile.username}</dd>
+                )}
               </div>
+              {editError && (
+                <div className="text-red-400 text-xs text-right">{editError}</div>
+              )}
               <div className="flex justify-between">
                 <dt className="text-gray-400">Email</dt>
                 <dd className="font-medium">{profile.email}</dd>
