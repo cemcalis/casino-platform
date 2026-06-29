@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@casino/auth": "workspace:*",
+    "@casino/rng": "workspace:*",
+    "@casino/slot-runtime": "workspace:*",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/jwt": "^10.0.0",
