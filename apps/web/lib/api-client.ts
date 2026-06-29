@@ -56,6 +56,8 @@ async function request<T>(path: string, init?: RequestInit & { headers?: Record<
 export const apiClient = {
   post: <T>(path: string, data: unknown, headers?: Record<string, string>) =>
     request<T>(path, { method: 'POST', body: JSON.stringify(data), headers }),
+  patch: <T>(path: string, data: unknown, token: string) =>
+    request<T>(path, { method: 'PATCH', body: JSON.stringify(data), headers: { Authorization: `Bearer ${token}` } }),
   get: <T>(path: string, token?: string) =>
     request<T>(path, {
       method: 'GET',
