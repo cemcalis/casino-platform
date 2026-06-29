@@ -18,6 +18,11 @@ export class UsersController {
     return this.usersService.getStats(user.sub);
   }
 
+  @Get('me/vip')
+  getMyVip(@CurrentUser() user: JwtPayload) {
+    return this.usersService.getVipStatus(user.sub);
+  }
+
   @Patch('me')
   updateMe(@CurrentUser() user: JwtPayload, @Body() dto: UpdateProfileDto) {
     return this.usersService.updateProfile(user.sub, dto);
