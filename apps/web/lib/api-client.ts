@@ -4,6 +4,7 @@ export class ApiError extends Error {
   constructor(
     public readonly status: number,
     message: string,
+    public readonly data?: unknown,
   ) {
     super(message);
   }
@@ -19,8 +20,8 @@ async function doFetch(path: string, headers: Record<string, string>, rest: Requ
 
 async function throwIfNotOk(res: Response): Promise<void> {
   if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new ApiError(res.status, (body as { message?: string }).message ?? 'Request failed');
+    const body = (await res.json().catch(() => ({}))) as { message?: string };
+    throw new ApiError(res.status, body.message ?? 'Request failed', body);
   }
 }
 
