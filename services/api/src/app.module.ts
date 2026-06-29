@@ -7,10 +7,11 @@ import { UsersModule } from './users/users.module';
 import { WalletModule } from './wallet/wallet.module';
 import { GameModule } from './games/game.module';
 import { LeaderboardModule } from './leaderboard/leaderboard.module';
+import { BonusModule } from './bonus/bonus.module';
 import { JwtAuthGuard, RolesGuard } from '@casino/auth';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UsersModule, WalletModule, GameModule, LeaderboardModule],
+  imports: [PrismaModule, AuthModule, UsersModule, WalletModule, GameModule, LeaderboardModule, BonusModule],
   controllers: [HealthController],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
