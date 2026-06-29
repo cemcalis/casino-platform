@@ -210,6 +210,9 @@ export default function DashboardPage() {
           <Link href="/" className="hover:text-gray-300">
             ← Lobby
           </Link>
+          <Link href="/wallet" className="hover:text-gray-300">
+            Cashier
+          </Link>
           <Link href="/history" className="hover:text-gray-300">
             Spin History
           </Link>
