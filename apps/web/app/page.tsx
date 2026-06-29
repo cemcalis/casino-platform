@@ -12,6 +12,7 @@ import {
   SettingsPanel,
 } from '@casino/ui';
 import type { HistoryEntry } from '@casino/ui';
+import Link from 'next/link';
 import { userApi } from '../lib/api-user';
 import { authClient } from '../lib/auth-client';
 import { gameApi } from '../lib/api-game';
@@ -205,6 +206,17 @@ export default function LobbyPage() {
       }}
     >
       <span>NEON PALACE &mdash; Social Casino &mdash; No Real-Money Gambling</span>
+      <Link
+        href="/leaderboard"
+        style={{
+          color: 'var(--np-gold)',
+          textDecoration: 'none',
+          fontSize: 'var(--np-text-xs)',
+          letterSpacing: 'var(--np-tracking-wider)',
+        }}
+      >
+        LEADERBOARD
+      </Link>
     </div>
   );
 
