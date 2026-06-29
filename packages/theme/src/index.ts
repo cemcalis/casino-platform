@@ -17,3 +17,4 @@ export {
   generateAllVars,
   toCssString,
 } from './css-vars';
+export { neonPalaceManifest } from './manifests/neon-palace-manifest';

@@ -1,3 +1,18 @@
+export type {
+  AssetId,
+  AssetKind,
+  AssetSource,
+  AssetLicense,
+  SpriteFrames,
+  VisualAsset,
+  AudioAsset,
+  AnimationAsset,
+  AnyAsset,
+  GameAssetManifest,
+  ThemeAssetManifest,
+} from './assets';
+export { assetId } from './assets';
+
 export interface ApiError {
   code: string;
   message: string;
