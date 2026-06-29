@@ -10,6 +10,9 @@
     "typecheck": "tsc --noEmit",
     "test": "echo 'No tests for pure design tokens'"
   },
+  "dependencies": {
+    "@casino/types": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^5.3.0"
   }
