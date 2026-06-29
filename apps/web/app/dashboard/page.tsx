@@ -5,11 +5,30 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { userApi, type UserProfile, type WalletBalance } from '../../lib/api-user';
 import { authClient } from '../../lib/auth-client';
+import { apiClient } from '../../lib/api-client';
+
+interface PlayerStats {
+  totalSpins: number;
+  totalBet: string;
+  totalWon: string;
+  netResult: string;
+  biggestWin: string;
+}
+
+function StatCard({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+  return (
+    <div className="bg-gray-800 rounded-lg p-4">
+      <div className="text-xs text-gray-500 uppercase tracking-widest mb-1">{label}</div>
+      <div className={`text-2xl font-bold ${accent ? 'text-yellow-400' : 'text-white'}`}>{value}</div>
+    </div>
+  );
+}
 
 export default function DashboardPage() {
   const router = useRouter();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [wallet, setWallet] = useState<WalletBalance | null>(null);
+  const [stats, setStats] = useState<PlayerStats | null>(null);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -20,10 +39,15 @@ export default function DashboardPage() {
       return;
     }
 
-    Promise.all([userApi.getProfile(token), userApi.getWallet(token)])
-      .then(([p, w]) => {
+    Promise.all([
+      userApi.getProfile(token),
+      userApi.getWallet(token),
+      apiClient.get<PlayerStats>('/users/me/stats', token),
+    ])
+      .then(([p, w, s]) => {
         setProfile(p);
         setWallet(w);
+        setStats(s);
       })
       .catch(() => {
         sessionStorage.removeItem('accessToken');
@@ -45,6 +69,8 @@ export default function DashboardPage() {
       </div>
     );
   }
+
+  const netNum = stats ? parseFloat(stats.netResult) : 0;
 
   return (
     <div className="min-h-screen bg-gray-950 text-white p-8">
@@ -91,6 +117,23 @@ export default function DashboardPage() {
             <p className="text-xs text-gray-500 mt-2">
               Last updated {new Date(wallet.updatedAt).toLocaleString()}
             </p>
+          </div>
+        )}
+
+        {stats && (
+          <div className="bg-gray-900 rounded-xl p-6">
+            <h2 className="text-lg font-semibold text-gray-300 mb-4">All-Time Stats</h2>
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              <StatCard label="Total Spins" value={stats.totalSpins.toLocaleString()} />
+              <StatCard label="Total Bet" value={parseFloat(stats.totalBet).toLocaleString('en-US', { maximumFractionDigits: 0 })} />
+              <StatCard label="Total Won" value={parseFloat(stats.totalWon).toLocaleString('en-US', { maximumFractionDigits: 0 })} accent />
+              <StatCard
+                label="Net Result"
+                value={(netNum >= 0 ? '+' : '') + netNum.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                accent={netNum >= 0}
+              />
+              <StatCard label="Biggest Win" value={parseFloat(stats.biggestWin).toLocaleString('en-US', { maximumFractionDigits: 0 })} accent />
+            </div>
           </div>
         )}
 
