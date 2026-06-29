@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { userApi, type UserProfile, type WalletBalance } from '../../lib/api-user';
 import { authClient } from '../../lib/auth-client';
 import { apiClient, ApiError } from '../../lib/api-client';
+import { bonusApi } from '../../lib/api-bonus';
 
 interface PlayerStats {
   totalSpins: number;
@@ -37,6 +38,11 @@ export default function DashboardPage() {
   const [newUsername, setNewUsername] = useState('');
   const [editError, setEditError] = useState('');
   const [editSaving, setEditSaving] = useState(false);
+
+  // Daily bonus state
+  const [bonusClaiming, setBonusClaiming] = useState(false);
+  const [bonusMessage, setBonusMessage] = useState('');
+  const [bonusNextAt, setBonusNextAt] = useState<Date | null>(null);
 
   useEffect(() => {
     const token = sessionStorage.getItem('accessToken');
@@ -88,6 +94,31 @@ export default function DashboardPage() {
       setEditError(err instanceof ApiError ? err.message : 'Failed to update username');
     } finally {
       setEditSaving(false);
+    }
+  }
+
+  async function claimBonus() {
+    const token = sessionStorage.getItem('accessToken');
+    if (!token) return;
+
+    setBonusClaiming(true);
+    setBonusMessage('');
+    setBonusNextAt(null);
+    try {
+      const res = await bonusApi.claimDaily(token);
+      setWallet((w) => (w ? { ...w, balance: res.balance } : w));
+      setBonusMessage('🎁 +1,000 coins claimed!');
+      setBonusNextAt(new Date(res.nextClaimAt));
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 400) {
+        const data = err.data as { nextClaimAt?: string } | undefined;
+        if (data?.nextClaimAt) setBonusNextAt(new Date(data.nextClaimAt));
+        setBonusMessage('Already claimed today');
+      } else {
+        setBonusMessage('Could not claim bonus — try again');
+      }
+    } finally {
+      setBonusClaiming(false);
     }
   }
 
@@ -188,6 +219,29 @@ export default function DashboardPage() {
             </p>
           </div>
         )}
+
+        <div className="bg-gray-900 rounded-xl p-6">
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">Daily Bonus</h2>
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={claimBonus}
+              disabled={bonusClaiming || bonusNextAt !== null}
+              className="w-full py-3 rounded-lg font-bold text-lg bg-yellow-500 hover:bg-yellow-400 disabled:bg-gray-700 disabled:text-gray-500 text-gray-950 transition-colors"
+            >
+              {bonusClaiming ? 'Claiming…' : 'Claim 1,000 Coins'}
+            </button>
+            {bonusMessage && (
+              <p className={`text-sm text-center ${bonusMessage.startsWith('🎁') ? 'text-green-400' : 'text-gray-400'}`}>
+                {bonusMessage}
+              </p>
+            )}
+            {bonusNextAt && (
+              <p className="text-xs text-center text-gray-500">
+                Next bonus available at {bonusNextAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} UTC
+              </p>
+            )}
+          </div>
+        </div>
 
         {stats && (
           <div className="bg-gray-900 rounded-xl p-6">
