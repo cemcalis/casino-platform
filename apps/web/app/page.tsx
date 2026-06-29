@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   CasinoShell,
@@ -12,6 +12,9 @@ import {
   SettingsPanel,
 } from '@casino/ui';
 import type { HistoryEntry } from '@casino/ui';
+import { userApi } from '../lib/api-user';
+import { authClient } from '../lib/auth-client';
+import { gameApi } from '../lib/api-game';
 
 const MOCK_GAMES = [
   { id: 'neon-palace-slots', name: 'Neon Palace Slots',  category: 'SLOTS',   rtpPercent: 96.5, badgeText: 'HOT' },
@@ -22,22 +25,65 @@ const MOCK_GAMES = [
   { id: 'instant-gems',      name: 'Instant Gems',       category: 'INSTANT', rtpPercent: 95.0 },
 ] as const;
 
-const MOCK_HISTORY: HistoryEntry[] = [
-  { roundId: 'round-001abc', bet: '50',  outcome: 'WIN',  payout: '250',  timestamp: new Date(Date.now() - 60_000) },
-  { roundId: 'round-002xyz', bet: '100', outcome: 'LOSS', payout: '0',    timestamp: new Date(Date.now() - 120_000) },
-  { roundId: 'round-003qrs', bet: '25',  outcome: 'WIN',  payout: '75',   timestamp: new Date(Date.now() - 180_000) },
-  { roundId: 'round-004mnp', bet: '50',  outcome: 'LOSS', payout: '0',    timestamp: new Date(Date.now() - 240_000) },
-  { roundId: 'round-005def', bet: '200', outcome: 'WIN',  payout: '1000', timestamp: new Date(Date.now() - 300_000) },
-];
+interface AuthState {
+  token: string;
+  username: string;
+  balance: string;
+}
 
 export default function LobbyPage() {
   const router = useRouter();
+  const [auth, setAuth] = useState<AuthState | null>(null);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [settings, setSettings] = useState({
     musicVolume:    60,
     sfxVolume:      80,
     ambientVolume:  40,
     animationsEnabled: true,
   });
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('accessToken');
+    if (!token) return;
+
+    Promise.all([userApi.getProfile(token), userApi.getWallet(token)])
+      .then(([profile, wallet]) => {
+        setAuth({
+          token,
+          username: profile.username,
+          balance: parseFloat(wallet.balance).toLocaleString('en-US', { maximumFractionDigits: 0 }),
+        });
+      })
+      .catch(() => {
+        sessionStorage.removeItem('accessToken');
+      });
+
+    gameApi
+      .getHistory(token)
+      .then((data) => {
+        setHistory(
+          data.sessions.slice(0, 5).map((s) => ({
+            roundId: s.serverSeed,
+            bet: s.betAmount,
+            outcome: parseFloat(s.winAmount) > 0 ? ('WIN' as const) : ('LOSS' as const),
+            payout: parseFloat(s.winAmount).toFixed(0),
+            timestamp: new Date(s.createdAt),
+          })),
+        );
+      })
+      .catch(() => {});
+  }, []);
+
+  async function handleLogout() {
+    try {
+      await authClient.logout();
+    } catch {
+      // clear session regardless
+    }
+    sessionStorage.removeItem('accessToken');
+    setAuth(null);
+    setHistory([]);
+  }
 
   const header = (
     <div
@@ -59,7 +105,85 @@ export default function LobbyPage() {
       >
         NEON PALACE
       </span>
-      <BalancePanel balance="12,500.00" currency="VCOIN" />
+
+      {auth ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--np-space-4)' }}>
+          <BalancePanel balance={auth.balance} currency="VCOIN" />
+          <span
+            style={{
+              fontSize: 'var(--np-text-sm)',
+              color: 'var(--np-text-secondary)',
+              letterSpacing: 'var(--np-tracking-wider)',
+            }}
+          >
+            {auth.username}
+          </span>
+          <button
+            onClick={() => router.push('/dashboard')}
+            style={{
+              padding: '6px 14px',
+              backgroundColor: 'transparent',
+              border: '1px solid var(--np-border-subtle)',
+              borderRadius: '8px',
+              color: 'var(--np-text-secondary)',
+              fontSize: 'var(--np-text-xs)',
+              letterSpacing: 'var(--np-tracking-wider)',
+              cursor: 'pointer',
+            }}
+          >
+            DASHBOARD
+          </button>
+          <button
+            onClick={handleLogout}
+            style={{
+              padding: '6px 14px',
+              backgroundColor: 'transparent',
+              border: '1px solid var(--np-border-subtle)',
+              borderRadius: '8px',
+              color: 'var(--np-text-muted)',
+              fontSize: 'var(--np-text-xs)',
+              letterSpacing: 'var(--np-tracking-wider)',
+              cursor: 'pointer',
+            }}
+          >
+            SIGN OUT
+          </button>
+        </div>
+      ) : (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--np-space-3)' }}>
+          <button
+            onClick={() => router.push('/login')}
+            style={{
+              padding: '6px 18px',
+              backgroundColor: 'transparent',
+              border: '1px solid var(--np-border-subtle)',
+              borderRadius: '8px',
+              color: 'var(--np-text-secondary)',
+              fontSize: 'var(--np-text-xs)',
+              letterSpacing: 'var(--np-tracking-wider)',
+              cursor: 'pointer',
+            }}
+          >
+            SIGN IN
+          </button>
+          <button
+            onClick={() => router.push('/register')}
+            style={{
+              padding: '6px 18px',
+              backgroundColor: 'var(--np-gold)',
+              border: 'none',
+              borderRadius: '8px',
+              color: '#0d0618',
+              fontSize: 'var(--np-text-xs)',
+              fontWeight: 'var(--np-font-bold)',
+              letterSpacing: 'var(--np-tracking-wider)',
+              cursor: 'pointer',
+            }}
+          >
+            JOIN FREE
+          </button>
+        </div>
+      )}
     </div>
   );
 
@@ -134,7 +258,7 @@ export default function LobbyPage() {
               alignItems: 'start',
             }}
           >
-            <HistoryPanel entries={MOCK_HISTORY} maxRows={5} />
+            <HistoryPanel entries={history} maxRows={5} />
 
             <SettingsPanel
               musicVolume={settings.musicVolume}
