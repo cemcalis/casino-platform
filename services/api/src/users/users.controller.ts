@@ -13,6 +13,11 @@ export class UsersController {
     return this.usersService.getProfile(user.sub);
   }
 
+  @Get('me/stats')
+  getMyStats(@CurrentUser() user: JwtPayload) {
+    return this.usersService.getStats(user.sub);
+  }
+
   @Patch('me')
   updateMe(@CurrentUser() user: JwtPayload, @Body() dto: UpdateProfileDto) {
     return this.usersService.updateProfile(user.sub, dto);

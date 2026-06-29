@@ -15,6 +15,31 @@ export class UsersService {
     return user;
   }
 
+  async getStats(userId: string) {
+    const [agg, biggestWinRow] = await Promise.all([
+      this.prisma.gameSession.aggregate({
+        where: { userId },
+        _count: { id: true },
+        _sum: { betAmount: true, winAmount: true },
+      }),
+      this.prisma.gameSession.findFirst({
+        where: { userId },
+        orderBy: { winAmount: 'desc' },
+        select: { winAmount: true },
+      }),
+    ]);
+
+    const totalBet = agg._sum.betAmount ?? 0;
+    const totalWon = agg._sum.winAmount ?? 0;
+    return {
+      totalSpins: agg._count.id,
+      totalBet: totalBet.toString(),
+      totalWon: totalWon.toString(),
+      netResult: (Number(totalWon) - Number(totalBet)).toFixed(2),
+      biggestWin: (biggestWinRow?.winAmount ?? 0).toString(),
+    };
+  }
+
   async updateProfile(userId: string, dto: UpdateProfileDto) {
     if (dto.username) {
       const taken = await this.prisma.user.findFirst({
