@@ -6,10 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { WalletModule } from './wallet/wallet.module';
 import { GameModule } from './games/game.module';
+import { LeaderboardModule } from './leaderboard/leaderboard.module';
 import { JwtAuthGuard, RolesGuard } from '@casino/auth';
 
 @Module({
-  imports: [PrismaModule, AuthModule, UsersModule, WalletModule, GameModule],
+  imports: [PrismaModule, AuthModule, UsersModule, WalletModule, GameModule, LeaderboardModule],
   controllers: [HealthController],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
