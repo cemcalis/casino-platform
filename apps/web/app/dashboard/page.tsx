@@ -94,11 +94,17 @@ export default function DashboardPage() {
           </div>
         )}
 
-        <p className="text-center text-gray-500 text-sm">
-          <Link href="/login" className="hover:text-gray-300">
-            ← Back to login
+        <div className="flex justify-center gap-6 text-sm text-gray-500">
+          <Link href="/" className="hover:text-gray-300">
+            ← Lobby
           </Link>
-        </p>
+          <Link href="/history" className="hover:text-gray-300">
+            Spin History
+          </Link>
+          <Link href="/leaderboard" className="hover:text-gray-300">
+            Leaderboard
+          </Link>
+        </div>
       </div>
     </div>
   );
