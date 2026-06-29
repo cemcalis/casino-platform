@@ -9,11 +9,12 @@ export class ApiError extends Error {
   }
 }
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
+async function request<T>(path: string, init?: RequestInit & { headers?: Record<string, string> }): Promise<T> {
+  const { headers: customHeaders, ...rest } = init ?? {};
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...init?.headers },
+    headers: { 'Content-Type': 'application/json', ...customHeaders },
     credentials: 'include',
-    ...init,
+    ...rest,
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));

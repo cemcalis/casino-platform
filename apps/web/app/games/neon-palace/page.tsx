@@ -9,8 +9,11 @@ import type { SymbolGrid, GameSession } from '@casino/slot-runtime';
 import { AudioBus, NEON_PALACE_SOUNDS } from '@casino/audio';
 import { getWinTierAnimation } from '@casino/animation';
 import type { WinTier as AnimWinTier } from '@casino/animation';
+import { gameApi } from '../../../lib/api-game';
+import { userApi } from '../../../lib/api-user';
+import { ApiError } from '../../../lib/api-client';
 
-// Created in useEffect — runs only in browser, avoids node:crypto
+// Browser-safe RNG for demo mode — avoids node:crypto
 function createBrowserRng() {
   return {
     next(): number {
@@ -54,6 +57,7 @@ const PLACEHOLDER_GRID: SymbolGrid = Array.from({ length: 5 }, () =>
 ) as SymbolGrid;
 
 const DEMO_BALANCE = 10_000;
+const SPIN_ANIM_MS = 900;
 
 function getAnimTier(multiplier: number): AnimWinTier {
   if (multiplier <= 0) return 'NONE';
@@ -70,7 +74,9 @@ function toUITier(tier: AnimWinTier): UIWinTier {
   return 'small';
 }
 
-// ── Sub-components ────────────────────────────────────────────────────────────
+const delay = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+// ── Sub-components ─────────────────────────────────────────────────────────────
 
 function SymbolCell({ symKey, spinning }: { symKey: string; spinning: boolean }) {
   const cfg = SYMBOL_CONFIG[symKey] ?? { char: '?', bg: '#1a0a2e', color: '#f4c430' };
@@ -132,7 +138,11 @@ function SlotGrid({ grid, spinning }: { grid: SymbolGrid; spinning: boolean }) {
       {displayGrid.map((col, ci) => (
         <div key={ci} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {col.map((sym, ri) => (
-            <SymbolCell key={ri} symKey={spinning ? (sym as string) : (grid[ci]?.[ri] as string ?? '')} spinning={spinning} />
+            <SymbolCell
+              key={ri}
+              symKey={spinning ? (sym as string) : (grid[ci]?.[ri] as string ?? '')}
+              spinning={spinning}
+            />
           ))}
         </div>
       ))}
@@ -140,7 +150,7 @@ function SlotGrid({ grid, spinning }: { grid: SymbolGrid; spinning: boolean }) {
   );
 }
 
-// ── Main page ─────────────────────────────────────────────────────────────────
+// ── Main page ──────────────────────────────────────────────────────────────────
 
 export default function NeonPalacePage() {
   const [balance, setBalance] = useState(DEMO_BALANCE);
@@ -153,57 +163,142 @@ export default function NeonPalacePage() {
   const [winAmount, setWinAmount] = useState('0');
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [freeSpinsLeft, setFreeSpinsLeft] = useState(0);
+  const [apiMode, setApiMode] = useState(false);
+  const [spinError, setSpinError] = useState<string | null>(null);
 
-  const gameLoopRef = useRef<GameLoop | null>(null);
-  const sessionRef = useRef<GameSession | null>(null);
+  const tokenRef = useRef<string | null>(null);
   const audioBusRef = useRef<AudioBus>(new AudioBus());
   const spinLock = useRef(false);
+  const gameLoopRef = useRef<GameLoop | null>(null);
+  const sessionRef = useRef<GameSession | null>(null);
 
-  useEffect(() => {
+  const initDemoMode = useCallback((startBalance: number) => {
     gameLoopRef.current = new GameLoop(createBrowserRng());
-    sessionRef.current = createSession(NEON_PALACE_CONFIG, DEMO_BALANCE);
-    setInitialized(true);
+    sessionRef.current = createSession(NEON_PALACE_CONFIG, startBalance);
   }, []);
 
-  const handleSpin = useCallback(() => {
-    if (spinLock.current || !gameLoopRef.current || !sessionRef.current) return;
+  useEffect(() => {
+    const token = sessionStorage.getItem('accessToken');
 
-    const session = { ...sessionRef.current, balance, bet };
-    const hasFreeSpins = session.freeSpinsRemaining > 0;
+    if (token) {
+      tokenRef.current = token;
+
+      userApi
+        .getWallet(token)
+        .then((wallet) => {
+          setBalance(parseFloat(wallet.balance));
+          setApiMode(true);
+          setInitialized(true);
+        })
+        .catch(() => {
+          initDemoMode(DEMO_BALANCE);
+          setInitialized(true);
+        });
+
+      gameApi
+        .getHistory(token)
+        .then((data) => {
+          setHistory(
+            data.sessions.slice(0, 8).map((s) => ({
+              roundId: s.serverSeed,
+              bet: s.betAmount,
+              outcome: parseFloat(s.winAmount) > 0 ? ('WIN' as const) : ('LOSS' as const),
+              payout: parseFloat(s.winAmount).toFixed(0),
+              timestamp: new Date(s.createdAt),
+            })),
+          );
+        })
+        .catch(() => {});
+    } else {
+      initDemoMode(DEMO_BALANCE);
+      setInitialized(true);
+    }
+  }, [initDemoMode]);
+
+  const handleSpin = useCallback(async () => {
+    if (spinLock.current) return;
+    const hasFreeSpins = freeSpinsLeft > 0;
     if (!hasFreeSpins && balance < bet) return;
 
     spinLock.current = true;
     setSpinning(true);
     setWinVisible(false);
+    setSpinError(null);
     audioBusRef.current.trigger(NEON_PALACE_SOUNDS.SPIN_START.id);
 
-    // Result is computed immediately; animation plays for 900ms then reveals
-    const { result, updatedSession } = gameLoopRef.current.spin(session);
+    try {
+      let totalPayout: number;
+      let newGrid: SymbolGrid;
+      let newBalance: number;
+      let multiplier: number;
+      let newFreeSpinsLeft = freeSpinsLeft;
+      let rngSeed: string;
 
-    setTimeout(() => {
-      setGrid(result.grid);
-      setBalance(updatedSession.balance);
-      setFreeSpinsLeft(updatedSession.freeSpinsRemaining);
-      sessionRef.current = updatedSession;
+      if (apiMode && tokenRef.current) {
+        const token = tokenRef.current;
+        const [result] = await Promise.all([
+          gameApi.spin(token, bet),
+          delay(SPIN_ANIM_MS),
+        ]);
 
+        newGrid = result.grid as unknown as SymbolGrid;
+        totalPayout = result.totalPayout;
+        multiplier = result.multiplier;
+        rngSeed = result.rngSeed;
+        newBalance = balance + result.netResult;
+
+        userApi
+          .getWallet(token)
+          .then((w) => setBalance(parseFloat(w.balance)))
+          .catch(() => {});
+
+        const entry: HistoryEntry = {
+          roundId: rngSeed,
+          bet: bet.toString(),
+          outcome: totalPayout > 0 ? 'WIN' : 'LOSS',
+          payout: totalPayout.toFixed(0),
+          timestamp: new Date(),
+        };
+        setHistory((prev) => [entry, ...prev].slice(0, 8));
+      } else {
+        if (!gameLoopRef.current || !sessionRef.current) {
+          spinLock.current = false;
+          setSpinning(false);
+          return;
+        }
+
+        const session = { ...sessionRef.current, balance, bet };
+        const { result, updatedSession } = gameLoopRef.current.spin(session);
+        await delay(SPIN_ANIM_MS);
+
+        newGrid = result.grid;
+        totalPayout = result.totalPayout;
+        multiplier = result.multiplier;
+        rngSeed = result.rngSeed;
+        newBalance = updatedSession.balance;
+        newFreeSpinsLeft = updatedSession.freeSpinsRemaining;
+        sessionRef.current = updatedSession;
+
+        const entry: HistoryEntry = {
+          roundId: rngSeed,
+          bet: result.bet.toString(),
+          outcome: totalPayout > 0 ? 'WIN' : 'LOSS',
+          payout: totalPayout.toFixed(0),
+          timestamp: new Date(),
+        };
+        setHistory((prev) => [entry, ...prev].slice(0, 8));
+      }
+
+      setGrid(newGrid);
+      setBalance(newBalance);
+      setFreeSpinsLeft(newFreeSpinsLeft);
       audioBusRef.current.trigger(NEON_PALACE_SOUNDS.SPIN_STOP_3.id);
 
-      // Track spin in history
-      const entry: HistoryEntry = {
-        roundId: result.rngSeed,
-        bet: result.bet.toString(),
-        outcome: result.totalPayout > 0 ? 'WIN' : 'LOSS',
-        payout: result.totalPayout.toFixed(0),
-        timestamp: new Date(),
-      };
-      setHistory((prev) => [entry, ...prev].slice(0, 8));
-
-      if (result.totalPayout > 0) {
-        const tier = getAnimTier(result.multiplier);
+      if (totalPayout > 0) {
+        const tier = getAnimTier(multiplier);
         const anim = getWinTierAnimation(tier);
-
         setWinTier(tier);
-        setWinAmount(result.totalPayout.toLocaleString('en-US', { maximumFractionDigits: 0 }));
+        setWinAmount(totalPayout.toLocaleString('en-US', { maximumFractionDigits: 0 }));
         setWinVisible(true);
 
         const winSound =
@@ -222,8 +317,24 @@ export default function NeonPalacePage() {
         setSpinning(false);
         spinLock.current = false;
       }
-    }, 900);
-  }, [balance, bet]);
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) {
+        tokenRef.current = null;
+        setApiMode(false);
+        initDemoMode(DEMO_BALANCE);
+        setBalance(DEMO_BALANCE);
+        setHistory([]);
+        setFreeSpinsLeft(0);
+      } else if (err instanceof ApiError) {
+        setSpinError(err.message);
+      } else {
+        setApiMode(false);
+        initDemoMode(balance);
+      }
+      setSpinning(false);
+      spinLock.current = false;
+    }
+  }, [apiMode, balance, bet, freeSpinsLeft, initDemoMode]);
 
   const canSpin = initialized && !spinning && (freeSpinsLeft > 0 || balance >= bet);
   const spinState = spinning ? 'spinning' : !canSpin ? 'disabled' : 'idle';
@@ -307,8 +418,24 @@ export default function NeonPalacePage() {
             letterSpacing: 'var(--np-tracking-wider)',
           }}
         >
-          DEMO MODE &mdash; FOR ENTERTAINMENT ONLY &mdash; NO REAL MONEY GAMBLING
+          {apiMode ? 'LIVE MODE' : 'DEMO MODE'} &mdash; FOR ENTERTAINMENT ONLY &mdash; NO REAL MONEY GAMBLING
         </div>
+
+        {/* Spin error */}
+        {spinError && (
+          <div
+            style={{
+              textAlign: 'center',
+              padding: 'var(--np-space-2) var(--np-space-4)',
+              backgroundColor: '#c6282822',
+              color: '#ff6b6b',
+              fontSize: 'var(--np-text-xs)',
+              letterSpacing: 'var(--np-tracking-wider)',
+            }}
+          >
+            {spinError}
+          </div>
+        )}
 
         {/* Game area */}
         <main
@@ -359,11 +486,7 @@ export default function NeonPalacePage() {
               disabled={spinning}
             />
 
-            <SpinButton
-              state={spinState}
-              onClick={handleSpin}
-              size="lg"
-            />
+            <SpinButton state={spinState} onClick={handleSpin} size="lg" />
 
             {/* Payout info */}
             <div
