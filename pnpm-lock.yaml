@@ -113,6 +113,15 @@ importers:
 
   apps/web:
     dependencies:
+      '@casino/animation':
+        specifier: workspace:*
+        version: link:../../packages/animation
+      '@casino/audio':
+        specifier: workspace:*
+        version: link:../../packages/audio
+      '@casino/slot-runtime':
+        specifier: workspace:*
+        version: link:../../packages/slot-runtime
       '@casino/theme':
         specifier: workspace:*
         version: link:../../packages/theme

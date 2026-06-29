@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   CasinoShell,
   CasinoLobbyLayout,
@@ -30,6 +31,7 @@ const MOCK_HISTORY: HistoryEntry[] = [
 ];
 
 export default function LobbyPage() {
+  const router = useRouter();
   const [settings, setSettings] = useState({
     musicVolume:    60,
     sfxVolume:      80,
@@ -117,6 +119,7 @@ export default function LobbyPage() {
                   category={game.category}
                   rtpPercent={game.rtpPercent}
                   badgeText={'badgeText' in game ? game.badgeText : undefined}
+                  onClick={game.id === 'neon-palace-slots' ? () => router.push('/games/neon-palace') : undefined}
                 />
               ))}
             </div>
