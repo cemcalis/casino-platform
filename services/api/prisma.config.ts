@@ -7,9 +7,7 @@ export default defineConfig({
   },
   datasource: {
     get url(): string {
-      const url = process.env['DATABASE_URL'];
-      if (!url) throw new Error('DATABASE_URL environment variable is required but not set');
-      return url;
+      return process.env['DATABASE_URL'] ?? 'postgresql://localhost:5432/casino_dev';
     },
   },
 });
