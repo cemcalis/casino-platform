@@ -11,6 +11,9 @@ coverage/
 .turbo/
 .vscode/settings.json
 
+# Generated asset queue file (regenerate with pnpm asset:queue)
+assets/*/queue.json
+
 # Generated game asset binaries — commit structure (.gitkeep) but not files
 apps/web/public/assets/**/*.png
 apps/web/public/assets/**/*.webp
