@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
+import { Controller, Get, Query, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
 import { CurrentUser } from '@casino/auth';
 import type { JwtPayload } from '@casino/auth';
 import { WalletService } from './wallet.service';
@@ -19,20 +19,5 @@ export class WalletController {
     @Query('pageSize', new DefaultValuePipe(20), ParseIntPipe) pageSize: number,
   ) {
     return this.walletService.getLedger(user.sub, page, Math.min(pageSize, 50));
-  }
-
-  @Get('bonus-status')
-  getBonusStatus(@CurrentUser() user: JwtPayload) {
-    return this.walletService.getBonusStatus(user.sub);
-  }
-
-  @Post('daily-bonus')
-  claimDailyBonus(@CurrentUser() user: JwtPayload) {
-    return this.walletService.claimDailyBonus(user.sub);
-  }
-
-  @Post('welcome-bonus')
-  claimWelcomeBonus(@CurrentUser() user: JwtPayload) {
-    return this.walletService.claimWelcomeBonus(user.sub);
   }
 }

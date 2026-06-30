@@ -1,10 +1,5 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../database';
-
-const DAILY_BONUS_AMOUNT = 500;
-const DAILY_BONUS_REF = 'daily_bonus';
-const WELCOME_BONUS_AMOUNT = 5000;
-const WELCOME_BONUS_REF = 'welcome_bonus';
 
 @Injectable()
 export class WalletService {
@@ -75,68 +70,5 @@ export class WalletService {
         totalPages: Math.ceil(total / pageSize),
       },
     };
-  }
-
-  async claimDailyBonus(userId: string): Promise<{ balance: string; bonusAmount: string }> {
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-
-    const alreadyClaimed = await this.prisma.ledgerEntry.findFirst({
-      where: { userId, referenceId: DAILY_BONUS_REF, createdAt: { gte: todayStart } },
-    });
-    if (alreadyClaimed) throw new BadRequestException('Daily bonus already claimed today');
-
-    return this.creditBonus(userId, DAILY_BONUS_AMOUNT, DAILY_BONUS_REF);
-  }
-
-  async claimWelcomeBonus(userId: string): Promise<{ balance: string; bonusAmount: string }> {
-    const alreadyClaimed = await this.prisma.ledgerEntry.findFirst({
-      where: { userId, referenceId: WELCOME_BONUS_REF },
-    });
-    if (alreadyClaimed) throw new BadRequestException('Welcome bonus already claimed');
-
-    return this.creditBonus(userId, WELCOME_BONUS_AMOUNT, WELCOME_BONUS_REF);
-  }
-
-  private async creditBonus(
-    userId: string,
-    amount: number,
-    referenceId: string,
-  ): Promise<{ balance: string; bonusAmount: string }> {
-    const wallet = await this.prisma.wallet.findUnique({ where: { userId } });
-    if (!wallet) throw new NotFoundException('Wallet not found');
-
-    const newBalance = wallet.balance.add(amount);
-
-    await this.prisma.$transaction([
-      this.prisma.wallet.update({ where: { userId }, data: { balance: newBalance } }),
-      this.prisma.ledgerEntry.create({
-        data: {
-          userId,
-          type: 'CREDIT',
-          amount,
-          balanceBefore: wallet.balance,
-          balanceAfter: newBalance,
-          referenceId,
-        },
-      }),
-    ]);
-
-    return { balance: newBalance.toFixed(2), bonusAmount: amount.toFixed(2) };
-  }
-
-  async getBonusStatus(userId: string): Promise<{
-    welcomeClaimed: boolean;
-    dailyClaimedToday: boolean;
-  }> {
-    const todayStart = new Date();
-    todayStart.setHours(0, 0, 0, 0);
-
-    const [welcome, daily] = await Promise.all([
-      this.prisma.ledgerEntry.findFirst({ where: { userId, referenceId: WELCOME_BONUS_REF } }),
-      this.prisma.ledgerEntry.findFirst({ where: { userId, referenceId: DAILY_BONUS_REF, createdAt: { gte: todayStart } } }),
-    ]);
-
-    return { welcomeClaimed: !!welcome, dailyClaimedToday: !!daily };
   }
 }

@@ -194,8 +194,8 @@ export default function PromotionsPage() {
 
     userApi.getBonusStatus(t)
       .then(status => {
-        if (status.welcomeClaimed) setWelcomeState('unavailable');
-        if (status.dailyClaimedToday) setDailyState('unavailable');
+        if (status.welcome.claimed) setWelcomeState('unavailable');
+        if (status.daily.claimedToday) setDailyState('unavailable');
       })
       .catch(() => {});
   }, []);

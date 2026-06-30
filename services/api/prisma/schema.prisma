@@ -17,6 +17,12 @@ enum LedgerType {
   DEBIT
 }
 
+enum BonusType {
+  WELCOME
+  DAILY
+  CASHBACK
+}
+
 model User {
   id               String         @id @default(cuid())
   email            String         @unique
@@ -34,6 +40,7 @@ model User {
   sessions         GameSession[]
   ledgerEntries    LedgerEntry[]
   leaderboard      Leaderboard[]
+  userBonuses      UserBonus[]
 }
 
 model Wallet {
@@ -73,6 +80,34 @@ model GameSession {
   createdAt  DateTime @default(now())
 
   @@index([userId])
+}
+
+model BonusConfig {
+  id            String    @id @default(cuid())
+  type          BonusType @unique
+  enabled       Boolean   @default(true)
+  // amount in VCOIN; for DAILY this is the Bronze-tier baseline
+  baseAmount    Decimal   @db.Decimal(18, 2)
+  // tier multipliers stored as JSON: { silver: 2, gold: 4, platinum: 10 }
+  tierMultipliers Json    @default("{\"SILVER\":2,\"GOLD\":4,\"PLATINUM\":10}")
+  // cashback rate as a percentage (e.g. 5 = 5%)
+  cashbackPct   Decimal   @db.Decimal(5, 2) @default(5)
+  expiresInDays Int       @default(7)
+  updatedAt     DateTime  @updatedAt
+}
+
+model UserBonus {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  type      BonusType
+  amount    Decimal   @db.Decimal(18, 2)
+  expiresAt DateTime?
+  claimedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model Leaderboard {
