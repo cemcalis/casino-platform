@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface KpiCard {
@@ -299,6 +300,7 @@ function StatusChip({ status }: { status: Player['status'] }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function AdminPage() {
+  const router = useRouter();
   const [activeNav, setActiveNav] = useState('Dashboard');
   const [chartAnimated, setChartAnimated] = useState(false);
   const [playerFilter, setPlayerFilter] = useState<'All' | 'Active' | 'VIP' | 'Suspended'>('All');
@@ -387,7 +389,7 @@ export default function AdminPage() {
             {/* Nav items */}
             <div style={{ display: 'flex', gap: 4 }}>
               {navItems.map(item => (
-                <button key={item} onClick={() => setActiveNav(item)} style={{
+                <button key={item} onClick={() => { if (item === 'Players') { router.push('/admin/players'); return; } setActiveNav(item); }} style={{
                   background: 'none', border: 'none', cursor: 'pointer',
                   color: activeNav === item ? '#f4c430' : '#a08bc0',
                   fontSize: 14, fontWeight: 600, padding: '6px 14px', borderRadius: 8,

@@ -23,6 +23,9 @@ model User {
   username         String         @unique
   passwordHash     String
   role             Role           @default(PLAYER)
+  isBanned         Boolean        @default(false)
+  bannedAt         DateTime?
+  lastLogin        DateTime?
   refreshTokenHash String?
   lastBonusClaim   DateTime?
   createdAt        DateTime       @default(now())
