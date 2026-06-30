@@ -4,11 +4,11 @@ services:
     runtime: node
     region: oregon
     plan: free
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter @casino/web build
+    buildCommand: npm install -g pnpm@10.15.0 && pnpm install --frozen-lockfile && pnpm --filter @casino/web build
     startCommand: cd apps/web && pnpm start
     envVars:
       - key: NODE_VERSION
-        value: "20"
+        value: "22"
       - key: NEXT_PUBLIC_API_URL
         sync: false
       - key: NEXT_PUBLIC_DEMO_MODE
