@@ -33,28 +33,28 @@ describe('evaluateScatter', () => {
     expect(evaluateScatter(gridWithScatters(2), TOTAL_BET, NEON_PALACE_PAY_TABLE)).toBeNull();
   });
 
-  it('3 scatters → 2x total bet payout + 8 free spins', () => {
+  it('3 scatters → 12x total bet payout + 8 free spins', () => {
     const result = evaluateScatter(gridWithScatters(3), TOTAL_BET, NEON_PALACE_PAY_TABLE);
     expect(result).not.toBeNull();
     expect(result!.count).toBe(3);
-    expect(result!.multiplier).toBe(2);
-    expect(result!.payout).toBe(TOTAL_BET * 2);
+    expect(result!.multiplier).toBe(12);
+    expect(result!.payout).toBe(TOTAL_BET * 12);
     expect(result!.freeSpinsAwarded).toBe(8);
   });
 
-  it('4 scatters → 10x total bet payout + 12 free spins', () => {
+  it('4 scatters → 55x total bet payout + 12 free spins', () => {
     const result = evaluateScatter(gridWithScatters(4), TOTAL_BET, NEON_PALACE_PAY_TABLE);
     expect(result!.count).toBe(4);
-    expect(result!.multiplier).toBe(10);
-    expect(result!.payout).toBe(TOTAL_BET * 10);
+    expect(result!.multiplier).toBe(55);
+    expect(result!.payout).toBe(TOTAL_BET * 55);
     expect(result!.freeSpinsAwarded).toBe(12);
   });
 
-  it('5 scatters → 50x total bet payout + 20 free spins', () => {
+  it('5 scatters → 275x total bet payout + 20 free spins', () => {
     const result = evaluateScatter(gridWithScatters(5), TOTAL_BET, NEON_PALACE_PAY_TABLE);
     expect(result!.count).toBe(5);
-    expect(result!.multiplier).toBe(50);
-    expect(result!.payout).toBe(TOTAL_BET * 50);
+    expect(result!.multiplier).toBe(275);
+    expect(result!.payout).toBe(TOTAL_BET * 275);
     expect(result!.freeSpinsAwarded).toBe(20);
   });
 
