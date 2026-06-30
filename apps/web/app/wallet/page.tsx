@@ -28,16 +28,22 @@ function formatDate(iso: string) {
 }
 
 function entryLabel(entry: LedgerEntry): string {
-  if (entry.referenceId === 'daily_bonus') return 'Daily Bonus';
-  if (entry.referenceId?.startsWith('spin_')) return 'Game Spin';
+  const ref = entry.referenceId;
+  if (ref === 'daily-bonus' || ref === 'daily_bonus') return 'Daily Bonus';
+  if (ref === 'welcome-bonus' || ref === 'welcome_bonus') return 'Welcome Bonus';
+  if (ref === 'cashback-bonus') return 'Cashback Bonus';
+  if (ref?.startsWith('spin_')) return 'Game Spin';
   if (entry.type === 'CREDIT') return 'Credit';
   return 'Debit';
 }
 
 function entryIcon(entry: LedgerEntry): string {
-  if (entry.referenceId === 'daily_bonus') return '🎁';
-  if (entry.referenceId?.startsWith('spin_') && entry.type === 'CREDIT') return '🏆';
-  if (entry.referenceId?.startsWith('spin_') && entry.type === 'DEBIT') return '🎰';
+  const ref = entry.referenceId;
+  if (ref === 'daily-bonus' || ref === 'daily_bonus') return '🎁';
+  if (ref === 'welcome-bonus' || ref === 'welcome_bonus') return '🎉';
+  if (ref === 'cashback-bonus') return '💰';
+  if (ref?.startsWith('spin_') && entry.type === 'CREDIT') return '🏆';
+  if (ref?.startsWith('spin_') && entry.type === 'DEBIT') return '🎰';
   return entry.type === 'CREDIT' ? '↑' : '↓';
 }
 

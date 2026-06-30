@@ -315,7 +315,7 @@ export default function AdminPage() {
     return () => clearTimeout(t);
   }, []);
 
-  const navItems = ['Dashboard', 'Players', 'Games', 'Finance', 'Reports', 'Settings'];
+  const navItems = ['Dashboard', 'Players', 'Games', 'Finance', 'Bonuses', 'Reports', 'Settings'];
 
   const filteredPlayers = PLAYERS.filter(p => {
     const matchFilter = playerFilter === 'All' || p.status === playerFilter;
@@ -389,7 +389,7 @@ export default function AdminPage() {
             {/* Nav items */}
             <div style={{ display: 'flex', gap: 4 }}>
               {navItems.map(item => (
-                <button key={item} onClick={() => { if (item === 'Players') { router.push('/admin/players'); return; } if (item === 'Reports') { router.push('/admin/reports'); return; } setActiveNav(item); }} style={{
+                <button key={item} onClick={() => { if (item === 'Players') { router.push('/admin/players'); return; } if (item === 'Reports') { router.push('/admin/reports'); return; } if (item === 'Bonuses') { router.push('/admin/bonuses'); return; } setActiveNav(item); }} style={{
                   background: 'none', border: 'none', cursor: 'pointer',
                   color: activeNav === item ? '#f4c430' : '#a08bc0',
                   fontSize: 14, fontWeight: 600, padding: '6px 14px', borderRadius: 8,
