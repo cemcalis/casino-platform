@@ -7,7 +7,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CurrentUser } from '@casino/auth';
+import { CurrentUser, Public } from '@casino/auth';
 import type { JwtPayload } from '@casino/auth';
 import { GameService } from './game.service';
 import { SpinDto } from './dto/spin.dto';
@@ -19,6 +19,12 @@ export class GameController {
   @Post('spin')
   spin(@CurrentUser() user: JwtPayload, @Body() dto: SpinDto) {
     return this.gameService.spin(user.sub, dto);
+  }
+
+  @Public()
+  @Get('jackpot')
+  getJackpot() {
+    return this.gameService.getJackpot();
   }
 
   @Get('history')

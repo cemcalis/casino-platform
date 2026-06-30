@@ -26,6 +26,13 @@ export interface SpinResponse {
   multiplier: number;
   rngSeed: string;
   nonce: number;
+  jackpotWon: boolean;
+  jackpotAmount: number | null;
+}
+
+export interface JackpotResponse {
+  amount: string;
+  gameType: string;
 }
 
 export interface GameHistoryItem {
@@ -57,4 +64,7 @@ export const gameApi = {
       `/games/history?page=${page}&pageSize=${pageSize}`,
       token,
     ),
+
+  getJackpot: () =>
+    apiClient.get<JackpotResponse>('/games/jackpot'),
 };
