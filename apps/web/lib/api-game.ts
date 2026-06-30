@@ -22,6 +22,7 @@ export interface SpinResponse {
   totalPayout: number;
   netResult: number;
   freeSpinsAwarded: number;
+  freeSpinsRemaining: number;
   multiplier: number;
   rngSeed: string;
   nonce: number;

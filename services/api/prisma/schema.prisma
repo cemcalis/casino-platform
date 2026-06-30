@@ -44,12 +44,13 @@ model User {
 }
 
 model Wallet {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
-  balance   Decimal  @default(0) @db.Decimal(18, 2)
-  version   Int      @default(0)
-  updatedAt DateTime @updatedAt
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  user               User     @relation(fields: [userId], references: [id])
+  balance            Decimal  @default(0) @db.Decimal(18, 2)
+  freeSpinsRemaining Int      @default(0)
+  version            Int      @default(0)
+  updatedAt          DateTime @updatedAt
 }
 
 model LedgerEntry {
