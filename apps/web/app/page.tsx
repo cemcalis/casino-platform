@@ -210,6 +210,61 @@ const SLIDER_GAMES: SliderGame[] = [
     bg: 'linear-gradient(160deg, #001a00 0%, #002d00 40%, #003d00 70%, #000d00 100%)',
     accentColor: '#4ade80',
   },
+  {
+    id: 'baccarat',
+    name: 'Baccarat',
+    provider: 'Evolution',
+    rtp: '98.94%',
+    badge: 'LIVE',
+    badgeColor: '#22c55e',
+    category: 'Table',
+    bg: 'linear-gradient(160deg, #1a0000 0%, #3d0a0a 40%, #5a1212 70%, #0d0000 100%)',
+    accentColor: '#f4c430',
+  },
+  {
+    id: 'dragon-fortune',
+    name: 'Dragon Fortune',
+    provider: 'Pragmatic Play',
+    rtp: '96.4%',
+    badge: 'NEW',
+    badgeColor: '#00d4c8',
+    category: 'Slots',
+    bg: 'linear-gradient(160deg, #1a0008 0%, #3d0014 40%, #5a0020 70%, #0d0004 100%)',
+    accentColor: '#ff6b00',
+  },
+  {
+    id: 'fruit-frenzy',
+    name: 'Fruit Frenzy',
+    provider: 'NetEnt',
+    rtp: '96.3%',
+    badge: 'POPULAR',
+    badgeColor: '#f4c430',
+    category: 'Slots',
+    bg: 'linear-gradient(160deg, #001a08 0%, #003d14 40%, #005a1e 70%, #000d04 100%)',
+    accentColor: '#22c55e',
+  },
+  {
+    id: 'pharaohs-treasure',
+    name: "Pharaoh's Treasure",
+    provider: 'Pragmatic Play',
+    rtp: '96.5%',
+    badge: 'HOT',
+    badgeColor: '#ff2d78',
+    category: 'Slots',
+    bg: 'linear-gradient(160deg, #1a1400 0%, #3d2e00 40%, #5a4400 70%, #0d0a00 100%)',
+    accentColor: '#f4c430',
+  },
+  {
+    id: 'video-poker',
+    name: 'Video Poker',
+    provider: 'NetEnt',
+    rtp: '99.5%',
+    badge: 'TOP',
+    badgeColor: '#f4c430',
+    category: 'Table',
+    bg: 'linear-gradient(160deg, #00081a 0%, #001433 40%, #001f4d 70%, #00040d 100%)',
+    accentColor: '#00d4c8',
+  },
 ];
 
 const PROMO_CARDS = [
@@ -250,14 +305,18 @@ const PROMO_CARDS = [
 
 const CATEGORIES_LIST = ['All', 'Slots', 'Table', 'Live', 'Jackpots', 'New', 'Popular'];
 
+const SORT_OPTIONS = ['Popular', 'Newest', 'Highest RTP', 'A-Z', 'Z-A'];
+
+const VOLATILITY_OPTIONS = ['All', 'Low', 'Medium', 'High'];
+
 const CATEGORY_MAP: Record<string, string[]> = {
   All: SLIDER_GAMES.map(g => g.id),
-  Slots: ['neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead'],
-  Table: ['cyber-roulette', 'blackjack-pro'],
-  Live: ['cyber-roulette', 'lightning-roulette', 'dream-catcher', 'crazy-time'],
+  Slots: ['neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure'],
+  Table: ['cyber-roulette', 'blackjack-pro', 'baccarat', 'video-poker'],
+  Live: ['cyber-roulette', 'lightning-roulette', 'dream-catcher', 'crazy-time', 'baccarat'],
   Jackpots: ['golden-vault', 'mega-moolah'],
-  New: ['olympus-strikes', 'crystal-caverns', 'starburst'],
-  Popular: ['neon-palace', 'dragons-fortune', 'solar-wilds', 'gonzo-quest'],
+  New: ['olympus-strikes', 'crystal-caverns', 'starburst', 'dragon-fortune'],
+  Popular: ['neon-palace', 'dragons-fortune', 'solar-wilds', 'gonzo-quest', 'fruit-frenzy'],
 };
 
 const WINNERS: Winner[] = [
@@ -711,7 +770,13 @@ function GameSliderCard({ game, isActive, onUnderConstruction }: { game: SliderG
   const [hovered, setHovered] = useState(false);
   const router = useRouter();
   const ArtComponent = GAME_ARTS[game.id] ?? (() => <div />);
-  const PLAYABLE_GAMES = new Set(['neon-palace', 'lucky-7s', 'blackjack-pro', 'cyber-roulette']);
+  const PLAYABLE_GAMES = new Set([
+    'neon-palace', 'lucky-7s', 'blackjack-pro', 'cyber-roulette',
+    'dragons-fortune', 'crystal-caverns', 'solar-wilds', 'starburst',
+    'gonzo-quest', 'book-of-dead', 'golden-vault', 'olympus-strikes',
+    'mega-moolah', 'lightning-roulette', 'crazy-time',
+    'baccarat', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure', 'video-poker',
+  ]);
   const handlePlay = () => {
     if (PLAYABLE_GAMES.has(game.id)) {
       router.push(`/games/${game.id}`);
@@ -1115,6 +1180,14 @@ export default function LobbyPage() {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  
+  // Enhanced lobby state
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [sortBy, setSortBy] = useState('Popular');
+  const [volatilityFilter, setVolatilityFilter] = useState('All');
+  const [providerFilter, setProviderFilter] = useState('All');
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [showFilters, setShowFilters] = useState(false);
 
   // Overlay state
   const [overlayGame, setOverlayGame] = useState<string | null>(null);
@@ -1167,7 +1240,38 @@ export default function LobbyPage() {
   }, [showProfileDropdown]);
 
   const filteredGameIds = CATEGORY_MAP[activeCategory] ?? SLIDER_GAMES.map(g => g.id);
-  const filteredGames = SLIDER_GAMES.filter(g => filteredGameIds.includes(g.id));
+  let filteredGames = SLIDER_GAMES.filter(g => filteredGameIds.includes(g.id));
+  
+  // Apply search filter
+  if (searchQuery.trim()) {
+    const query = searchQuery.toLowerCase();
+    filteredGames = filteredGames.filter(g => 
+      g.name.toLowerCase().includes(query) || 
+      g.provider.toLowerCase().includes(query) ||
+      g.category.toLowerCase().includes(query)
+    );
+  }
+  
+  // Apply provider filter
+  if (providerFilter !== 'All') {
+    filteredGames = filteredGames.filter(g => g.provider === providerFilter);
+  }
+  
+  // Apply sorting
+  filteredGames = [...filteredGames].sort((a, b) => {
+    switch (sortBy) {
+      case 'Newest':
+        return (a.badge === 'NEW' ? -1 : 1) - (b.badge === 'NEW' ? -1 : 1);
+      case 'Highest RTP':
+        return parseFloat(b.rtp) - parseFloat(a.rtp);
+      case 'A-Z':
+        return a.name.localeCompare(b.name);
+      case 'Z-A':
+        return b.name.localeCompare(a.name);
+      default: // Popular
+        return (a.badge === 'HOT' || a.badge === 'TOP' ? -1 : 1) - (b.badge === 'HOT' || b.badge === 'TOP' ? -1 : 1);
+    }
+  });
   const CARD_WIDTH = 280 + 20;
   const VISIBLE = 4;
   const maxIndex = Math.max(0, filteredGames.length - VISIBLE);
@@ -1810,6 +1914,120 @@ export default function LobbyPage() {
             })}
           </div>
 
+          {/* Enhanced Filter Bar */}
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            marginBottom: 24, 
+            padding: '12px 16px',
+            borderRadius: 14,
+            background: 'rgba(124,58,237,0.06)',
+            border: '1px solid rgba(124,58,237,0.15)',
+            flexWrap: 'wrap',
+            gap: 12,
+          }}>
+            {/* Sort dropdown */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 12, color: '#6b5d8a', fontWeight: 600, letterSpacing: '0.5px' }}>SORT:</span>
+              <select 
+                value={sortBy}
+                onChange={e => setSortBy(e.target.value)}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: 8,
+                  background: '#130020',
+                  border: '1px solid rgba(124,58,237,0.3)',
+                  color: '#f0e8ff',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: "'Outfit',sans-serif",
+                }}
+              >
+                {SORT_OPTIONS.map(opt => (
+                  <option key={opt} value={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Provider filter */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 12, color: '#6b5d8a', fontWeight: 600, letterSpacing: '0.5px' }}>PROVIDER:</span>
+              <select 
+                value={providerFilter}
+                onChange={e => setProviderFilter(e.target.value)}
+                style={{
+                  padding: '6px 12px',
+                  borderRadius: 8,
+                  background: '#130020',
+                  border: '1px solid rgba(124,58,237,0.3)',
+                  color: '#f0e8ff',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  fontFamily: "'Outfit',sans-serif",
+                }}
+              >
+                <option value="All">All Providers</option>
+                {PROVIDERS.map(provider => (
+                  <option key={provider} value={provider}>{provider}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* View mode toggle */}
+            <div style={{ display: 'flex', gap: 4, borderRadius: 8, background: 'rgba(0,0,0,0.3)', padding: 3 }}>
+              <button 
+                onClick={() => setViewMode('grid')}
+                style={{
+                  padding: '6px 10px',
+                  borderRadius: 6,
+                  background: viewMode === 'grid' ? 'rgba(244,196,48,0.2)' : 'transparent',
+                  border: 'none',
+                  color: viewMode === 'grid' ? '#f4c430' : '#6b5d8a',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {/* Grid icon */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 2, width: 16, height: 16 }}>
+                  {[0,1,2,3].map(i => (
+                    <div key={i} style={{ width: 6, height: 6, borderRadius: 1, background: 'currentColor' }} />
+                  ))}
+                </div>
+              </button>
+              <button 
+                onClick={() => setViewMode('list')}
+                style={{
+                  padding: '6px 10px',
+                  borderRadius: 6,
+                  background: viewMode === 'list' ? 'rgba(244,196,48,0.2)' : 'transparent',
+                  border: 'none',
+                  color: viewMode === 'list' ? '#f4c430' : '#6b5d8a',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                {/* List icon */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2, width: 16, height: 16, justifyContent: 'center' }}>
+                  {[0,1,2].map(i => (
+                    <div key={i} style={{ width: 16, height: 3, borderRadius: 1, background: 'currentColor' }} />
+                  ))}
+                </div>
+              </button>
+            </div>
+
+            {/* Results count */}
+            <div style={{ marginLeft: 'auto', fontSize: 12, color: '#6b5d8a', fontWeight: 600 }}>
+              {filteredGames.length} games
+            </div>
+          </div>
+
           <div style={{ position: 'relative' }}>
             {/* Left arrow */}
             <button
@@ -2161,7 +2379,274 @@ export default function LobbyPage() {
           </div>
         </footer>
 
+        {/* ── LIVE SUPPORT WIDGET ── */}
+        <LiveSupportWidget />
+
       </div>
     </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LIVE SUPPORT WIDGET COMPONENT
+// ─────────────────────────────────────────────────────────────────────────────
+
+function LiveSupportWidget() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [messages, setMessages] = useState<
+    { id: number; sender: 'agent' | 'player'; text: string; time: string }[]
+  >([
+    { id: 1, sender: 'agent', text: 'Welcome to Neon Palace Support! How can I help you today?', time: 'Just now' },
+  ]);
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [agentOnline, setAgentOnline] = useState(true);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const sendMessage = () => {
+    if (!inputValue.trim()) return;
+    
+    setMessages(prev => [...prev, {
+      id: prev.length + 1,
+      sender: 'player' as const,
+      text: inputValue.trim(),
+      time: 'Just now'
+    }]);
+    setInputValue('');
+    setIsTyping(true);
+
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [...prev, {
+        id: prev.length + 1,
+        sender: 'agent' as const,
+        text: 'Thank you for your message. An agent will be with you shortly. Your ticket ID: TKT-' + Math.floor(Math.random() * 90000 + 10000),
+        time: 'Just now'
+      }]);
+    }, 1500);
+  };
+
+  return (
+    <>
+      <style>{`
+        @keyframes chatSlideUp {
+          from { opacity: 0; transform: translateY(20px) scale(0.95); }
+          to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.1); }
+        }
+        @keyframes bounce {
+          0%, 80%, 100% { transform: translateY(0); }
+          40% { transform: translateY(-6px); }
+        }
+      `}</style>
+      
+      {/* Chat Window */}
+      {isOpen && (
+        <div style={{
+          position: 'fixed',
+          bottom: 100,
+          right: 24,
+          width: 380,
+          height: isMinimized ? 60 : 520,
+          borderRadius: 16,
+          background: 'linear-gradient(135deg, #1a0d35 0%, #0d0618 100%)',
+          border: '1px solid rgba(244,196,48,0.3)',
+          boxShadow: '0 8px 40px rgba(0,0,0,0.5), 0 0 20px rgba(244,196,48,0.1)',
+          zIndex: 1000,
+          overflow: 'hidden',
+          animation: 'chatSlideUp 0.3s ease-out',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
+          {/* Header */}
+          <div style={{
+            padding: '14px 18px',
+            background: 'linear-gradient(135deg, #3d1f6e, #251240)',
+            borderBottom: '1px solid rgba(244,196,48,0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ position: 'relative' }}>
+                <div style={{
+                  width: 36, height: 36, borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #f4c430, #f97316)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 16,
+                }}>🎧</div>
+                <div style={{
+                  position: 'absolute', bottom: 0, right: 0,
+                  width: 12, height: 12, borderRadius: '50%',
+                  background: agentOnline ? '#22c55e' : '#6b7280',
+                  border: '2px solid #1a0d35',
+                  boxShadow: agentOnline ? '0 0 8px #22c55e' : 'none',
+                }} />
+              </div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#f4c430' }}>Live Support</div>
+                <div style={{ fontSize: 11, color: agentOnline ? '#22c55e' : '#6b7280', fontWeight: 600 }}>
+                  {agentOnline ? '● Agents Online' : '● All Agents Busy'}
+                </div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button
+                onClick={() => setIsMinimized(!isMinimized)}
+                style={{
+                  background: 'rgba(255,255,255,0.1)', border: 'none',
+                  color: '#c4b5d4', borderRadius: 6, padding: '6px 10px',
+                  fontSize: 14, cursor: 'pointer',
+                }}
+              >
+                {isMinimized ? '▲' : '−'}
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                style={{
+                  background: 'rgba(255,45,120,0.2)', border: '1px solid rgba(255,45,120,0.3)',
+                  color: '#ff2d78', borderRadius: 6, padding: '6px 10px',
+                  fontSize: 14, cursor: 'pointer',
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+
+          {!isMinimized && (
+            <>
+              {/* Messages */}
+              <div style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: '16px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+                background: 'rgba(13,6,24,0.5)',
+              }}>
+                {messages.map(msg => (
+                  <div key={msg.id} style={{
+                    display: 'flex',
+                    flexDirection: msg.sender === 'player' ? 'row-reverse' : 'row',
+                    gap: 8,
+                  }}>
+                    <div style={{
+                      maxWidth: '75%',
+                      background: msg.sender === 'player'
+                        ? 'linear-gradient(135deg, #7c3aed, #5b21b6)'
+                        : 'rgba(61,31,110,0.6)',
+                      border: msg.sender === 'player'
+                        ? '1px solid rgba(124,58,237,0.4)'
+                        : '1px solid rgba(244,196,48,0.2)',
+                      borderRadius: msg.sender === 'player' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
+                      padding: '10px 14px',
+                    }}>
+                      <div style={{ fontSize: 13, color: '#f0e8ff', lineHeight: 1.5 }}>{msg.text}</div>
+                      <div style={{ fontSize: 10, color: '#7c6fa0', marginTop: 4 }}>{msg.time}</div>
+                    </div>
+                  </div>
+                ))}
+                {isTyping && (
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <div style={{
+                      background: 'rgba(61,31,110,0.6)',
+                      border: '1px solid rgba(244,196,48,0.2)',
+                      borderRadius: '16px 16px 16px 4px',
+                      padding: '10px 14px',
+                      display: 'flex', gap: 4, alignItems: 'center',
+                    }}>
+                      {[0, 1, 2].map(i => (
+                        <div key={i} style={{
+                          width: 6, height: 6, borderRadius: '50%', background: '#7c6fa0',
+                          animation: `bounce 1.2s ease-in-out ${i * 0.15}s infinite`,
+                        }} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Input */}
+              <div style={{
+                padding: '12px',
+                borderTop: '1px solid rgba(244,196,48,0.15)',
+                background: 'rgba(26,13,53,0.8)',
+              }}>
+                <div style={{
+                  display: 'flex', gap: 8,
+                  background: 'rgba(0,0,0,0.3)',
+                  border: '1px solid rgba(124,111,160,0.3)',
+                  borderRadius: 10,
+                  padding: '8px 12px',
+                }}>
+                  <input
+                    type="text"
+                    value={inputValue}
+                    onChange={e => setInputValue(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter') sendMessage(); }}
+                    placeholder="Type your message..."
+                    style={{
+                      flex: 1, background: 'transparent', border: 'none',
+                      color: '#f0e8ff', fontSize: 13, outline: 'none',
+                    }}
+                  />
+                  <button
+                    onClick={sendMessage}
+                    style={{
+                      background: 'linear-gradient(135deg, #f4c430, #f97316)',
+                      border: 'none', borderRadius: 8, padding: '6px 16px',
+                      color: '#0d0618', fontSize: 12, fontWeight: 700,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    SEND
+                  </button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {/* Floating Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+          width: 60,
+          height: 60,
+          borderRadius: '50%',
+          background: 'linear-gradient(135deg, #f4c430, #f97316)',
+          border: 'none',
+          cursor: 'pointer',
+          boxShadow: '0 4px 20px rgba(244,196,48,0.4)',
+          zIndex: 999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 24,
+          transition: 'transform 0.2s',
+          animation: isOpen ? 'none' : 'pulse 2s ease-in-out infinite',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.1)'; }}
+        onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
+      >
+        {isOpen ? '✕' : '💬'}
+      </button>
+    </>
   );
 }

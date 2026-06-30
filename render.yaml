@@ -48,3 +48,51 @@ services:
         sync: false
       - key: NEXT_PUBLIC_DEMO_MODE
         sync: false
+
+  # ── Admin Panel ──────────────────────────────────────────────────────────────
+  - type: web
+    name: casino-admin
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm install -g pnpm@10.15.0 && pnpm install --frozen-lockfile && pnpm --filter @casino/admin... build
+    startCommand: cd apps/admin && pnpm start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+
+  # ── Finance Panel ─────────────────────────────────────────────────────────────
+  - type: web
+    name: casino-finance
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm install -g pnpm@10.15.0 && pnpm install --frozen-lockfile && pnpm --filter @casino/finance... build
+    startCommand: cd apps/finance && pnpm start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+
+  # ── Support Panel ─────────────────────────────────────────────────────────────
+  - type: web
+    name: casino-support
+    runtime: node
+    region: oregon
+    plan: free
+    buildCommand: npm install -g pnpm@10.15.0 && pnpm install --frozen-lockfile && pnpm --filter @casino/support... build
+    startCommand: cd apps/support && pnpm start
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
