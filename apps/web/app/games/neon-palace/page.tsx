@@ -5,23 +5,25 @@ import { userApi } from '../../../lib/api-user';
 
 /* ─── DESIGN TOKENS ─────────────────────────────────────────────────────────── */
 const C = {
-  bg: '#0a0010', surface: '#160825', card: '#1e0c35', cardBorder: '#3a1a6e',
-  gold: '#f4c430', goldGlow: '#ffdd00', teal: '#00d4c8', magenta: '#ff2d78',
-  purple: '#7c3aed', text: '#f0e8ff', textDim: '#9d8ec0', silver: '#c0c8d8',
-  electric: '#00aaff', green: '#00ff88', reelBg: '#0d0520', reelBorder: '#4a1f8a',
-  btnGrad: 'linear-gradient(135deg, #f4c430 0%, #ff8c00 50%, #f4c430 100%)',
-  darkPurple: '#110020',
+  bg: '#06000e', surface: '#0d0018', card: '#130020', cardBorder: '#260840',
+  gold: '#d4a848', goldBright: '#f4c430', chrome: '#9daab8',
+  text: '#f0eaf8', textDim: '#7a7090',
+  reelBg: '#040008', reelBorder: '#180630',
+  btnGrad: 'linear-gradient(135deg,#8a5e10 0%,#f4c430 30%,#ffe066 50%,#d4a030 70%,#8a5e10 100%)',
+  green: '#00cc66', red: '#ff3355',
+  teal: '#00c8be', magenta: '#ff2068',
+  darkBg: '#04000a',
 };
 
 /* ─── GLOBAL CSS ─────────────────────────────────────────────────────────────── */
 const GLOBAL_CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap');
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #0a0010; font-family: 'Outfit', sans-serif; }
+body { background: #06000e; font-family: 'Outfit', sans-serif; }
 
 @keyframes symbolGlow {
   0%,100% { filter: drop-shadow(0 0 6px currentColor) brightness(1); }
-  50%      { filter: drop-shadow(0 0 20px currentColor) brightness(1.6); }
+  50%      { filter: drop-shadow(0 0 22px currentColor) brightness(1.65); }
 }
 @keyframes winAmount {
   0%   { transform: scale(0.5); opacity:0; }
@@ -39,8 +41,8 @@ body { background: #0a0010; font-family: 'Outfit', sans-serif; }
   95%          { opacity:0.5; transform: translateY(-4px); }
 }
 @keyframes spinButtonPulse {
-  0%,100% { box-shadow: 0 0 20px #f4c430aa, 0 0 40px #ff8c0066, inset 0 0 20px #f4c43022; }
-  50%     { box-shadow: 0 0 40px #f4c430ff, 0 0 80px #ff8c00aa, inset 0 0 30px #f4c43044; }
+  0%,100% { box-shadow: 0 0 18px #d4a84888, 0 0 36px #f4c43044, inset 0 1px 0 #ffe06644; }
+  50%     { box-shadow: 0 0 36px #d4a848cc, 0 0 64px #f4c43088, inset 0 1px 0 #ffe06699; }
 }
 @keyframes paylineTrace {
   from { stroke-dashoffset: 800; }
@@ -51,8 +53,8 @@ body { background: #0a0010; font-family: 'Outfit', sans-serif; }
   100% { transform: translateY(-120vh) translateX(var(--sx)); opacity: 0; }
 }
 @keyframes scatterPulse {
-  0%,100% { filter: drop-shadow(0 0 8px #00d4c8) drop-shadow(0 0 16px #ff2d78); }
-  50%      { filter: drop-shadow(0 0 20px #00d4c8) drop-shadow(0 0 40px #ff2d78) brightness(1.4); }
+  0%,100% { filter: drop-shadow(0 0 8px #00c8be) drop-shadow(0 0 16px #ff2068); }
+  50%      { filter: drop-shadow(0 0 22px #00c8be) drop-shadow(0 0 44px #ff2068) brightness(1.4); }
 }
 @keyframes freeSpinBg {
   0%,100% { background-position: 0% 50%; }
@@ -81,19 +83,19 @@ body { background: #0a0010; font-family: 'Outfit', sans-serif; }
 }
 @keyframes screenShake {
   0%,100% { transform: translate(0,0) rotate(0deg); }
-  10% { transform: translate(-6px,-2px) rotate(-0.5deg); }
-  20% { transform: translate(6px,2px) rotate(0.5deg); }
-  40% { transform: translate(4px,1px) rotate(0.3deg); }
-  60% { transform: translate(-3px,0) rotate(-0.2deg); }
+  10% { transform: translate(-5px,-2px) rotate(-0.4deg); }
+  20% { transform: translate(5px,2px) rotate(0.4deg); }
+  40% { transform: translate(3px,1px) rotate(0.2deg); }
+  60% { transform: translate(-2px,0) rotate(-0.15deg); }
   80% { transform: translate(2px,1px); }
 }
-@keyframes columnGlow {
-  0%,100% { box-shadow: inset 0 0 30px #7c3aed44, 0 0 20px #7c3aed33; }
-  50%      { box-shadow: inset 0 0 50px #7c3aed88, 0 0 40px #7c3aed66; }
+@keyframes gemFlash {
+  0%,100% { opacity: 0.6; }
+  50%      { opacity: 1; }
 }
 @keyframes orbFloat {
   0%,100% { transform: translateY(0) scale(1); }
-  50%      { transform: translateY(-15px) scale(1.05); }
+  50%      { transform: translateY(-12px) scale(1.04); }
 }
 /* Responsive reel scaling */
 @media (max-width: 576px) {
@@ -110,16 +112,16 @@ interface SymbolDef {
   payouts: number[]; color: string; glow: string; tier: number;
 }
 const SYMBOLS: SymbolDef[] = [
-  { id:'WILD',     name:'Wild Crown',  weight:2,  payouts:[0,0,50,500,5000], color:'#f4c430', glow:'#ffdd00', tier:5 },
-  { id:'SCATTER',  name:'Eye of Gods', weight:3,  payouts:[0,0,12,30,100],   color:'#00d4c8', glow:'#ff2d78', tier:5 },
-  { id:'ZEUS',     name:'Zeus',        weight:6,  payouts:[0,0,20,100,1000], color:'#00aaff', glow:'#00ddff', tier:4 },
-  { id:'ATHENA',   name:'Athena',      weight:8,  payouts:[0,0,15,75,750],   color:'#c084fc', glow:'#a855f7', tier:4 },
-  { id:'POSEIDON', name:'Poseidon',    weight:8,  payouts:[0,0,10,50,500],   color:'#22d3ee', glow:'#0ea5e9', tier:4 },
+  { id:'WILD',     name:'Wild Crown',  weight:2,  payouts:[0,0,50,500,5000], color:'#f4c430', glow:'#ffe066', tier:5 },
+  { id:'SCATTER',  name:'Star Gem',    weight:3,  payouts:[0,0,12,30,100],   color:'#00c8be', glow:'#ff2068', tier:5 },
+  { id:'ZEUS',     name:'Diamond',     weight:6,  payouts:[0,0,20,100,1000], color:'#93c5fd', glow:'#bfdbfe', tier:4 },
+  { id:'ATHENA',   name:'Ruby',        weight:8,  payouts:[0,0,15,75,750],   color:'#f87171', glow:'#fca5a5', tier:4 },
+  { id:'POSEIDON', name:'Emerald',     weight:8,  payouts:[0,0,10,50,500],   color:'#34d399', glow:'#6ee7b7', tier:4 },
   { id:'ACE',      name:'Ace',         weight:12, payouts:[0,0,5,20,200],    color:'#f4c430', glow:'#fbbf24', tier:3 },
-  { id:'KING',     name:'King',        weight:12, payouts:[0,0,4,15,150],    color:'#a78bfa', glow:'#7c3aed', tier:3 },
-  { id:'QUEEN',    name:'Queen',       weight:14, payouts:[0,0,3,10,100],    color:'#2dd4bf', glow:'#14b8a6', tier:2 },
-  { id:'JACK',     name:'Jack',        weight:15, payouts:[0,0,2,8,75],      color:'#f472b6', glow:'#ec4899', tier:2 },
-  { id:'TEN',      name:'Ten',         weight:20, payouts:[0,0,1,5,50],      color:'#94a3b8', glow:'#64748b', tier:1 },
+  { id:'KING',     name:'King',        weight:12, payouts:[0,0,4,15,150],    color:'#a78bfa', glow:'#c4b5fd', tier:3 },
+  { id:'QUEEN',    name:'Queen',       weight:14, payouts:[0,0,3,10,100],    color:'#2dd4bf', glow:'#5eead4', tier:2 },
+  { id:'JACK',     name:'Jack',        weight:15, payouts:[0,0,2,8,75],      color:'#f472b6', glow:'#f9a8d4', tier:2 },
+  { id:'TEN',      name:'Ten',         weight:20, payouts:[0,0,1,5,50],      color:'#94a3b8', glow:'#cbd5e1', tier:1 },
 ];
 const TOTAL_WEIGHT = SYMBOLS.reduce((s, x) => s + x.weight, 0);
 const REEL_SYMBOLS = SYMBOLS.map(s => s.id);
@@ -223,9 +225,9 @@ class SoundEngine {
   }
   playReel(idx: number) {
     if (!this.ctx) return; const t = this.ctx.currentTime;
-    const freqs = [800, 900, 1000, 1100, 1200];
-    this.osc('triangle', freqs[idx]!, t, 0.05, 0.25);
-    this.osc('sine', freqs[idx]! * 1.5, t + 0.02, 0.04, 0.1);
+    const freqs = [880, 990, 1100, 1210, 1320];
+    this.osc('triangle', freqs[idx]!, t, 0.06, 0.2);
+    this.osc('sine', freqs[idx]! * 1.5, t + 0.02, 0.04, 0.08);
   }
   playWin(tier: string) {
     if (!this.ctx) return; const t = this.ctx.currentTime;
@@ -260,16 +262,25 @@ function SymbolArt({ id, size = 90, glowing = false }: { id: string; size?: numb
       <svg width={s} height={s} viewBox="0 0 90 90">
         <defs>
           <linearGradient id="wg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#f4c430"/><stop offset="100%" stopColor="#ff8c00"/>
+            <stop offset="0%" stopColor="#f4c430"/><stop offset="50%" stopColor="#ffe066"/><stop offset="100%" stopColor="#c8921a"/>
           </linearGradient>
-          <filter id="fwg"><feGaussianBlur stdDeviation="1.5" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+          <linearGradient id="wg2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#ffe066"/><stop offset="100%" stopColor="#8a5e10"/>
+          </linearGradient>
         </defs>
-        <polygon points="45,4 55,30 82,30 60,48 68,75 45,58 22,75 30,48 8,30 35,30" fill="url(#wg)" filter="url(#fwg)"/>
-        <polygon points="45,14 52,33 72,33 57,46 62,67 45,54 28,67 33,46 18,33 38,33" fill="#fff7"/>
-        <line x1="45" y1="20" x2="45" y2="70" stroke="#ffdd00" strokeWidth="2" strokeDasharray="4,3" opacity="0.8"/>
-        <line x1="20" y1="45" x2="70" y2="45" stroke="#ffdd00" strokeWidth="2" strokeDasharray="4,3" opacity="0.8"/>
-        <circle cx="45" cy="45" r="8" fill="#fff" opacity="0.9"/>
-        <text x="45" y="50" textAnchor="middle" fontSize="10" fontWeight="900" fill="#f4c430" fontFamily="Outfit,sans-serif">W</text>
+        {/* Crown base */}
+        <rect x="18" y="62" width="54" height="12" rx="4" fill="url(#wg2)" stroke="#f4c430" strokeWidth="1"/>
+        {/* Crown points */}
+        <polygon points="18,62 18,38 31,50 45,30 59,50 72,38 72,62" fill="url(#wg)" stroke="#ffe066" strokeWidth="1"/>
+        {/* Gem settings in crown */}
+        <circle cx="45" cy="47" r="5" fill="#93c5fd" stroke="#dbeafe" strokeWidth="1"/>
+        <circle cx="45" cy="47" r="2.5" fill="#eff6ff" opacity="0.9"/>
+        <circle cx="28" cy="58" r="3" fill="#f87171" stroke="#fca5a5" strokeWidth="0.8"/>
+        <circle cx="62" cy="58" r="3" fill="#34d399" stroke="#6ee7b7" strokeWidth="0.8"/>
+        {/* Highlights */}
+        <line x1="22" y1="45" x2="26" y2="50" stroke="#ffe066" strokeWidth="1.5" opacity="0.7" strokeLinecap="round"/>
+        <line x1="68" y1="45" x2="64" y2="50" stroke="#ffe066" strokeWidth="1.5" opacity="0.7" strokeLinecap="round"/>
+        <text x="45" y="72" textAnchor="middle" fontSize="8" fontWeight="900" fill="#0a0010" fontFamily="Outfit,sans-serif" letterSpacing="1">WILD</text>
       </svg>
     </div>
   );
@@ -278,66 +289,146 @@ function SymbolArt({ id, size = 90, glowing = false }: { id: string; size?: numb
     <div style={{ ...wrap, animation: glowing ? 'scatterPulse 1s ease-in-out infinite' : 'none' }}>
       <svg width={s} height={s} viewBox="0 0 90 90">
         <defs>
-          <linearGradient id="scg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#00d4c8"/><stop offset="100%" stopColor="#ff2d78"/>
+          <radialGradient id="scg" cx="40%" cy="35%">
+            <stop offset="0%" stopColor="#5eead4"/><stop offset="50%" stopColor="#00c8be"/><stop offset="100%" stopColor="#004d49"/>
+          </radialGradient>
+          <linearGradient id="scg2" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#ff2068"/><stop offset="100%" stopColor="#00c8be"/>
           </linearGradient>
         </defs>
-        <polygon points="45,5 85,80 5,80" fill="none" stroke="url(#scg)" strokeWidth="3"/>
-        <polygon points="45,18 76,72 14,72" fill="#ff2d7822"/>
-        <ellipse cx="45" cy="38" rx="12" ry="14" fill="url(#scg)" opacity="0.9"/>
-        <ellipse cx="45" cy="38" rx="6" ry="7" fill="#0d0520"/>
-        <ellipse cx="45" cy="38" rx="3" ry="3.5" fill="#00d4c8"/>
-        <circle cx="42" cy="36" r="1.5" fill="#fff" opacity="0.8"/>
-        {[0,30,60,90,120,150,180,210,240,270,300,330].map((a, idx) => (
-          <line key={idx} x1="45" y1="5" x2={45 + Math.cos(a * Math.PI / 180) * 8} y2={5 + Math.sin(a * Math.PI / 180) * 8} stroke="#ff2d78" strokeWidth="1" opacity="0.5"/>
+        {/* Eight-pointed star border */}
+        {[0,45,90,135].map((angle, i) => (
+          <line key={i} x1="45" y1="10" x2="45" y2="80"
+            stroke="url(#scg2)" strokeWidth="2.5" opacity="0.4"
+            transform={`rotate(${angle} 45 45)`}/>
         ))}
+        {/* Gem body - hexagonal */}
+        <polygon points="45,12 68,26 68,58 45,72 22,58 22,26" fill="url(#scg)" stroke="#00c8be" strokeWidth="1"/>
+        {/* Facets */}
+        <polygon points="45,12 68,26 45,38 22,26" fill="#5eead4" opacity="0.4"/>
+        <polygon points="22,26 45,38 22,58" fill="#0d9488" opacity="0.5"/>
+        <polygon points="68,26 45,38 68,58" fill="#ccfbf1" opacity="0.3"/>
+        <polygon points="22,58 45,38 45,72" fill="#0f766e" opacity="0.5"/>
+        <polygon points="68,58 45,72 45,38" fill="#14b8a6" opacity="0.4"/>
+        {/* Inner highlight */}
+        <polygon points="45,16 63,27 45,36 27,27" fill="#a7f3d0" opacity="0.35"/>
+        <circle cx="38" cy="26" r="4" fill="#fff" opacity="0.3"/>
+        <circle cx="36" cy="24" r="2" fill="#fff" opacity="0.4"/>
+        <text x="45" y="86" textAnchor="middle" fontSize="7" fontWeight="900" fill="#00c8be" fontFamily="Outfit,sans-serif" letterSpacing="1">SCATTER</text>
       </svg>
     </div>
   );
 
+  /* DIAMOND (was ZEUS) */
   if (id === 'ZEUS') return (
     <div style={wrap}>
       <svg width={s} height={s} viewBox="0 0 90 90">
-        <defs><linearGradient id="zg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#00aaff"/><stop offset="50%" stopColor="#f4c430"/><stop offset="100%" stopColor="#00aaff"/></linearGradient></defs>
-        <polygon points="50,5 58,35 80,20 55,45 75,50 45,85 40,55 15,65 42,40 20,38 48,20 35,30" fill="url(#zg)" opacity="0.95"/>
-        <polygon points="50,15 56,36 72,25 53,44 68,48 45,75 41,52 22,60 44,41 26,39 47,25 38,32" fill="#fff6"/>
-        {[0,1,2].map(i => (<line key={i} x1={30 + i * 5} y1={55 + i * 8} x2={55 + i * 3} y2={35 + i * 5} stroke="#00ddff" strokeWidth="1" opacity={0.5 - i * 0.15}/>))}
+        <defs>
+          <linearGradient id="dig1" x1="0.3" y1="0" x2="0.7" y2="1">
+            <stop offset="0%" stopColor="#eff6ff"/><stop offset="40%" stopColor="#93c5fd"/><stop offset="100%" stopColor="#1d4ed8"/>
+          </linearGradient>
+          <linearGradient id="dig2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#dbeafe"/><stop offset="100%" stopColor="#3b82f6"/>
+          </linearGradient>
+        </defs>
+        {/* Brilliant cut diamond: octagonal girdle */}
+        <polygon points="32,20 58,20 74,45 58,72 32,72 16,45" fill="url(#dig1)" stroke="#93c5fd" strokeWidth="0.8"/>
+        {/* Table (flat top face) */}
+        <polygon points="37,26 53,26 62,38 53,56 37,56 28,38" fill="url(#dig2)" opacity="0.85"/>
+        {/* Upper main facets */}
+        <polygon points="32,20 37,26 28,38 16,45" fill="#bfdbfe" opacity="0.55"/>
+        <polygon points="58,20 74,45 62,38 53,26" fill="#eff6ff" opacity="0.65"/>
+        <polygon points="37,26 32,20 58,20 53,26" fill="#fff" opacity="0.5"/>
+        {/* Lower main facets */}
+        <polygon points="16,45 28,38 37,56 32,72" fill="#60a5fa" opacity="0.5"/>
+        <polygon points="74,45 58,72 53,56 62,38" fill="#2563eb" opacity="0.55"/>
+        <polygon points="32,72 37,56 53,56 58,72" fill="#3b82f6" opacity="0.4"/>
+        {/* Star facets on table */}
+        <polygon points="37,26 45,32 28,38" fill="#dbeafe" opacity="0.4"/>
+        <polygon points="53,26 62,38 45,32" fill="#eff6ff" opacity="0.4"/>
+        <polygon points="45,32 28,38 37,56" fill="#93c5fd" opacity="0.3"/>
+        <polygon points="45,32 62,38 53,56" fill="#bfdbfe" opacity="0.3"/>
+        {/* Highlight flash */}
+        <polygon points="38,22 48,22 53,26 37,26" fill="#fff" opacity="0.6"/>
+        <circle cx="40" cy="28" r="3.5" fill="#fff" opacity="0.5"/>
+        <circle cx="38" cy="26" r="1.5" fill="#fff" opacity="0.7"/>
       </svg>
     </div>
   );
 
+  /* RUBY (was ATHENA) */
   if (id === 'ATHENA') return (
     <div style={wrap}>
       <svg width={s} height={s} viewBox="0 0 90 90">
-        <defs><linearGradient id="ag" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#c084fc"/><stop offset="100%" stopColor="#7c3aed"/></linearGradient></defs>
-        <ellipse cx="45" cy="50" rx="28" ry="32" fill="url(#ag)" opacity="0.9"/>
-        <ellipse cx="45" cy="45" rx="20" ry="25" fill="#1e0c35" opacity="0.6"/>
-        <path d="M20,25 Q45,5 70,25 Q60,15 45,18 Q30,15 20,25Z" fill="url(#ag)"/>
-        <ellipse cx="35" cy="45" rx="9" ry="10" fill="#a855f7"/>
-        <ellipse cx="55" cy="45" rx="9" ry="10" fill="#a855f7"/>
-        <ellipse cx="35" cy="45" rx="5" ry="5" fill="#1e0c35"/>
-        <ellipse cx="55" cy="45" rx="5" ry="5" fill="#1e0c35"/>
-        <circle cx="33" cy="43" r="2" fill="#c084fc" opacity="0.9"/>
-        <circle cx="53" cy="43" r="2" fill="#c084fc" opacity="0.9"/>
-        <path d="M38,62 Q45,68 52,62" stroke="#c084fc" strokeWidth="2" fill="none"/>
-        <line x1="45" y1="72" x2="45" y2="85" stroke="#7c3aed" strokeWidth="3"/>
+        <defs>
+          <radialGradient id="rug1" cx="38%" cy="32%" r="55%">
+            <stop offset="0%" stopColor="#fecaca"/><stop offset="35%" stopColor="#ef4444"/><stop offset="100%" stopColor="#7f1d1d"/>
+          </radialGradient>
+          <radialGradient id="rug2" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#fee2e2"/><stop offset="100%" stopColor="#b91c1c"/>
+          </radialGradient>
+        </defs>
+        {/* Oval brilliant cut ruby */}
+        <ellipse cx="45" cy="46" rx="30" ry="36" fill="url(#rug1)" stroke="#f87171" strokeWidth="0.8"/>
+        {/* Table (oval table) */}
+        <ellipse cx="45" cy="42" rx="18" ry="22" fill="url(#rug2)" opacity="0.8"/>
+        {/* Outer facets */}
+        <path d="M15,46 Q45,20 75,46" fill="none" stroke="#fca5a5" strokeWidth="0.7" opacity="0.4"/>
+        <path d="M15,46 Q45,70 75,46" fill="none" stroke="#f87171" strokeWidth="0.7" opacity="0.35"/>
+        {/* Pavilion facet lines */}
+        <line x1="27,16" x2="45,42" y1="0" y2="0" stroke="#fca5a5" strokeWidth="0" opacity="0"/>
+        <line x1="45" y1="10" x2="45" y2="42" stroke="#fca5a5" strokeWidth="0.8" opacity="0.3"/>
+        <line x1="63" y1="16" x2="45" y2="42" stroke="#fca5a5" strokeWidth="0.8" opacity="0.3"/>
+        <line x1="73" y1="34" x2="45" y2="42" stroke="#fca5a5" strokeWidth="0.8" opacity="0.3"/>
+        <line x1="73" y1="58" x2="45" y2="42" stroke="#f87171" strokeWidth="0.8" opacity="0.3"/>
+        <line x1="63" y1="74" x2="45" y2="42" stroke="#f87171" strokeWidth="0.8" opacity="0.3"/>
+        <line x1="45" y1="82" x2="45" y2="42" stroke="#ef4444" strokeWidth="0.8" opacity="0.3"/>
+        <line x1="27" y1="74" x2="45" y2="42" stroke="#ef4444" strokeWidth="0.8" opacity="0.3"/>
+        <line x1="17" y1="58" x2="45" y2="42" stroke="#ef4444" strokeWidth="0.8" opacity="0.3"/>
+        <line x1="17" y1="34" x2="45" y2="42" stroke="#fca5a5" strokeWidth="0.8" opacity="0.3"/>
+        {/* Highlights */}
+        <ellipse cx="38" cy="32" rx="9" ry="6" fill="#fff" opacity="0.18"/>
+        <ellipse cx="35" cy="29" rx="5" ry="3.5" fill="#fff" opacity="0.25"/>
+        <circle cx="33" cy="27" r="3.5" fill="#fff" opacity="0.35"/>
+        <circle cx="32" cy="26" r="1.5" fill="#fff" opacity="0.5"/>
       </svg>
     </div>
   );
 
+  /* EMERALD (was POSEIDON) */
   if (id === 'POSEIDON') return (
     <div style={wrap}>
       <svg width={s} height={s} viewBox="0 0 90 90">
-        <defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#22d3ee"/><stop offset="100%" stopColor="#0ea5e9"/></linearGradient></defs>
-        <line x1="45" y1="5" x2="45" y2="75" stroke="url(#pg)" strokeWidth="5" strokeLinecap="round"/>
-        <line x1="45" y1="5" x2="25" y2="28" stroke="url(#pg)" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="45" y1="5" x2="65" y2="28" stroke="url(#pg)" strokeWidth="4" strokeLinecap="round"/>
-        <line x1="45" y1="18" x2="32" y2="35" stroke="url(#pg)" strokeWidth="3" strokeLinecap="round"/>
-        <line x1="45" y1="18" x2="58" y2="35" stroke="url(#pg)" strokeWidth="3" strokeLinecap="round"/>
-        {([[35,65],[42,72],[52,68],[38,80],[55,75],[45,82]] as [number,number][]).map(([cx,cy],i)=>(
-          <ellipse key={i} cx={cx} cy={cy} rx="4" ry="6" fill="#22d3ee" opacity={0.6+i*0.05}/>
-        ))}
-        <path d="M15,78 Q25,70 35,78 Q45,86 55,78 Q65,70 75,78" stroke="#0ea5e9" strokeWidth="2.5" fill="none"/>
+        <defs>
+          <linearGradient id="emg1" x1="0.3" y1="0" x2="0.7" y2="1">
+            <stop offset="0%" stopColor="#a7f3d0"/><stop offset="40%" stopColor="#059669"/><stop offset="100%" stopColor="#064e3b"/>
+          </linearGradient>
+          <linearGradient id="emg2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#6ee7b7"/><stop offset="100%" stopColor="#047857"/>
+          </linearGradient>
+        </defs>
+        {/* Emerald cut: clipped rectangle (octagonal) */}
+        <polygon points="26,14 64,14 76,26 76,64 64,76 26,76 14,64 14,26" fill="url(#emg1)" stroke="#34d399" strokeWidth="0.8"/>
+        {/* Table (center rectangle) */}
+        <rect x="22" y="22" width="46" height="46" rx="2" fill="url(#emg2)" opacity="0.75"/>
+        {/* Step cut lines — characteristic of emerald cut */}
+        <line x1="16" y1="32" x2="74" y2="32" stroke="#6ee7b7" strokeWidth="0.7" opacity="0.5"/>
+        <line x1="16" y1="42" x2="74" y2="42" stroke="#6ee7b7" strokeWidth="0.7" opacity="0.55"/>
+        <line x1="16" y1="52" x2="74" y2="52" stroke="#6ee7b7" strokeWidth="0.7" opacity="0.5"/>
+        <line x1="16" y1="62" x2="74" y2="62" stroke="#34d399" strokeWidth="0.5" opacity="0.35"/>
+        <line x1="16" y1="22" x2="74" y2="22" stroke="#a7f3d0" strokeWidth="0.5" opacity="0.4"/>
+        {/* Corner facets */}
+        <polygon points="14,26 26,14 26,26" fill="#6ee7b7" opacity="0.35"/>
+        <polygon points="64,14 76,26 64,26" fill="#a7f3d0" opacity="0.4"/>
+        <polygon points="14,64 26,76 26,64" fill="#047857" opacity="0.4"/>
+        <polygon points="76,64 64,76 64,64" fill="#065f46" opacity="0.35"/>
+        {/* Table highlight */}
+        <rect x="24" y="24" width="40" height="8" rx="1" fill="#a7f3d0" opacity="0.2"/>
+        <rect x="26" y="16" width="38" height="6" rx="1" fill="#fff" opacity="0.18"/>
+        {/* Top highlight flash */}
+        <ellipse cx="36" cy="28" rx="9" ry="4" fill="#fff" opacity="0.2"/>
+        <ellipse cx="33" cy="26" rx="5" ry="2.5" fill="#fff" opacity="0.28"/>
+        <circle cx="30" cy="25" r="2.5" fill="#fff" opacity="0.38"/>
       </svg>
     </div>
   );
@@ -345,10 +436,21 @@ function SymbolArt({ id, size = 90, glowing = false }: { id: string; size?: numb
   if (id === 'ACE') return (
     <div style={wrap}>
       <svg width={s} height={s} viewBox="0 0 90 90">
-        <defs><linearGradient id="acg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#f4c430"/><stop offset="100%" stopColor="#b45309"/></linearGradient></defs>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="url(#acg)" opacity="0.12"/>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="none" stroke="url(#acg)" strokeWidth="2.5"/>
-        <text x="45" y="62" textAnchor="middle" fontSize="55" fontWeight="900" fill="url(#acg)" fontFamily="Outfit,sans-serif" letterSpacing="-2">A</text>
+        <defs>
+          <linearGradient id="acg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#f4c430"/><stop offset="50%" stopColor="#ffe066"/><stop offset="100%" stopColor="#9a6e10"/>
+          </linearGradient>
+        </defs>
+        <rect x="6" y="6" width="78" height="78" rx="10" fill="#0a000f" stroke="url(#acg)" strokeWidth="2.5"/>
+        <rect x="10" y="10" width="70" height="70" rx="8" fill="none" stroke="#f4c43033" strokeWidth="1"/>
+        {/* Corner pips */}
+        <text x="14" y="26" fontSize="14" fontWeight="900" fill="url(#acg)" fontFamily="Outfit,sans-serif">A</text>
+        <text x="76" y="80" fontSize="14" fontWeight="900" fill="url(#acg)" fontFamily="Outfit,sans-serif" textAnchor="middle" transform="rotate(180 76 76)">A</text>
+        {/* Center large A */}
+        <text x="45" y="64" textAnchor="middle" fontSize="54" fontWeight="900" fill="url(#acg)" fontFamily="Outfit,sans-serif" letterSpacing="-2">A</text>
+        {/* Engraved lines */}
+        <line x1="10" y1="30" x2="80" y2="30" stroke="#f4c43022" strokeWidth="0.8"/>
+        <line x1="10" y1="60" x2="80" y2="60" stroke="#f4c43022" strokeWidth="0.8"/>
       </svg>
     </div>
   );
@@ -356,10 +458,18 @@ function SymbolArt({ id, size = 90, glowing = false }: { id: string; size?: numb
   if (id === 'KING') return (
     <div style={wrap}>
       <svg width={s} height={s} viewBox="0 0 90 90">
-        <defs><linearGradient id="kg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#a78bfa"/><stop offset="100%" stopColor="#5b21b6"/></linearGradient></defs>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="url(#kg)" opacity="0.12"/>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="none" stroke="url(#kg)" strokeWidth="2.5"/>
-        <text x="45" y="62" textAnchor="middle" fontSize="52" fontWeight="900" fill="url(#kg)" fontFamily="Outfit,sans-serif">K</text>
+        <defs>
+          <linearGradient id="kg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#c4b5fd"/><stop offset="50%" stopColor="#8b5cf6"/><stop offset="100%" stopColor="#4c1d95"/>
+          </linearGradient>
+        </defs>
+        <rect x="6" y="6" width="78" height="78" rx="10" fill="#0a000f" stroke="url(#kg)" strokeWidth="2.5"/>
+        <rect x="10" y="10" width="70" height="70" rx="8" fill="none" stroke="#8b5cf633" strokeWidth="1"/>
+        <text x="14" y="26" fontSize="14" fontWeight="900" fill="url(#kg)" fontFamily="Outfit,sans-serif">K</text>
+        <text x="76" y="80" fontSize="14" fontWeight="900" fill="url(#kg)" fontFamily="Outfit,sans-serif" textAnchor="middle" transform="rotate(180 76 76)">K</text>
+        <text x="45" y="64" textAnchor="middle" fontSize="52" fontWeight="900" fill="url(#kg)" fontFamily="Outfit,sans-serif">K</text>
+        <line x1="10" y1="30" x2="80" y2="30" stroke="#8b5cf622" strokeWidth="0.8"/>
+        <line x1="10" y1="60" x2="80" y2="60" stroke="#8b5cf622" strokeWidth="0.8"/>
       </svg>
     </div>
   );
@@ -367,13 +477,18 @@ function SymbolArt({ id, size = 90, glowing = false }: { id: string; size?: numb
   if (id === 'QUEEN') return (
     <div style={wrap}>
       <svg width={s} height={s} viewBox="0 0 90 90">
-        <defs><linearGradient id="qg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#2dd4bf"/><stop offset="100%" stopColor="#0d9488"/></linearGradient></defs>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="url(#qg)" opacity="0.12"/>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="none" stroke="url(#qg)" strokeWidth="2.5"/>
-        {([[18,18],[72,18],[18,72],[72,72],[45,8]] as [number,number][]).map(([cx,cy],i)=>(
-          <circle key={i} cx={cx} cy={cy} r="4" fill={(['#f472b6','#a78bfa','#f4c430','#22d3ee','#ff2d78'])[i]}/>
-        ))}
-        <text x="45" y="62" textAnchor="middle" fontSize="52" fontWeight="900" fill="url(#qg)" fontFamily="Outfit,sans-serif">Q</text>
+        <defs>
+          <linearGradient id="qg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#5eead4"/><stop offset="50%" stopColor="#14b8a6"/><stop offset="100%" stopColor="#0f4c45"/>
+          </linearGradient>
+        </defs>
+        <rect x="6" y="6" width="78" height="78" rx="10" fill="#0a000f" stroke="url(#qg)" strokeWidth="2.5"/>
+        <rect x="10" y="10" width="70" height="70" rx="8" fill="none" stroke="#14b8a633" strokeWidth="1"/>
+        <text x="14" y="26" fontSize="14" fontWeight="900" fill="url(#qg)" fontFamily="Outfit,sans-serif">Q</text>
+        <text x="76" y="80" fontSize="14" fontWeight="900" fill="url(#qg)" fontFamily="Outfit,sans-serif" textAnchor="middle" transform="rotate(180 76 76)">Q</text>
+        <text x="45" y="64" textAnchor="middle" fontSize="50" fontWeight="900" fill="url(#qg)" fontFamily="Outfit,sans-serif">Q</text>
+        <line x1="10" y1="30" x2="80" y2="30" stroke="#14b8a622" strokeWidth="0.8"/>
+        <line x1="10" y1="60" x2="80" y2="60" stroke="#14b8a622" strokeWidth="0.8"/>
       </svg>
     </div>
   );
@@ -381,10 +496,18 @@ function SymbolArt({ id, size = 90, glowing = false }: { id: string; size?: numb
   if (id === 'JACK') return (
     <div style={wrap}>
       <svg width={s} height={s} viewBox="0 0 90 90">
-        <defs><linearGradient id="jg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#f472b6"/><stop offset="100%" stopColor="#be185d"/></linearGradient></defs>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="url(#jg)" opacity="0.12"/>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="none" stroke="url(#jg)" strokeWidth="2.5"/>
-        <text x="45" y="62" textAnchor="middle" fontSize="52" fontWeight="900" fill="url(#jg)" fontFamily="Outfit,sans-serif">J</text>
+        <defs>
+          <linearGradient id="jg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#f9a8d4"/><stop offset="50%" stopColor="#ec4899"/><stop offset="100%" stopColor="#831843"/>
+          </linearGradient>
+        </defs>
+        <rect x="6" y="6" width="78" height="78" rx="10" fill="#0a000f" stroke="url(#jg)" strokeWidth="2.5"/>
+        <rect x="10" y="10" width="70" height="70" rx="8" fill="none" stroke="#ec489933" strokeWidth="1"/>
+        <text x="14" y="26" fontSize="14" fontWeight="900" fill="url(#jg)" fontFamily="Outfit,sans-serif">J</text>
+        <text x="76" y="80" fontSize="14" fontWeight="900" fill="url(#jg)" fontFamily="Outfit,sans-serif" textAnchor="middle" transform="rotate(180 76 76)">J</text>
+        <text x="45" y="64" textAnchor="middle" fontSize="52" fontWeight="900" fill="url(#jg)" fontFamily="Outfit,sans-serif">J</text>
+        <line x1="10" y1="30" x2="80" y2="30" stroke="#ec489922" strokeWidth="0.8"/>
+        <line x1="10" y1="60" x2="80" y2="60" stroke="#ec489922" strokeWidth="0.8"/>
       </svg>
     </div>
   );
@@ -392,10 +515,18 @@ function SymbolArt({ id, size = 90, glowing = false }: { id: string; size?: numb
   if (id === 'TEN') return (
     <div style={wrap}>
       <svg width={s} height={s} viewBox="0 0 90 90">
-        <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#94a3b8"/><stop offset="100%" stopColor="#475569"/></linearGradient></defs>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="url(#tg)" opacity="0.12"/>
-        <rect x="5" y="5" width="80" height="80" rx="8" fill="none" stroke="url(#tg)" strokeWidth="2.5"/>
-        <text x="45" y="62" textAnchor="middle" fontSize="46" fontWeight="900" fill="url(#tg)" fontFamily="Outfit,sans-serif">10</text>
+        <defs>
+          <linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#cbd5e1"/><stop offset="50%" stopColor="#94a3b8"/><stop offset="100%" stopColor="#334155"/>
+          </linearGradient>
+        </defs>
+        <rect x="6" y="6" width="78" height="78" rx="10" fill="#0a000f" stroke="url(#tg)" strokeWidth="2.5"/>
+        <rect x="10" y="10" width="70" height="70" rx="8" fill="none" stroke="#94a3b833" strokeWidth="1"/>
+        <text x="14" y="26" fontSize="12" fontWeight="900" fill="url(#tg)" fontFamily="Outfit,sans-serif">10</text>
+        <text x="76" y="80" fontSize="12" fontWeight="900" fill="url(#tg)" fontFamily="Outfit,sans-serif" textAnchor="middle" transform="rotate(180 76 76)">10</text>
+        <text x="45" y="64" textAnchor="middle" fontSize="46" fontWeight="900" fill="url(#tg)" fontFamily="Outfit,sans-serif">10</text>
+        <line x1="10" y1="30" x2="80" y2="30" stroke="#94a3b822" strokeWidth="0.8"/>
+        <line x1="10" y1="60" x2="80" y2="60" stroke="#94a3b822" strokeWidth="0.8"/>
       </svg>
     </div>
   );
@@ -412,10 +543,10 @@ function ParticleSystem({ active, tier, centerX, centerY }: { active:boolean; ti
 
   useEffect(() => {
     if (!active) { setParticles([]); return; }
-    const count = tier==='mega'?200:tier==='big'?120:tier==='medium'?60:30;
-    const colors = tier==='mega'?['#f4c430','#ffdd00','#ff8c00','#ff2d78','#00d4c8']:tier==='big'?['#f4c430','#ffdd00','#ff8c00','#fbbf24']:tier==='medium'?['#00d4c8','#2dd4bf','#a78bfa']:['#fff','#f0e8ff','#c0c8d8'];
+    const count = tier==='mega'?180:tier==='big'?100:tier==='medium'?50:25;
+    const colors = tier==='mega'?['#f4c430','#ffe066','#c8921a','#ff2068','#00c8be']:tier==='big'?['#f4c430','#ffe066','#c8921a','#fbbf24']:tier==='medium'?['#00c8be','#6ee7b7','#a78bfa']:['#fff','#f0eaf8','#9daab8'];
     const shapes = ['circle','square','star'];
-    setParticles(Array.from({length:count},(_,) => {
+    setParticles(Array.from({length:count},() => {
       const angle = (Math.random()*360)*Math.PI/180;
       const speed = 3+Math.random()*8;
       return { id:nextId.current++, x:centerX+(Math.random()-0.5)*60, y:centerY+(Math.random()-0.5)*60, vx:Math.cos(angle)*speed*(0.5+Math.random()), vy:Math.sin(angle)*speed-5-Math.random()*5, rot:Math.random()*360, vrot:(Math.random()-0.5)*15, color:colors[Math.floor(Math.random()*colors.length)]!, size:6+Math.random()*10, life:1, maxLife:60+Math.floor(Math.random()*80), shape:shapes[Math.floor(Math.random()*shapes.length)]! };
@@ -443,13 +574,18 @@ function ParticleSystem({ active, tier, centerX, centerY }: { active:boolean; ti
   );
 }
 
-/* ─── REEL STRIP ─────────────────────────────────────────────────────────────── */
-const PRE_LEN = 28;    // random symbols before the result window
+/* ─── REEL STRIP (TOP-TO-BOTTOM) ─────────────────────────────────────────────── */
+// Strip layout: [buf(3), result(3), pre(40)] = 46 symbols = 4600px
+// translateY INCREASES during spin → earlier strip indices enter from top → top-to-bottom
+const BUF      = 3;
+const PRE_LEN  = 40;
 const SYMBOL_H = 100;
-const VISIBLE = 3;
-const FINAL_Y = -(PRE_LEN * SYMBOL_H);           // -2800: where result is visible
-const SNAP_Y  = -(PRE_LEN - 5) * SYMBOL_H;       // -2300: snap point before deceleration
-const LOOP_PT =  -(PRE_LEN - 6) * SYMBOL_H;      // -2200: RAF wraps here, never reaches result
+const VISIBLE  = 3;
+const FINAL_Y  = -(BUF * SYMBOL_H);                                     // -300  (result visible)
+const LOOP_PT  = -(BUF + VISIBLE) * SYMBOL_H;                           // -600  (loop threshold)
+const LOOP_PERIOD = PRE_LEN * SYMBOL_H - SYMBOL_H;                      // 3900
+const SNAP_Y   = -(BUF + VISIBLE + 1) * SYMBOL_H;                      // -700  (invisible snap)
+const SPIN_START = -((BUF + PRE_LEN - 1) * SYMBOL_H);                  // -4200 (start deep in pre)
 
 function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winningRows }: {
   reelSymbols: string[]; result: string[]; isSpinning: boolean; stopDelay: number;
@@ -464,12 +600,11 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
   const onStopped$ = useRef(onStopped);
   onStopped$.current = onStopped;
 
-  // Rebuild strip whenever result changes — random pre-section + result at tail
+  // Strip: [buf(3 random), result(3), pre(40 random)]
   const strip = useMemo(() => {
-    const pre = Array.from({ length: PRE_LEN }, () =>
-      reelSymbols[Math.floor(Math.random() * reelSymbols.length)]!
-    );
-    return [...pre, ...result];
+    const buf = Array.from({ length: BUF }, () => reelSymbols[Math.floor(Math.random() * reelSymbols.length)]!);
+    const pre = Array.from({ length: PRE_LEN }, () => reelSymbols[Math.floor(Math.random() * reelSymbols.length)]!);
+    return [...buf, ...result, ...pre];
   }, [result, reelSymbols]);
 
   const applyPos = (y: number, transition = 'none', filter = '') => {
@@ -492,15 +627,15 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
 
     phaseRef.current = 'spinning';
     setLanded(false);
-    applyPos(0, 'none', 'blur(3px) brightness(1.15)');
+    applyPos(SPIN_START, 'none', 'blur(3px) brightness(1.15)');
 
-    const SPEED = 18; // px per animation frame
+    const SPEED = 18; // px/frame positive = strip moves down = symbols enter from top
 
     const tick = () => {
       if (phaseRef.current !== 'spinning') return;
-      const next = posRef.current - SPEED;
-      // Loop within the pre-spin zone; never reach FINAL_Y during fast spin
-      applyPos(next < LOOP_PT ? next - LOOP_PT : next, 'none');
+      const next = posRef.current + SPEED;
+      // Loop: when approaching result (LOOP_PT = -600), wrap back deep into pre-section
+      applyPos(next > LOOP_PT ? next - LOOP_PERIOD : next, 'none');
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -509,10 +644,10 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
       phaseRef.current = 'landing';
       cancelAnimationFrame(rafRef.current);
 
-      // Invisible snap (still blurred) to a position 5 symbols above result
-      applyPos(SNAP_Y, 'none', 'blur(2px) brightness(1.1)');
+      // Invisible snap to a position just above result (still blurred)
+      applyPos(SNAP_Y, 'none', 'blur(2px) brightness(1.08)');
 
-      // Two rAF to flush snap before starting transition
+      // Two rAF to flush snap before starting CSS transition
       requestAnimationFrame(() => requestAnimationFrame(() => {
         applyPos(FINAL_Y,
           'transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.32s ease-out',
@@ -520,7 +655,7 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
         );
 
         setTimeout(() => {
-          // Small overshoot bounce
+          // Slight overshoot bounce
           if (stripRef.current) {
             stripRef.current.style.transition = 'transform 0.15s cubic-bezier(0.34,1.56,0.64,1)';
             stripRef.current.style.transform  = `translateY(${FINAL_Y + 9}px)`;
@@ -547,24 +682,25 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
   return (
     <div style={{
       width:100, height:VISIBLE*SYMBOL_H, overflow:'hidden', position:'relative',
-      background:`linear-gradient(180deg,${C.reelBg} 0%,#130a2a 50%,${C.reelBg} 100%)`,
+      background:`linear-gradient(180deg,${C.reelBg} 0%,#0a0018 50%,${C.reelBg} 100%)`,
       borderRadius:8,
-      boxShadow:'inset 0 0 30px #00000088, inset 0 2px 0 #7c3aed44, inset 0 -2px 0 #7c3aed44',
+      boxShadow:'inset 0 0 24px #00000099, inset 0 2px 0 #d4a84822, inset 0 -2px 0 #d4a84822',
     }}>
-      {/* shadow masks for depth */}
-      <div style={{position:'absolute',top:0,left:0,right:0,height:32,background:'linear-gradient(180deg,#0a001099,transparent)',zIndex:10,pointerEvents:'none'}}/>
-      <div style={{position:'absolute',bottom:0,left:0,right:0,height:32,background:'linear-gradient(0deg,#0a001099,transparent)',zIndex:10,pointerEvents:'none'}}/>
+      {/* Shadow masks for depth — top and bottom fades */}
+      <div style={{position:'absolute',top:0,left:0,right:0,height:30,background:'linear-gradient(180deg,#06000ecc,transparent)',zIndex:10,pointerEvents:'none'}}/>
+      <div style={{position:'absolute',bottom:0,left:0,right:0,height:30,background:'linear-gradient(0deg,#06000ecc,transparent)',zIndex:10,pointerEvents:'none'}}/>
 
       <div ref={stripRef} style={{willChange:'transform', transform:`translateY(${FINAL_Y}px)`}}>
         {strip.map((symId, i) => {
-          const rowInResult = i - PRE_LEN;
+          // Result occupies indices BUF..BUF+VISIBLE-1
+          const rowInResult = i - BUF;
           const isWin = landed && rowInResult >= 0 && rowInResult < VISIBLE && winningRows.includes(rowInResult);
           return (
             <div key={i} style={{
               width:100, height:SYMBOL_H,
               display:'flex', alignItems:'center', justifyContent:'center',
-              borderBottom:`1px solid ${C.reelBorder}22`,
-              background: isWin ? `radial-gradient(ellipse at center,${SYMBOLS.find(s=>s.id===symId)?.glow??'#f4c430'}22,transparent 70%)` : 'transparent',
+              borderBottom:`1px solid ${C.reelBorder}`,
+              background: isWin ? `radial-gradient(ellipse at center,${SYMBOLS.find(s=>s.id===symId)?.glow??'#f4c430'}28,transparent 70%)` : 'transparent',
               transition:'background 0.3s',
             }}>
               <SymbolArt id={symId} size={88} glowing={isWin}/>
@@ -580,7 +716,7 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
 function PaylineOverlay({ winLines, active }: { winLines:number[]; active:boolean }) {
   if (!active || winLines.length === 0) return null;
   const W = 520, CW = 100, SPACE = 4, REEL_W = CW + SPACE;
-  const colors = ['#f4c430','#00d4c8','#ff2d78','#a78bfa','#00ff88','#ff8c00','#22d3ee','#f472b6'];
+  const colors = ['#f4c430','#00c8be','#ff2068','#a78bfa','#34d399','#ff8c00','#93c5fd','#f9a8d4'];
   return (
     <svg style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:20,width:'100%',height:'100%'}} viewBox={`0 0 ${W} 300`}>
       {winLines.slice(0, 5).map((li, idx) => {
@@ -588,7 +724,7 @@ function PaylineOverlay({ winLines, active }: { winLines:number[]; active:boolea
         const pts = line.map((row, col) => `${col*REEL_W+CW/2},${row*CW+CW/2}`).join(' ');
         return (
           <polyline key={li} points={pts} fill="none" stroke={colors[idx % colors.length]} strokeWidth="3"
-            strokeLinecap="round" strokeLinejoin="round" opacity="0.85"
+            strokeLinecap="round" strokeLinejoin="round" opacity="0.9"
             strokeDasharray="800" strokeDashoffset="800"
             style={{animation:`paylineTrace 0.6s ${idx*0.12}s ease-out forwards`}}/>
         );
@@ -599,10 +735,10 @@ function PaylineOverlay({ winLines, active }: { winLines:number[]; active:boolea
 
 /* ─── STAR FIELD ─────────────────────────────────────────────────────────────── */
 function StarField() {
-  const stars = useMemo(() => Array.from({length:80},(_,i)=>({
+  const stars = useMemo(() => Array.from({length:60},(_,i)=>({
     id:i, x:Math.random()*100, y:Math.random()*100,
-    size:0.5+Math.random()*2.5, dur:8+Math.random()*20, delay:-Math.random()*20,
-    sx:`${(Math.random()-0.5)*60}px`, so:0.2+Math.random()*0.8,
+    size:0.5+Math.random()*2, dur:10+Math.random()*22, delay:-Math.random()*22,
+    sx:`${(Math.random()-0.5)*50}px`, so:0.15+Math.random()*0.7,
   })), []);
   return (
     <div style={{position:'fixed',inset:0,overflow:'hidden',pointerEvents:'none',zIndex:0}}>
@@ -615,22 +751,22 @@ function StarField() {
 
 /* ─── BIG WIN OVERLAY ────────────────────────────────────────────────────────── */
 const WIN_TIER_CFG: Record<string,{label:string;grad:string;glow:string;bg:string}> = {
-  mega:    { label:'MEGA WIN',  grad:'linear-gradient(135deg,#ff2d78,#f4c430,#00d4c8,#ff2d78)', glow:'#ff2d78', bg:'radial-gradient(ellipse at center,#2d0050dd,#0a001099)' },
-  epic:    { label:'EPIC WIN',  grad:'linear-gradient(135deg,#a855f7,#f4c430,#00d4c8,#a855f7)', glow:'#a855f7', bg:'radial-gradient(ellipse at center,#1a0040dd,#0a001099)' },
-  big:     { label:'BIG WIN',   grad:'linear-gradient(135deg,#f4c430,#ffdd00,#ff8c00,#f4c430)', glow:'#f4c430', bg:'radial-gradient(ellipse at center,#1a0035cc,#0a001099)' },
-  jackpot: { label:'JACKPOT!',  grad:'linear-gradient(135deg,#ff2d78,#f4c430,#00d4c8,#ff2d78)', glow:'#ffdd00', bg:'radial-gradient(ellipse at center,#3d0070ee,#0a001099)' },
+  mega:    { label:'MEGA WIN',  grad:'linear-gradient(135deg,#ff2068,#f4c430,#00c8be,#ff2068)', glow:'#ff2068', bg:'radial-gradient(ellipse at center,#1a0020dd,#06000e99)' },
+  epic:    { label:'EPIC WIN',  grad:'linear-gradient(135deg,#a855f7,#f4c430,#00c8be,#a855f7)', glow:'#a855f7', bg:'radial-gradient(ellipse at center,#12001add,#06000e99)' },
+  big:     { label:'BIG WIN',   grad:'linear-gradient(135deg,#f4c430,#ffe066,#c8921a,#f4c430)', glow:'#f4c430', bg:'radial-gradient(ellipse at center,#150020cc,#06000e99)' },
+  jackpot: { label:'JACKPOT!',  grad:'linear-gradient(135deg,#ff2068,#f4c430,#00c8be,#ff2068)', glow:'#ffe066', bg:'radial-gradient(ellipse at center,#200040ee,#06000e99)' },
 };
 function BigWinOverlay({ tier, amount, onClose }: { tier:string; amount:number; onClose:()=>void }) {
   const cfg = WIN_TIER_CFG[tier] ?? WIN_TIER_CFG['big']!;
   return (
-    <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:9000,background:cfg.bg,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',cursor:'pointer',backdropFilter:'blur(4px)'}}>
-      <div style={{fontSize:'clamp(36px,7vw,82px)',fontWeight:900,fontFamily:'Outfit,sans-serif',background:cfg.grad,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',backgroundSize:'200% 200%',animation:'bigWinText 0.8s cubic-bezier(0.34,1.56,0.64,1) both, logoShimmer 2s linear infinite',textAlign:'center',filter:`drop-shadow(0 0 30px ${cfg.glow})`}}>
+    <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:9000,background:cfg.bg,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',cursor:'pointer',backdropFilter:'blur(6px)'}}>
+      <div style={{fontSize:'clamp(36px,7vw,82px)',fontWeight:900,fontFamily:'Outfit,sans-serif',background:cfg.grad,WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',backgroundSize:'200% 200%',animation:'bigWinText 0.8s cubic-bezier(0.34,1.56,0.64,1) both, logoShimmer 2s linear infinite',textAlign:'center',filter:`drop-shadow(0 0 28px ${cfg.glow})`}}>
         {cfg.label}
       </div>
-      <div style={{fontSize:'clamp(24px,5vw,60px)',fontWeight:900,fontFamily:'Outfit,sans-serif',color:'#f4c430',marginTop:16,animation:'winAmount 0.6s 0.4s both',textShadow:`0 0 30px #f4c430, 0 0 60px ${cfg.glow}`}}>
+      <div style={{fontSize:'clamp(24px,5vw,60px)',fontWeight:900,fontFamily:'Outfit,sans-serif',color:C.goldBright,marginTop:16,animation:'winAmount 0.6s 0.4s both',textShadow:`0 0 28px ${C.goldBright}, 0 0 56px ${cfg.glow}`}}>
         +{amount.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2})}
       </div>
-      <div style={{color:C.textDim,marginTop:24,fontSize:14,fontFamily:'Outfit,sans-serif'}}>Tap to continue</div>
+      <div style={{color:C.textDim,marginTop:24,fontSize:14,fontFamily:'Outfit,sans-serif',letterSpacing:2}}>TAP TO CONTINUE</div>
     </div>
   );
 }
@@ -641,32 +777,32 @@ const soundEngine = new SoundEngine();
 
 /* ─── MAIN GAME ──────────────────────────────────────────────────────────────── */
 export default function NeonPalacePage() {
-  const [balance, setBalance]       = useState(1000);
-  const [bet, setBet]               = useState(1);
-  const [betIdx, setBetIdx]         = useState(2);
-  const [spinning, setSpinning]     = useState(false);
+  const [balance, setBalance]         = useState(1000);
+  const [bet, setBet]                 = useState(1);
+  const [betIdx, setBetIdx]           = useState(2);
+  const [spinning, setSpinning]       = useState(false);
   const [reelResults, setReelResults] = useState<string[][]>([
     ['ACE','KING','QUEEN'],['ZEUS','POSEIDON','ATHENA'],['KING','ACE','JACK'],
     ['QUEEN','TEN','KING'],['JACK','ACE','POSEIDON'],
   ]);
-  const [winData, setWinData]       = useState<{payout:number;winLines:number[];winTier:string}|null>(null);
-  const [showWin, setShowWin]       = useState(false);
+  const [winData, setWinData]         = useState<{payout:number;winLines:number[];winTier:string}|null>(null);
+  const [showWin, setShowWin]         = useState(false);
   const [displayPayout, setDisplayPayout] = useState(0);
-  const [particles, setParticles]   = useState(false);
-  const [bigWin, setBigWin]         = useState(false);
-  const [freeSpins, setFreeSpins]   = useState(0);
-  const [jackpot, setJackpot]       = useState(47382.50);
-  const [volume, setVolume]         = useState(0.6);
-  const [showVolume, setShowVolume] = useState(false);
-  const [autoSpin, setAutoSpin]     = useState(false);
-  const [turbo, setTurbo]           = useState(false);
-  const [history, setHistory]       = useState<{payout:number;tier:string;bet:number}[]>([]);
-  const [winCount, setWinCount]     = useState(0);
+  const [particles, setParticles]     = useState(false);
+  const [bigWin, setBigWin]           = useState(false);
+  const [freeSpins, setFreeSpins]     = useState(0);
+  const [jackpot, setJackpot]         = useState(47382.50);
+  const [volume, setVolume]           = useState(0.6);
+  const [showVolume, setShowVolume]   = useState(false);
+  const [autoSpin, setAutoSpin]       = useState(false);
+  const [turbo, setTurbo]             = useState(false);
+  const [history, setHistory]         = useState<{payout:number;tier:string;bet:number}[]>([]);
+  const [winCount, setWinCount]       = useState(0);
   const [showPaytable, setShowPaytable] = useState(false);
   const [pendingResult, setPendingResult] = useState<string[][]|null>(null);
-  const [apiMode, setApiMode]       = useState(false);
+  const [apiMode, setApiMode]         = useState(false);
 
-  // Refs for callbacks — avoids stale closures
+  // Refs for stable callbacks — avoids stale closures
   const tokenRef          = useRef<string|null>(null);
   const pendingServerWin  = useRef<{payout:number;winLines:number[];winTier:string;freeSpins:number}|null>(null);
   const soundInit         = useRef(false);
@@ -679,13 +815,12 @@ export default function NeonPalacePage() {
   const turboRef          = useRef(turbo);
   const freeSpinsRef      = useRef(freeSpins);
 
-  // Keep refs in sync with state
-  useEffect(() => { betRef.current = bet; },           [bet]);
-  useEffect(() => { balanceRef.current = balance; },   [balance]);
-  useEffect(() => { turboRef.current = turbo; },       [turbo]);
+  useEffect(() => { betRef.current = bet; },            [bet]);
+  useEffect(() => { balanceRef.current = balance; },    [balance]);
+  useEffect(() => { turboRef.current = turbo; },        [turbo]);
   useEffect(() => { freeSpinsRef.current = freeSpins; },[freeSpins]);
-  useEffect(() => { autoRef.current = autoSpin; },     [autoSpin]);
-  useEffect(() => { soundEngine.setVolume(volume); },  [volume]);
+  useEffect(() => { autoRef.current = autoSpin; },      [autoSpin]);
+  useEffect(() => { soundEngine.setVolume(volume); },   [volume]);
 
   // Jackpot ticker
   useEffect(() => {
@@ -769,6 +904,7 @@ export default function NeonPalacePage() {
 
     initSound();
     soundEngine.playSpin();
+    // Deduct bet immediately for correct accounting (server will be source of truth for final balance)
     if (!isFree) setBalance(b => parseFloat((b - betRef.current).toFixed(2)));
 
     setShowWin(false);
@@ -801,11 +937,10 @@ export default function NeonPalacePage() {
           freeSpins: res.freeSpinsAwarded,
         };
         if (jackpotHit) setJackpot(2500);
-      } catch { /* use local result */ }
+      } catch { /* keep local result */ }
     }
   }, [initSound, apiMode, jackpot]);
 
-  // Keep a stable ref to handleSpin so auto-spin can call the latest version
   const handleSpinRef = useRef(handleSpin);
   handleSpinRef.current = handleSpin;
 
@@ -831,14 +966,15 @@ export default function NeonPalacePage() {
     return () => clearTimeout(timer);
   }, [spinning]);
 
-  const getResult    = (col: number) => (pendingResult ?? reelResults)[col]!;
-  const getWinRows   = (col: number): number[] => {
+  const getResult  = (col: number) => (pendingResult ?? reelResults)[col]!;
+  const getWinRows = (col: number): number[] => {
     if (!winData || !showWin) return [];
     return [...new Set(winData.winLines.map(li => PAYLINES[li]![col]!))];
   };
 
   const isFreeSpinBg = freeSpins > 0;
   const isBigWin     = bigWin && winData && ['big','epic','mega','jackpot'].includes(winData.winTier);
+  const multiplier   = winData && bet > 0 ? (winData.payout / bet) : 0;
 
   return (
     <>
@@ -854,12 +990,10 @@ export default function NeonPalacePage() {
       <div style={{
         minHeight:'100vh', position:'relative', zIndex:1,
         background: isFreeSpinBg
-          ? 'linear-gradient(135deg,#1a0d00,#0d1a00,#001a1a,#1a0d00)'
-          : 'radial-gradient(ellipse at 50% 0%,#2a0060 0%,#0a0010 60%)',
+          ? 'linear-gradient(135deg,#1a0d00,#0d1500,#001a14,#1a0d00)'
+          : 'radial-gradient(ellipse at 50% 0%,#1a0030 0%,#06000e 65%)',
         backgroundSize: isFreeSpinBg ? '400% 400%' : 'auto',
-        animation: isFreeSpinBg
-          ? 'freeSpinBg 3s ease infinite'
-          : (isBigWin ? 'screenShake 0.6s ease-out' : 'none'),
+        animation: isFreeSpinBg ? 'freeSpinBg 3s ease infinite' : (isBigWin ? 'screenShake 0.6s ease-out' : 'none'),
         display:'flex', flexDirection:'column', alignItems:'center',
         padding:'12px 16px 24px', gap:12,
         fontFamily:'Outfit,sans-serif',
@@ -868,13 +1002,13 @@ export default function NeonPalacePage() {
         {/* HEADER */}
         <div style={{width:'100%',maxWidth:800,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0'}}>
           <div style={{lineHeight:1}}>
-            <span style={{fontSize:'clamp(18px,3vw,28px)',fontWeight:900,background:'linear-gradient(90deg,#f4c430,#ffdd00,#ff8c00,#f4c430)',backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',animation:'logoShimmer 3s linear infinite',letterSpacing:1,display:'block'}}>NEON PALACE</span>
-            <span style={{fontSize:'clamp(8px,1.5vw,11px)',color:C.textDim,letterSpacing:3,textTransform:'uppercase',fontWeight:600}}>Gods of Fortune</span>
+            <span style={{fontSize:'clamp(18px,3vw,28px)',fontWeight:900,background:'linear-gradient(90deg,#8a5e10,#f4c430,#ffe066,#d4a030,#8a5e10)',backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',animation:'logoShimmer 3s linear infinite',letterSpacing:1,display:'block'}}>NEON PALACE</span>
+            <span style={{fontSize:'clamp(8px,1.5vw,10px)',color:C.textDim,letterSpacing:4,textTransform:'uppercase',fontWeight:700}}>Premium Slots</span>
           </div>
-          <div style={{display:'flex',alignItems:'center',gap:12}}>
-            <div style={{background:C.card,border:`1px solid ${C.cardBorder}`,borderRadius:10,padding:'6px 16px',textAlign:'center'}}>
-              <div style={{fontSize:10,color:C.textDim,textTransform:'uppercase',letterSpacing:2,fontWeight:600}}>Balance</div>
-              <div style={{fontSize:22,fontWeight:900,color:C.gold,lineHeight:1.1,textShadow:`0 0 10px ${C.gold}88`}}>${balance.toFixed(2)}</div>
+          <div style={{display:'flex',alignItems:'center',gap:10}}>
+            <div style={{background:'linear-gradient(135deg,#100020,#1a002a)',border:`1px solid #d4a84844`,borderRadius:10,padding:'6px 18px',textAlign:'center',boxShadow:'0 0 16px #d4a84820'}}>
+              <div style={{fontSize:9,color:C.textDim,textTransform:'uppercase',letterSpacing:3,fontWeight:700}}>Balance</div>
+              <div style={{fontSize:22,fontWeight:900,color:C.goldBright,lineHeight:1.1,textShadow:`0 0 12px ${C.gold}88`}}>${balance.toFixed(2)}</div>
             </div>
             <button onClick={() => { initSound(); setShowVolume(v => !v); soundEngine.playButtonClick(); }}
               style={{width:38,height:38,borderRadius:10,border:`1px solid ${C.cardBorder}`,background:C.card,color:C.text,cursor:'pointer',fontSize:16,display:'flex',alignItems:'center',justifyContent:'center'}}>
@@ -890,61 +1024,72 @@ export default function NeonPalacePage() {
         {showVolume && (
           <div style={{position:'absolute',top:80,right:16,zIndex:100,background:C.card,border:`1px solid ${C.cardBorder}`,borderRadius:12,padding:'12px 16px',display:'flex',flexDirection:'column',gap:8,animation:'fadeInUp 0.2s ease'}}>
             <span style={{fontSize:11,color:C.textDim,textTransform:'uppercase',letterSpacing:2}}>Volume</span>
-            <input type="range" min="0" max="1" step="0.05" value={volume} onChange={e => { const v = parseFloat(e.target.value); setVolume(v); soundEngine.setVolume(v); }} style={{width:120,accentColor:C.gold}}/>
+            <input type="range" min="0" max="1" step="0.05" value={volume} onChange={e => { const v = parseFloat(e.target.value); setVolume(v); soundEngine.setVolume(v); }} style={{width:120,accentColor:C.goldBright}}/>
           </div>
         )}
 
-        {/* JACKPOT */}
-        <div style={{width:'100%',maxWidth:800,background:`linear-gradient(135deg,${C.card},#2d0a50)`,border:'1px solid #7c3aed66',borderRadius:14,padding:'10px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',boxShadow:'0 0 30px #7c3aed33'}}>
-          <span style={{fontSize:11,color:C.textDim,textTransform:'uppercase',letterSpacing:3,fontWeight:700}}>Progressive Jackpot</span>
-          <span style={{fontSize:'clamp(20px,3.5vw,32px)',fontWeight:900,color:C.gold,textShadow:`0 0 20px ${C.gold}, 0 0 40px #ff8c00`,animation:'jackpotTick 2s ease-in-out infinite',fontVariantNumeric:'tabular-nums'}}>
+        {/* JACKPOT BAR */}
+        <div style={{width:'100%',maxWidth:800,background:'linear-gradient(135deg,#0e001a,#180028)',border:`1px solid ${C.gold}44`,borderRadius:14,padding:'10px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',boxShadow:`0 0 24px ${C.gold}18`}}>
+          <span style={{fontSize:10,color:C.textDim,textTransform:'uppercase',letterSpacing:3,fontWeight:700}}>Progressive Jackpot</span>
+          <span style={{fontSize:'clamp(20px,3.5vw,32px)',fontWeight:900,color:C.goldBright,textShadow:`0 0 16px ${C.gold}, 0 0 32px #c8921a`,animation:'jackpotTick 2s ease-in-out infinite',fontVariantNumeric:'tabular-nums'}}>
             ${jackpot.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
           </span>
-          <div style={{display:'flex',gap:6}}>
+          <div style={{display:'flex',gap:5}}>
             {[...Array(5)].map((_, i) => (
-              <div key={i} style={{width:8,height:8,borderRadius:'50%',background:i<3?C.gold:'#3a1a6e',boxShadow:i<3?`0 0 8px ${C.gold}`:'none'}}/>
+              <div key={i} style={{width:7,height:7,borderRadius:'50%',background:i<3?C.goldBright:'#260840',boxShadow:i<3?`0 0 6px ${C.gold}`:'none'}}/>
             ))}
           </div>
         </div>
 
         {freeSpins > 0 && (
-          <div style={{background:'linear-gradient(135deg,#f4c430,#ff8c00)',borderRadius:20,padding:'6px 20px',fontSize:14,fontWeight:800,color:'#0a0010',boxShadow:`0 0 20px ${C.gold}aa`,animation:'wiggle 0.5s ease-in-out infinite'}}>
+          <div style={{background:'linear-gradient(135deg,#c8921a,#f4c430)',borderRadius:20,padding:'6px 20px',fontSize:14,fontWeight:800,color:'#06000e',boxShadow:`0 0 18px ${C.gold}aa`,animation:'wiggle 0.5s ease-in-out infinite'}}>
             FREE SPINS: {freeSpins} REMAINING
           </div>
         )}
 
         {/* REEL CABINET */}
         <div className="np-reel-outer" style={{width:'100%',maxWidth:800,position:'relative'}}>
-          {/* Outer cabinet frame */}
+          {/* Dark luxury cabinet outer frame */}
           <div style={{
-            background:'linear-gradient(180deg,#2a0060,#1a0040)',
-            border:`2px solid ${C.reelBorder}`,borderRadius:16,
-            padding:'16px 12px',
-            boxShadow:`0 0 50px #7c3aed44, inset 0 0 40px #00000088`,
+            background:'linear-gradient(180deg,#0e0018 0%,#06000e 100%)',
+            border:`2px solid ${C.gold}66`,
+            borderRadius:18,
+            padding:'18px 14px 14px',
+            boxShadow:`0 0 40px #00000088, 0 0 0 1px #d4a84822, inset 0 0 30px #00000099`,
             position:'relative',overflow:'hidden',
           }}>
-            {/* Gold corner ornaments */}
-            {[0,1,2,3].map(i => (
-              <div key={i} style={{position:'absolute',top:i<2?8:'auto',bottom:i>=2?8:'auto',left:i%2===0?8:'auto',right:i%2===1?8:'auto',width:20,height:20,borderTop:i<2?`2px solid ${C.gold}`:'none',borderBottom:i>=2?`2px solid ${C.gold}`:'none',borderLeft:i%2===0?`2px solid ${C.gold}`:'none',borderRight:i%2===1?`2px solid ${C.gold}`:'none'}}/>
+            {/* Gold corner ornaments — hardware feel */}
+            {([
+              [8,8,true,false,true,false],
+              [8,8,true,false,false,true],
+              [8,8,false,true,true,false],
+              [8,8,false,true,false,true],
+            ] as [number,number,boolean,boolean,boolean,boolean][]).map(([t,r,isTop,isBot,isLeft,isRight],i) => (
+              <div key={i} style={{position:'absolute',top:isTop?t:'auto',bottom:isBot?t:'auto',left:isLeft?r:'auto',right:isRight?r:'auto',width:22,height:22,borderTop:isTop?`2px solid ${C.gold}`:'none',borderBottom:isBot?`2px solid ${C.gold}`:'none',borderLeft:isLeft?`2px solid ${C.gold}`:'none',borderRight:isRight?`2px solid ${C.gold}`:'none',borderRadius:isTop&&isLeft?'4px 0 0 0':isTop&&isRight?'0 4px 0 0':isBot&&isLeft?'0 0 0 4px':'0 0 4px 0'}}/>
             ))}
+
+            {/* Cabinet name plate */}
+            <div style={{textAlign:'center',marginBottom:12,letterSpacing:6,fontSize:10,fontWeight:800,color:C.gold,textTransform:'uppercase',textShadow:`0 0 8px ${C.gold}88`,opacity:0.7}}>
+              ◆ NEON PALACE ◆
+            </div>
 
             {/* Gold reel window frame */}
             <div style={{
-              border:`3px solid ${C.gold}`,
+              border:`2px solid ${C.gold}`,
               borderRadius:12,
-              padding:2,
-              boxShadow:`0 0 20px ${C.gold}44, inset 0 0 20px #00000066`,
-              position:'relative',
+              padding:3,
+              boxShadow:`0 0 16px ${C.gold}33, inset 0 0 16px #00000066, 0 0 0 1px #8a5e1033`,
+              background:'#0a0015',
             }}>
-              <div style={{display:'flex',gap:4,justifyContent:'center',position:'relative',height:VISIBLE*SYMBOL_H}}>
+              <div style={{display:'flex',gap:3,justifyContent:'center',position:'relative',height:VISIBLE*SYMBOL_H}}>
                 <PaylineOverlay winLines={winData?.winLines ?? []} active={showWin}/>
                 {[0,1,2,3,4].map(col => (
-                  <div key={col} style={{display:'flex',flexDirection:'column',border:`1px solid ${C.reelBorder}`,borderRadius:10,overflow:'hidden',boxShadow:'0 0 15px #7c3aed22'}}>
+                  <div key={col} style={{display:'flex',flexDirection:'column',border:`1px solid ${C.reelBorder}`,borderRadius:8,overflow:'hidden',background:C.reelBg}}>
                     <ReelStrip
                       reelSymbols={REEL_SYMBOLS}
                       result={getResult(col)}
                       isSpinning={spinning}
-                      stopDelay={(turbo?400:800)+col*(turbo?150:220)}
+                      stopDelay={(turbo?350:750)+col*(turbo?130:200)}
                       onStopped={() => handleReelStop(col)}
                       winningRows={getWinRows(col)}
                     />
@@ -952,53 +1097,70 @@ export default function NeonPalacePage() {
                 ))}
               </div>
             </div>
-          </div>
 
-          <div style={{display:'flex',gap:4,justifyContent:'center',marginTop:6}}>
-            {[0,1,2,3,4].map(i => (
-              <div key={i} style={{width:100,textAlign:'center',fontSize:9,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>Reel {i+1}</div>
-            ))}
+            {/* Reel labels */}
+            <div style={{display:'flex',gap:3,justifyContent:'center',marginTop:8}}>
+              {[0,1,2,3,4].map(i => (
+                <div key={i} style={{width:100,textAlign:'center',fontSize:8,color:`${C.gold}66`,letterSpacing:3,textTransform:'uppercase',fontWeight:700}}>Reel {i+1}</div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* WIN DISPLAY */}
+        {/* WIN BREAKDOWN PANEL */}
         {showWin && winData && winData.payout > 0 && (
           <div style={{
-            background:`linear-gradient(135deg,${C.card},#3d1060)`,
-            border:`1px solid ${C.gold}66`,borderRadius:14,
-            padding:'12px 32px',textAlign:'center',
-            boxShadow:`0 0 30px ${C.gold}44`,
+            width:'100%',maxWidth:800,
+            background:'linear-gradient(135deg,#0e0018,#180028)',
+            border:`1px solid ${C.gold}55`,borderRadius:14,
+            padding:'14px 24px',textAlign:'center',
+            boxShadow:`0 0 24px ${C.gold}33`,
             animation:'winAmount 0.5s cubic-bezier(0.34,1.56,0.64,1) both',
           }}>
-            <div style={{fontSize:11,color:C.textDim,textTransform:'uppercase',letterSpacing:3,fontWeight:700}}>
-              {winData.winTier==='scatter'?'FREE SPINS TRIGGERED!':winData.winLines.length>1?`${winData.winLines.length} WINNING LINES`:'WIN'}
+            <div style={{fontSize:10,color:C.textDim,textTransform:'uppercase',letterSpacing:3,fontWeight:700,marginBottom:6}}>
+              {winData.winTier==='scatter' ? 'FREE SPINS TRIGGERED' : winData.winLines.length > 1 ? `${winData.winLines.length} WINNING LINES` : 'WIN'}
             </div>
-            <div style={{fontSize:'clamp(28px,5vw,48px)',fontWeight:900,color:C.gold,textShadow:`0 0 20px ${C.gold}, 0 0 40px #ff8c00`,lineHeight:1.1}}>
+            <div style={{fontSize:'clamp(28px,5vw,50px)',fontWeight:900,color:C.goldBright,textShadow:`0 0 18px ${C.gold}, 0 0 36px #c8921a`,lineHeight:1.1}}>
               +${displayPayout.toFixed(2)}
             </div>
-            {bet > 0 && <div style={{fontSize:11,color:C.teal,fontWeight:700,letterSpacing:1}}>x{(winData.payout/bet).toFixed(1)} MULTIPLIER</div>}
+            <div style={{display:'flex',justifyContent:'center',gap:24,marginTop:10}}>
+              <div style={{textAlign:'center'}}>
+                <div style={{fontSize:9,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>BET</div>
+                <div style={{fontSize:14,fontWeight:800,color:C.chrome}}>${bet.toFixed(2)}</div>
+              </div>
+              <div style={{width:1,background:C.cardBorder}}/>
+              <div style={{textAlign:'center'}}>
+                <div style={{fontSize:9,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>MULTIPLIER</div>
+                <div style={{fontSize:14,fontWeight:800,color:C.teal}}>x{multiplier.toFixed(1)}</div>
+              </div>
+              <div style={{width:1,background:C.cardBorder}}/>
+              <div style={{textAlign:'center'}}>
+                <div style={{fontSize:9,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>PAYOUT</div>
+                <div style={{fontSize:14,fontWeight:800,color:C.goldBright}}>${winData.payout.toFixed(2)}</div>
+              </div>
+            </div>
           </div>
         )}
 
         {/* CONTROL PANEL */}
-        <div style={{width:'100%',maxWidth:800,background:`linear-gradient(180deg,${C.card},${C.darkPurple})`,border:`1px solid ${C.cardBorder}`,borderRadius:16,padding:'16px 20px',boxShadow:'0 -4px 30px #7c3aed22'}}>
+        <div style={{width:'100%',maxWidth:800,background:'linear-gradient(180deg,#100020,#06000e)',border:`1px solid ${C.cardBorder}`,borderRadius:16,padding:'16px 20px',boxShadow:'0 -2px 20px #00000066'}}>
           {/* Bet row */}
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14,gap:8,flexWrap:'wrap'}}>
             <div style={{display:'flex',alignItems:'center',gap:10}}>
-              <span style={{fontSize:11,color:C.textDim,textTransform:'uppercase',letterSpacing:2,fontWeight:600}}>Bet</span>
+              <span style={{fontSize:10,color:C.textDim,textTransform:'uppercase',letterSpacing:2,fontWeight:700}}>Bet</span>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); const ni = Math.max(0,betIdx-1); setBetIdx(ni); setBet(BET_OPTIONS[ni]!); }} disabled={spinning}
-                style={{width:32,height:32,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.surface,color:C.text,cursor:'pointer',fontSize:18,fontWeight:700,opacity:spinning?.5:1}}>−</button>
-              <div style={{background:C.surface,border:`1px solid ${C.gold}66`,borderRadius:10,padding:'4px 16px',minWidth:80,textAlign:'center',color:C.gold,fontWeight:800,fontSize:18,textShadow:`0 0 8px ${C.gold}88`}}>${bet.toFixed(2)}</div>
+                style={{width:32,height:32,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.surface,color:C.text,cursor:'pointer',fontSize:18,fontWeight:700,opacity:spinning?.5:1,transition:'opacity 0.2s'}}>−</button>
+              <div style={{background:C.surface,border:`1px solid ${C.gold}55`,borderRadius:10,padding:'4px 16px',minWidth:82,textAlign:'center',color:C.goldBright,fontWeight:800,fontSize:18,textShadow:`0 0 8px ${C.gold}66`}}>${bet.toFixed(2)}</div>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); const ni = Math.min(BET_OPTIONS.length-1,betIdx+1); setBetIdx(ni); setBet(BET_OPTIONS[ni]!); }} disabled={spinning}
-                style={{width:32,height:32,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.surface,color:C.text,cursor:'pointer',fontSize:18,fontWeight:700,opacity:spinning?.5:1}}>+</button>
+                style={{width:32,height:32,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.surface,color:C.text,cursor:'pointer',fontSize:18,fontWeight:700,opacity:spinning?.5:1,transition:'opacity 0.2s'}}>+</button>
             </div>
             <div style={{display:'flex',gap:8}}>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); setAutoSpin(a => { const n = !a; autoRef.current = n; return n; }); }}
-                style={{padding:'6px 16px',borderRadius:10,border:`1px solid ${autoSpin?C.teal:C.cardBorder}`,background:autoSpin?`${C.teal}22`:C.surface,color:autoSpin?C.teal:C.textDim,cursor:'pointer',fontSize:12,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'}}>
+                style={{padding:'6px 16px',borderRadius:10,border:`1px solid ${autoSpin?C.teal:C.cardBorder}`,background:autoSpin?`${C.teal}20`:C.surface,color:autoSpin?C.teal:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'}}>
                 {autoSpin?'Stop Auto':'Auto'}
               </button>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); setTurbo(t => !t); }}
-                style={{padding:'6px 16px',borderRadius:10,border:`1px solid ${turbo?C.magenta:C.cardBorder}`,background:turbo?`${C.magenta}22`:C.surface,color:turbo?C.magenta:C.textDim,cursor:'pointer',fontSize:12,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'}}>Turbo</button>
+                style={{padding:'6px 16px',borderRadius:10,border:`1px solid ${turbo?C.magenta:C.cardBorder}`,background:turbo?`${C.magenta}20`:C.surface,color:turbo?C.magenta:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'}}>Turbo</button>
             </div>
           </div>
 
@@ -1007,21 +1169,23 @@ export default function NeonPalacePage() {
             onClick={() => { initSound(); if (!spinRef.current) effectiveSpin(); }}
             disabled={spinning}
             style={{
-              width:'100%',height:64,borderRadius:14,
-              background: spinning ? 'linear-gradient(135deg,#3a1a6e,#5b21b6)' : C.btnGrad,
-              border:`2px solid ${spinning?C.purple:C.gold}`,
-              color: spinning ? C.textDim : '#0a0010',
-              fontSize:'clamp(18px,3vw,24px)',fontWeight:900,
+              width:'100%',height:66,borderRadius:14,
+              background: spinning
+                ? 'linear-gradient(135deg,#0e0018,#180028)'
+                : C.btnGrad,
+              border: spinning ? `2px solid ${C.cardBorder}` : `2px solid ${C.gold}`,
+              color: spinning ? C.textDim : '#06000e',
+              fontSize:'clamp(18px,3vw,22px)',fontWeight:900,
               cursor: spinning ? 'not-allowed' : 'pointer',
-              letterSpacing:4,textTransform:'uppercase',
-              animation: spinning ? 'none' : 'spinButtonPulse 2s ease-in-out infinite',
+              letterSpacing:5,textTransform:'uppercase',
+              animation: spinning ? 'none' : 'spinButtonPulse 2.2s ease-in-out infinite',
               transition:'background 0.3s, color 0.3s, border-color 0.3s',
-              boxShadow: spinning ? 'none' : `0 0 30px ${C.gold}88, 0 4px 20px #00000088`,
+              boxShadow: spinning ? 'none' : `0 0 24px ${C.gold}66, 0 4px 16px #00000088, inset 0 1px 0 #ffe06666`,
             }}>
             {spinning ? (
-              <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:12}}>
+              <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:14}}>
                 <span style={{display:'inline-block',animation:'coinSpin 0.5s linear infinite'}}>◈</span>
-                SPINNING…
+                SPINNING
                 <span style={{display:'inline-block',animation:'coinSpin 0.5s linear infinite reverse'}}>◈</span>
               </span>
             ) : (
@@ -1033,15 +1197,15 @@ export default function NeonPalacePage() {
         {/* BOTTOM INFO */}
         <div style={{width:'100%',maxWidth:800,display:'flex',gap:10,flexWrap:'wrap'}}>
           <button onClick={() => { initSound(); soundEngine.playButtonClick(); setShowPaytable(p => !p); }}
-            style={{flex:1,minWidth:120,padding:'8px 12px',borderRadius:10,background:showPaytable?`${C.purple}33`:C.card,border:`1px solid ${showPaytable?C.purple:C.cardBorder}`,color:showPaytable?C.text:C.textDim,cursor:'pointer',fontSize:12,fontWeight:700,letterSpacing:1,textTransform:'uppercase'}}>Paytable</button>
+            style={{flex:1,minWidth:120,padding:'8px 12px',borderRadius:10,background:showPaytable?`${C.gold}18`:C.card,border:`1px solid ${showPaytable?C.gold:C.cardBorder}`,color:showPaytable?C.goldBright:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'}}>Paytable</button>
           <div style={{flex:1,minWidth:120,padding:'8px 12px',borderRadius:10,background:C.card,border:`1px solid ${C.cardBorder}`,color:C.textDim,fontSize:11,fontWeight:600,textAlign:'center',display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
             <span style={{color:C.teal}}>◆</span><span>{winCount} wins</span><span style={{color:C.gold}}>◆</span><span>20 lines</span>
           </div>
           <div style={{flex:2,minWidth:200,borderRadius:10,overflow:'hidden',background:C.card,border:`1px solid ${C.cardBorder}`}}>
-            <div style={{padding:'4px 10px',background:'#1a0830',borderBottom:`1px solid ${C.cardBorder}`,fontSize:9,color:C.textDim,textTransform:'uppercase',letterSpacing:2,fontWeight:700}}>Last Spins</div>
+            <div style={{padding:'4px 10px',background:'#0e0018',borderBottom:`1px solid ${C.cardBorder}`,fontSize:9,color:C.textDim,textTransform:'uppercase',letterSpacing:2,fontWeight:700}}>Last Spins</div>
             <div style={{display:'flex',gap:2,padding:'4px 6px',overflowX:'auto'}}>
               {history.slice(0,8).map((h,i)=>(
-                <div key={i} style={{flex:'0 0 auto',width:28,height:28,borderRadius:6,background:h.payout>0?(h.tier==='mega'||h.tier==='big'?`${C.gold}33`:h.tier==='medium'?`${C.teal}22`:'#ffffff11'):'#ff2d7811',border:`1px solid ${h.payout>0?(h.tier==='mega'||h.tier==='big'?C.gold:h.tier==='medium'?C.teal:'#ffffff44'):'#ff2d7844'}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,fontWeight:700,color:h.payout>0?(h.tier==='mega'||h.tier==='big'?C.gold:h.tier==='medium'?C.teal:C.textDim):'#ff2d78',animation:'historySlide 0.3s ease both'}}>
+                <div key={i} style={{flex:'0 0 auto',width:28,height:28,borderRadius:6,background:h.payout>0?(h.tier==='mega'||h.tier==='big'?`${C.gold}30`:h.tier==='medium'?`${C.teal}20`:'#ffffff0e'):'#ff206811',border:`1px solid ${h.payout>0?(h.tier==='mega'||h.tier==='big'?C.gold:h.tier==='medium'?C.teal:'#ffffff33'):'#ff206844'}`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:9,fontWeight:700,color:h.payout>0?(h.tier==='mega'||h.tier==='big'?C.goldBright:h.tier==='medium'?C.teal:C.textDim):'#ff2068',animation:'historySlide 0.3s ease both'}}>
                   {h.payout>0?`x${(h.payout/h.bet).toFixed(0)}`:'—'}
                 </div>
               ))}
@@ -1053,27 +1217,27 @@ export default function NeonPalacePage() {
         {/* PAYTABLE */}
         {showPaytable && (
           <div style={{width:'100%',maxWidth:800,background:C.card,border:`1px solid ${C.cardBorder}`,borderRadius:16,padding:16,animation:'fadeInUp 0.3s ease both'}}>
-            <div style={{fontSize:13,fontWeight:800,color:C.gold,textTransform:'uppercase',letterSpacing:3,marginBottom:12,textAlign:'center',textShadow:`0 0 10px ${C.gold}88`}}>Paytable — Gods of Fortune</div>
+            <div style={{fontSize:12,fontWeight:800,color:C.goldBright,textTransform:'uppercase',letterSpacing:3,marginBottom:12,textAlign:'center',textShadow:`0 0 8px ${C.gold}66`}}>Paytable — Neon Palace</div>
             <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))',gap:6}}>
               {SYMBOLS.map(sym=>(
-                <div key={sym.id} style={{display:'flex',alignItems:'center',gap:8,background:C.surface,borderRadius:10,padding:'6px 10px',border:`1px solid ${sym.color}33`}}>
+                <div key={sym.id} style={{display:'flex',alignItems:'center',gap:8,background:C.surface,borderRadius:10,padding:'6px 10px',border:`1px solid ${sym.color}28`}}>
                   <SymbolArt id={sym.id} size={40}/>
                   <div style={{flex:1}}>
                     <div style={{fontSize:12,fontWeight:800,color:sym.color}}>{sym.name}</div>
-                    <div style={{fontSize:10,color:C.textDim}}>{sym.payouts.map((p,i)=>p>0?`${i+1}x${p}`:null).filter(Boolean).join(' | ')}</div>
+                    <div style={{fontSize:10,color:C.textDim}}>{sym.payouts.map((p,i)=>p>0?`${i+1}×${p}`:null).filter(Boolean).join(' | ')}</div>
                   </div>
                 </div>
               ))}
             </div>
-            <div style={{marginTop:10,padding:'8px 12px',background:'#0a0020',borderRadius:10,border:`1px solid ${C.teal}33`,textAlign:'center'}}>
-              <span style={{fontSize:11,color:C.teal,fontWeight:700}}>3+ SCATTER = 12 FREE SPINS • WILD substitutes all symbols</span>
+            <div style={{marginTop:10,padding:'8px 12px',background:'#0a0014',borderRadius:10,border:`1px solid ${C.teal}28`,textAlign:'center'}}>
+              <span style={{fontSize:11,color:C.teal,fontWeight:700}}>3+ SCATTER = 8 FREE SPINS • WILD substitutes all symbols</span>
             </div>
           </div>
         )}
 
         <div style={{width:'100%',maxWidth:800,textAlign:'center',paddingTop:8}}>
-          <div style={{fontSize:9,color:`${C.textDim}88`,letterSpacing:2,textTransform:'uppercase',fontWeight:600}}>
-            RTP 96.2% • Min Bet $0.20 • Max Bet $50.00 • Play Responsibly
+          <div style={{fontSize:9,color:`${C.textDim}66`,letterSpacing:2,textTransform:'uppercase',fontWeight:600}}>
+            RTP 96.2% • Min Bet $0.20 • Max Bet $50.00 • Social Casino — No Real Money
           </div>
         </div>
       </div>
