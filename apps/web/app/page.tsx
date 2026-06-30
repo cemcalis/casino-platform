@@ -3,6 +3,14 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { userApi } from '../lib/api-user';
+import {
+  appendMessage,
+  claimTicket,
+  createTicket,
+  loadCrm,
+  subscribeCrm,
+  type CrmTicket,
+} from './components/crm/crm-mock';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -2393,46 +2401,91 @@ export default function LobbyPage() {
 // LIVE SUPPORT WIDGET COMPONENT
 // ─────────────────────────────────────────────────────────────────────────────
 
+const GUEST_TICKET_KEY = 'casino_crm_my_ticket_id';
+const CANNED_AGENT_REPLIES = [
+  "Thanks for reaching out! I'm looking into this for you now.",
+  'Got it — give me just a moment to check your account.',
+  "I've flagged this as priority and I'm reviewing the details now.",
+];
+
 function LiveSupportWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages] = useState<
-    { id: number; sender: 'agent' | 'player'; text: string; time: string }[]
-  >([
-    { id: 1, sender: 'agent', text: 'Welcome to Neon Palace Support! How can I help you today?', time: 'Just now' },
-  ]);
+  const [ticket, setTicket] = useState<CrmTicket | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
-  const [agentOnline, setAgentOnline] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const replyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Demo-safe CRM ticket store (localStorage-backed, no backend) — see crm-mock.ts
+  useEffect(() => {
+    const savedId = typeof window !== 'undefined' ? window.localStorage.getItem(GUEST_TICKET_KEY) : null;
+    if (savedId) {
+      const state = loadCrm();
+      const existing = state.tickets.find(t => t.id === savedId);
+      if (existing) setTicket(existing);
+    }
+    const unsubscribe = subscribeCrm(() => {
+      setTicket(prev => {
+        if (!prev) return prev;
+        const state = loadCrm();
+        return state.tickets.find(t => t.id === prev.id) ?? prev;
+      });
+    });
+    return () => {
+      unsubscribe();
+      if (replyTimerRef.current) clearTimeout(replyTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [ticket?.messages.length, isOpen]);
+
+  useEffect(() => {
+    if (isOpen) setUnreadCount(0);
+  }, [isOpen, ticket?.messages.length]);
+
+  function scheduleDemoAgentReply(ticketId: string) {
+    if (replyTimerRef.current) clearTimeout(replyTimerRef.current);
+    setIsTyping(true);
+    replyTimerRef.current = setTimeout(() => {
+      setIsTyping(false);
+      claimTicket(ticketId, 'AGT-001');
+      const reply = CANNED_AGENT_REPLIES[Math.floor(Math.random() * CANNED_AGENT_REPLIES.length)]!;
+      appendMessage(ticketId, 'agent', reply, 'Sarah K.');
+      const state = loadCrm();
+      const updated = state.tickets.find(t => t.id === ticketId);
+      if (updated) setTicket(updated);
+      if (!isOpen) setUnreadCount(c => c + 1);
+    }, 1500);
+  }
 
   const sendMessage = () => {
-    if (!inputValue.trim()) return;
-    
-    setMessages(prev => [...prev, {
-      id: prev.length + 1,
-      sender: 'player' as const,
-      text: inputValue.trim(),
-      time: 'Just now'
-    }]);
+    const text = inputValue.trim();
+    if (!text) return;
     setInputValue('');
-    setIsTyping(true);
 
-    setTimeout(() => {
-      setIsTyping(false);
-      setMessages(prev => [...prev, {
-        id: prev.length + 1,
-        sender: 'agent' as const,
-        text: 'Thank you for your message. An agent will be with you shortly. Your ticket ID: TKT-' + Math.floor(Math.random() * 90000 + 10000),
-        time: 'Just now'
-      }]);
-    }, 1500);
+    if (!ticket) {
+      const created = createTicket('You', 'Live chat support request', text);
+      if (typeof window !== 'undefined') window.localStorage.setItem(GUEST_TICKET_KEY, created.id);
+      setTicket(created);
+      scheduleDemoAgentReply(created.id);
+      return;
+    }
+
+    appendMessage(ticket.id, 'player', text, 'You');
+    const state = loadCrm();
+    const updated = state.tickets.find(t => t.id === ticket.id);
+    if (updated) setTicket(updated);
+    if (!ticket.assignedAgentId) scheduleDemoAgentReply(ticket.id);
   };
+
+  const agentOnline = !ticket || ticket.status !== 'closed';
+  const displayMessages = ticket
+    ? ticket.messages.filter(m => m.sender !== 'system')
+    : [{ id: 'welcome', sender: 'agent' as const, text: 'Welcome to Neon Palace Support! How can I help you today?', time: '' }];
 
   return (
     <>
@@ -2497,8 +2550,17 @@ function LiveSupportWidget() {
               <div>
                 <div style={{ fontSize: 14, fontWeight: 700, color: '#f4c430' }}>Live Support</div>
                 <div style={{ fontSize: 11, color: agentOnline ? '#22c55e' : '#6b7280', fontWeight: 600 }}>
-                  {agentOnline ? '● Agents Online' : '● All Agents Busy'}
+                  {ticket
+                    ? ticket.status === 'closed'
+                      ? '● Ticket Closed'
+                      : ticket.assignedAgentId
+                      ? `● Agent Connected${ticket.assignedAgentId === 'AGT-001' ? ' — Sarah K.' : ''}`
+                      : '● Waiting for Agent'
+                    : '● Agents Online'}
                 </div>
+                {ticket && (
+                  <div style={{ fontSize: 9, color: '#7c6fa0', fontFamily: 'monospace', marginTop: 1 }}>{ticket.id}</div>
+                )}
               </div>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
@@ -2537,7 +2599,7 @@ function LiveSupportWidget() {
                 gap: 12,
                 background: 'rgba(13,6,24,0.5)',
               }}>
-                {messages.map(msg => (
+                {displayMessages.map(msg => (
                   <div key={msg.id} style={{
                     display: 'flex',
                     flexDirection: msg.sender === 'player' ? 'row-reverse' : 'row',
@@ -2555,7 +2617,9 @@ function LiveSupportWidget() {
                       padding: '10px 14px',
                     }}>
                       <div style={{ fontSize: 13, color: '#f0e8ff', lineHeight: 1.5 }}>{msg.text}</div>
-                      <div style={{ fontSize: 10, color: '#7c6fa0', marginTop: 4 }}>{msg.time}</div>
+                      <div style={{ fontSize: 10, color: '#7c6fa0', marginTop: 4 }}>
+                        {msg.time ? new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -2648,6 +2712,15 @@ function LiveSupportWidget() {
         onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
       >
         {isOpen ? '✕' : '💬'}
+        {!isOpen && unreadCount > 0 && (
+          <span style={{
+            position: 'absolute', top: -2, right: -2,
+            width: 20, height: 20, borderRadius: '50%',
+            background: '#ff2d78', color: '#fff', fontSize: 11, fontWeight: 800,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            border: '2px solid #0d0618',
+          }}>{unreadCount}</span>
+        )}
       </button>
     </>
   );

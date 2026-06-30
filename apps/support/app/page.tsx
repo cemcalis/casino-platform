@@ -1,34 +1,25 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import {
+  loadCrm,
+  subscribeCrm,
+  claimTicket,
+  setTicketStatus as crmSetTicketStatus,
+  setTicketPriority as crmSetTicketPriority,
+  appendMessage,
+  setAgentOnline,
+  activeChatsForAgent,
+  ticketCountsByStatus,
+  createTicket,
+  type CrmTicket,
+  type CrmAgent,
+  type TicketStatus,
+} from './components/crm/crm-mock';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-interface Ticket {
-  id: string;
-  player: string;
-  initials: string;
-  subject: string;
-  category: 'Payment' | 'Account' | 'Technical' | 'Bonus' | 'VIP';
-  priority: 'urgent' | 'high' | 'medium' | 'low';
-  time: string;
-  unread: number;
-  status: 'open' | 'pending' | 'resolved';
-  assignedAgent?: string;
-  assignedAgentInitials?: string;
-  isLiveChat?: boolean;
-  playerOnline?: boolean;
-  waitTime?: string;
-}
-
-interface Message {
-  id: number;
-  sender: 'player' | 'agent' | 'system';
-  text: string;
-  time: string;
-  read?: boolean;
-  isNote?: boolean;
-  senderName?: string;
-}
+// The signed-in agent for this demo CRM session (matches crm-mock seed data)
+const CURRENT_AGENT_ID = 'AGT-001';
+const CURRENT_AGENT_NAME = 'Sarah K.';
 
 interface Transaction {
   type: string;
@@ -37,73 +28,20 @@ interface Transaction {
   status: 'completed' | 'pending' | 'failed';
 }
 
-interface Agent {
-  id: string;
-  name: string;
-  initials: string;
-  status: 'online' | 'away' | 'offline';
-  activeChats: number;
-  maxChats: number;
-  languages: string[];
-  specialties: string[];
-  avgResponseTime: string;
-  rating: number;
+function initialsOf(name: string): string {
+  const parts = name.replace(/[^a-zA-Z0-9 ]/g, ' ').trim().split(/\s+/);
+  return ((parts[0]?.[0] ?? '') + (parts[1]?.[0] ?? parts[0]?.[1] ?? '')).toUpperCase();
 }
 
-interface LiveChatSession {
-  id: string;
-  player: string;
-  playerInitials: string;
-  status: 'waiting' | 'active' | 'ended';
-  waitTime: number;
-  assignedAgent?: string;
-  category: string;
-  priority: 'urgent' | 'high' | 'medium' | 'low';
-  messages: Message[];
+function relativeTime(iso: string): string {
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const mins = Math.max(0, Math.floor(diffMs / 60000));
+  if (mins < 1) return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${Math.floor(hrs / 24)}d ago`;
 }
-
-// ─── Data ────────────────────────────────────────────────────────────────────
-const TICKETS: Ticket[] = [
-  { id: 'TKT-8847', player: 'DragonKing99', initials: 'DK', subject: 'Withdrawal not received after 48h', category: 'Payment', priority: 'urgent', time: '2m ago', unread: 3, status: 'open', assignedAgent: 'Sarah K.', assignedAgentInitials: 'SK', isLiveChat: true, playerOnline: true, waitTime: '0:45' },
-  { id: 'TKT-8846', player: 'LuckyAce77', initials: 'LA', subject: 'Bonus wagering requirement bug', category: 'Bonus', priority: 'high', time: '8m ago', unread: 1, status: 'open', assignedAgent: 'Mike R.', assignedAgentInitials: 'MR', isLiveChat: true, playerOnline: true, waitTime: '1:20' },
-  { id: 'TKT-8845', player: 'NeonWolf', initials: 'NW', subject: 'Account verification documents', category: 'Account', priority: 'medium', time: '15m ago', unread: 0, status: 'pending', assignedAgent: 'Unassigned', isLiveChat: false, playerOnline: false, waitTime: '3:45' },
-  { id: 'TKT-8844', player: 'GoldRush_XL', initials: 'GR', subject: 'Game loading error - Neon Slots', category: 'Technical', priority: 'high', time: '23m ago', unread: 2, status: 'open', assignedAgent: 'Sarah K.', assignedAgentInitials: 'SK', isLiveChat: true, playerOnline: true, waitTime: '0:30' },
-  { id: 'TKT-8843', player: 'VIPStar_Mia', initials: 'VM', subject: 'VIP cashback not credited', category: 'VIP', priority: 'urgent', time: '31m ago', unread: 5, status: 'open', assignedAgent: 'Unassigned', isLiveChat: true, playerOnline: true, waitTime: '5:12' },
-  { id: 'TKT-8842', player: 'CryptoKing88', initials: 'CK', subject: 'BTC deposit missing - TXID prov.', category: 'Payment', priority: 'high', time: '45m ago', unread: 0, status: 'open', assignedAgent: 'Mike R.', assignedAgentInitials: 'MR', isLiveChat: false, playerOnline: false, waitTime: '8:30' },
-  { id: 'TKT-8841', player: 'SilverFox22', initials: 'SF', subject: 'Two-factor authentication reset', category: 'Account', priority: 'low', time: '1h ago', unread: 0, status: 'pending', assignedAgent: 'Unassigned', isLiveChat: false, playerOnline: false, waitTime: '12:00' },
-  { id: 'TKT-8840', player: 'AceBlaster', initials: 'AB', subject: 'Free spins not applied to account', category: 'Bonus', priority: 'medium', time: '1h ago', unread: 1, status: 'open', assignedAgent: 'Sarah K.', assignedAgentInitials: 'SK', isLiveChat: true, playerOnline: true, waitTime: '2:15' },
-  { id: 'TKT-8839', player: 'QueenOfCards', initials: 'QC', subject: 'Live dealer stream quality issue', category: 'Technical', priority: 'low', time: '2h ago', unread: 0, status: 'pending', assignedAgent: 'Unassigned', isLiveChat: false, playerOnline: false, waitTime: '15:00' },
-  { id: 'TKT-8838', player: 'RoyalFlush_J', initials: 'RJ', subject: 'Responsible gaming limit request', category: 'Account', priority: 'medium', time: '2h ago', unread: 0, status: 'open', assignedAgent: 'Mike R.', assignedAgentInitials: 'MR', isLiveChat: false, playerOnline: false, waitTime: '18:00' },
-  { id: 'TKT-8837', player: 'MidnightBet', initials: 'MB', subject: 'E-wallet payment method not working', category: 'Payment', priority: 'high', time: '3h ago', unread: 0, status: 'resolved', assignedAgent: 'Sarah K.', assignedAgentInitials: 'SK', isLiveChat: false, playerOnline: false, waitTime: '25:00' },
-  { id: 'TKT-8836', player: 'TurboSlots', initials: 'TS', subject: 'Account suspended unfairly', category: 'Account', priority: 'urgent', time: '3h ago', unread: 0, status: 'resolved', assignedAgent: 'Mike R.', assignedAgentInitials: 'MR', isLiveChat: false, playerOnline: false, waitTime: '30:00' },
-];
-
-const AGENTS: Agent[] = [
-  { id: 'AGT-001', name: 'Sarah K.', initials: 'SK', status: 'online', activeChats: 3, maxChats: 5, languages: ['English', 'Spanish', 'German'], specialties: ['Payment', 'VIP'], avgResponseTime: '1.2 min', rating: 4.8 },
-  { id: 'AGT-002', name: 'Mike R.', initials: 'MR', status: 'online', activeChats: 2, maxChats: 5, languages: ['English', 'French'], specialties: ['Technical', 'Account'], avgResponseTime: '1.8 min', rating: 4.6 },
-  { id: 'AGT-003', name: 'Emma L.', initials: 'EL', status: 'away', activeChats: 1, maxChats: 4, languages: ['English', 'Italian', 'Portuguese'], specialties: ['Bonus', 'VIP'], avgResponseTime: '2.1 min', rating: 4.7 },
-  { id: 'AGT-004', name: 'David C.', initials: 'DC', status: 'offline', activeChats: 0, maxChats: 5, languages: ['English', 'Russian'], specialties: ['Payment', 'Technical'], avgResponseTime: '1.5 min', rating: 4.5 },
-  { id: 'AGT-005', name: 'Lisa M.', initials: 'LM', status: 'online', activeChats: 4, maxChats: 5, languages: ['English', 'Turkish', 'Arabic'], specialties: ['Account', 'VIP'], avgResponseTime: '1.3 min', rating: 4.9 },
-];
-
-const LIVE_CHAT_QUEUE: LiveChatSession[] = [
-  { id: 'LIVE-001', player: 'HighRoller_X', playerInitials: 'HR', status: 'waiting', waitTime: 45, category: 'VIP', priority: 'urgent', messages: [] },
-  { id: 'LIVE-002', player: 'CasinoQueen', playerInitials: 'CQ', status: 'waiting', waitTime: 120, category: 'Payment', priority: 'high', messages: [] },
-  { id: 'LIVE-003', player: 'SlotMaster', playerInitials: 'SM', status: 'waiting', waitTime: 180, category: 'Technical', priority: 'medium', messages: [] },
-];
-
-const MESSAGES_INITIAL: Message[] = [
-  { id: 1, sender: 'system', text: 'Ticket #TKT-8847 opened — Payment Issue reported', time: '10:22 AM' },
-  { id: 2, sender: 'player', text: "Hi, I submitted a withdrawal request 3 days ago for $850 and it still hasn't arrived in my bank account. The transaction shows as 'Processing' in my account history.", time: '10:22 AM' },
-  { id: 3, sender: 'agent', text: "Hello DragonKing99! Thank you for reaching out. I'm sorry to hear about the delay with your withdrawal. Let me pull up your account details right away and investigate this for you.", time: '10:24 AM', read: true },
-  { id: 4, sender: 'player', text: 'Thank you. The transaction ID is WD-20241201-88847. I really need this money urgently.', time: '10:25 AM' },
-  { id: 5, sender: 'system', text: 'Identity verification completed — KYC Level 3', time: '10:26 AM' },
-  { id: 6, sender: 'agent', text: "I can see your withdrawal request WD-20241201-88847. It's currently in our payment processor queue. I've flagged this as priority and escalated it to our Finance team. You should receive the funds within 4-6 business hours.", time: '10:27 AM', read: true },
-  { id: 7, sender: 'player', text: 'OK thank you. Is there any way to expedite this further? This is the third time I have had issues with withdrawals.', time: '10:28 AM' },
-  { id: 8, sender: 'agent', text: "I completely understand your frustration and I sincerely apologize for the repeated inconvenience. I've added a priority flag to your account and will personally monitor this transaction. I'm also adding a 25 free spin bonus as compensation for the delay.", time: '10:30 AM', read: true, isNote: false },
-  { id: 9, sender: 'system', text: 'Escalated to Finance Team — Priority Level: HIGH', time: '10:31 AM' },
-  { id: 10, sender: 'player', text: "OK, I'll wait. Please make sure it gets resolved today.", time: '10:33 AM' },
-];
 
 const TRANSACTIONS: Transaction[] = [
   { type: 'Withdrawal', amount: '-$850.00', date: 'Dec 1, 2024', status: 'pending' },
@@ -134,102 +72,17 @@ const PRIORITY_COLORS: Record<string, string> = {
   low: '#3b82f6',
 };
 
-const FILTER_TABS = ['All', 'Urgent', 'Open', 'Pending', 'Resolved'];
+const FILTER_TABS = ['All', 'New', 'Open', 'Pending', 'Closed'];
 
-// ─── Automatic Staff Assignment Algorithm ─────────────────────────────────────
-function assignAgentToTicket(ticket: Ticket, agents: Agent[]): Agent | null {
-  // Filter available agents (online or away, not offline)
-  const availableAgents = agents.filter(agent => 
-    agent.status !== 'offline' && 
-    agent.activeChats < agent.maxChats
+// ─── Automatic assignment: claim the oldest unclaimed ticket for the
+// online agent currently carrying the fewest active chats ─────────────────────
+function pickAgentForAutoAssign(agents: CrmAgent[], tickets: CrmTicket[]): CrmAgent | null {
+  const online = agents.filter(a => a.online);
+  if (online.length === 0) return null;
+  const state = { tickets, agents };
+  return online.reduce((best, a) =>
+    activeChatsForAgent(state, a.id) < activeChatsForAgent(state, best.id) ? a : best
   );
-
-  if (availableAgents.length === 0) return null;
-
-  // Score each agent based on multiple factors
-  const scoredAgents = availableAgents.map(agent => {
-    let score = 0;
-
-    // 1. Specialty match (highest priority)
-    if (agent.specialties.includes(ticket.category)) {
-      score += 50;
-    }
-
-    // 2. Priority level matching
-    if (ticket.priority === 'urgent' && agent.specialties.includes('VIP')) {
-      score += 30;
-    } else if (ticket.priority === 'high' && agent.specialties.includes('Payment')) {
-      score += 20;
-    }
-
-    // 3. Availability (fewer active chats = higher score)
-    const availabilityScore = (agent.maxChats - agent.activeChats) * 10;
-    score += availabilityScore;
-
-    // 4. Rating (higher rating = higher score)
-    score += agent.rating * 5;
-
-    // 5. Response time (faster = higher score)
-    const responseTimeMinutes = parseFloat(agent.avgResponseTime);
-    score += Math.max(0, 10 - responseTimeMinutes) * 3;
-
-    // 6. Status preference (online > away)
-    if (agent.status === 'online') {
-      score += 15;
-    }
-
-    return { agent, score };
-  });
-
-  // Sort by score descending and return the best match
-  scoredAgents.sort((a, b) => b.score - a.score);
-  return scoredAgents[0]?.agent || null;
-}
-
-function assignAgentToLiveChat(session: LiveChatSession, agents: Agent[]): Agent | null {
-  // Filter available agents
-  const availableAgents = agents.filter(agent => 
-    agent.status !== 'offline' && 
-    agent.activeChats < agent.maxChats
-  );
-
-  if (availableAgents.length === 0) return null;
-
-  // Score agents for live chat
-  const scoredAgents = availableAgents.map(agent => {
-    let score = 0;
-
-    // 1. Category specialty match
-    if (agent.specialties.includes(session.category)) {
-      score += 40;
-    }
-
-    // 2. Priority matching
-    if (session.priority === 'urgent' && agent.specialties.includes('VIP')) {
-      score += 30;
-    }
-
-    // 3. Availability
-    const availabilityScore = (agent.maxChats - agent.activeChats) * 8;
-    score += availabilityScore;
-
-    // 4. Rating
-    score += agent.rating * 4;
-
-    // 5. Response time
-    const responseTimeMinutes = parseFloat(agent.avgResponseTime);
-    score += Math.max(0, 10 - responseTimeMinutes) * 2;
-
-    // 6. Status preference
-    if (agent.status === 'online') {
-      score += 10;
-    }
-
-    return { agent, score };
-  });
-
-  scoredAgents.sort((a, b) => b.score - a.score);
-  return scoredAgents[0]?.agent || null;
 }
 
 // ─── Helper components ────────────────────────────────────────────────────────
@@ -266,89 +119,69 @@ function StatusDot({ color, pulse = false }: { color: string; pulse?: boolean })
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function SupportCRMPage() {
-  const [selectedTicket, setSelectedTicket] = useState<string>('TKT-8847');
+  const [crm, setCrm] = useState(() => loadCrm());
+  const tickets = crm.tickets;
+  const agents = crm.agents;
+  const currentAgent = agents.find(a => a.id === CURRENT_AGENT_ID) ?? agents[0];
+
+  const [selectedTicketId, setSelectedTicketId] = useState<string>(tickets[0]?.id ?? '');
   const [activeFilter, setActiveFilter] = useState('All');
   const [agentStatus, setAgentStatus] = useState<'Online' | 'Away' | 'Offline'>('Online');
-  const [messages, setMessages] = useState<Message[]>(MESSAGES_INITIAL);
-  const [isTyping, setIsTyping] = useState(false);
   const [messageInput, setMessageInput] = useState('');
   const [isNote, setIsNote] = useState(false);
-  const [shiftSeconds, setShiftSeconds] = useState(9847);
+  const [shiftSeconds, setShiftSeconds] = useState(0);
   const [notification, setNotification] = useState<{ show: boolean; ticket: string }>({ show: false, ticket: '' });
   const [searchQuery, setSearchQuery] = useState('');
   const [autoAssignEnabled, setAutoAssignEnabled] = useState(true);
-  const [assignmentLog, setAssignmentLog] = useState<Array<{ticketId: string, agentId: string, timestamp: string}>>([]);
-  const [ticketStatus, setTicketStatus] = useState<'open' | 'pending' | 'resolved'>('open');
-  const [ticketPriority, setTicketPriority] = useState<'urgent' | 'high' | 'medium' | 'low'>('urgent');
+  const [assignmentLog, setAssignmentLog] = useState<Array<{ ticketId: string; agentName: string; timestamp: string }>>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Shift timer
+  const selectedTicket = tickets.find(t => t.id === selectedTicketId) ?? null;
+
+  // Re-read the CRM store whenever it changes (this tab or another tab/app)
   useEffect(() => {
+    return subscribeCrm(() => setCrm(loadCrm()));
+  }, []);
+
+  // Agent goes online and the shift timer starts the moment this panel opens
+  useEffect(() => {
+    setAgentOnline(CURRENT_AGENT_ID, true);
+    setCrm(loadCrm());
     const t = setInterval(() => setShiftSeconds(s => s + 1), 1000);
     return () => clearInterval(t);
   }, []);
 
-  // Typing indicator + new message simulation
-  useEffect(() => {
-    const t1 = setTimeout(() => setIsTyping(true), 3000);
-    const t2 = setTimeout(() => {
-      setIsTyping(false);
-      setMessages(prev => [...prev, {
-        id: prev.length + 1,
-        sender: 'player',
-        text: 'Are you still there? Any update on my withdrawal?',
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      }]);
-    }, 5000);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
-
-  // New ticket notification after 8s
+  // New ticket notification — simulates a fresh demo ticket arriving
   useEffect(() => {
     const t = setTimeout(() => {
-      setNotification({ show: true, ticket: 'TKT-8848' });
+      const created = createTicket('VIPStar_Mia', 'VIP cashback not credited', 'My weekly cashback never showed up in my wallet.', 'VIP', 'urgent');
+      setCrm(loadCrm());
+      setNotification({ show: true, ticket: created.id });
       setTimeout(() => setNotification({ show: false, ticket: '' }), 4000);
     }, 8000);
     return () => clearTimeout(t);
   }, []);
 
-  // Auto-assign agents to tickets when enabled
+  // Auto-assign: claim any unclaimed ticket for the least-busy online agent
   useEffect(() => {
     if (!autoAssignEnabled) return;
-
-    // Check for unassigned tickets and assign agents
-    TICKETS.forEach(ticket => {
-      if (!ticket.assignedAgent && ticket.status !== 'resolved') {
-        const assignedAgent = assignAgentToTicket(ticket, AGENTS);
-        if (assignedAgent) {
-          setAssignmentLog(prev => [...prev, {
-            ticketId: ticket.id,
-            agentId: assignedAgent.id,
-            timestamp: new Date().toLocaleTimeString(),
-          }]);
-        }
+    const unclaimed = tickets.filter(t => !t.assignedAgentId && t.status !== 'closed');
+    if (unclaimed.length === 0) return;
+    unclaimed.forEach(ticket => {
+      const agent = pickAgentForAutoAssign(agents, tickets);
+      if (agent) {
+        claimTicket(ticket.id, agent.id);
+        setAssignmentLog(prev => [...prev, { ticketId: ticket.id, agentName: agent.name, timestamp: new Date().toLocaleTimeString() }]);
       }
     });
-
-    // Check for unassigned live chat sessions
-    LIVE_CHAT_QUEUE.forEach(session => {
-      if (session.status === 'waiting' && !session.assignedAgent) {
-        const assignedAgent = assignAgentToLiveChat(session, AGENTS);
-        if (assignedAgent) {
-          setAssignmentLog(prev => [...prev, {
-            ticketId: session.id,
-            agentId: assignedAgent.id,
-            timestamp: new Date().toLocaleTimeString(),
-          }]);
-        }
-      }
-    });
-  }, [autoAssignEnabled]);
+    setCrm(loadCrm());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoAssignEnabled, tickets.length]);
 
   // Auto-scroll messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping]);
+  }, [selectedTicket?.messages.length]);
 
   const formatShift = (s: number) => {
     const h = Math.floor(s / 3600);
@@ -357,13 +190,13 @@ export default function SupportCRMPage() {
     return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
   };
 
-  const filteredTickets = TICKETS.filter(t => {
+  const filteredTickets = tickets.filter(t => {
     const matchesFilter =
       activeFilter === 'All' ||
-      (activeFilter === 'Urgent' && t.priority === 'urgent') ||
+      (activeFilter === 'New' && t.status === 'new') ||
       (activeFilter === 'Open' && t.status === 'open') ||
       (activeFilter === 'Pending' && t.status === 'pending') ||
-      (activeFilter === 'Resolved' && t.status === 'resolved');
+      (activeFilter === 'Closed' && t.status === 'closed');
     const matchesSearch =
       !searchQuery ||
       t.player.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -374,20 +207,36 @@ export default function SupportCRMPage() {
 
   const statusColors: Record<string, string> = { Online: '#22c55e', Away: '#f4c430', Offline: '#6b7280' };
 
+  function handleAgentStatusChange(value: 'Online' | 'Away' | 'Offline') {
+    setAgentStatus(value);
+    setAgentOnline(CURRENT_AGENT_ID, value !== 'Offline');
+    setCrm(loadCrm());
+  }
+
+  function handleClaim(ticketId: string) {
+    claimTicket(ticketId, CURRENT_AGENT_ID);
+    setCrm(loadCrm());
+  }
+
+  function handleTicketStatus(ticketId: string, status: TicketStatus) {
+    crmSetTicketStatus(ticketId, status);
+    setCrm(loadCrm());
+  }
+
   const sendMessage = () => {
-    if (!messageInput.trim()) return;
-    setMessages(prev => [...prev, {
-      id: prev.length + 1,
-      sender: 'agent',
-      text: messageInput.trim(),
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      read: false,
-      isNote,
-    }]);
+    if (!messageInput.trim() || !selectedTicket) return;
+    appendMessage(selectedTicket.id, 'agent', messageInput.trim(), CURRENT_AGENT_NAME, isNote);
+    setCrm(loadCrm());
     setMessageInput('');
   };
 
   const quickReplies = ['Verify Identity', 'Check Payment', 'Escalate to Finance'];
+
+  const todayHandled = currentAgent?.handledToday ?? 0;
+  const myActiveChats = currentAgent ? activeChatsForAgent(crm, currentAgent.id) : 0;
+  const avgResponseLabel = currentAgent ? `${(currentAgent.avgResponseSeconds / 60).toFixed(1)} min` : '—';
+  const counts = ticketCountsByStatus(crm);
+  const onlineAgentCount = agents.filter(a => a.online).length;
 
   return (
     <>
@@ -509,9 +358,9 @@ export default function SupportCRMPage() {
           {/* Center: Stats */}
           <div style={{ display: 'flex', gap: 28 }}>
             {[
-              { label: 'Open Tickets', value: '24', color: '#ff2d78' },
-              { label: 'My Queue', value: '8', color: '#f4c430' },
-              { label: 'Avg Response', value: '2.3 min', color: '#00d4c8' },
+              { label: 'Handled Today', value: String(todayHandled), color: '#ff2d78' },
+              { label: 'Active Chats', value: String(myActiveChats), color: '#f4c430' },
+              { label: 'Avg Response', value: avgResponseLabel, color: '#00d4c8' },
             ].map((stat) => (
               <div key={stat.label} style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 22, fontWeight: 800, color: stat.color, lineHeight: 1, fontFamily: "'Outfit', sans-serif" }}>{stat.value}</div>
@@ -557,7 +406,7 @@ export default function SupportCRMPage() {
             <select
               className="status-select"
               value={agentStatus}
-              onChange={e => setAgentStatus(e.target.value as 'Online' | 'Away' | 'Offline')}
+              onChange={e => handleAgentStatusChange(e.target.value as 'Online' | 'Away' | 'Offline')}
               style={{
                 background: 'rgba(0,0,0,0.4)', border: `1px solid ${statusColors[agentStatus]}`,
                 color: statusColors[agentStatus], borderRadius: 8, padding: '6px 12px',
@@ -653,43 +502,42 @@ export default function SupportCRMPage() {
               {filteredTickets.map((ticket, idx) => (
                 <div
                   key={ticket.id}
-                  className={`ticket-item${selectedTicket === ticket.id ? ' selected' : ''}`}
-                  onClick={() => setSelectedTicket(ticket.id)}
+                  className={`ticket-item${selectedTicketId === ticket.id ? ' selected' : ''}`}
+                  onClick={() => setSelectedTicketId(ticket.id)}
                   style={{
                     borderLeft: `3px solid ${PRIORITY_COLORS[ticket.priority]}`,
                     borderRadius: '0 8px 8px 0',
                     padding: '10px 10px 10px 12px',
                     marginBottom: 4,
                     cursor: 'pointer',
-                    background: selectedTicket === ticket.id ? 'rgba(61,31,110,0.75)' : 'rgba(37,18,64,0.5)',
+                    background: selectedTicketId === ticket.id ? 'rgba(61,31,110,0.75)' : 'rgba(37,18,64,0.5)',
                     transition: 'all 0.2s',
                     animationDelay: `${idx * 0.05}s`,
                     position: 'relative',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
-                    <AvatarCircle initials={ticket.initials} size={30} bg="#2d1458" color="#f4c430" fontSize={11} />
+                    <AvatarCircle initials={initialsOf(ticket.player)} size={30} bg="#2d1458" color="#f4c430" fontSize={11} />
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <span style={{ fontSize: 12, fontWeight: 700, color: '#f0e8ff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {ticket.player}
                         </span>
-                        <span style={{ fontSize: 10, color: '#7c6fa0', flexShrink: 0, marginLeft: 4 }}>{ticket.time}</span>
+                        <span style={{ fontSize: 10, color: '#7c6fa0', flexShrink: 0, marginLeft: 4 }}>{relativeTime(ticket.updatedAt)}</span>
                       </div>
                       <div style={{ fontSize: 10, color: '#7c6fa0' }}>{ticket.id}</div>
                     </div>
-                    {ticket.unread > 0 && (
+                    {!ticket.assignedAgentId && ticket.status !== 'closed' && (
                       <div style={{
                         background: '#ff2d78', color: '#fff', borderRadius: 10,
-                        fontSize: 10, fontWeight: 700, padding: '1px 6px', flexShrink: 0,
-                        minWidth: 18, textAlign: 'center',
-                      }}>{ticket.unread}</div>
+                        fontSize: 9, fontWeight: 700, padding: '1px 6px', flexShrink: 0,
+                      }}>NEW</div>
                     )}
                   </div>
                   <div style={{ fontSize: 12, color: '#c4b5d4', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 6 }}>
                     {ticket.subject}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                     <span style={{
                       background: `${CATEGORY_COLORS[ticket.category]}20`,
                       color: CATEGORY_COLORS[ticket.category],
@@ -702,6 +550,11 @@ export default function SupportCRMPage() {
                       borderRadius: 4, padding: '2px 7px', fontSize: 10, fontWeight: 600,
                       textTransform: 'capitalize',
                     }}>{ticket.priority}</span>
+                    <span style={{
+                      background: 'rgba(124,111,160,0.15)', color: '#c4b5d4',
+                      borderRadius: 4, padding: '2px 7px', fontSize: 10, fontWeight: 600,
+                      textTransform: 'capitalize',
+                    }}>{ticket.status}</span>
                   </div>
                 </div>
               ))}
@@ -722,37 +575,48 @@ export default function SupportCRMPage() {
               background: 'linear-gradient(135deg,rgba(37,18,64,0.9),rgba(26,13,53,0.9))',
               flexShrink: 0,
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ fontSize: 16, fontWeight: 800, color: '#f0e8ff', fontFamily: "'Outfit', sans-serif" }}>#TKT-8847</span>
+              {!selectedTicket ? (
+                <div style={{ fontSize: 13, color: '#7c6fa0', padding: '8px 0' }}>Select a ticket from the queue to view the conversation.</div>
+              ) : (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8, flexWrap: 'wrap', gap: 8 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 16, fontWeight: 800, color: '#f0e8ff', fontFamily: "'Outfit', sans-serif" }}>#{selectedTicket.id}</span>
                   <span style={{ fontSize: 14, color: '#7c6fa0' }}>—</span>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: '#f0e8ff' }}>Payment Issue</span>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: '#f0e8ff' }}>{selectedTicket.subject}</span>
                   <span style={{
-                    background: `rgba(${PRIORITY_COLORS[ticketPriority].match(/\d+/g)?.join(',') || '255,45,120'},0.15)`,
-                    color: PRIORITY_COLORS[ticketPriority],
-                    border: `1px solid ${PRIORITY_COLORS[ticketPriority]}66`, borderRadius: 5,
+                    background: `${PRIORITY_COLORS[selectedTicket.priority]}22`,
+                    color: PRIORITY_COLORS[selectedTicket.priority],
+                    border: `1px solid ${PRIORITY_COLORS[selectedTicket.priority]}66`, borderRadius: 5,
                     padding: '2px 10px', fontSize: 11, fontWeight: 700,
-                  }}>{ticketPriority.toUpperCase()}</span>
+                  }}>{selectedTicket.priority.toUpperCase()}</span>
                 </div>
-                <div style={{ display: 'flex', gap: 8 }}>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {!selectedTicket.assignedAgentId && (
+                    <button onClick={() => handleClaim(selectedTicket.id)} className="action-btn" style={{
+                      background: 'rgba(34,197,94,0.15)', border: '1px solid rgba(34,197,94,0.4)',
+                      color: '#22c55e', borderRadius: 7, padding: '5px 14px', fontSize: 12,
+                      fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter', sans-serif",
+                    }}>Claim Ticket</button>
+                  )}
                   {/* Status selector */}
                   <select
-                    value={ticketStatus}
-                    onChange={e => setTicketStatus(e.target.value as 'open' | 'pending' | 'resolved')}
+                    value={selectedTicket.status}
+                    onChange={e => handleTicketStatus(selectedTicket.id, e.target.value as TicketStatus)}
                     style={{
                       background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(124,111,160,0.3)',
                       color: '#c4b5d4', borderRadius: 7, padding: '5px 12px', fontSize: 12,
                       fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif",
                     }}
                   >
+                    <option value="new">⚪ New</option>
                     <option value="open">🔴 Open</option>
                     <option value="pending">🟡 Pending</option>
-                    <option value="resolved">🟢 Resolved</option>
+                    <option value="closed">🟢 Closed</option>
                   </select>
                   {/* Priority selector */}
                   <select
-                    value={ticketPriority}
-                    onChange={e => setTicketPriority(e.target.value as 'urgent' | 'high' | 'medium' | 'low')}
+                    value={selectedTicket.priority}
+                    onChange={e => { crmSetTicketPriority(selectedTicket.id, e.target.value as 'urgent' | 'high' | 'medium' | 'low'); setCrm(loadCrm()); }}
                     style={{
                       background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(124,111,160,0.3)',
                       color: '#c4b5d4', borderRadius: 7, padding: '5px 12px', fontSize: 12,
@@ -764,41 +628,49 @@ export default function SupportCRMPage() {
                     <option value="medium">🟡 Medium</option>
                     <option value="low">🔵 Low</option>
                   </select>
-                  {['Resolve', 'Escalate', 'Transfer'].map(btn => (
-                    <button key={btn} className="action-btn" style={{
+                  {selectedTicket.status === 'closed' ? (
+                    <button onClick={() => handleTicketStatus(selectedTicket.id, 'open')} className="action-btn" style={{
                       background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(124,111,160,0.3)',
                       color: '#c4b5d4', borderRadius: 7, padding: '5px 14px', fontSize: 12,
                       fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif",
-                      transition: 'all 0.2s',
-                    }}>{btn}</button>
-                  ))}
+                    }}>Reopen</button>
+                  ) : (
+                    <button onClick={() => handleTicketStatus(selectedTicket.id, 'closed')} className="action-btn" style={{
+                      background: 'rgba(255,45,120,0.12)', border: '1px solid rgba(255,45,120,0.35)',
+                      color: '#ff2d78', borderRadius: 7, padding: '5px 14px', fontSize: 12,
+                      fontWeight: 700, cursor: 'pointer', fontFamily: "'Inter', sans-serif",
+                    }}>Close Ticket</button>
+                  )}
                 </div>
               </div>
+              )}
               {/* Player mini bar */}
+              {selectedTicket && (
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 16,
-                background: 'rgba(0,0,0,0.25)', borderRadius: 8, padding: '7px 14px',
+                background: 'rgba(0,0,0,0.25)', borderRadius: 8, padding: '7px 14px', flexWrap: 'wrap',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <AvatarCircle initials="DK" size={28} bg="#3d1f6e" color="#f4c430" fontSize={10} />
-                  <span style={{ fontSize: 13, fontWeight: 700, color: '#f4c430' }}>DragonKing99</span>
+                  <AvatarCircle initials={initialsOf(selectedTicket.player)} size={28} bg="#3d1f6e" color="#f4c430" fontSize={10} />
+                  <span style={{ fontSize: 13, fontWeight: 700, color: '#f4c430' }}>{selectedTicket.player}</span>
                 </div>
                 <div style={{ width: 1, height: 20, background: 'rgba(124,111,160,0.3)' }} />
-                <span style={{ fontSize: 12, color: '#00d4c8' }}>👑 VIP Gold</span>
+                <span style={{ fontSize: 12, color: '#00d4c8' }}>{selectedTicket.category}</span>
                 <div style={{ width: 1, height: 20, background: 'rgba(124,111,160,0.3)' }} />
-                <span style={{ fontSize: 12, color: '#7c6fa0' }}>Member 2y 4m</span>
-                <div style={{ width: 1, height: 20, background: 'rgba(124,111,160,0.3)' }} />
-                <span style={{ fontSize: 12, color: '#7c6fa0' }}>ID: USR-441829</span>
+                <span style={{ fontSize: 12, color: '#7c6fa0' }}>
+                  Assigned: {selectedTicket.assignedAgentId ? agents.find(a => a.id === selectedTicket.assignedAgentId)?.name ?? selectedTicket.assignedAgentId : 'Unassigned'}
+                </span>
                 <div style={{ marginLeft: 'auto', display: 'flex', gap: 6, alignItems: 'center' }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 6px #22c55e' }} />
                   <span style={{ fontSize: 11, color: '#22c55e' }}>Online Now</span>
                 </div>
               </div>
+              )}
             </div>
 
             {/* Message thread */}
             <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
-              {messages.map((msg, idx) => (
+              {(selectedTicket?.messages ?? []).map((msg, idx) => (
                 <div
                   key={msg.id}
                   className="msg-bubble"
@@ -817,7 +689,7 @@ export default function SupportCRMPage() {
                       borderRadius: 20, padding: '6px 16px', fontSize: 11, color: '#00d4c8',
                       fontStyle: 'italic', textAlign: 'center',
                     }}>
-                      ⚙️ {msg.text} · {msg.time}
+                      ⚙️ {msg.text} · {new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   ) : (
                     <>
@@ -850,11 +722,11 @@ export default function SupportCRMPage() {
                           display: 'flex', alignItems: 'center', gap: 4, marginTop: 4,
                           justifyContent: msg.sender === 'agent' ? 'flex-end' : 'flex-start',
                         }}>
-                          <span style={{ fontSize: 10, color: '#7c6fa0' }}>{msg.time}</span>
+                          <span style={{ fontSize: 10, color: '#7c6fa0' }}>
+                            {new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </span>
                           {msg.sender === 'agent' && (
-                            <span style={{ fontSize: 11, color: msg.read ? '#00d4c8' : '#7c6fa0' }}>
-                              {msg.read ? '✓✓' : '✓'}
-                            </span>
+                            <span style={{ fontSize: 11, color: '#00d4c8' }}>✓✓</span>
                           )}
                         </div>
                       </div>
@@ -863,26 +735,6 @@ export default function SupportCRMPage() {
                   )}
                 </div>
               ))}
-
-              {/* Typing indicator */}
-              {isTyping && (
-                <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10 }}>
-                  <AvatarCircle initials="DK" size={28} bg="#2d1458" color="#f4c430" fontSize={10} />
-                  <div style={{
-                    background: 'rgba(37,18,64,0.7)', border: '1px solid rgba(124,111,160,0.25)',
-                    borderRadius: '16px 16px 16px 4px', padding: '12px 18px',
-                    display: 'flex', gap: 5, alignItems: 'center',
-                  }}>
-                    {[0, 1, 2].map(i => (
-                      <div key={i} style={{
-                        width: 7, height: 7, borderRadius: '50%', background: '#7c6fa0',
-                        animation: `bounce 1.2s ease-in-out ${i * 0.15}s infinite`,
-                      }} />
-                    ))}
-                  </div>
-                  <span style={{ fontSize: 10, color: '#7c6fa0', marginBottom: 4 }}>DragonKing99 is typing...</span>
-                </div>
-              )}
               <div ref={messagesEndRef} />
             </div>
 
@@ -1008,7 +860,7 @@ export default function SupportCRMPage() {
                         <span style={{ color: '#22c55e', fontWeight: 600 }}>{log.ticketId}</span>
                         <span style={{ color: '#7c6fa0' }}>{log.timestamp}</span>
                       </div>
-                      <div style={{ color: '#c4b5d4' }}>→ Assigned to {log.agentId}</div>
+                      <div style={{ color: '#c4b5d4' }}>→ Assigned to {log.agentName}</div>
                     </div>
                   ))}
                 </div>
@@ -1030,14 +882,14 @@ export default function SupportCRMPage() {
                   fontSize: 24, fontWeight: 700, color: '#f4c430',
                   border: '3px solid rgba(244,196,48,0.4)',
                   boxShadow: '0 0 20px rgba(244,196,48,0.2)',
-                }}>DK</div>
+                }}>{selectedTicket ? initialsOf(selectedTicket.player) : '—'}</div>
                 <div style={{
                   position: 'absolute', top: -6, right: -6, fontSize: 20,
                   filter: 'drop-shadow(0 0 4px rgba(244,196,48,0.6))',
                 }}>👑</div>
               </div>
-              <div style={{ fontSize: 17, fontWeight: 800, color: '#f0e8ff', fontFamily: "'Outfit', sans-serif", marginBottom: 2 }}>DragonKing99</div>
-              <div style={{ fontSize: 11, color: '#7c6fa0', marginBottom: 8 }}>USR-441829 · 🇬🇧 United Kingdom</div>
+              <div style={{ fontSize: 17, fontWeight: 800, color: '#f0e8ff', fontFamily: "'Outfit', sans-serif", marginBottom: 2 }}>{selectedTicket?.player ?? 'No player selected'}</div>
+              <div style={{ fontSize: 11, color: '#7c6fa0', marginBottom: 8 }}>Demo player profile · mock data</div>
               <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <span style={{ background: 'rgba(244,196,48,0.12)', border: '1px solid rgba(244,196,48,0.35)', color: '#f4c430', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 700 }}>👑 VIP GOLD</span>
                 <span style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.35)', color: '#22c55e', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 700 }}>● ACTIVE</span>
@@ -1178,12 +1030,12 @@ export default function SupportCRMPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <StatusDot color="#22c55e" pulse />
               <span style={{ fontSize: 11, color: '#7c6fa0' }}>
-                <span style={{ color: '#22c55e', fontWeight: 700 }}>6 agents</span> online
+                <span style={{ color: '#22c55e', fontWeight: 700 }}>{onlineAgentCount} agent{onlineAgentCount !== 1 ? 's' : ''}</span> online
               </span>
             </div>
             <div style={{ width: 1, height: 16, background: 'rgba(124,111,160,0.25)' }} />
             <div style={{ fontSize: 11, color: '#7c6fa0' }}>
-              Queue: <span style={{ color: '#f0e8ff', fontWeight: 600 }}>24 open</span> · <span style={{ color: '#ff2d78', fontWeight: 600 }}>8 urgent</span>
+              Queue: <span style={{ color: '#f0e8ff', fontWeight: 600 }}>{counts.new + counts.open + counts.pending} open</span> · <span style={{ color: '#ff2d78', fontWeight: 600 }}>{tickets.filter(t => t.priority === 'urgent' && t.status !== 'closed').length} urgent</span>
             </div>
           </div>
 
