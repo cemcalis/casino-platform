@@ -203,53 +203,72 @@ function evaluateWin(grid: string[][], bet: number): { payout: number; winLines:
 
 /* ─── SOUND ENGINE ───────────────────────────────────────────────────────────── */
 class SoundEngine {
-  ctx: AudioContext | null = null; masterGain: GainNode | null = null; volume = 0.6;
+  volume = 0.6;
+  private audioCache: Record<string, HTMLAudioElement> = {};
+  private bgm: HTMLAudioElement | null = null;
+
+  private getSample(path: string | null): HTMLAudioElement | null {
+    if (!path) return null;
+    if (this.audioCache[path]) return this.audioCache[path];
+    const audio = new Audio(path);
+    audio.volume = this.volume;
+    this.audioCache[path] = audio;
+    return audio;
+  }
+
   init() {
-    if (this.ctx) return;
-    this.ctx = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-    this.masterGain = this.ctx.createGain();
-    this.masterGain.gain.value = this.volume;
-    this.masterGain.connect(this.ctx.destination);
+    console.log('SoundEngine initialized');
+    this.playBGM();
   }
-  private osc(type: OscillatorType, freq: number, start: number, dur: number, vol = 0.3, detune = 0) {
-    if (!this.ctx || !this.masterGain) return;
-    const o = this.ctx.createOscillator(); const g = this.ctx.createGain();
-    o.type = type; o.frequency.setValueAtTime(freq, start); o.detune.value = detune;
-    g.gain.setValueAtTime(0, start); g.gain.linearRampToValueAtTime(vol, start + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
-    o.connect(g); g.connect(this.masterGain); o.start(start); o.stop(start + dur + 0.05);
+
+  setVolume(v: number) {
+    this.volume = v;
+    Object.values(this.audioCache).forEach(a => a.volume = v);
+    if (this.bgm) this.bgm.volume = v;
   }
-  setVolume(v: number) { this.volume = v; if (this.masterGain) this.masterGain.gain.value = v; }
-  playButtonClick() { if (!this.ctx) return; this.osc('sine', 800, this.ctx.currentTime, 0.05, 0.15); }
+
+  private play(path: string | null, volumeMod = 1) {
+    const s = this.getSample(path);
+    if (!s) return;
+    const clone = s.cloneNode() as HTMLAudioElement;
+    clone.volume = this.volume * volumeMod;
+    clone.play().catch(() => {});
+  }
+
+  playBGM() {
+    const path = getNeonPalaceAsset('background_music');
+    if (!path) return;
+    this.bgm = new Audio(path);
+    this.bgm.loop = true;
+    this.bgm.volume = this.volume * 0.4; // BGM usually lower
+    this.bgm.play().catch(() => console.log('BGM autoplay blocked'));
+  }
+
+  playButtonClick() {
+    this.play(getSharedAsset('button_click_sfx'));
+  }
+
   playSpin() {
-    if (!this.ctx) return; const t = this.ctx.currentTime;
-    for (let i = 0; i < 8; i++) this.osc('triangle', 400 - i * 30, t + i * 0.04, 0.08, 0.2);
-    this.osc('sawtooth', 80, t, 0.3, 0.15);
+    this.play(getNeonPalaceAsset('spin_start_sfx'));
   }
+
   playReel(idx: number) {
-    if (!this.ctx) return; const t = this.ctx.currentTime;
-    const freqs = [880, 990, 1100, 1210, 1320];
-    this.osc('triangle', freqs[idx]!, t, 0.06, 0.2);
-    this.osc('sine', freqs[idx]! * 1.5, t + 0.02, 0.04, 0.08);
+    // Try to get specific reel variant: reel-stop-0.mp3, etc.
+    const variantPath = `/assets/neon-palace/audio/reel-stop-${idx}.mp3`;
+    const fallbackPath = getNeonPalaceAsset('reel_stop_sfx');
+    this.play(this.getSample(variantPath) ? variantPath : fallbackPath, 0.8 + (idx * 0.05));
   }
+
   playWin(tier: string) {
-    if (!this.ctx) return; const t = this.ctx.currentTime;
-    if (tier === 'small') {
-      [523, 659, 784].forEach((f, i) => this.osc('sine', f, t + i * 0.12, 0.18, 0.25));
-    } else if (tier === 'medium') {
-      [523, 659, 784, 1047, 1319].forEach((f, i) => this.osc('sine', f, t + i * 0.1, 0.25, 0.3));
-      this.osc('triangle', 200, t, 0.5, 0.2);
-    } else {
-      const notes = [523, 659, 784, 1047, 1319, 1568];
-      notes.forEach((f, i) => { this.osc('sine', f, t + i * 0.08, 0.4, 0.35); this.osc('triangle', f / 2, t + i * 0.08, 0.4, 0.15); });
-      for (let i = 0; i < 20; i++) this.osc('sine', 200 + i * 50, t + i * 0.06, 0.3, 0.1);
-      this.osc('sawtooth', 100, t, 1.2, 0.2);
-    }
+    let assetPath = getNeonPalaceAsset('win_sfx'); // default small
+    if (tier === 'medium') assetPath = '/assets/neon-palace/audio/win-medium.mp3';
+    if (tier === 'big' || tier === 'epic' || tier === 'mega') assetPath = '/assets/neon-palace/audio/win-big.mp3';
+    
+    this.play(assetPath);
   }
+
   playScatter() {
-    if (!this.ctx) return; const t = this.ctx.currentTime;
-    for (let i = 0; i < 12; i++) this.osc('sine', 800 + i * 100, t + i * 0.05, 0.3, 0.15);
-    for (let i = 0; i < 6; i++) this.osc('triangle', 300 + i * 50, t + i * 0.08, 0.25, 0.1);
+    this.play(getNeonPalaceAsset('jackpot_sfx'));
   }
 }
 
