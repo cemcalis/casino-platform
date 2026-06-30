@@ -21,8 +21,18 @@ export class WalletController {
     return this.walletService.getLedger(user.sub, page, Math.min(pageSize, 50));
   }
 
+  @Get('bonus-status')
+  getBonusStatus(@CurrentUser() user: JwtPayload) {
+    return this.walletService.getBonusStatus(user.sub);
+  }
+
   @Post('daily-bonus')
   claimDailyBonus(@CurrentUser() user: JwtPayload) {
     return this.walletService.claimDailyBonus(user.sub);
+  }
+
+  @Post('welcome-bonus')
+  claimWelcomeBonus(@CurrentUser() user: JwtPayload) {
+    return this.walletService.claimWelcomeBonus(user.sub);
   }
 }

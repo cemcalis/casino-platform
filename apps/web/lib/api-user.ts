@@ -34,9 +34,14 @@ export interface LedgerResponse {
   };
 }
 
-export interface DailyBonusResponse {
+export interface BonusClaimResponse {
   balance: string;
   bonusAmount: string;
+}
+
+export interface BonusStatus {
+  welcomeClaimed: boolean;
+  dailyClaimedToday: boolean;
 }
 
 export const userApi = {
@@ -44,6 +49,10 @@ export const userApi = {
   getWallet: (token: string) => apiClient.get<WalletBalance>('/wallet', token),
   getLedger: (token: string, page = 1, pageSize = 20) =>
     apiClient.get<LedgerResponse>(`/wallet/ledger?page=${page}&pageSize=${pageSize}`, token),
+  getBonusStatus: (token: string) =>
+    apiClient.get<BonusStatus>('/wallet/bonus-status', token),
   claimDailyBonus: (token: string) =>
-    apiClient.post<DailyBonusResponse>('/wallet/daily-bonus', {}, { Authorization: `Bearer ${token}` }),
+    apiClient.post<BonusClaimResponse>('/wallet/daily-bonus', {}, { Authorization: `Bearer ${token}` }),
+  claimWelcomeBonus: (token: string) =>
+    apiClient.post<BonusClaimResponse>('/wallet/welcome-bonus', {}, { Authorization: `Bearer ${token}` }),
 };
