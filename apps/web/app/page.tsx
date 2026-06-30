@@ -711,9 +711,10 @@ function GameSliderCard({ game, isActive, onUnderConstruction }: { game: SliderG
   const [hovered, setHovered] = useState(false);
   const router = useRouter();
   const ArtComponent = GAME_ARTS[game.id] ?? (() => <div />);
+  const PLAYABLE_GAMES = new Set(['neon-palace', 'lucky-7s', 'blackjack-pro', 'cyber-roulette']);
   const handlePlay = () => {
-    if (game.id === 'neon-palace') {
-      router.push('/games/neon-palace');
+    if (PLAYABLE_GAMES.has(game.id)) {
+      router.push(`/games/${game.id}`);
     } else {
       onUnderConstruction(game.name);
     }
@@ -1123,10 +1124,10 @@ export default function LobbyPage() {
 
   const NAV_ITEMS = [
     { label: 'Lobby', href: '/' },
-    { label: 'Games', href: '/games' },
-    { label: 'Live Casino', href: '/live' },
     { label: 'Promotions', href: '/promotions' },
+    { label: 'Leaderboard', href: '/leaderboard' },
     { label: 'VIP', href: '/vip' },
+    { label: 'FAQ', href: '/faq' },
   ];
 
   useEffect(() => {

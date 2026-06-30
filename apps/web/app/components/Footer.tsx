@@ -21,36 +21,36 @@ const COLUMNS = [
     title: 'Games',
     links: [
       { label: 'All Games', href: '/' },
-      { label: 'Slots', href: '/' },
-      { label: 'Live Casino', href: '/' },
-      { label: 'New Games', href: '/' },
+      { label: 'Neon Palace', href: '/games/neon-palace' },
+      { label: 'Lucky 7s', href: '/games/lucky-7s' },
+      { label: 'Blackjack Pro', href: '/games/blackjack-pro' },
     ],
   },
   {
     title: 'Account',
     links: [
-      { label: 'Profile', href: '/profile' },
+      { label: 'Profile', href: '/dashboard' },
       { label: 'Wallet', href: '/wallet' },
       { label: 'History', href: '/history' },
-      { label: 'VIP Club', href: '/' },
+      { label: 'VIP Club', href: '/vip' },
     ],
   },
   {
     title: 'Promotions',
     links: [
-      { label: 'Welcome Bonus', href: '/' },
-      { label: 'Reload', href: '/' },
-      { label: 'Cashback', href: '/' },
-      { label: 'Free Spins', href: '/' },
+      { label: 'Welcome Bonus', href: '/promotions' },
+      { label: 'Daily Bonus', href: '/promotions' },
+      { label: 'Cashback', href: '/promotions' },
+      { label: 'Free Spins', href: '/promotions' },
     ],
   },
   {
     title: 'Help',
     links: [
-      { label: 'FAQ', href: '/' },
-      { label: 'Support', href: '/' },
-      { label: 'Responsible Gaming', href: '/' },
-      { label: 'Terms', href: '/' },
+      { label: 'FAQ', href: '/faq' },
+      { label: 'Support', href: '/faq' },
+      { label: 'Responsible Gaming', href: '/faq' },
+      { label: 'Terms', href: '/faq' },
     ],
   },
 ];
@@ -297,7 +297,7 @@ export default function Footer() {
             style={{
               padding: '6px 14px',
               borderRadius: 8,
-              border: `1px solid ${T.green ?? '#22c55e'}55`,
+              border: '1px solid #22c55e55',
               background: '#22c55e11',
               fontSize: 11,
               color: '#22c55e',

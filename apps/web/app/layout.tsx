@@ -2,9 +2,12 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
 import DemoBanner from './components/DemoBanner';
+import Footer from './components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Casino | Player',
+  title: 'Neon Palace Casino | Social Casino Games',
+  description: 'Play free social casino games — slots, blackjack, roulette and more. No real money gambling. Win virtual coins, climb the leaderboard.',
+  keywords: 'social casino, free slots, blackjack online, roulette, virtual casino, casino games',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -13,6 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <DemoBanner />
         {children}
+        <Footer />
       </body>
     </html>
   );
