@@ -1,0 +1,429 @@
+{
+  "$schema": "../manifest.schema.json",
+  "game": "neon-palace",
+  "version": "1.0.0",
+  "description": "Asset manifest for Neon Palace slot game — luxury cyber palace theme",
+  "style": "AAA casino, luxury cyber palace, black glass, antique gold, chrome, royal purple, premium cinematic lighting",
+  "assets": [
+
+    {
+      "id": "background",
+      "name": "Palace Hall Background",
+      "type": "background",
+      "path": "/assets/neon-palace/backgrounds/background.webp",
+      "fallback": "css:AmbientBackground component (radial gradients + light beams)",
+      "usage": "Full-page background behind the cabinet",
+      "generationPrompt": "Luxury casino palace interior, ultra-wide panoramic background, deep black marble floors with gold inlays, ornate baroque columns with chrome accents, royal purple velvet drapes, dramatic volumetric ceiling lights casting golden beams downward, neon accent lighting in purple and teal, extreme depth of field, dark atmospheric cinematic lighting, 8k render quality, no people, no text, no UI elements, no existing casino IP, photorealistic, horizontal orientation",
+      "status": "placeholder",
+      "targetSize": "1920x1080",
+      "format": "webp",
+      "notes": "Must tile/scale vertically. Currently replaced by CSS AmbientBackground component with atmospheric orbs and light pillars."
+    },
+
+    {
+      "id": "cabinet",
+      "name": "Slot Machine Cabinet",
+      "type": "background",
+      "path": "/assets/neon-palace/backgrounds/cabinet.webp",
+      "fallback": "css:Premium cabinet div with multi-layer box-shadow bevel",
+      "usage": "Cabinet body behind and around the reel window",
+      "generationPrompt": "Premium arcade slot machine cabinet body, luxury black lacquered wood with chrome trim, antique gold engraved decorative panels, subtle neon purple glow strips along edges, beveled chrome corners with rivet details, dark mirror-polished surface reflections, cinematic studio lighting, isolated on transparent background, front-facing view, no reel window area in center, 8k render quality",
+      "status": "placeholder",
+      "targetSize": "900x1200",
+      "format": "webp",
+      "notes": "Cabinet body only — reel window area must be transparent so reels show through. Use as CSS background-image behind reel grid."
+    },
+
+    {
+      "id": "reel_frame",
+      "name": "Reel Window Frame",
+      "type": "ui",
+      "path": "/assets/neon-palace/ui/reel-frame.webp",
+      "fallback": "css:Gold bevel border + chrome separators",
+      "usage": "Decorative frame surrounding the 5-reel grid",
+      "generationPrompt": "Slot machine reel window frame, luxury antique gold beveled frame, thick ornate border with engraved geometric patterns, chrome inner edge with inner shadow depth, subtle neon purple ambient glow around edges, dark glass center area (fully transparent), top and bottom have decorative gold scrollwork, 8k quality render, transparent background PNG",
+      "status": "placeholder",
+      "targetSize": "560x340",
+      "format": "png",
+      "notes": "Center must be fully transparent (PNG alpha) — reels render behind this frame. Exported at 2x for retina."
+    },
+
+    {
+      "id": "jackpot_panel",
+      "name": "Jackpot Display Panel",
+      "type": "ui",
+      "path": "/assets/neon-palace/ui/jackpot-panel.webp",
+      "fallback": "css:Dark metal plate with LED digit boxes",
+      "usage": "Progressive jackpot counter display above reels",
+      "generationPrompt": "Casino progressive jackpot display panel, dark brushed metal plate with engraved JACKPOT text, rows of individual LED digit display windows with amber/gold numeric glow, antique gold rivets at corners, subtle chrome bevel edge, warm inner light glow behind digits, cinematic studio lighting, isolated transparent background PNG, horizontal orientation",
+      "status": "placeholder",
+      "targetSize": "500x80",
+      "format": "png",
+      "notes": "Background plate only — digit numbers rendered in CSS/HTML over this image."
+    },
+
+    {
+      "id": "spin_button",
+      "name": "Spin Button",
+      "type": "ui",
+      "path": "/assets/neon-palace/ui/spin-button.webp",
+      "fallback": "css:Gold convex button with bottom-edge shadow",
+      "usage": "Primary spin action button",
+      "generationPrompt": "Premium arcade button, large circular convex gold button, antique gold brushed metal surface with subtle radial texture, bright specular highlight on upper-left quadrant, dark chrome base ring with depth shadow, inner neon purple glow ring, 3D raised appearance, cinematic studio lighting, isolated transparent background PNG, top-down slight angle view",
+      "status": "placeholder",
+      "targetSize": "200x80",
+      "format": "png",
+      "notes": "Two states needed: normal (gold) and pressed (darker, translated down). Normal state only for now."
+    },
+
+    {
+      "id": "bet_button",
+      "name": "Bet Adjustment Button",
+      "type": "ui",
+      "path": "/assets/neon-palace/ui/bet-button.webp",
+      "fallback": "css:Dark recessed button with chrome edge",
+      "usage": "+ and - bet adjustment buttons",
+      "generationPrompt": "Small premium casino button, square with rounded corners, dark black glass surface, chrome beveled edge, subtle neon purple glow on hover state, inset shadow for depth, clean minimalist design, isolated transparent background PNG, 48x48px target",
+      "status": "placeholder",
+      "targetSize": "96x96",
+      "format": "png",
+      "notes": "2x export (96px) for retina. Same design used for + and − buttons, label rendered in CSS."
+    },
+
+    {
+      "id": "auto_button",
+      "name": "Auto Spin Button",
+      "type": "ui",
+      "path": "/assets/neon-palace/ui/auto-button.webp",
+      "fallback": "css:Dark button with teal accent when active",
+      "usage": "Auto-spin toggle button",
+      "generationPrompt": "Small premium casino toggle button, rectangular with rounded corners, dark black glass surface, teal neon edge glow (active state), chrome frame, minimal clean design, isolated transparent PNG",
+      "status": "placeholder",
+      "targetSize": "120x48",
+      "format": "png",
+      "notes": "Active/inactive states. Currently rendered as CSS button."
+    },
+
+    {
+      "id": "turbo_button",
+      "name": "Turbo Spin Button",
+      "type": "ui",
+      "path": "/assets/neon-palace/ui/turbo-button.webp",
+      "fallback": "css:Dark button with magenta accent when active",
+      "usage": "Turbo speed toggle button",
+      "generationPrompt": "Small premium casino speed button, rectangular rounded, dark glass surface, hot pink/magenta neon edge glow active state, lightning bolt icon embossed in chrome, isolated transparent PNG",
+      "status": "placeholder",
+      "targetSize": "120x48",
+      "format": "png",
+      "notes": "Active/inactive states. Currently rendered as CSS button."
+    },
+
+    {
+      "id": "wild",
+      "name": "Wild Crown Symbol",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/wild.webp",
+      "fallback": "svg:Crown with jeweled inlays (inline SVG in SymbolArt)",
+      "usage": "Highest value wild symbol — substitutes all symbols",
+      "generationPrompt": "AAA casino slot symbol, majestic royal crown, antique gold with platinum accents, five prominent points each topped with a different colored gemstone (sapphire, ruby, emerald, diamond, amethyst), ornate filigree metalwork between points, centered diamond on front face, dramatic warm cinematic lighting from above, volumetric golden aura, isolated on fully transparent background, square 512x512, no text, no watermarks, no shadows outside symbol, ultra-high detail",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "WILD label omitted — rendered in CSS. Must have clean transparent background. Centered in square canvas."
+    },
+
+    {
+      "id": "scatter",
+      "name": "Scatter Star Gem Symbol",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/scatter.webp",
+      "fallback": "svg:Hexagonal gemstone with teal/magenta gradient (inline SVG in SymbolArt)",
+      "usage": "Scatter symbol — 3+ triggers free spins",
+      "generationPrompt": "AAA casino slot symbol, magical star-shaped gemstone, eight-pointed star cut with facets that refract teal and hot-pink light simultaneously, glowing from within, brilliant caustic light rays radiating outward, translucent cyan and magenta internal color, dramatic backlit cinematic lighting, isolated on fully transparent background, square 512x512, no text, maximum gem clarity detail",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "SCATTER label rendered in CSS. Must glow — but keep glow contained to avoid transparent-bg issues."
+    },
+
+    {
+      "id": "diamond",
+      "name": "Diamond Symbol (ZEUS/high_1)",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/diamond.webp",
+      "fallback": "svg:Brilliant-cut diamond with blue-white facets (inline SVG in SymbolArt)",
+      "usage": "High value symbol tier 4 — maps from server id high_1",
+      "generationPrompt": "AAA casino slot symbol, flawless brilliant-cut diamond gemstone, D-grade colorless white with icy blue internal fire, 58-facet round brilliant cut with perfect symmetry, intense sparkle caustics, light rays refracting through facets creating blue-white rainbow dispersion, isolated on fully transparent background, square 512x512, ultra-high gem detail, photorealistic render",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Server maps high_1 → ZEUS → diamond.webp"
+    },
+
+    {
+      "id": "ruby",
+      "name": "Ruby Symbol (ATHENA/high_3)",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/ruby.webp",
+      "fallback": "svg:Oval brilliant ruby with deep red radial gradient (inline SVG in SymbolArt)",
+      "usage": "High value symbol tier 4 — maps from server id high_3",
+      "generationPrompt": "AAA casino slot symbol, pigeon-blood Burmese ruby gemstone, oval brilliant cut, saturated deep crimson red with internal glowing warmth, strong silky silk inclusions creating star phenomenon, caustic red light rays, dramatic cinematic lighting from above, vivid red internal fire, isolated on fully transparent background, square 512x512, photorealistic gemstone render",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Server maps high_3 → ATHENA → ruby.webp"
+    },
+
+    {
+      "id": "emerald",
+      "name": "Emerald Symbol (POSEIDON/high_2)",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/emerald.webp",
+      "fallback": "svg:Rectangular step-cut emerald with green gradient (inline SVG in SymbolArt)",
+      "usage": "High value symbol tier 4 — maps from server id high_2",
+      "generationPrompt": "AAA casino slot symbol, Colombian emerald gemstone, emerald step cut (rectangular facets), deep vivid forest green with bluish undertone, garden inclusions visible through clarity, strong green light caustics, dramatic directional cinematic lighting, rich saturated color, isolated on fully transparent background, square 512x512, photorealistic gemstone render",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Server maps high_2 → POSEIDON → emerald.webp"
+    },
+
+    {
+      "id": "sapphire",
+      "name": "Sapphire Symbol (future/high_4)",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/sapphire.webp",
+      "fallback": "svg:Oval sapphire with royal blue gradient (placeholder — not in current game)",
+      "usage": "Reserved high value symbol — not currently in game, ready for future expansion",
+      "generationPrompt": "AAA casino slot symbol, royal blue Kashmir sapphire gemstone, oval brilliant cut, velvety cornflower-blue saturation with violet tint, strong blue light caustics and silky luster, dramatic cinematic lighting, isolated on fully transparent background, square 512x512, photorealistic gemstone render",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Not yet in SYMBOLS array. Add with id SAPPHIRE and SERVER_TO_VISUAL mapping high_4→SAPPHIRE when needed."
+    },
+
+    {
+      "id": "ace",
+      "name": "Ace Card Symbol",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/ace.webp",
+      "fallback": "svg:Dark card with gold A glyph and corner pips (inline SVG in SymbolArt)",
+      "usage": "Medium value symbol tier 3",
+      "generationPrompt": "AAA casino slot symbol, luxury playing card face, large bold letter A centered, engraved antique gold metallic typography on black obsidian card surface, ornate corner pip decorations in gold, thin gold border frame, subtle card texture, cinematic studio lighting, isolated transparent background, square 512x512, no shadows outside card edge",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Maps from server id med_1"
+    },
+
+    {
+      "id": "king",
+      "name": "King Card Symbol",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/king.webp",
+      "fallback": "svg:Dark card with purple K glyph (inline SVG in SymbolArt)",
+      "usage": "Medium value symbol tier 3",
+      "generationPrompt": "AAA casino slot symbol, luxury playing card face, large bold letter K centered, engraved royal purple amethyst-toned metallic typography on black obsidian card surface, ornate corner pip decorations in purple-gold, thin purple-gold border frame, cinematic studio lighting, isolated transparent background, square 512x512",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Maps from server id med_2"
+    },
+
+    {
+      "id": "queen",
+      "name": "Queen Card Symbol",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/queen.webp",
+      "fallback": "svg:Dark card with teal Q glyph (inline SVG in SymbolArt)",
+      "usage": "Low-medium value symbol tier 2",
+      "generationPrompt": "AAA casino slot symbol, luxury playing card face, large bold letter Q centered, engraved teal jade-toned metallic typography on black obsidian card surface, ornate corner pip decorations in teal-gold, thin teal border frame, cinematic studio lighting, isolated transparent background, square 512x512",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Maps from server id low_1"
+    },
+
+    {
+      "id": "jack",
+      "name": "Jack Card Symbol",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/jack.webp",
+      "fallback": "svg:Dark card with pink J glyph (inline SVG in SymbolArt)",
+      "usage": "Low-medium value symbol tier 2",
+      "generationPrompt": "AAA casino slot symbol, luxury playing card face, large bold letter J centered, engraved rose-gold pink metallic typography on black obsidian card surface, ornate corner pip decorations in pink-gold, thin pink border frame, cinematic studio lighting, isolated transparent background, square 512x512",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Maps from server id low_2"
+    },
+
+    {
+      "id": "ten",
+      "name": "Ten Card Symbol",
+      "type": "symbol",
+      "path": "/assets/neon-palace/symbols/ten.webp",
+      "fallback": "svg:Dark card with grey 10 glyph (inline SVG in SymbolArt)",
+      "usage": "Low value symbol tier 1",
+      "generationPrompt": "AAA casino slot symbol, luxury playing card face, large bold number 10 centered, engraved cool silver-chrome metallic typography on black obsidian card surface, ornate corner pip decorations in silver, thin silver border frame, cinematic studio lighting, isolated transparent background, square 512x512",
+      "status": "placeholder",
+      "targetSize": "512x512",
+      "format": "webp",
+      "notes": "Maps from server id low_3"
+    },
+
+    {
+      "id": "big_win_overlay",
+      "name": "Big Win Overlay",
+      "type": "effect",
+      "path": "/assets/neon-palace/effects/big-win-overlay.webp",
+      "fallback": "css:BigWinOverlay component (CSS animation + gradient text)",
+      "usage": "Full-screen win celebration for 'big' tier wins (15x–49x)",
+      "generationPrompt": "Casino big win celebration graphic, centered bold text BIG WIN in antique gold metallic 3D lettering, dramatic rays of golden light burst from text, coin and star particles scattered around, dark purple atmospheric background with subtle glow, cinematic composition, isolated for overlay compositing, square 1080x1080",
+      "status": "placeholder",
+      "targetSize": "1080x1080",
+      "format": "webp",
+      "notes": "Used as bg-image overlay. Text rendered separately in CSS so animation works."
+    },
+
+    {
+      "id": "mega_win_overlay",
+      "name": "Mega Win Overlay",
+      "type": "effect",
+      "path": "/assets/neon-palace/effects/mega-win-overlay.webp",
+      "fallback": "css:BigWinOverlay component with mega config",
+      "usage": "Full-screen win celebration for 'mega' tier wins (100x+)",
+      "generationPrompt": "Casino mega win celebration graphic, explosive visual, centered bold text MEGA WIN in rainbow holographic 3D chrome lettering, massive light explosion with beams of red cyan and gold, showers of gold coins and gemstones raining down, dark atmospheric background, ultra-dramatic cinematic composition, isolated for overlay compositing, square 1080x1080",
+      "status": "placeholder",
+      "targetSize": "1080x1080",
+      "format": "webp",
+      "notes": "Most dramatic overlay. CSS animation plays on top."
+    },
+
+    {
+      "id": "epic_win_overlay",
+      "name": "Epic Win Overlay",
+      "type": "effect",
+      "path": "/assets/neon-palace/effects/epic-win-overlay.webp",
+      "fallback": "css:BigWinOverlay component with epic config",
+      "usage": "Full-screen win celebration for 'epic' tier wins (50x–99x)",
+      "generationPrompt": "Casino epic win celebration graphic, bold text EPIC WIN in purple amethyst 3D lettering with gold trim, royal purple light burst, scattered gems and sparkles, dramatic atmospheric glow, dark background, isolated for compositing, square 1080x1080",
+      "status": "placeholder",
+      "targetSize": "1080x1080",
+      "format": "webp",
+      "notes": "Mid-tier between big and mega."
+    },
+
+    {
+      "id": "jackpot_overlay",
+      "name": "Jackpot Overlay",
+      "type": "effect",
+      "path": "/assets/neon-palace/effects/jackpot-overlay.webp",
+      "fallback": "css:BigWinOverlay component with jackpot config",
+      "usage": "Full-screen celebration when progressive jackpot is hit",
+      "generationPrompt": "Casino jackpot win celebration, ultimate visual spectacle, centered bold text JACKPOT! in blazing gold-to-white gradient 3D lettering with lens flare, massive explosion of gold coins raining from above, rainbow light rays from center, extreme dramatic cinematic lighting, dark palatial background with purple undertones, maximum visual impact, isolated for compositing, square 1080x1080",
+      "status": "placeholder",
+      "targetSize": "1080x1080",
+      "format": "webp",
+      "notes": "Only triggered on jackpot hit (all 5 WILD on middle row). Must be most impressive overlay."
+    },
+
+    {
+      "id": "coin_particle",
+      "name": "Coin Particle",
+      "type": "effect",
+      "path": "/assets/neon-palace/effects/coin-particle.webp",
+      "fallback": "css:Gold circle div with radial gradient",
+      "usage": "Burst particle emitted on win — coin shape",
+      "generationPrompt": "Single gold coin, antique gold with slight shine, front face with simple engraved palace logo pattern, clean round shape, isolated on fully transparent background, square 64x64, cartoon-stylized but premium quality",
+      "status": "placeholder",
+      "targetSize": "64x64",
+      "format": "webp",
+      "notes": "Used in ParticleSystem as CSS background-image. Currently replaced by CSS circle/square divs."
+    },
+
+    {
+      "id": "glow_particle",
+      "name": "Glow/Sparkle Particle",
+      "type": "effect",
+      "path": "/assets/neon-palace/effects/glow-particle.webp",
+      "fallback": "css:Radial gradient transparent circle",
+      "usage": "Soft glow sparkle particle emitted on win",
+      "generationPrompt": "Magical sparkle/glow particle, four-pointed star with soft radiant glow, gold and white color, maximum transparency falloff to edges, isolated on fully transparent background, square 64x64",
+      "status": "placeholder",
+      "targetSize": "64x64",
+      "format": "webp",
+      "notes": "Blended additively over scene for extra sparkle effect."
+    },
+
+    {
+      "id": "spin_start_sfx",
+      "name": "Spin Start Sound",
+      "type": "audio",
+      "path": "/assets/neon-palace/audio/spin-start.mp3",
+      "fallback": "web-audio:SoundEngine.playSpin() Web Audio API synthesis",
+      "usage": "Played when spin button pressed, reel animation begins",
+      "generationPrompt": "Casino slot machine spin start sound effect, mechanical reel acceleration, brief whoosh with metal click, satisfying premium feel, 0.5 seconds duration, stereo, 44100Hz, -3dBFS peak, WAV source then convert to MP3 192kbps",
+      "status": "placeholder",
+      "targetSize": "~0.5s",
+      "format": "mp3",
+      "notes": "Currently synthesized by SoundEngine class using Web Audio API oscillators. Replace by loading this file in SoundEngine.playSpin()."
+    },
+
+    {
+      "id": "reel_stop_sfx",
+      "name": "Reel Stop Sound",
+      "type": "audio",
+      "path": "/assets/neon-palace/audio/reel-stop.mp3",
+      "fallback": "web-audio:SoundEngine.playReel() Web Audio API synthesis",
+      "usage": "Played when each individual reel stops — 5 total per spin",
+      "generationPrompt": "Casino slot reel stop click sound, single mechanical thump with brief resonance tail, metallic, authoritative, 0.15 seconds, 5 pitch variants needed (different tones for reels 1-5), stereo 44100Hz MP3 192kbps",
+      "status": "placeholder",
+      "targetSize": "~0.15s × 5 variants",
+      "format": "mp3",
+      "notes": "Need 5 files: reel-stop-0.mp3 through reel-stop-4.mp3 for pitch variety across reels."
+    },
+
+    {
+      "id": "win_sfx",
+      "name": "Win Sound Effects",
+      "type": "audio",
+      "path": "/assets/neon-palace/audio/win-small.mp3",
+      "fallback": "web-audio:SoundEngine.playWin() Web Audio API synthesis",
+      "usage": "Played on wins — 3 variants for small/medium/big tiers",
+      "generationPrompt": "Casino win jingle sound effect, [VARIANT: small=brief 3-note ascending chime 0.5s | medium=5-note fanfare 1s | big=triumphant 8-note orchestral sting 2s with coin sounds], premium cinematic casino feel, stereo 44100Hz MP3 192kbps",
+      "status": "placeholder",
+      "targetSize": "0.5–2s per variant",
+      "format": "mp3",
+      "notes": "Need 3 files: win-small.mp3, win-medium.mp3, win-big.mp3. Jackpot uses jackpot_sfx separately."
+    },
+
+    {
+      "id": "jackpot_sfx",
+      "name": "Jackpot Sound Effect",
+      "type": "audio",
+      "path": "/assets/neon-palace/audio/jackpot.mp3",
+      "fallback": "web-audio:SoundEngine.playWin('mega') Web Audio API synthesis",
+      "usage": "Played exclusively on jackpot hit — most impactful sound",
+      "generationPrompt": "Casino jackpot sound effect, dramatic escalating orchestral hit with bells choir and coins avalanche, 3 second build-up then massive climax, triumphant luxury casino feel, stereo 44100Hz MP3 192kbps, -2dBFS peak",
+      "status": "placeholder",
+      "targetSize": "~4s",
+      "format": "mp3",
+      "notes": "This is the most important audio asset. Should feel truly special."
+    },
+
+    {
+      "id": "background_music",
+      "name": "Background Ambient Music",
+      "type": "audio",
+      "path": "/assets/neon-palace/audio/bgm.mp3",
+      "fallback": "none:No background music in current implementation",
+      "usage": "Looping ambient background music during gameplay",
+      "generationPrompt": "Casino ambient background music loop, luxury cyber palace atmosphere, slow mystical electronic with subtle orchestral undertones, royal purple and gold mood, tempo 90bpm, no lyrics, seamless loop at 60 second mark, cinematic production quality, stereo 44100Hz MP3 192kbps",
+      "status": "placeholder",
+      "targetSize": "~60s loop",
+      "format": "mp3",
+      "notes": "Not yet wired into SoundEngine. Add bgm HTMLAudioElement with loop=true, controlled by volume slider."
+    }
+  ]
+}

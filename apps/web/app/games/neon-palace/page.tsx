@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { gameApi } from '../../../lib/api-game';
 import { userApi } from '../../../lib/api-user';
+import { getSymbolImage } from '../../../config/neon-palace-assets';
 
 /* ─── DESIGN TOKENS ─────────────────────────────────────────────────────────── */
 const C = {
@@ -251,11 +252,21 @@ class SoundEngine {
 }
 
 /* ─── SVG SYMBOL ART ─────────────────────────────────────────────────────────── */
-function SymbolArt({ id, size = 90, glowing = false }: { id: string; size?: number; glowing?: boolean }) {
+function SymbolArt({ id, size = 90, glowing = false, imageSrc }: { id: string; size?: number; glowing?: boolean; imageSrc?: string | null }) {
   const sym = SYMBOLS.find(s => s.id === id) ?? SYMBOLS[0]!;
   const gStyle: React.CSSProperties = glowing ? { animation: 'symbolGlow 0.8s ease-in-out infinite', color: sym.color } : {};
   const s = size;
   const wrap: React.CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'center', width: s, height: s, ...gStyle };
+
+  if (imageSrc) {
+    return (
+      <div style={wrap}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={imageSrc} alt={sym.name} width={s} height={s}
+          style={{ objectFit: 'contain', width: s, height: s }}/>
+      </div>
+    );
+  }
 
   if (id === 'WILD') return (
     <div style={wrap}>
@@ -703,7 +714,7 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
               background: isWin ? `radial-gradient(ellipse at center,${SYMBOLS.find(s=>s.id===symId)?.glow??'#f4c430'}28,transparent 70%)` : 'transparent',
               transition:'background 0.3s',
             }}>
-              <SymbolArt id={symId} size={88} glowing={isWin}/>
+              <SymbolArt id={symId} size={88} glowing={isWin} imageSrc={getSymbolImage(symId)}/>
             </div>
           );
         })}
@@ -1221,7 +1232,7 @@ export default function NeonPalacePage() {
             <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))',gap:6}}>
               {SYMBOLS.map(sym=>(
                 <div key={sym.id} style={{display:'flex',alignItems:'center',gap:8,background:C.surface,borderRadius:10,padding:'6px 10px',border:`1px solid ${sym.color}28`}}>
-                  <SymbolArt id={sym.id} size={40}/>
+                  <SymbolArt id={sym.id} size={40} imageSrc={getSymbolImage(sym.id)}/>
                   <div style={{flex:1}}>
                     <div style={{fontSize:12,fontWeight:800,color:sym.color}}>{sym.name}</div>
                     <div style={{fontSize:10,color:C.textDim}}>{sym.payouts.map((p,i)=>p>0?`${i+1}×${p}`:null).filter(Boolean).join(' | ')}</div>

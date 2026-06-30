@@ -10,3 +10,13 @@ build/
 coverage/
 .turbo/
 .vscode/settings.json
+
+# Generated game asset binaries — commit structure (.gitkeep) but not files
+apps/web/public/assets/**/*.png
+apps/web/public/assets/**/*.webp
+apps/web/public/assets/**/*.jpg
+apps/web/public/assets/**/*.jpeg
+apps/web/public/assets/**/*.mp3
+apps/web/public/assets/**/*.ogg
+apps/web/public/assets/**/*.wav
+!apps/web/public/assets/**/.gitkeep
