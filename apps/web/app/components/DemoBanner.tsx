@@ -1,7 +1,10 @@
 'use client';
+import { getSharedAsset } from '../../config/shared-assets';
 
 export default function DemoBanner() {
   if (process.env.NEXT_PUBLIC_DEMO_MODE !== 'true') return null;
+
+  const bg = getSharedAsset('demo_banner_bg');
 
   return (
     <div
@@ -11,7 +14,7 @@ export default function DemoBanner() {
         left: 0,
         right: 0,
         zIndex: 9999,
-        background: 'linear-gradient(90deg,#0e0018,#130020,#0e0018)',
+        background: bg ? `url(${bg}) center/cover no-repeat` : 'linear-gradient(90deg,#0e0018,#130020,#0e0018)',
         borderBottom: '1px solid #d4a84833',
         color: '#d4a848',
         textAlign: 'center',

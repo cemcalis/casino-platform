@@ -2,7 +2,8 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { gameApi } from '../../../lib/api-game';
 import { userApi } from '../../../lib/api-user';
-import { getSymbolImage } from '../../../config/neon-palace-assets';
+import { getSymbolImage, getNeonPalaceAsset } from '../../../config/neon-palace-assets';
+import { getSharedAsset } from '../../../config/shared-assets';
 
 /* ─── DESIGN TOKENS ─────────────────────────────────────────────────────────── */
 const C = {
@@ -557,7 +558,7 @@ function ParticleSystem({ active, tier, centerX, centerY }: { active:boolean; ti
     if (!active) { setParticles([]); return; }
     const count = tier==='mega'?180:tier==='big'?100:tier==='medium'?50:25;
     const colors = tier==='mega'?['#f4c430','#ffe066','#c8921a','#ff2068','#00c8be']:tier==='big'?['#f4c430','#ffe066','#c8921a','#fbbf24']:tier==='medium'?['#00c8be','#6ee7b7','#a78bfa']:['#fff','#f0eaf8','#9daab8'];
-    const shapes = ['circle','square','star'];
+    const shapes = ['circle','square','star','coin','sparkle'];
     setParticles(Array.from({length:count},() => {
       const angle = (Math.random()*360)*Math.PI/180;
       const speed = 3+Math.random()*8;
@@ -580,7 +581,47 @@ function ParticleSystem({ active, tier, centerX, centerY }: { active:boolean; ti
     <div style={{position:'fixed',inset:0,pointerEvents:'none',zIndex:999,overflow:'hidden'}}>
       {particles.map(p => {
         const sz = p.size*(0.2+p.life*0.8);
-        return <div key={p.id} style={{position:'absolute',left:p.x,top:p.y,width:sz,height:sz,opacity:p.life,transform:`rotate(${p.rot}deg) translate(-50%,-50%)`,background:p.shape==='circle'?`radial-gradient(circle,${p.color},transparent)`:p.color,borderRadius:p.shape==='circle'?'50%':'4px',boxShadow:`0 0 ${sz*1.5}px ${p.color}88`}}/>;
+        let background = p.color;
+        let borderRadius = '4px';
+        let backgroundSize = 'auto';
+        let backgroundPosition = '0% 0%';
+        let boxShadow = `0 0 ${sz*1.5}px ${p.color}88`;
+
+        if (p.shape === 'coin' && getSharedAsset('coin_burst_sheet')) {
+          const frame = Math.floor((1 - p.life) * p.maxLife / 4) % 8;
+          background = `url(${getSharedAsset('coin_burst_sheet')})`;
+          backgroundSize = '800% 100%';
+          backgroundPosition = `${-frame * 100}% 0%`;
+          borderRadius = '0';
+          boxShadow = 'none';
+        } else if (p.shape === 'sparkle' && getSharedAsset('sparkle_sheet')) {
+          const frame = Math.floor((1 - p.life) * 6) % 6;
+          background = `url(${getSharedAsset('sparkle_sheet')})`;
+          backgroundSize = '600% 100%';
+          backgroundPosition = `${-frame * 100}% 0%`;
+          borderRadius = '0';
+          boxShadow = `0 0 ${sz}px #ffd54f`;
+        } else if (p.shape === 'circle') {
+          background = `radial-gradient(circle,${p.color},transparent)`;
+          borderRadius = '50%';
+        }
+
+        return (
+          <div key={p.id} style={{
+            position:'absolute',
+            left:p.x,
+            top:p.y,
+            width:sz,
+            height:sz,
+            opacity:p.life,
+            transform:`rotate(${p.rot}deg) translate(-50%,-50%)`,
+            background,
+            backgroundSize,
+            backgroundPosition,
+            borderRadius,
+            boxShadow
+          }}/>
+        );
       })}
     </div>
   );
@@ -1013,8 +1054,10 @@ export default function NeonPalacePage() {
         minHeight:'100vh', position:'relative', zIndex:1,
         background: isFreeSpinBg
           ? 'linear-gradient(135deg,#1a0d00,#0d1500,#001a14,#1a0d00)'
-          : 'radial-gradient(ellipse at 50% 0%,#1a0030 0%,#06000e 65%)',
-        backgroundSize: isFreeSpinBg ? '400% 400%' : 'auto',
+          : (getNeonPalaceAsset('background')
+              ? `url(${getNeonPalaceAsset('background')}) center/cover no-repeat`
+              : 'radial-gradient(ellipse at 50% 0%,#1a0030 0%,#06000e 65%)'),
+        backgroundSize: isFreeSpinBg ? '400% 400%' : 'cover',
         animation: isFreeSpinBg ? 'freeSpinBg 3s ease infinite' : (isBigWin ? 'screenShake 0.6s ease-out' : 'none'),
         display:'flex', flexDirection:'column', alignItems:'center',
         padding:'12px 16px 24px', gap:12,
@@ -1024,8 +1067,14 @@ export default function NeonPalacePage() {
         {/* HEADER */}
         <div style={{width:'100%',maxWidth:800,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0'}}>
           <div style={{lineHeight:1}}>
-            <span style={{fontSize:'clamp(18px,3vw,28px)',fontWeight:900,background:'linear-gradient(90deg,#8a5e10,#f4c430,#ffe066,#d4a030,#8a5e10)',backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',animation:'logoShimmer 3s linear infinite',letterSpacing:1,display:'block'}}>NEON PALACE</span>
-            <span style={{fontSize:'clamp(8px,1.5vw,10px)',color:C.textDim,letterSpacing:4,textTransform:'uppercase',fontWeight:700}}>Premium Slots</span>
+            {getSharedAsset('logo_lockup') ? (
+              <img src={getSharedAsset('logo_lockup')!} alt="Neon Palace" style={{height:52,display:'block'}}/>
+            ) : (
+              <>
+                <span style={{fontSize:'clamp(18px,3vw,28px)',fontWeight:900,background:'linear-gradient(90deg,#8a5e10,#f4c430,#ffe066,#d4a030,#8a5e10)',backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',animation:'logoShimmer 3s linear infinite',letterSpacing:1,display:'block'}}>NEON PALACE</span>
+                <span style={{fontSize:'clamp(8px,1.5vw,10px)',color:C.textDim,letterSpacing:4,textTransform:'uppercase',fontWeight:700}}>Premium Slots</span>
+              </>
+            )}
           </div>
           <div style={{display:'flex',alignItems:'center',gap:10}}>
             <div style={{background:'linear-gradient(135deg,#100020,#1a002a)',border:`1px solid #d4a84844`,borderRadius:10,padding:'6px 18px',textAlign:'center',boxShadow:'0 0 16px #d4a84820'}}>
@@ -1051,7 +1100,19 @@ export default function NeonPalacePage() {
         )}
 
         {/* JACKPOT BAR */}
-        <div style={{width:'100%',maxWidth:800,background:'linear-gradient(135deg,#0e001a,#180028)',border:`1px solid ${C.gold}44`,borderRadius:14,padding:'10px 24px',display:'flex',alignItems:'center',justifyContent:'space-between',boxShadow:`0 0 24px ${C.gold}18`}}>
+        <div style={{
+          width:'100%',maxWidth:800,
+          background: getNeonPalaceAsset('jackpot_panel')
+            ? `url(${getNeonPalaceAsset('jackpot_panel')}) center/cover no-repeat`
+            : 'linear-gradient(135deg,#0e001a,#180028)',
+          border:`1px solid ${C.gold}44`,
+          borderRadius:14,
+          padding:'10px 24px',
+          display:'flex',
+          alignItems:'center',
+          justifyContent:'space-between',
+          boxShadow:`0 0 24px ${C.gold}18`
+        }}>
           <span style={{fontSize:10,color:C.textDim,textTransform:'uppercase',letterSpacing:3,fontWeight:700}}>Progressive Jackpot</span>
           <span style={{fontSize:'clamp(20px,3.5vw,32px)',fontWeight:900,color:C.goldBright,textShadow:`0 0 16px ${C.gold}, 0 0 32px #c8921a`,animation:'jackpotTick 2s ease-in-out infinite',fontVariantNumeric:'tabular-nums'}}>
             ${jackpot.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}
@@ -1073,12 +1134,15 @@ export default function NeonPalacePage() {
         <div className="np-reel-outer" style={{width:'100%',maxWidth:800,position:'relative'}}>
           {/* Dark luxury cabinet outer frame */}
           <div style={{
-            background:'linear-gradient(180deg,#0e0018 0%,#06000e 100%)',
+            background: getNeonPalaceAsset('cabinet')
+              ? `url(${getNeonPalaceAsset('cabinet')}) center/cover no-repeat`
+              : 'linear-gradient(180deg,#0e0018 0%,#06000e 100%)',
             border:`2px solid ${C.gold}66`,
             borderRadius:18,
             padding:'18px 14px 14px',
             boxShadow:`0 0 40px #00000088, 0 0 0 1px #d4a84822, inset 0 0 30px #00000099`,
-            position:'relative',overflow:'hidden',
+            position:'relative',
+            overflow:'hidden',
           }}>
             {/* Gold corner ornaments — hardware feel */}
             {([
@@ -1101,7 +1165,9 @@ export default function NeonPalacePage() {
               borderRadius:12,
               padding:3,
               boxShadow:`0 0 16px ${C.gold}33, inset 0 0 16px #00000066, 0 0 0 1px #8a5e1033`,
-              background:'#0a0015',
+              background: getNeonPalaceAsset('reel_frame')
+                ? `url(${getNeonPalaceAsset('reel_frame')}) center/cover no-repeat`
+                : '#0a0015',
             }}>
               <div style={{display:'flex',gap:3,justifyContent:'center',position:'relative',height:VISIBLE*SYMBOL_H}}>
                 <PaylineOverlay winLines={winData?.winLines ?? []} active={showWin}/>
@@ -1178,11 +1244,25 @@ export default function NeonPalacePage() {
             </div>
             <div style={{display:'flex',gap:8}}>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); setAutoSpin(a => { const n = !a; autoRef.current = n; return n; }); }}
-                style={{padding:'6px 16px',borderRadius:10,border:`1px solid ${autoSpin?C.teal:C.cardBorder}`,background:autoSpin?`${C.teal}20`:C.surface,color:autoSpin?C.teal:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'}}>
+                style={{
+                  padding:'6px 16px',borderRadius:10,
+                  border:`1px solid ${autoSpin?C.teal:C.cardBorder}`,
+                  background: getNeonPalaceAsset('auto_button')
+                    ? `url(${getNeonPalaceAsset('auto_button')}) center/cover no-repeat`
+                    : (autoSpin?`${C.teal}20`:C.surface),
+                  color:autoSpin?C.teal:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'
+                }}>
                 {autoSpin?'Stop Auto':'Auto'}
               </button>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); setTurbo(t => !t); }}
-                style={{padding:'6px 16px',borderRadius:10,border:`1px solid ${turbo?C.magenta:C.cardBorder}`,background:turbo?`${C.magenta}20`:C.surface,color:turbo?C.magenta:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'}}>Turbo</button>
+                style={{
+                  padding:'6px 16px',borderRadius:10,
+                  border:`1px solid ${turbo?C.magenta:C.cardBorder}`,
+                  background: getNeonPalaceAsset('turbo_button')
+                    ? `url(${getNeonPalaceAsset('turbo_button')}) center/cover no-repeat`
+                    : (turbo?`${C.magenta}20`:C.surface),
+                  color:turbo?C.magenta:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'
+                }}>Turbo</button>
             </div>
           </div>
 
@@ -1194,7 +1274,9 @@ export default function NeonPalacePage() {
               width:'100%',height:66,borderRadius:14,
               background: spinning
                 ? 'linear-gradient(135deg,#0e0018,#180028)'
-                : C.btnGrad,
+                : (getNeonPalaceAsset('spin_button')
+                    ? `url(${getNeonPalaceAsset('spin_button')}) center/cover no-repeat`
+                    : C.btnGrad),
               border: spinning ? `2px solid ${C.cardBorder}` : `2px solid ${C.gold}`,
               color: spinning ? C.textDim : '#06000e',
               fontSize:'clamp(18px,3vw,22px)',fontWeight:900,

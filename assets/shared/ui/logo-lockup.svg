@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gold-bevel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff5cc"/>
+      <stop offset="30%" stop-color="#f5cc5b"/>
+      <stop offset="70%" stop-color="#b88a14"/>
+      <stop offset="100%" stop-color="#664600"/>
+    </linearGradient>
+    <linearGradient id="gold-front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fff8db"/>
+      <stop offset="40%" stop-color="#ffd257"/>
+      <stop offset="75%" stop-color="#d4a31c"/>
+      <stop offset="100%" stop-color="#916c0b"/>
+    </linearGradient>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#cbd5e1"/>
+      <stop offset="60%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="purple-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComponentTransfer in="blur" result="glow">
+        <feFuncA type="linear" slope="0.7"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#purple-glow)">
+    <path d="M 300 40 L 350 40 L 360 48 L 400 48 L 440 48 L 450 40 L 500 40" fill="none" stroke="url(#gold-front)" stroke-width="1.5" opacity="0.6"/>
+    <polygon points="400,43 404,48 400,53 396,48" fill="url(#gold-front)" opacity="0.8"/>
+    <text x="400" y="125" text-anchor="middle" font-family="'Outfit', 'Cinzel', 'Inter', sans-serif" font-weight="900" font-size="76" letter-spacing="8" fill="#180030" opacity="0.9">NEON PALACE</text>
+    <text x="398" y="123" text-anchor="middle" font-family="'Outfit', 'Cinzel', 'Inter', sans-serif" font-weight="900" font-size="76" letter-spacing="8" fill="url(#gold-bevel)">NEON PALACE</text>
+    <text x="400" y="121" text-anchor="middle" font-family="'Outfit', 'Cinzel', 'Inter', sans-serif" font-weight="900" font-size="76" letter-spacing="8" fill="url(#gold-front)">NEON PALACE</text>
+    <path d="M 220 145 L 380 145 L 390 150 L 410 150 L 420 145 L 580 145" fill="none" stroke="url(#gold-front)" stroke-width="1.5" opacity="0.8"/>
+    <circle cx="400" cy="150" r="3" fill="url(#gold-front)"/>
+    <text x="400" y="174" text-anchor="middle" font-family="'Outfit', 'Inter', sans-serif" font-weight="600" font-size="16" letter-spacing="12" fill="url(#chrome)" opacity="0.9">PREMIUM SLOTS</text>
+  </g>
+</svg>
