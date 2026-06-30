@@ -942,11 +942,15 @@ export default function NeonPalacePage() {
         pendingResultRef.current = grid;
         setPendingResult(grid);
         pendingServerWin.current = {
-          payout: isFree ? payout + betRef.current : payout,
+          payout,
           winLines: res.paylineWins.map(w => w.paylineIndex),
           winTier,
-          freeSpins: res.freeSpinsAwarded,
+          freeSpins: res.freeSpinsRemaining,  // use server's authoritative counter
         };
+        // Sync client free spin display from server
+        if (typeof res.freeSpinsRemaining === 'number') {
+          setFreeSpins(res.freeSpinsRemaining);
+        }
         if (jackpotHit) setJackpot(2500);
       } catch { /* keep local result */ }
     }
@@ -956,12 +960,8 @@ export default function NeonPalacePage() {
   handleSpinRef.current = handleSpin;
 
   const effectiveSpin = useCallback(() => {
-    if (freeSpinsRef.current > 0) {
-      setFreeSpins(f => f - 1);
-      void handleSpinRef.current(true);
-    } else {
-      void handleSpinRef.current();
-    }
+    // Server tracks free spins; just spin — server will skip bet deduction automatically
+    void handleSpinRef.current();
   }, []);
 
   const effectiveSpinRef = useRef(effectiveSpin);
