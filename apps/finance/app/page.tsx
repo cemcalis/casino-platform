@@ -38,21 +38,21 @@ const REVENUE_DATA = [
 const PROFIT_DATA = REVENUE_DATA.map((v) => Math.round(v * 0.32 + Math.random() * 15000));
 
 const TRANSACTIONS = [
-  { id: 'TXN-88421', player: 'GoldStar_99', type: 'Deposit',    amount: 5000,   method: 'Card',    status: 'Completed', time: '23:01' },
-  { id: 'TXN-88420', player: 'NeonKing',    type: 'Withdrawal', amount: 2500,   method: 'Crypto',  status: 'Pending',   time: '22:58' },
-  { id: 'TXN-88419', player: 'VIPLord_7',   type: 'Bonus',      amount: 1000,   method: '—',       status: 'Completed', time: '22:55' },
-  { id: 'TXN-88418', player: 'SpinMaster',  type: 'Deposit',    amount: 750,    method: 'eWallet', status: 'Completed', time: '22:51' },
-  { id: 'TXN-88417', player: 'CryptoAce',   type: 'Withdrawal', amount: 12000,  method: 'Crypto',  status: 'Failed',    time: '22:48' },
-  { id: 'TXN-88416', player: 'LuckyStar',   type: 'Deposit',    amount: 300,    method: 'Bank',    status: 'Pending',   time: '22:44' },
-  { id: 'TXN-88415', player: 'HighRoller',  type: 'Adjustment', amount: -500,   method: '—',       status: 'Completed', time: '22:40' },
-  { id: 'TXN-88414', player: 'NeonQueen',   type: 'Deposit',    amount: 2000,   method: 'Card',    status: 'Completed', time: '22:37' },
-  { id: 'TXN-88413', player: 'JetSet_VIP',  type: 'Withdrawal', amount: 8500,   method: 'Bank',    status: 'Completed', time: '22:33' },
-  { id: 'TXN-88412', player: 'SlotKing',    type: 'Bonus',      amount: 250,    method: '—',       status: 'Completed', time: '22:29' },
-  { id: 'TXN-88411', player: 'DiamondX',    type: 'Deposit',    amount: 10000,  method: 'Crypto',  status: 'Completed', time: '22:25' },
-  { id: 'TXN-88410', player: 'RoyalFlush',  type: 'Withdrawal', amount: 3200,   method: 'eWallet', status: 'Pending',   time: '22:20' },
-  { id: 'TXN-88409', player: 'GoldRush',    type: 'Deposit',    amount: 1500,   method: 'Card',    status: 'Completed', time: '22:15' },
-  { id: 'TXN-88408', player: 'NightOwl',    type: 'Adjustment', amount: 200,    method: '—',       status: 'Completed', time: '22:10' },
-  { id: 'TXN-88407', player: 'VaultBreak',  type: 'Deposit',    amount: 4200,   method: 'Bank',    status: 'Completed', time: '22:05' },
+  { id: 'TXN-88421', player: 'GoldStar_99', type: 'Deposit',    amount: 5000,   method: 'Card',    status: 'Completed', time: '23:01', kycLevel: 3, riskScore: 5, ip: '192.168.1.45' },
+  { id: 'TXN-88420', player: 'NeonKing',    type: 'Withdrawal', amount: 2500,   method: 'Crypto',  status: 'Pending',   time: '22:58', kycLevel: 2, riskScore: 15, ip: '185.42.12.89' },
+  { id: 'TXN-88419', player: 'VIPLord_7',   type: 'Bonus',      amount: 1000,   method: '—',       status: 'Completed', time: '22:55', kycLevel: 3, riskScore: 2, ip: '45.33.21.100' },
+  { id: 'TXN-88418', player: 'SpinMaster',  type: 'Deposit',    amount: 750,    method: 'eWallet', status: 'Completed', time: '22:51', kycLevel: 1, riskScore: 8, ip: '78.120.45.67' },
+  { id: 'TXN-88417', player: 'CryptoAce',   type: 'Withdrawal', amount: 12000,  method: 'Crypto',  status: 'Failed',    time: '22:48', kycLevel: 2, riskScore: 45, ip: '103.55.88.12' },
+  { id: 'TXN-88416', player: 'LuckyStar',   type: 'Deposit',    amount: 300,    method: 'Bank',    status: 'Pending',   time: '22:44', kycLevel: 1, riskScore: 12, ip: '212.45.78.90' },
+  { id: 'TXN-88415', player: 'HighRoller',  type: 'Adjustment', amount: -500,   method: '—',       status: 'Completed', time: '22:40', kycLevel: 3, riskScore: 0, ip: '89.12.45.67' },
+  { id: 'TXN-88414', player: 'NeonQueen',   type: 'Deposit',    amount: 2000,   method: 'Card',    status: 'Completed', time: '22:37', kycLevel: 2, riskScore: 7, ip: '156.78.90.12' },
+  { id: 'TXN-88413', player: 'JetSet_VIP',  type: 'Withdrawal', amount: 8500,   method: 'Bank',    status: 'Completed', time: '22:33', kycLevel: 3, riskScore: 3, ip: '34.56.78.90' },
+  { id: 'TXN-88412', player: 'SlotKing',    type: 'Bonus',      amount: 250,    method: '—',       status: 'Completed', time: '22:29', kycLevel: 1, riskScore: 5, ip: '123.45.67.89' },
+  { id: 'TXN-88411', player: 'DiamondX',    type: 'Deposit',    amount: 10000,  method: 'Crypto',  status: 'Completed', time: '22:25', kycLevel: 3, riskScore: 10, ip: '67.89.12.34' },
+  { id: 'TXN-88410', player: 'RoyalFlush',  type: 'Withdrawal', amount: 3200,   method: 'eWallet', status: 'Pending',   time: '22:20', kycLevel: 2, riskScore: 18, ip: '90.12.34.56' },
+  { id: 'TXN-88409', player: 'GoldRush',    type: 'Deposit',    amount: 1500,   method: 'Card',    status: 'Completed', time: '22:15', kycLevel: 1, riskScore: 6, ip: '234.56.78.90' },
+  { id: 'TXN-88408', player: 'NightOwl',    type: 'Adjustment', amount: 200,    method: '—',       status: 'Completed', time: '22:10', kycLevel: 2, riskScore: 1, ip: '45.67.89.12' },
+  { id: 'TXN-88407', player: 'VaultBreak',  type: 'Deposit',    amount: 4200,   method: 'Bank',    status: 'Completed', time: '22:05', kycLevel: 3, riskScore: 4, ip: '78.90.12.34' },
 ];
 
 const RISK_ALERTS = [
@@ -717,9 +717,9 @@ export default function FinancePage() {
               <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 700 }}>
                 <thead>
                   <tr style={{ borderBottom: `1px solid ${C.borderFaint}` }}>
-                    {['TXN ID','Player','Type','Amount','Method','Status','Time'].map(h => (
+                    {['TXN ID','Player','Type','Amount','Method','KYC','Risk','IP','Status','Time'].map(h => (
                       <th key={h} style={{
-                        textAlign: 'left', padding: '8px 12px',
+                        textAlign: 'left', padding: '8px 10px',
                         fontSize: 10, fontWeight: 600, letterSpacing: 1.2,
                         color: C.textMuted, textTransform: 'uppercase',
                       }}>{h}</th>
@@ -736,34 +736,52 @@ export default function FinancePage() {
                         cursor: 'pointer',
                         animationDelay: `${i * 40}ms`,
                       }}>
-                      <td style={{ padding: '11px 12px', fontSize: 12, color: C.textMuted,
+                      <td style={{ padding: '9px 10px', fontSize: 11, color: C.textMuted,
                         fontFamily: 'monospace' }}>{txn.id}</td>
-                      <td style={{ padding: '11px 12px', fontSize: 13, fontWeight: 600, color: C.text }}>
+                      <td style={{ padding: '9px 10px', fontSize: 12, fontWeight: 600, color: C.text }}>
                         {txn.player}
                       </td>
-                      <td style={{ padding: '11px 12px' }}>
+                      <td style={{ padding: '9px 10px' }}>
                         <span style={{
-                          fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6,
+                          fontSize: 10, fontWeight: 700, padding: '2px 6px', borderRadius: 5,
                           color: typeColor(txn.type),
                           background: typeColor(txn.type) + '22',
                         }}>{txn.type}</span>
                       </td>
-                      <td style={{
-                        padding: '11px 12px', fontSize: 13, fontWeight: 700,
-                        color: txn.amount < 0 ? C.red : txn.type === 'Withdrawal' ? C.orange : C.text,
-                        fontFamily: 'Outfit, sans-serif',
-                      }}>
-                        {txn.amount < 0 ? '-' : '+'}{fmt(Math.abs(txn.amount))}
+                      <td style={{ padding: '9px 10px', fontSize: 12, fontWeight: 700, 
+                        color: txn.amount > 0 ? C.green : C.red }}>
+                        {txn.amount > 0 ? '+' : ''}{txn.amount.toLocaleString()}
                       </td>
-                      <td style={{ padding: '11px 12px', fontSize: 12, color: C.textMuted }}>{txn.method}</td>
-                      <td style={{ padding: '11px 12px' }}>
+                      <td style={{ padding: '9px 10px', fontSize: 12, color: C.textMuted }}>
+                        {txn.method}
+                      </td>
+                      <td style={{ padding: '9px 10px' }}>
                         <span style={{
-                          fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 6,
+                          fontSize: 10, fontWeight: 700, padding: '2px 6px', borderRadius: 4,
+                          color: txn.kycLevel === 3 ? C.green : txn.kycLevel === 2 ? C.gold : C.red,
+                          background: txn.kycLevel === 3 ? 'rgba(34,197,94,0.15)' : txn.kycLevel === 2 ? 'rgba(244,196,48,0.15)' : 'rgba(239,68,68,0.15)',
+                        }}>L{txn.kycLevel}</span>
+                      </td>
+                      <td style={{ padding: '9px 10px' }}>
+                        <span style={{
+                          fontSize: 10, fontWeight: 700, padding: '2px 6px', borderRadius: 4,
+                          color: txn.riskScore > 30 ? C.red : txn.riskScore > 15 ? C.orange : C.green,
+                          background: txn.riskScore > 30 ? 'rgba(239,68,68,0.15)' : txn.riskScore > 15 ? 'rgba(249,115,22,0.15)' : 'rgba(34,197,94,0.15)',
+                        }}>{txn.riskScore}</span>
+                      </td>
+                      <td style={{ padding: '9px 10px', fontSize: 11, color: C.textMuted, fontFamily: 'monospace' }}>
+                        {txn.ip}
+                      </td>
+                      <td style={{ padding: '9px 10px' }}>
+                        <span style={{
+                          fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 5,
                           color: statusColor(txn.status),
                           background: statusColor(txn.status) + '22',
                         }}>{txn.status}</span>
                       </td>
-                      <td style={{ padding: '11px 12px', fontSize: 12, color: C.textMuted }}>{txn.time}</td>
+                      <td style={{ padding: '9px 10px', fontSize: 11, color: C.textMuted }}>
+                        {txn.time}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
