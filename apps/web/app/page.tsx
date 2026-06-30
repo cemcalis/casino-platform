@@ -18,12 +18,12 @@ import { authClient } from '../lib/auth-client';
 import { gameApi } from '../lib/api-game';
 
 const MOCK_GAMES = [
-  { id: 'neon-palace-slots', name: 'Neon Palace Slots',  category: 'SLOTS',   rtpPercent: 96.5, badgeText: 'HOT' },
-  { id: 'cyber-roulette',    name: 'Cyber Roulette',     category: 'TABLE',   rtpPercent: 97.3 },
-  { id: 'gold-rush-crash',   name: 'Gold Rush Crash',    category: 'CRASH',   rtpPercent: 97.0, badgeText: 'NEW' },
-  { id: 'royal-blackjack',   name: 'Royal Blackjack',    category: 'TABLE',   rtpPercent: 99.5 },
-  { id: 'dice-fever',        name: 'Dice Fever',         category: 'DICE',    rtpPercent: 98.0 },
-  { id: 'instant-gems',      name: 'Instant Gems',       category: 'INSTANT', rtpPercent: 95.0 },
+  { id: 'neon-palace-slots', slug: 'neon-palace',    name: 'Neon Palace Slots',  category: 'SLOTS',   rtpPercent: 96.5, badgeText: 'HOT',  live: true },
+  { id: 'cyber-roulette',    slug: 'cyber-roulette', name: 'Cyber Roulette',     category: 'TABLE',   rtpPercent: 97.3,                    live: false },
+  { id: 'gold-rush-crash',   slug: 'gold-rush-crash',name: 'Gold Rush Crash',    category: 'CRASH',   rtpPercent: 97.0, badgeText: 'NEW',  live: false },
+  { id: 'royal-blackjack',   slug: 'royal-blackjack',name: 'Royal Blackjack',    category: 'TABLE',   rtpPercent: 99.5,                    live: false },
+  { id: 'dice-fever',        slug: 'dice-fever',     name: 'Dice Fever',         category: 'DICE',    rtpPercent: 98.0,                    live: false },
+  { id: 'instant-gems',      slug: 'instant-gems',   name: 'Instant Gems',       category: 'INSTANT', rtpPercent: 95.0,                    live: false },
 ] as const;
 
 interface AuthState {
@@ -255,7 +255,7 @@ export default function LobbyPage() {
                   category={game.category}
                   rtpPercent={game.rtpPercent}
                   badgeText={'badgeText' in game ? game.badgeText : undefined}
-                  onClick={game.id === 'neon-palace-slots' ? () => router.push('/games/neon-palace') : undefined}
+                  onClick={() => router.push(`/games/${game.slug}`)}
                 />
               ))}
             </div>
