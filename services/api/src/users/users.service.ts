@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../database';
 import type { UpdateProfileDto } from './dto/update-profile.dto';
 
@@ -84,6 +84,106 @@ export class UsersService {
         unlocked: totalBet >= t.min,
       })),
     };
+  }
+
+  async listPlayers(search: string, status: string, page: number, pageSize: number) {
+    const where = {
+      role: 'PLAYER' as const,
+      ...(search ? {
+        OR: [
+          { username: { contains: search, mode: 'insensitive' as const } },
+          { email: { contains: search, mode: 'insensitive' as const } },
+        ],
+      } : {}),
+      ...(status === 'banned' ? { isBanned: true } : status === 'active' ? { isBanned: false } : {}),
+    };
+
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({ where }),
+      this.prisma.user.findMany({
+        where,
+        select: {
+          id: true, email: true, username: true, isBanned: true,
+          bannedAt: true, lastLogin: true, createdAt: true,
+          wallet: { select: { balance: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
+    ]);
+
+    return {
+      players: users.map(u => ({
+        ...u,
+        balance: u.wallet?.balance.toFixed(2) ?? '0.00',
+        wallet: undefined,
+      })),
+      pagination: { page, pageSize, total, totalPages: Math.ceil(total / pageSize) },
+    };
+  }
+
+  async getPlayerDetail(playerId: string) {
+    const [user, agg] = await Promise.all([
+      this.prisma.user.findUnique({
+        where: { id: playerId },
+        select: {
+          id: true, email: true, username: true, role: true,
+          isBanned: true, bannedAt: true, lastLogin: true, createdAt: true,
+          wallet: { select: { balance: true } },
+        },
+      }),
+      this.prisma.gameSession.aggregate({
+        where: { userId: playerId },
+        _count: { id: true },
+        _sum: { betAmount: true, winAmount: true },
+      }),
+    ]);
+    if (!user) throw new NotFoundException('Player not found');
+
+    const totalBet = Number(agg._sum.betAmount ?? 0);
+    const TIERS = ['Bronze', 'Silver', 'Gold', 'Platinum'];
+    const THRESHOLDS = [0, 1000, 10000, 50000];
+    const tierIdx = THRESHOLDS.filter(t => totalBet >= t).length - 1;
+
+    return {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+      isBanned: user.isBanned,
+      bannedAt: user.bannedAt,
+      lastLogin: user.lastLogin,
+      createdAt: user.createdAt,
+      balance: user.wallet?.balance.toFixed(2) ?? '0.00',
+      totalBet: agg._sum.betAmount?.toString() ?? '0',
+      totalWon: agg._sum.winAmount?.toString() ?? '0',
+      totalSpins: agg._count.id,
+      vipTier: TIERS[tierIdx] ?? 'Bronze',
+    };
+  }
+
+  async banPlayer(playerId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: playerId }, select: { isBanned: true, role: true } });
+    if (!user) throw new NotFoundException('Player not found');
+    if (user.role !== 'PLAYER') throw new BadRequestException('Cannot ban non-player accounts');
+    if (user.isBanned) throw new BadRequestException('Player is already banned');
+    return this.prisma.user.update({
+      where: { id: playerId },
+      data: { isBanned: true, bannedAt: new Date() },
+      select: { id: true, isBanned: true, bannedAt: true },
+    });
+  }
+
+  async unbanPlayer(playerId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: playerId }, select: { isBanned: true } });
+    if (!user) throw new NotFoundException('Player not found');
+    if (!user.isBanned) throw new BadRequestException('Player is not banned');
+    return this.prisma.user.update({
+      where: { id: playerId },
+      data: { isBanned: false, bannedAt: null },
+      select: { id: true, isBanned: true, bannedAt: true },
+    });
   }
 
   async updateProfile(userId: string, dto: UpdateProfileDto) {
