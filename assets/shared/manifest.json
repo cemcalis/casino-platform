@@ -1,0 +1,78 @@
+{
+  "$schema": "../manifest.schema.json",
+  "game": "shared",
+  "version": "1.0.0",
+  "description": "Shared UI assets used across all casino games on the platform",
+  "assets": [
+
+    {
+      "id": "demo_banner_bg",
+      "name": "Demo Mode Banner Background",
+      "type": "ui",
+      "path": "/assets/shared/ui/demo-banner-bg.webp",
+      "fallback": "css:linear-gradient(90deg,#0e0018,#130020,#0e0018)",
+      "usage": "Background texture for the slim demo mode notification bar",
+      "generationPrompt": "Thin horizontal banner texture, dark luxury casino felt in deep navy-black, subtle gold thread pinstripe pattern, very dark, almost black with slight texture, 1920x32px, tileable horizontally",
+      "status": "placeholder",
+      "targetSize": "1920x32",
+      "format": "webp",
+      "notes": "Currently CSS gradient. Will replace background property in DemoBanner component."
+    },
+
+    {
+      "id": "logo_lockup",
+      "name": "Neon Palace Logo Lockup",
+      "type": "ui",
+      "path": "/assets/shared/ui/logo-lockup.webp",
+      "fallback": "css:CSS text with animated gold gradient",
+      "usage": "Primary brand logo displayed at top of game pages and lobby",
+      "generationPrompt": "Premium casino brand logo NEON PALACE, bold condensed typography, antique gold metallic 3D effect with subtle chrome highlights, beveled letterforms with inner glow, elegant small subtitle text PREMIUM SLOTS underneath in chrome, dark transparent background, horizontal layout, 800x200px, no additional graphic elements",
+      "status": "placeholder",
+      "targetSize": "800x200",
+      "format": "webp",
+      "notes": "Transparent background PNG preferred. Currently rendered as CSS animated gradient text."
+    },
+
+    {
+      "id": "coin_burst_sheet",
+      "name": "Coin Burst Sprite Sheet",
+      "type": "ui",
+      "path": "/assets/shared/particles/coin-burst-sheet.webp",
+      "fallback": "css:ParticleSystem component with CSS divs",
+      "usage": "Sprite sheet for coin burst CSS animation on any win",
+      "generationPrompt": "Gold coin sprite sheet for CSS animation, 8 frames of a tumbling gold coin showing full rotation, each frame 64x64px, arranged in single horizontal row (512x64px total), antique gold coin with simple engraving, transparent background PNG",
+      "status": "placeholder",
+      "targetSize": "512x64",
+      "format": "png",
+      "notes": "Use CSS animation-name + steps(8) for coin rotation. Applied to coin_particle elements in ParticleSystem."
+    },
+
+    {
+      "id": "sparkle_sheet",
+      "name": "Sparkle Particle Sprite Sheet",
+      "type": "ui",
+      "path": "/assets/shared/particles/sparkle-sheet.webp",
+      "fallback": "css:Radial gradient CSS circles",
+      "usage": "Sprite sheet for sparkle/glitter effect on wins",
+      "generationPrompt": "Sparkle particle sprite sheet, 6 frames of a four-pointed star sparkle appearing and disappearing, each frame 32x32px, arranged in single row (192x32px total), gold and white sparkle, transparent background PNG",
+      "status": "placeholder",
+      "targetSize": "192x32",
+      "format": "png",
+      "notes": "Use CSS animation steps(6) for sparkle twinkle."
+    },
+
+    {
+      "id": "button_click_sfx",
+      "name": "UI Button Click Sound",
+      "type": "audio",
+      "path": "/assets/shared/audio/button-click.mp3",
+      "fallback": "web-audio:SoundEngine.playButtonClick() 800Hz sine burst",
+      "usage": "Subtle click sound for all UI button interactions",
+      "generationPrompt": "Premium UI button click sound, soft satisfying tactile click, slightly metallic quality, 0.05 seconds very short, subtle, not harsh, casino luxury feel, mono 44100Hz MP3",
+      "status": "placeholder",
+      "targetSize": "~0.05s",
+      "format": "mp3",
+      "notes": "Used on bet buttons, auto button, turbo button, paytable toggle."
+    }
+  ]
+}
