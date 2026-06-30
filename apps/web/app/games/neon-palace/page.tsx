@@ -113,16 +113,17 @@ interface SymbolDef {
   payouts: number[]; color: string; glow: string; tier: number;
 }
 const SYMBOLS: SymbolDef[] = [
-  { id:'WILD',     name:'Wild Crown',  weight:2,  payouts:[0,0,10,25,100],  color:'#f4c430', glow:'#ffe066', tier:5 },
-  { id:'SCATTER',  name:'Star Gem',    weight:3,  payouts:[0,0,2,10,50],    color:'#00c8be', glow:'#ff2068', tier:5 },
-  { id:'ZEUS',     name:'Diamond',     weight:6,  payouts:[0,0,5,15,50],    color:'#93c5fd', glow:'#bfdbfe', tier:4 },
-  { id:'ATHENA',   name:'Ruby',        weight:8,  payouts:[0,0,3,10,30],    color:'#f87171', glow:'#fca5a5', tier:4 },
-  { id:'POSEIDON', name:'Emerald',     weight:8,  payouts:[0,0,4,12,40],    color:'#34d399', glow:'#6ee7b7', tier:4 },
-  { id:'ACE',      name:'Ace',         weight:12, payouts:[0,0,2,7,20],     color:'#f4c430', glow:'#fbbf24', tier:3 },
-  { id:'KING',     name:'King',        weight:12, payouts:[0,0,2,6,15],     color:'#a78bfa', glow:'#c4b5fd', tier:3 },
-  { id:'QUEEN',    name:'Queen',       weight:14, payouts:[0,0,1,4,10],     color:'#2dd4bf', glow:'#5eead4', tier:2 },
-  { id:'JACK',     name:'Jack',        weight:15, payouts:[0,0,1,3,8],      color:'#f472b6', glow:'#f9a8d4', tier:2 },
-  { id:'TEN',      name:'Ten',         weight:20, payouts:[0,0,0.5,2,5],    color:'#94a3b8', glow:'#cbd5e1', tier:1 },
+  // payouts[i] = multiplier of total bet for (i+1) matching symbols (server pays this × totalBet)
+  { id:'WILD',     name:'Wild Crown',  weight:2,  payouts:[0,0,3,7.5,30],  color:'#f4c430', glow:'#ffe066', tier:5 },
+  { id:'SCATTER',  name:'Star Gem',    weight:3,  payouts:[0,0,12,55,275], color:'#00c8be', glow:'#ff2068', tier:5 },
+  { id:'ZEUS',     name:'Diamond',     weight:6,  payouts:[0,0,1.5,4.5,15],color:'#93c5fd', glow:'#bfdbfe', tier:4 },
+  { id:'ATHENA',   name:'Ruby',        weight:8,  payouts:[0,0,0.9,3,9],   color:'#f87171', glow:'#fca5a5', tier:4 },
+  { id:'POSEIDON', name:'Emerald',     weight:8,  payouts:[0,0,1.2,3.6,12],color:'#34d399', glow:'#6ee7b7', tier:4 },
+  { id:'ACE',      name:'Ace',         weight:12, payouts:[0,0,0.6,2.1,6], color:'#f4c430', glow:'#fbbf24', tier:3 },
+  { id:'KING',     name:'King',        weight:12, payouts:[0,0,0.6,1.8,4.5],color:'#a78bfa', glow:'#c4b5fd', tier:3 },
+  { id:'QUEEN',    name:'Queen',       weight:14, payouts:[0,0,0.3,1.2,3], color:'#2dd4bf', glow:'#5eead4', tier:2 },
+  { id:'JACK',     name:'Jack',        weight:15, payouts:[0,0,0.3,0.9,2.4],color:'#f472b6', glow:'#f9a8d4', tier:2 },
+  { id:'TEN',      name:'Ten',         weight:20, payouts:[0,0,0.15,0.6,1.5],color:'#94a3b8', glow:'#cbd5e1', tier:1 },
 ];
 const TOTAL_WEIGHT = SYMBOLS.reduce((s, x) => s + x.weight, 0);
 const REEL_SYMBOLS = SYMBOLS.map(s => s.id);
@@ -166,34 +167,26 @@ function isJackpot(grid: string[][]): boolean {
 }
 
 /* ─── PAYLINES ───────────────────────────────────────────────────────────────── */
-// Order matches server PAYLINES_20 exactly so paylineIndex from API maps correctly.
 const PAYLINES: number[][] = [
-  [1,1,1,1,1],[0,0,0,0,0],[2,2,2,2,2],       // 0 middle | 1 top | 2 bottom
-  [0,1,2,1,0],[2,1,0,1,2],                    // 3 V-down | 4 V-up
-  [1,0,0,0,1],[1,2,2,2,1],                    // 5 top-arch | 6 bottom-arch
-  [0,1,1,1,2],[2,1,1,1,0],                    // 7 diag-down | 8 diag-up
-  [1,0,1,0,1],[1,2,1,2,1],                    // 9 zigzag-top | 10 zigzag-bot
-  [0,0,1,2,2],[2,2,1,0,0],                    // 11 steep-diag-down | 12 steep-diag-up
-  [1,1,0,1,1],[1,1,2,1,1],                    // 13 mid-bump-top | 14 mid-bump-bot
-  [0,1,0,1,0],[2,1,2,1,2],                    // 15 alt-mid-top | 16 alt-mid-bot
-  [0,0,1,0,0],[2,2,1,2,2],                    // 17 top-dip | 18 bottom-bump
-  [0,2,1,2,0],                                // 19 wide-V
+  [1,1,1,1,1],[0,0,0,0,0],[2,2,2,2,2],
+  [0,1,2,1,0],[2,1,0,1,2],[0,0,1,2,2],[2,2,1,0,0],
+  [1,0,0,0,1],[1,2,2,2,1],[0,1,1,1,0],[2,1,1,1,2],
+  [0,0,1,0,0],[2,2,1,2,2],[1,0,1,0,1],[1,2,1,2,1],
+  [0,1,0,1,0],[2,1,2,1,2],[0,2,0,2,0],[2,0,2,0,2],[1,1,2,1,1],
 ];
 
 function evaluateWin(grid: string[][], bet: number): { payout: number; winLines: number[]; winTier: string } {
   let payout = 0;
   const winLines: number[] = [];
-  // Scatter: pays on totalBet (bet × 20 paylines), matches server scatterMultipliers {3:2, 4:10, 5:50}
-  const totalBet = bet * PAYLINES.length;
   const scatCount = grid.flat().filter(s => s === 'SCATTER').length;
-  if (scatCount >= 3) payout += totalBet * (scatCount === 3 ? 2 : scatCount === 4 ? 10 : 50);
+  if (scatCount >= 3) payout += bet * (scatCount === 3 ? 12 : scatCount === 4 ? 55 : 275);
   for (let li = 0; li < PAYLINES.length; li++) {
     const line = PAYLINES[li]!;
     const cells = line.map((row, col) => grid[col]![row]!);
     const first = cells[0] === 'WILD' ? (cells.find(c => c !== 'WILD') ?? 'WILD') : cells[0]!;
     let count = 0;
     for (const c of cells) { if (c === first || c === 'WILD') count++; else break; }
-    if (count >= 3) {  // server minMatchCount = 3
+    if (count >= 2) {
       const sym = SYMBOLS.find(s => s.id === first);
       if (sym && sym.payouts[count - 1]) { payout += sym.payouts[count - 1]! * bet; winLines.push(li); }
     }
@@ -791,14 +784,14 @@ function BigWinOverlay({ tier, amount, onClose }: { tier:string; amount:number; 
 }
 
 /* ─── CONSTANTS ──────────────────────────────────────────────────────────────── */
-const BET_OPTIONS = [0.20,0.50,1,2,5,10,20,50];
+const BET_OPTIONS = [1,2,5,10,25,50,100,500];
 const soundEngine = new SoundEngine();
 
 /* ─── MAIN GAME ──────────────────────────────────────────────────────────────── */
 export default function NeonPalacePage() {
   const [balance, setBalance]         = useState(1000);
   const [bet, setBet]                 = useState(1);
-  const [betIdx, setBetIdx]           = useState(2);
+  const [betIdx, setBetIdx]           = useState(0);
   const [spinning, setSpinning]       = useState(false);
   const [reelResults, setReelResults] = useState<string[][]>([
     ['ACE','KING','QUEEN'],['ZEUS','POSEIDON','ATHENA'],['KING','ACE','JACK'],
@@ -950,15 +943,11 @@ export default function NeonPalacePage() {
         pendingResultRef.current = grid;
         setPendingResult(grid);
         pendingServerWin.current = {
-          payout,
+          payout: isFree ? payout + betRef.current : payout,
           winLines: res.paylineWins.map(w => w.paylineIndex),
           winTier,
-          freeSpins: res.freeSpinsRemaining,  // use server's authoritative counter
+          freeSpins: res.freeSpinsAwarded,
         };
-        // Sync client free spin display from server
-        if (typeof res.freeSpinsRemaining === 'number') {
-          setFreeSpins(res.freeSpinsRemaining);
-        }
         if (jackpotHit) setJackpot(2500);
       } catch { /* keep local result */ }
     }
@@ -968,8 +957,12 @@ export default function NeonPalacePage() {
   handleSpinRef.current = handleSpin;
 
   const effectiveSpin = useCallback(() => {
-    // Server tracks free spins; just spin — server will skip bet deduction automatically
-    void handleSpinRef.current();
+    if (freeSpinsRef.current > 0) {
+      setFreeSpins(f => f - 1);
+      void handleSpinRef.current(true);
+    } else {
+      void handleSpinRef.current();
+    }
   }, []);
 
   const effectiveSpinRef = useRef(effectiveSpin);

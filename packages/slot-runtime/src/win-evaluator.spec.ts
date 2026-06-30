@@ -68,15 +68,15 @@ describe('evaluatePayline', () => {
     expect(win).not.toBeNull();
     expect(win!.matchCount).toBe(5);
     expect(win!.symbolId).toBe(H1);
-    expect(win!.multiplier).toBe(50);
-    expect(win!.payout).toBe(500);
+    expect(win!.multiplier).toBe(300);
+    expect(win!.payout).toBe(3000);
   });
 
   it('detects a 3-of-a-kind win', () => {
     const win = evaluatePayline(THREE_H1, MIDDLE_LINE, 0, 10, NEON_PALACE_PAY_TABLE);
     expect(win).not.toBeNull();
     expect(win!.matchCount).toBe(3);
-    expect(win!.payout).toBe(50);
+    expect(win!.payout).toBe(300);
   });
 
   it('detects 5 wilds as wild self-win', () => {
@@ -84,7 +84,7 @@ describe('evaluatePayline', () => {
     expect(win).not.toBeNull();
     expect(win!.symbolId).toBe(W);
     expect(win!.matchCount).toBe(5);
-    expect(win!.payout).toBe(1000);
+    expect(win!.payout).toBe(6000);
   });
 
   it('wild substitutes: H1 + wild + H1 + H1 + H1 = 5 H1 win', () => {

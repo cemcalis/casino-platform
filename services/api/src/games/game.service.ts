@@ -19,60 +19,50 @@ export class GameService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async spin(userId: string, dto: SpinDto): Promise<SpinResult & { freeSpinsRemaining: number }> {
+  async spin(userId: string, dto: SpinDto): Promise<SpinResult> {
     const wallet = await this.prisma.wallet.findUnique({
       where: { userId },
+      select: { balance: true, version: true },
     });
     if (!wallet) throw new NotFoundException('Wallet not found');
 
     const balance = wallet.balance;
-    const currentFreeSpins = wallet.freeSpinsRemaining;
-    const isFreeSpinRound = currentFreeSpins > 0;
-
-    if (!isFreeSpinRound && balance.toNumber() < dto.bet) {
+    if (balance.toNumber() < dto.bet) {
       throw new BadRequestException('Insufficient balance');
     }
 
-    // Build engine session with current free spin state so GameLoop sets isFreeSpins correctly
+    // Compute spin result before the transaction — pure, no DB side effects
+    // dto.bet is the player's total bet per spin; engine receives per-payline bet
+    const paylineCount = NEON_PALACE_CONFIG.paylines.length;
+    const betPerLine = dto.bet / paylineCount;
     const engineSession = createSession(NEON_PALACE_CONFIG, balance.toNumber());
-    const sessionWithFreeSpins = { ...engineSession, bet: dto.bet, freeSpinsRemaining: currentFreeSpins };
-    const { result } = this.gameLoop.spin(sessionWithFreeSpins);
+    const { result } = this.gameLoop.spin({ ...engineSession, bet: betPerLine });
 
     const betDec = new Prisma.Decimal(dto.bet);
     const payoutDec = new Prisma.Decimal(result.totalPayout);
-
-    // Free spin round: no bet deduction
-    const balanceAfterBet = isFreeSpinRound ? balance : balance.sub(betDec);
+    const balanceAfterBet = balance.sub(betDec);
     const newBalance = balanceAfterBet.add(payoutDec);
 
-    // Free spins counter: decrement for this spin, then add any newly awarded spins
-    const newFreeSpins = Math.max(0, currentFreeSpins - (isFreeSpinRound ? 1 : 0)) + result.freeSpinsAwarded;
-
     await this.prisma.$transaction(async (tx) => {
+      // Optimistic lock — rejects if wallet was updated by a concurrent request
       const { count } = await tx.wallet.updateMany({
         where: { userId, version: wallet.version },
-        data: {
-          balance: newBalance,
-          freeSpinsRemaining: newFreeSpins,
-          version: { increment: 1 },
-        },
+        data: { balance: newBalance, version: { increment: 1 } },
       });
       if (count === 0) {
         throw new ConflictException('Concurrent modification — please retry');
       }
 
-      if (!isFreeSpinRound) {
-        await tx.ledgerEntry.create({
-          data: {
-            userId,
-            type: 'DEBIT',
-            amount: betDec,
-            balanceBefore: balance,
-            balanceAfter: balanceAfterBet,
-            referenceId: result.rngSeed,
-          },
-        });
-      }
+      await tx.ledgerEntry.create({
+        data: {
+          userId,
+          type: 'DEBIT',
+          amount: betDec,
+          balanceBefore: balance,
+          balanceAfter: balanceAfterBet,
+          referenceId: result.rngSeed,
+        },
+      });
 
       if (result.totalPayout > 0) {
         await tx.ledgerEntry.create({
@@ -91,7 +81,7 @@ export class GameService {
         data: {
           userId,
           gameType: GAME_TYPE,
-          betAmount: isFreeSpinRound ? new Prisma.Decimal(0) : betDec,
+          betAmount: betDec,
           winAmount: payoutDec,
           result: result as unknown as Prisma.InputJsonValue,
           serverSeed: result.rngSeed,
@@ -100,7 +90,7 @@ export class GameService {
       });
     });
 
-    return { ...result, freeSpinsRemaining: newFreeSpins };
+    return result;
   }
 
   async getHistory(userId: string, page: number, pageSize: number) {

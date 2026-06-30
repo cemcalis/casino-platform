@@ -34,23 +34,24 @@ function entry(
 
 export const NEON_PALACE_PAY_TABLE: PayTable = {
   entries: [
-    entry(SYM.WILD,    { wild: true },    10,  25, 100),
-    entry(SYM.HIGH_1,  {},                 5,  15,  50),
-    entry(SYM.HIGH_2,  {},                 4,  12,  40),
-    entry(SYM.HIGH_3,  {},                 3,  10,  30),
-    entry(SYM.MED_1,   {},                 2,   7,  20),
-    entry(SYM.MED_2,   {},                 2,   6,  15),
-    entry(SYM.LOW_1,   {},                 1,   4,  10),
-    entry(SYM.LOW_2,   {},                 1,   3,   8),
-    entry(SYM.LOW_3,   {},               0.5,   2,   5),
-    entry(SYM.SCATTER, { scatter: true },  0,   0,   0),
+    entry(SYM.WILD,    { wild: true },   60, 150, 600),
+    entry(SYM.HIGH_1,  {},               30,  90, 300),
+    entry(SYM.HIGH_2,  {},               24,  72, 240),
+    entry(SYM.HIGH_3,  {},               18,  60, 180),
+    entry(SYM.MED_1,   {},               12,  42, 120),
+    entry(SYM.MED_2,   {},               12,  36,  90),
+    entry(SYM.LOW_1,   {},                6,  24,  60),
+    entry(SYM.LOW_2,   {},                6,  18,  48),
+    entry(SYM.LOW_3,   {},                3,  12,  30),
+    entry(SYM.SCATTER, { scatter: true }, 0,   0,   0),
   ],
   wildId:    SYM.WILD,
   scatterId: SYM.SCATTER,
   bonusId:   null,
   minMatchCount: 3,
-  scatterMultipliers: { 3: 2, 4: 10, 5: 50 },
-  scatterFreeSpins:   { 3: 8, 4: 12, 5: 20 },
+  // Applied to totalBet (bet × 20); calibrated to ~96.5% RTP with current reel strips
+  scatterMultipliers: { 3: 12, 4: 55, 5: 275 },
+  scatterFreeSpins:   { 3: 8,  4: 12, 5: 20  },
   bonusTriggerCount:  3,
 };
 
