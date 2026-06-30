@@ -1198,6 +1198,7 @@ export default function LobbyPage() {
   const NAV_ITEMS = [
     { label: 'Lobby', href: '/' },
     { label: 'Promotions', href: '/promotions' },
+    { label: 'Tournaments', href: '/tournaments' },
     { label: 'Leaderboard', href: '/leaderboard' },
     { label: 'VIP', href: '/vip' },
     { label: 'FAQ', href: '/faq' },
@@ -1524,7 +1525,8 @@ export default function LobbyPage() {
                       { label: 'Profile', href: '/profile' },
                       { label: 'Wallet', href: '/wallet' },
                       { label: 'VIP Status', href: '/vip' },
-                      { label: 'Transactions', href: '/transactions' },
+                      { label: 'Notifications', href: '/notifications' },
+                      { label: 'Settings', href: '/settings' },
                     ].map(item => (
                       <div
                         key={item.label}
