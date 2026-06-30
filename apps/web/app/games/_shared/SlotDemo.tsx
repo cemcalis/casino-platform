@@ -55,7 +55,7 @@ const FREE_SPIN_COUNT = 8;
 
 /* ─── Web Audio sound engine ────────────────────────────────────────────────── */
 
-function playSlotSound(type: 'spin' | 'win' | 'bigwin' | 'click'): void {
+function playSlotSound(type: 'spin' | 'win' | 'bigwin' | 'click' | 'tick'): void {
   if (typeof window === 'undefined') return;
   try {
     const AudioCtx =
@@ -76,6 +76,22 @@ function playSlotSound(type: 'spin' | 'win' | 'bigwin' | 'click'): void {
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
         osc.start(now);
         osc.stop(now + 0.06);
+        break;
+      }
+
+      case 'tick': {
+        // Soft reel-stop thud
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.exponentialRampToValueAtTime(110, now + 0.09);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc.start(now);
+        osc.stop(now + 0.1);
         break;
       }
 
@@ -190,6 +206,14 @@ export default function SlotDemo({ config }: { config: SlotConfig }) {
   );
   const [spinCount, setSpinCount] = useState(0);
 
+  // ── Presentation-only state (no effect on outcome/payout logic) ──────────
+  const [stripSymbols, setStripSymbols] = useState<number[][]>(() =>
+    Array.from({ length: 5 }, () => [])
+  );
+  const [landingCols, setLandingCols] = useState<Set<number>>(new Set());
+  const [displayWin, setDisplayWin] = useState(0);
+  const winRafRef = useRef<number | null>(null);
+
   // ── Refs for stale-closure–safe access inside timeouts ───────────────────
   const isSpinningRef = useRef(false);
   const balanceRef = useRef(balance);
@@ -210,6 +234,29 @@ export default function SlotDemo({ config }: { config: SlotConfig }) {
       localStorage.setItem(config.storageKey, String(balance));
     }
   }, [balance, config.storageKey]);
+
+  // ── Win count-up animation (presentation only) ───────────────────────────
+  useEffect(() => {
+    if (winRafRef.current !== null) cancelAnimationFrame(winRafRef.current);
+    if (lastWin <= 0) {
+      setDisplayWin(0);
+      return;
+    }
+    const duration = 700;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out-cubic
+      setDisplayWin(Math.round(lastWin * eased));
+      if (t < 1) {
+        winRafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    winRafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (winRafRef.current !== null) cancelAnimationFrame(winRafRef.current);
+    };
+  }, [lastWin, spinCount]);
 
   // ── Spin logic ───────────────────────────────────────────────────────────
   const doSpin = useCallback(() => {
@@ -238,11 +285,21 @@ export default function SlotDemo({ config }: { config: SlotConfig }) {
     setWinPaylines([]);
     setWinningCells(new Set());
     setShowBigWin(false);
+    setLandingCols(new Set());
 
     // Pre-generate the final reel outcome before animations begin
     const finalGrid: number[][] = Array.from({ length: 5 }, () =>
       Array.from({ length: 3 }, () =>
         Math.floor(Math.random() * config.symbols.length)
+      )
+    );
+
+    // Decorative scrolling strip content — purely visual, does not influence outcome
+    setStripSymbols(
+      Array.from({ length: 5 }, () =>
+        Array.from({ length: 10 }, () =>
+          Math.floor(Math.random() * config.symbols.length)
+        )
       )
     );
 
@@ -262,6 +319,15 @@ export default function SlotDemo({ config }: { config: SlotConfig }) {
           next[col] = false;
           return next;
         });
+        playSlotSound('tick');
+        setLandingCols(prev => new Set(prev).add(col));
+        setTimeout(() => {
+          setLandingCols(prev => {
+            const next = new Set(prev);
+            next.delete(col);
+            return next;
+          });
+        }, 420);
       }, delay);
     });
 
@@ -450,48 +516,77 @@ export default function SlotDemo({ config }: { config: SlotConfig }) {
 
             {/* Reel grid */}
             <div className="sp-reel-frame">
+              <div className="sp-reel-glint" aria-hidden="true" />
               <div className="sp-reel-grid">
-                {Array.from({ length: 5 }, (_, col) => (
-                  <div key={col} className="sp-reel-col">
-                    {Array.from({ length: 3 }, (_, row) => {
-                      const symIdx = displayGrid[col]?.[row] ?? 0;
-                      const sym = config.symbols[symIdx] ?? config.symbols[0];
-                      const cellKey = `${col}-${row}`;
-                      const isWin = winningCells.has(cellKey);
-                      const isColSpin = reelSpinning[col];
-                      return (
+                {Array.from({ length: 5 }, (_, col) => {
+                  const isColSpin = reelSpinning[col];
+                  const isLanding = landingCols.has(col);
+
+                  if (isColSpin) {
+                    const strip = stripSymbols[col] ?? [];
+                    const looped = [...strip, ...strip];
+                    return (
+                      <div key={col} className="sp-reel-col sp-reel-col-spin">
                         <div
-                          key={row}
-                          className={[
-                            'sp-cell',
-                            isColSpin ? 'sp-cell-spin' : '',
-                            isWin ? 'sp-cell-win' : '',
-                          ]
-                            .filter(Boolean)
-                            .join(' ')}
-                          style={
-                            isWin
-                              ? {
-                                  borderColor: sym.color,
-                                  boxShadow: `0 0 18px ${sym.color}80, inset 0 0 10px ${sym.color}20`,
-                                }
-                              : undefined
-                          }
+                          className="sp-reel-strip"
+                          style={{ animationDuration: `${0.42 + col * 0.05}s` }}
                         >
-                          <span
-                            className="sp-sym"
-                            style={{
-                              color: sym.color,
-                              textShadow: `0 0 14px ${sym.color}`,
-                            }}
-                          >
-                            {sym.label}
-                          </span>
+                          {looped.map((symIdx, i) => {
+                            const sym = config.symbols[symIdx] ?? config.symbols[0];
+                            return (
+                              <div key={i} className="sp-strip-sym" style={{ color: sym.color }}>
+                                {sym.label}
+                              </div>
+                            );
+                          })}
                         </div>
-                      );
-                    })}
-                  </div>
-                ))}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div key={col} className="sp-reel-col">
+                      {Array.from({ length: 3 }, (_, row) => {
+                        const symIdx = displayGrid[col]?.[row] ?? 0;
+                        const sym = config.symbols[symIdx] ?? config.symbols[0];
+                        const cellKey = `${col}-${row}`;
+                        const isWin = winningCells.has(cellKey);
+                        return (
+                          <div
+                            key={row}
+                            className={[
+                              'sp-cell',
+                              isLanding ? 'sp-cell-land' : '',
+                              isWin ? 'sp-cell-win' : '',
+                            ]
+                              .filter(Boolean)
+                              .join(' ')}
+                            style={
+                              isWin
+                                ? {
+                                    borderColor: sym.color,
+                                    boxShadow: `0 0 18px ${sym.color}80, inset 0 0 10px ${sym.color}20`,
+                                  }
+                                : undefined
+                            }
+                          >
+                            <span
+                              className={`sp-sym${isWin ? ' sp-sym-win' : ''}`}
+                              style={{
+                                color: sym.color,
+                                textShadow: isWin
+                                  ? `0 0 22px ${sym.color}, 0 0 8px ${sym.color}`
+                                  : `0 0 14px ${sym.color}`,
+                              }}
+                            >
+                              {sym.label}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
               </div>
 
               {winPaylines.length > 0 && (
@@ -500,6 +595,28 @@ export default function SlotDemo({ config }: { config: SlotConfig }) {
                     <span key={pl} className="sp-wl-chip">
                       LINE {pl + 1}
                     </span>
+                  ))}
+                </div>
+              )}
+
+              {lastWin > 0 && !showBigWin && (
+                <div className="sp-win-burst" key={`burst-${spinCount}`} aria-hidden="true">
+                  {Array.from({ length: 14 }, (_, i) => (
+                    <div
+                      key={i}
+                      className="sp-burst-particle"
+                      style={{
+                        left: `${(i * 23 + 9) % 92 + 4}%`,
+                        animationDelay: `${((i * 0.05) % 0.4).toFixed(2)}s`,
+                        background:
+                          i % 3 === 0
+                            ? config.accentColor
+                            : i % 3 === 1
+                            ? config.accentColor2
+                            : '#fbbf24',
+                        borderRadius: i % 2 === 0 ? '50%' : '2px',
+                      }}
+                    />
                   ))}
                 </div>
               )}
@@ -674,7 +791,7 @@ export default function SlotDemo({ config }: { config: SlotConfig }) {
               className="sp-toast-amt"
               style={{ color: config.accentColor }}
             >
-              +{lastWin.toLocaleString()}
+              +{displayWin.toLocaleString()}
             </span>
             <span className="sp-toast-lbl">WINNER!</span>
           </div>
@@ -694,18 +811,20 @@ export default function SlotDemo({ config }: { config: SlotConfig }) {
                 BIG WIN!
               </div>
               <div className="sp-bw-amount" style={{ color: '#fbbf24' }}>
-                +{lastWin.toLocaleString()}
+                +{displayWin.toLocaleString()}
               </div>
               <div className="sp-bw-unit">VCOIN</div>
 
               {/* Particle burst */}
-              {Array.from({ length: 18 }, (_, i) => (
+              {Array.from({ length: 28 }, (_, i) => (
                 <div
                   key={i}
                   className="sp-particle"
                   style={{
-                    left: `${(i * 17 + 6) % 88 + 6}%`,
-                    animationDelay: `${((i * 0.07) % 0.65).toFixed(2)}s`,
+                    left: `${(i * 13 + 4) % 92 + 4}%`,
+                    animationDelay: `${((i * 0.05) % 0.7).toFixed(2)}s`,
+                    animationDuration: `${(1.1 + (i % 5) * 0.18).toFixed(2)}s`,
+                    borderRadius: i % 3 === 0 ? '50%' : i % 3 === 1 ? '2px' : '0',
                     background:
                       i % 3 === 0
                         ? config.accentColor
@@ -734,6 +853,7 @@ function buildCSS(config: SlotConfig): string {
 
 /* ── Page shell ─────────────────────────────────────────────────────────────── */
 .sp {
+  --sp-cell-h: 80px;
   font-family: 'Outfit', sans-serif;
   min-height: 100vh;
   background: ${bgGradient};
@@ -878,6 +998,7 @@ function buildCSS(config: SlotConfig): string {
 
 /* ── Reel frame ─────────────────────────────────────────────────────────────── */
 .sp-reel-frame {
+  position: relative;
   background: rgba(0,0,0,0.55);
   border: 2px solid ${accentColor}55;
   border-radius: 16px;
@@ -886,9 +1007,29 @@ function buildCSS(config: SlotConfig): string {
     0 0 40px ${accentColor}25,
     0 0 80px ${accentColor}10,
     inset 0 0 40px rgba(0,0,0,0.4);
+  overflow: hidden;
+}
+
+.sp-reel-glint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255,255,255,0.06) 45%,
+    rgba(255,255,255,0.1) 50%,
+    rgba(255,255,255,0.06) 55%,
+    transparent 70%
+  );
+  background-size: 250% 250%;
+  animation: reelGlint 7s ease-in-out infinite;
+  z-index: 1;
 }
 
 .sp-reel-grid {
+  position: relative;
+  z-index: 2;
   display: flex;
   gap: 8px;
 }
@@ -900,12 +1041,54 @@ function buildCSS(config: SlotConfig): string {
   gap: 8px;
   overflow: hidden;
   border-radius: 8px;
+  height: calc(3 * var(--sp-cell-h, 80px) + 2 * 8px);
+}
+
+/* ── Scrolling reel strip (shown only while a column is spinning) ────────────── */
+.sp-reel-col-spin {
+  position: relative;
+  border: 2px solid rgba(255,255,255,0.07);
+  background: rgba(0,0,0,0.45);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 14%,
+    black 86%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 14%,
+    black 86%,
+    transparent 100%
+  );
+}
+
+.sp-reel-strip {
+  display: flex;
+  flex-direction: column;
+  animation-name: reelScroll;
+  animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+  animation-iteration-count: infinite;
+  filter: blur(2.5px);
+}
+
+.sp-strip-sym {
+  height: var(--sp-cell-h, 80px);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
 }
 
 /* ── Cells ──────────────────────────────────────────────────────────────────── */
 .sp-cell {
   width: 100%;
-  height: 80px;
+  height: var(--sp-cell-h, 80px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -914,7 +1097,7 @@ function buildCSS(config: SlotConfig): string {
   background: rgba(0,0,0,0.45);
   position: relative;
   overflow: hidden;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .sp-cell::before {
   content: '';
@@ -929,8 +1112,9 @@ function buildCSS(config: SlotConfig): string {
   pointer-events: none;
 }
 
-.sp-cell-spin {
-  animation: reelSpin 0.08s linear infinite;
+.sp-cell-land {
+  animation: reelLand 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: 50% 0%;
 }
 
 .sp-cell-win {
@@ -946,6 +1130,30 @@ function buildCSS(config: SlotConfig): string {
   position: relative;
   z-index: 1;
   white-space: nowrap;
+  text-shadow: 0 0 8px currentColor;
+  opacity: 0.92;
+  transition: opacity 0.2s, text-shadow 0.2s;
+}
+
+.sp-sym-win {
+  opacity: 1;
+  animation: symGlow 0.55s ease-in-out infinite;
+}
+
+/* ── Win burst (small per-win particle pop, shown for every paying spin) ─────── */
+.sp-win-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+.sp-burst-particle {
+  position: absolute;
+  bottom: 10%;
+  width: 7px;
+  height: 7px;
+  animation: burstFly 0.95s ease-out forwards;
 }
 
 /* ── Win line chips ─────────────────────────────────────────────────────────── */
@@ -1228,9 +1436,10 @@ function buildCSS(config: SlotConfig): string {
   position: absolute;
   width: 8px;
   height: 8px;
-  border-radius: 50%;
   bottom: 8px;
-  animation: particleFly 1.1s ease-out infinite;
+  animation-name: particleFly;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
 }
 
 /* ── Keyframes ──────────────────────────────────────────────────────────────── */
@@ -1240,6 +1449,28 @@ function buildCSS(config: SlotConfig): string {
   50%  { transform: translateY(4px)  scaleY(0.88); filter: blur(6px);  opacity: 0.3; }
   80%  { transform: translateY(-4px) scaleY(0.95); filter: blur(3px);  opacity: 0.6; }
   100% { transform: translateY(0)    scaleY(1);    filter: blur(0px);  opacity: 1;   }
+}
+
+@keyframes reelScroll {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50%); }
+}
+
+@keyframes reelLand {
+  0%   { transform: scaleY(0.82) translateY(-8px); }
+  45%  { transform: scaleY(1.1)  translateY(4px);  }
+  70%  { transform: scaleY(0.96) translateY(-2px); }
+  100% { transform: scaleY(1)    translateY(0);    }
+}
+
+@keyframes reelGlint {
+  0%, 100% { background-position: 0% 0%; }
+  50%       { background-position: 100% 100%; }
+}
+
+@keyframes symGlow {
+  0%, 100% { filter: brightness(1);    transform: scale(1);    }
+  50%       { filter: brightness(1.5); transform: scale(1.12); }
 }
 
 @keyframes winPulse {
@@ -1253,8 +1484,13 @@ function buildCSS(config: SlotConfig): string {
 }
 
 @keyframes particleFly {
-  0%   { transform: translateY(0)     scale(1);    opacity: 1; }
-  100% { transform: translateY(-200px) scale(0.2); opacity: 0; }
+  0%   { transform: translateY(0)      scale(1)   rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(-200px) scale(0.2) rotate(220deg); opacity: 0; }
+}
+
+@keyframes burstFly {
+  0%   { transform: translateY(0)      scale(0.6) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(-110px) scale(1.1) rotate(160deg); opacity: 0; }
 }
 
 @keyframes shimmer {
@@ -1284,7 +1520,8 @@ function buildCSS(config: SlotConfig): string {
 
 /* ── Responsive ─────────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .sp-layout { flex-direction: column; }
+  .sp { --sp-cell-h: 68px; }
+  .sp-layout { flex-direction: column; padding: 16px; }
   .sp-sidebar {
     width: 100%;
     display: grid;
@@ -1292,16 +1529,33 @@ function buildCSS(config: SlotConfig): string {
     gap: 12px;
   }
   .sp-history { grid-column: 1 / -1; }
+  .sp-bw-title { font-size: 44px; }
+  .sp-bw-amount { font-size: 54px; }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
+  .sp { --sp-cell-h: 56px; }
+  .sp-nav { padding: 10px 14px; gap: 10px; }
+  .sp-bal-val { font-size: 17px; }
   .sp-layout { padding: 12px; gap: 12px; }
-  .sp-cell { height: 64px; }
-  .sp-sym { font-size: 10px; }
-  .sp-spin-btn { font-size: 16px; padding: 14px 20px; }
-  .sp-bw-title { font-size: 38px; }
-  .sp-bw-amount { font-size: 46px; }
-  .sp-bigwin-box { padding: 28px 32px; }
+  .sp-reel-grid { gap: 5px; }
+  .sp-reel-col { gap: 5px; }
+  .sp-sym, .sp-strip-sym { font-size: 9px; }
+  .sp-actions { flex-wrap: wrap; }
+  .sp-spin-btn { flex: 1 1 100%; order: -1; font-size: 17px; padding: 14px 20px; }
+  .sp-auto-btn, .sp-reset-btn { flex: 1; min-width: 0; }
+  .sp-sidebar { grid-template-columns: 1fr; }
+  .sp-bw-title { font-size: 32px; }
+  .sp-bw-amount { font-size: 40px; }
+  .sp-bigwin-box { padding: 24px 24px; }
+  .sp-toast { padding: 10px 22px; bottom: 16px; }
+  .sp-toast-amt { font-size: 24px; }
+}
+
+@media (max-width: 380px) {
+  .sp { --sp-cell-h: 46px; }
+  .sp-game-name { display: none; }
+  .sp-sym, .sp-strip-sym { font-size: 8px; }
 }
 `;
 }
