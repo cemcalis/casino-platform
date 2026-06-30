@@ -2,6 +2,17 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  loadCrm,
+  subscribeCrm,
+  assignTicket,
+  setTicketStatus as crmSetTicketStatus,
+  activeChatsForAgent,
+  ticketCountsByStatus,
+  formatShiftDuration,
+  type CrmState,
+  type TicketStatus,
+} from './components/crm/crm-mock';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface KpiCard {
@@ -395,6 +406,174 @@ function StatusChip({ status }: { status: Player['status'] }) {
     <span style={{ background: bg, color, fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 6, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
       {status}
     </span>
+  );
+}
+
+// ─── Support CRM Oversight (demo-safe, localStorage-backed crm-mock store) ────
+const TICKET_STATUS_COLORS: Record<TicketStatus, string> = {
+  new: '#a08bc0', open: '#ff2d78', pending: '#f4c430', closed: '#4ade80',
+};
+
+function SupportCrmSection() {
+  const [crm, setCrm] = useState<CrmState>(() => loadCrm());
+  const [previewTicketId, setPreviewTicketId] = useState<string | null>(null);
+  const [nowMs, setNowMs] = useState(() => Date.now());
+
+  useEffect(() => {
+    const refresh = () => setCrm(loadCrm());
+    refresh();
+    const unsubscribe = subscribeCrm(refresh);
+    const tick = setInterval(() => setNowMs(Date.now()), 1000);
+    return () => { unsubscribe(); clearInterval(tick); };
+  }, []);
+
+  const { tickets, agents } = crm;
+  const counts = ticketCountsByStatus(crm);
+  const onlineAgents = agents.filter(a => a.online).length;
+  const previewTicket = tickets.find(t => t.id === previewTicketId) ?? null;
+
+  function handleAssign(ticketId: string, agentId: string) {
+    assignTicket(ticketId, agentId || null);
+    setCrm(loadCrm());
+  }
+
+  function handleToggleClosed(ticketId: string, status: TicketStatus) {
+    crmSetTicketStatus(ticketId, status === 'closed' ? 'open' : 'closed');
+    setCrm(loadCrm());
+  }
+
+  return (
+    <div style={{ background: '#251240', borderRadius: 16, border: '1px solid rgba(244,196,48,0.1)', overflow: 'hidden', animation: 'slideUp 0.6s ease 0.85s both', marginBottom: 28 }}>
+      <div style={{ padding: '20px 24px', borderBottom: '1px solid rgba(240,232,255,0.07)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <h3 style={{ color: '#f0e8ff', fontSize: 17, fontWeight: 700, margin: 0 }}>Support CRM Oversight</h3>
+            <p style={{ color: '#a08bc0', fontSize: 13, margin: '2px 0 0' }}>Demo-safe ticket &amp; agent monitoring — no backend, local mock data only</p>
+          </div>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {(['new', 'open', 'pending', 'closed'] as TicketStatus[]).map(s => (
+              <div key={s} style={{
+                background: `${TICKET_STATUS_COLORS[s]}1a`, border: `1px solid ${TICKET_STATUS_COLORS[s]}44`,
+                borderRadius: 8, padding: '6px 14px', textAlign: 'center', minWidth: 64,
+              }}>
+                <div style={{ color: TICKET_STATUS_COLORS[s], fontWeight: 800, fontSize: 16, fontFamily: "'Outfit', sans-serif" }}>{counts[s]}</div>
+                <div style={{ color: '#a08bc0', fontSize: 9, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{s}</div>
+              </div>
+            ))}
+            <div style={{
+              background: 'rgba(0,212,200,0.1)', border: '1px solid rgba(0,212,200,0.3)',
+              borderRadius: 8, padding: '6px 14px', textAlign: 'center', minWidth: 64,
+            }}>
+              <div style={{ color: '#00d4c8', fontWeight: 800, fontSize: 16, fontFamily: "'Outfit', sans-serif" }}>{onlineAgents}/{agents.length}</div>
+              <div style={{ color: '#a08bc0', fontSize: 9, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Online</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 0 }} className="crm-grid">
+        {/* All tickets */}
+        <div style={{ overflowX: 'auto', borderRight: '1px solid rgba(240,232,255,0.07)' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                {['Ticket', 'Player', 'Status', 'Priority', 'Assigned Agent', 'Actions'].map(col => (
+                  <th key={col} style={{ padding: '10px 16px', textAlign: 'left', color: '#a08bc0', fontSize: 11, fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{col}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {tickets.map((t, i) => (
+                <tr key={t.id} style={{ background: i % 2 === 0 ? 'rgba(240,232,255,0.02)' : 'transparent' }}>
+                  <td style={{ padding: '9px 16px', color: '#a08bc0', fontSize: 12, fontFamily: 'monospace', whiteSpace: 'nowrap' }}>{t.id}</td>
+                  <td style={{ padding: '9px 16px', color: '#f0e8ff', fontWeight: 600, fontSize: 13, whiteSpace: 'nowrap' }}>{t.player}</td>
+                  <td style={{ padding: '9px 16px', whiteSpace: 'nowrap' }}>
+                    <span style={{ background: `${TICKET_STATUS_COLORS[t.status]}22`, color: TICKET_STATUS_COLORS[t.status], fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 5, textTransform: 'uppercase' }}>{t.status}</span>
+                  </td>
+                  <td style={{ padding: '9px 16px', color: '#c4b5d4', fontSize: 12, textTransform: 'capitalize', whiteSpace: 'nowrap' }}>{t.priority}</td>
+                  <td style={{ padding: '9px 16px', whiteSpace: 'nowrap' }}>
+                    <select
+                      value={t.assignedAgentId ?? ''}
+                      onChange={e => handleAssign(t.id, e.target.value)}
+                      style={{
+                        background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(240,232,255,0.12)',
+                        color: '#c4b5d4', borderRadius: 6, padding: '4px 8px', fontSize: 11,
+                        fontFamily: "'Inter', sans-serif", cursor: 'pointer',
+                      }}
+                    >
+                      <option value="">Unassigned</option>
+                      {agents.map(a => (
+                        <option key={a.id} value={a.id}>{a.name}</option>
+                      ))}
+                    </select>
+                  </td>
+                  <td style={{ padding: '9px 16px', whiteSpace: 'nowrap' }}>
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      <button onClick={() => setPreviewTicketId(t.id)} style={{ background: 'rgba(0,212,200,0.12)', border: '1px solid rgba(0,212,200,0.3)', color: '#00d4c8', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 5, cursor: 'pointer' }}>Preview</button>
+                      <button onClick={() => handleToggleClosed(t.id, t.status)} style={{
+                        background: t.status === 'closed' ? 'rgba(74,222,128,0.12)' : 'rgba(255,45,120,0.1)',
+                        border: t.status === 'closed' ? '1px solid rgba(74,222,128,0.3)' : '1px solid rgba(255,45,120,0.3)',
+                        color: t.status === 'closed' ? '#4ade80' : '#ff2d78',
+                        fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 5, cursor: 'pointer',
+                      }}>{t.status === 'closed' ? 'Reopen' : 'Close'}</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Agents + conversation preview */}
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: '14px 18px', borderBottom: '1px solid rgba(240,232,255,0.07)' }}>
+            <div style={{ color: '#a08bc0', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', marginBottom: 10, textTransform: 'uppercase' }}>Agents</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {agents.map(a => (
+                <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(0,0,0,0.2)', borderRadius: 8, padding: '7px 10px' }}>
+                  <div style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#3d1f6e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#f4c430' }}>{a.initials}</div>
+                    <span style={{ position: 'absolute', bottom: -1, right: -1, width: 8, height: 8, borderRadius: '50%', background: a.online ? '#22c55e' : '#6b7280', border: '2px solid #251240' }} />
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#f0e8ff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{a.name}</div>
+                    <div style={{ fontSize: 10, color: '#7c6fa0' }}>
+                      {a.online ? formatShiftDuration(a.shiftStartedAt, nowMs) : 'Offline'} · {activeChatsForAgent(crm, a.id)} active
+                    </div>
+                  </div>
+                  <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: '#f4c430' }}>{a.handledToday}</div>
+                    <div style={{ fontSize: 9, color: '#7c6fa0' }}>today</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ padding: '14px 18px', flex: 1, overflowY: 'auto' }}>
+            <div style={{ color: '#a08bc0', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', marginBottom: 10, textTransform: 'uppercase' }}>Conversation Preview</div>
+            {!previewTicket ? (
+              <p style={{ color: '#7c6fa0', fontSize: 12 }}>Select &ldquo;Preview&rdquo; on a ticket to view its conversation.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div style={{ fontSize: 11, color: '#7c6fa0', marginBottom: 4 }}>{previewTicket.id} — {previewTicket.subject}</div>
+                {previewTicket.messages.slice(-6).map(m => (
+                  <div key={m.id} style={{
+                    fontSize: 11, padding: '6px 10px', borderRadius: 8,
+                    background: m.sender === 'system' ? 'rgba(0,212,200,0.06)' : m.sender === 'agent' ? 'rgba(244,196,48,0.08)' : 'rgba(240,232,255,0.04)',
+                    color: m.sender === 'system' ? '#00d4c8' : '#e2dafa',
+                  }}>
+                    <strong style={{ marginRight: 6, textTransform: 'capitalize' }}>{m.senderName ?? m.sender}:</strong>{m.text}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <style>{`@media (max-width: 900px) { .crm-grid { grid-template-columns: 1fr !important; } }`}</style>
+    </div>
   );
 }
 
@@ -883,6 +1062,9 @@ export default function AdminPage() {
               </table>
             </div>
           </div>
+
+          {/* ── SUPPORT CRM OVERSIGHT ────────────────────────────────────── */}
+          <SupportCrmSection />
 
           {/* ── FOOTER ────────────────────────────────────────────────────── */}
           <footer style={{ marginTop: 48, paddingTop: 24, borderTop: '1px solid rgba(240,232,255,0.07)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
