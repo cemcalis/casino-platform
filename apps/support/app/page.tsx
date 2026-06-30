@@ -13,6 +13,11 @@ interface Ticket {
   time: string;
   unread: number;
   status: 'open' | 'pending' | 'resolved';
+  assignedAgent?: string;
+  assignedAgentInitials?: string;
+  isLiveChat?: boolean;
+  playerOnline?: boolean;
+  waitTime?: string;
 }
 
 interface Message {
@@ -22,6 +27,7 @@ interface Message {
   time: string;
   read?: boolean;
   isNote?: boolean;
+  senderName?: string;
 }
 
 interface Transaction {
@@ -31,20 +37,59 @@ interface Transaction {
   status: 'completed' | 'pending' | 'failed';
 }
 
+interface Agent {
+  id: string;
+  name: string;
+  initials: string;
+  status: 'online' | 'away' | 'offline';
+  activeChats: number;
+  maxChats: number;
+  languages: string[];
+  specialties: string[];
+  avgResponseTime: string;
+  rating: number;
+}
+
+interface LiveChatSession {
+  id: string;
+  player: string;
+  playerInitials: string;
+  status: 'waiting' | 'active' | 'ended';
+  waitTime: number;
+  assignedAgent?: string;
+  category: string;
+  priority: 'urgent' | 'high' | 'medium' | 'low';
+  messages: Message[];
+}
+
 // ─── Data ────────────────────────────────────────────────────────────────────
 const TICKETS: Ticket[] = [
-  { id: 'TKT-8847', player: 'DragonKing99', initials: 'DK', subject: 'Withdrawal not received after 48h', category: 'Payment', priority: 'urgent', time: '2m ago', unread: 3, status: 'open' },
-  { id: 'TKT-8846', player: 'LuckyAce77', initials: 'LA', subject: 'Bonus wagering requirement bug', category: 'Bonus', priority: 'high', time: '8m ago', unread: 1, status: 'open' },
-  { id: 'TKT-8845', player: 'NeonWolf', initials: 'NW', subject: 'Account verification documents', category: 'Account', priority: 'medium', time: '15m ago', unread: 0, status: 'pending' },
-  { id: 'TKT-8844', player: 'GoldRush_XL', initials: 'GR', subject: 'Game loading error - Neon Slots', category: 'Technical', priority: 'high', time: '23m ago', unread: 2, status: 'open' },
-  { id: 'TKT-8843', player: 'VIPStar_Mia', initials: 'VM', subject: 'VIP cashback not credited', category: 'VIP', priority: 'urgent', time: '31m ago', unread: 5, status: 'open' },
-  { id: 'TKT-8842', player: 'CryptoKing88', initials: 'CK', subject: 'BTC deposit missing - TXID prov.', category: 'Payment', priority: 'high', time: '45m ago', unread: 0, status: 'open' },
-  { id: 'TKT-8841', player: 'SilverFox22', initials: 'SF', subject: 'Two-factor authentication reset', category: 'Account', priority: 'low', time: '1h ago', unread: 0, status: 'pending' },
-  { id: 'TKT-8840', player: 'AceBlaster', initials: 'AB', subject: 'Free spins not applied to account', category: 'Bonus', priority: 'medium', time: '1h ago', unread: 1, status: 'open' },
-  { id: 'TKT-8839', player: 'QueenOfCards', initials: 'QC', subject: 'Live dealer stream quality issue', category: 'Technical', priority: 'low', time: '2h ago', unread: 0, status: 'pending' },
-  { id: 'TKT-8838', player: 'RoyalFlush_J', initials: 'RJ', subject: 'Responsible gaming limit request', category: 'Account', priority: 'medium', time: '2h ago', unread: 0, status: 'open' },
-  { id: 'TKT-8837', player: 'MidnightBet', initials: 'MB', subject: 'E-wallet payment method not working', category: 'Payment', priority: 'high', time: '3h ago', unread: 0, status: 'resolved' },
-  { id: 'TKT-8836', player: 'TurboSlots', initials: 'TS', subject: 'Account suspended unfairly', category: 'Account', priority: 'urgent', time: '3h ago', unread: 0, status: 'resolved' },
+  { id: 'TKT-8847', player: 'DragonKing99', initials: 'DK', subject: 'Withdrawal not received after 48h', category: 'Payment', priority: 'urgent', time: '2m ago', unread: 3, status: 'open', assignedAgent: 'Sarah K.', assignedAgentInitials: 'SK', isLiveChat: true, playerOnline: true, waitTime: '0:45' },
+  { id: 'TKT-8846', player: 'LuckyAce77', initials: 'LA', subject: 'Bonus wagering requirement bug', category: 'Bonus', priority: 'high', time: '8m ago', unread: 1, status: 'open', assignedAgent: 'Mike R.', assignedAgentInitials: 'MR', isLiveChat: true, playerOnline: true, waitTime: '1:20' },
+  { id: 'TKT-8845', player: 'NeonWolf', initials: 'NW', subject: 'Account verification documents', category: 'Account', priority: 'medium', time: '15m ago', unread: 0, status: 'pending', assignedAgent: 'Unassigned', isLiveChat: false, playerOnline: false, waitTime: '3:45' },
+  { id: 'TKT-8844', player: 'GoldRush_XL', initials: 'GR', subject: 'Game loading error - Neon Slots', category: 'Technical', priority: 'high', time: '23m ago', unread: 2, status: 'open', assignedAgent: 'Sarah K.', assignedAgentInitials: 'SK', isLiveChat: true, playerOnline: true, waitTime: '0:30' },
+  { id: 'TKT-8843', player: 'VIPStar_Mia', initials: 'VM', subject: 'VIP cashback not credited', category: 'VIP', priority: 'urgent', time: '31m ago', unread: 5, status: 'open', assignedAgent: 'Unassigned', isLiveChat: true, playerOnline: true, waitTime: '5:12' },
+  { id: 'TKT-8842', player: 'CryptoKing88', initials: 'CK', subject: 'BTC deposit missing - TXID prov.', category: 'Payment', priority: 'high', time: '45m ago', unread: 0, status: 'open', assignedAgent: 'Mike R.', assignedAgentInitials: 'MR', isLiveChat: false, playerOnline: false, waitTime: '8:30' },
+  { id: 'TKT-8841', player: 'SilverFox22', initials: 'SF', subject: 'Two-factor authentication reset', category: 'Account', priority: 'low', time: '1h ago', unread: 0, status: 'pending', assignedAgent: 'Unassigned', isLiveChat: false, playerOnline: false, waitTime: '12:00' },
+  { id: 'TKT-8840', player: 'AceBlaster', initials: 'AB', subject: 'Free spins not applied to account', category: 'Bonus', priority: 'medium', time: '1h ago', unread: 1, status: 'open', assignedAgent: 'Sarah K.', assignedAgentInitials: 'SK', isLiveChat: true, playerOnline: true, waitTime: '2:15' },
+  { id: 'TKT-8839', player: 'QueenOfCards', initials: 'QC', subject: 'Live dealer stream quality issue', category: 'Technical', priority: 'low', time: '2h ago', unread: 0, status: 'pending', assignedAgent: 'Unassigned', isLiveChat: false, playerOnline: false, waitTime: '15:00' },
+  { id: 'TKT-8838', player: 'RoyalFlush_J', initials: 'RJ', subject: 'Responsible gaming limit request', category: 'Account', priority: 'medium', time: '2h ago', unread: 0, status: 'open', assignedAgent: 'Mike R.', assignedAgentInitials: 'MR', isLiveChat: false, playerOnline: false, waitTime: '18:00' },
+  { id: 'TKT-8837', player: 'MidnightBet', initials: 'MB', subject: 'E-wallet payment method not working', category: 'Payment', priority: 'high', time: '3h ago', unread: 0, status: 'resolved', assignedAgent: 'Sarah K.', assignedAgentInitials: 'SK', isLiveChat: false, playerOnline: false, waitTime: '25:00' },
+  { id: 'TKT-8836', player: 'TurboSlots', initials: 'TS', subject: 'Account suspended unfairly', category: 'Account', priority: 'urgent', time: '3h ago', unread: 0, status: 'resolved', assignedAgent: 'Mike R.', assignedAgentInitials: 'MR', isLiveChat: false, playerOnline: false, waitTime: '30:00' },
+];
+
+const AGENTS: Agent[] = [
+  { id: 'AGT-001', name: 'Sarah K.', initials: 'SK', status: 'online', activeChats: 3, maxChats: 5, languages: ['English', 'Spanish', 'German'], specialties: ['Payment', 'VIP'], avgResponseTime: '1.2 min', rating: 4.8 },
+  { id: 'AGT-002', name: 'Mike R.', initials: 'MR', status: 'online', activeChats: 2, maxChats: 5, languages: ['English', 'French'], specialties: ['Technical', 'Account'], avgResponseTime: '1.8 min', rating: 4.6 },
+  { id: 'AGT-003', name: 'Emma L.', initials: 'EL', status: 'away', activeChats: 1, maxChats: 4, languages: ['English', 'Italian', 'Portuguese'], specialties: ['Bonus', 'VIP'], avgResponseTime: '2.1 min', rating: 4.7 },
+  { id: 'AGT-004', name: 'David C.', initials: 'DC', status: 'offline', activeChats: 0, maxChats: 5, languages: ['English', 'Russian'], specialties: ['Payment', 'Technical'], avgResponseTime: '1.5 min', rating: 4.5 },
+  { id: 'AGT-005', name: 'Lisa M.', initials: 'LM', status: 'online', activeChats: 4, maxChats: 5, languages: ['English', 'Turkish', 'Arabic'], specialties: ['Account', 'VIP'], avgResponseTime: '1.3 min', rating: 4.9 },
+];
+
+const LIVE_CHAT_QUEUE: LiveChatSession[] = [
+  { id: 'LIVE-001', player: 'HighRoller_X', playerInitials: 'HR', status: 'waiting', waitTime: 45, category: 'VIP', priority: 'urgent', messages: [] },
+  { id: 'LIVE-002', player: 'CasinoQueen', playerInitials: 'CQ', status: 'waiting', waitTime: 120, category: 'Payment', priority: 'high', messages: [] },
+  { id: 'LIVE-003', player: 'SlotMaster', playerInitials: 'SM', status: 'waiting', waitTime: 180, category: 'Technical', priority: 'medium', messages: [] },
 ];
 
 const MESSAGES_INITIAL: Message[] = [
@@ -91,6 +136,102 @@ const PRIORITY_COLORS: Record<string, string> = {
 
 const FILTER_TABS = ['All', 'Urgent', 'Open', 'Pending', 'Resolved'];
 
+// ─── Automatic Staff Assignment Algorithm ─────────────────────────────────────
+function assignAgentToTicket(ticket: Ticket, agents: Agent[]): Agent | null {
+  // Filter available agents (online or away, not offline)
+  const availableAgents = agents.filter(agent => 
+    agent.status !== 'offline' && 
+    agent.activeChats < agent.maxChats
+  );
+
+  if (availableAgents.length === 0) return null;
+
+  // Score each agent based on multiple factors
+  const scoredAgents = availableAgents.map(agent => {
+    let score = 0;
+
+    // 1. Specialty match (highest priority)
+    if (agent.specialties.includes(ticket.category)) {
+      score += 50;
+    }
+
+    // 2. Priority level matching
+    if (ticket.priority === 'urgent' && agent.specialties.includes('VIP')) {
+      score += 30;
+    } else if (ticket.priority === 'high' && agent.specialties.includes('Payment')) {
+      score += 20;
+    }
+
+    // 3. Availability (fewer active chats = higher score)
+    const availabilityScore = (agent.maxChats - agent.activeChats) * 10;
+    score += availabilityScore;
+
+    // 4. Rating (higher rating = higher score)
+    score += agent.rating * 5;
+
+    // 5. Response time (faster = higher score)
+    const responseTimeMinutes = parseFloat(agent.avgResponseTime);
+    score += Math.max(0, 10 - responseTimeMinutes) * 3;
+
+    // 6. Status preference (online > away)
+    if (agent.status === 'online') {
+      score += 15;
+    }
+
+    return { agent, score };
+  });
+
+  // Sort by score descending and return the best match
+  scoredAgents.sort((a, b) => b.score - a.score);
+  return scoredAgents[0]?.agent || null;
+}
+
+function assignAgentToLiveChat(session: LiveChatSession, agents: Agent[]): Agent | null {
+  // Filter available agents
+  const availableAgents = agents.filter(agent => 
+    agent.status !== 'offline' && 
+    agent.activeChats < agent.maxChats
+  );
+
+  if (availableAgents.length === 0) return null;
+
+  // Score agents for live chat
+  const scoredAgents = availableAgents.map(agent => {
+    let score = 0;
+
+    // 1. Category specialty match
+    if (agent.specialties.includes(session.category)) {
+      score += 40;
+    }
+
+    // 2. Priority matching
+    if (session.priority === 'urgent' && agent.specialties.includes('VIP')) {
+      score += 30;
+    }
+
+    // 3. Availability
+    const availabilityScore = (agent.maxChats - agent.activeChats) * 8;
+    score += availabilityScore;
+
+    // 4. Rating
+    score += agent.rating * 4;
+
+    // 5. Response time
+    const responseTimeMinutes = parseFloat(agent.avgResponseTime);
+    score += Math.max(0, 10 - responseTimeMinutes) * 2;
+
+    // 6. Status preference
+    if (agent.status === 'online') {
+      score += 10;
+    }
+
+    return { agent, score };
+  });
+
+  scoredAgents.sort((a, b) => b.score - a.score);
+  return scoredAgents[0]?.agent || null;
+}
+
 // ─── Helper components ────────────────────────────────────────────────────────
 function AvatarCircle({ initials, size = 36, bg = '#3d1f6e', color = '#f4c430', fontSize = 13 }: { initials: string; size?: number; bg?: string; color?: string; fontSize?: number }) {
   return (
@@ -135,6 +276,10 @@ export default function SupportCRMPage() {
   const [shiftSeconds, setShiftSeconds] = useState(9847);
   const [notification, setNotification] = useState<{ show: boolean; ticket: string }>({ show: false, ticket: '' });
   const [searchQuery, setSearchQuery] = useState('');
+  const [autoAssignEnabled, setAutoAssignEnabled] = useState(true);
+  const [assignmentLog, setAssignmentLog] = useState<Array<{ticketId: string, agentId: string, timestamp: string}>>([]);
+  const [ticketStatus, setTicketStatus] = useState<'open' | 'pending' | 'resolved'>('open');
+  const [ticketPriority, setTicketPriority] = useState<'urgent' | 'high' | 'medium' | 'low'>('urgent');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Shift timer
@@ -166,6 +311,39 @@ export default function SupportCRMPage() {
     }, 8000);
     return () => clearTimeout(t);
   }, []);
+
+  // Auto-assign agents to tickets when enabled
+  useEffect(() => {
+    if (!autoAssignEnabled) return;
+
+    // Check for unassigned tickets and assign agents
+    TICKETS.forEach(ticket => {
+      if (!ticket.assignedAgent && ticket.status !== 'resolved') {
+        const assignedAgent = assignAgentToTicket(ticket, AGENTS);
+        if (assignedAgent) {
+          setAssignmentLog(prev => [...prev, {
+            ticketId: ticket.id,
+            agentId: assignedAgent.id,
+            timestamp: new Date().toLocaleTimeString(),
+          }]);
+        }
+      }
+    });
+
+    // Check for unassigned live chat sessions
+    LIVE_CHAT_QUEUE.forEach(session => {
+      if (session.status === 'waiting' && !session.assignedAgent) {
+        const assignedAgent = assignAgentToLiveChat(session, AGENTS);
+        if (assignedAgent) {
+          setAssignmentLog(prev => [...prev, {
+            ticketId: session.id,
+            agentId: assignedAgent.id,
+            timestamp: new Date().toLocaleTimeString(),
+          }]);
+        }
+      }
+    });
+  }, [autoAssignEnabled]);
 
   // Auto-scroll messages
   useEffect(() => {
@@ -344,6 +522,28 @@ export default function SupportCRMPage() {
 
           {/* Right: Agent info */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {/* Auto-assign toggle */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ fontSize: 11, color: '#7c6fa0', fontWeight: 600, letterSpacing: '0.06em' }}>AUTO-ASSIGN</div>
+              <button
+                onClick={() => setAutoAssignEnabled(!autoAssignEnabled)}
+                style={{
+                  width: 44, height: 24, borderRadius: 12,
+                  background: autoAssignEnabled ? '#22c55e' : 'rgba(107,114,128,0.3)',
+                  border: 'none', cursor: 'pointer', position: 'relative',
+                  transition: 'all 0.2s',
+                }}
+              >
+                <div style={{
+                  width: 18, height: 18, borderRadius: '50%',
+                  background: '#fff',
+                  position: 'absolute', top: 3,
+                  left: autoAssignEnabled ? 23 : 3,
+                  transition: 'all 0.2s',
+                }} />
+              </button>
+            </div>
+
             {/* Shift timer */}
             <div style={{
               background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(0,212,200,0.2)',
@@ -528,12 +728,42 @@ export default function SupportCRMPage() {
                   <span style={{ fontSize: 14, color: '#7c6fa0' }}>—</span>
                   <span style={{ fontSize: 14, fontWeight: 600, color: '#f0e8ff' }}>Payment Issue</span>
                   <span style={{
-                    background: 'rgba(255,45,120,0.15)', color: '#ff2d78',
-                    border: '1px solid rgba(255,45,120,0.4)', borderRadius: 5,
+                    background: `rgba(${PRIORITY_COLORS[ticketPriority].match(/\d+/g)?.join(',') || '255,45,120'},0.15)`,
+                    color: PRIORITY_COLORS[ticketPriority],
+                    border: `1px solid ${PRIORITY_COLORS[ticketPriority]}66`, borderRadius: 5,
                     padding: '2px 10px', fontSize: 11, fontWeight: 700,
-                  }}>URGENT</span>
+                  }}>{ticketPriority.toUpperCase()}</span>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
+                  {/* Status selector */}
+                  <select
+                    value={ticketStatus}
+                    onChange={e => setTicketStatus(e.target.value as 'open' | 'pending' | 'resolved')}
+                    style={{
+                      background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(124,111,160,0.3)',
+                      color: '#c4b5d4', borderRadius: 7, padding: '5px 12px', fontSize: 12,
+                      fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif",
+                    }}
+                  >
+                    <option value="open">🔴 Open</option>
+                    <option value="pending">🟡 Pending</option>
+                    <option value="resolved">🟢 Resolved</option>
+                  </select>
+                  {/* Priority selector */}
+                  <select
+                    value={ticketPriority}
+                    onChange={e => setTicketPriority(e.target.value as 'urgent' | 'high' | 'medium' | 'low')}
+                    style={{
+                      background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(124,111,160,0.3)',
+                      color: '#c4b5d4', borderRadius: 7, padding: '5px 12px', fontSize: 12,
+                      fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif",
+                    }}
+                  >
+                    <option value="urgent">🔴 Urgent</option>
+                    <option value="high">🟠 High</option>
+                    <option value="medium">🟡 Medium</option>
+                    <option value="low">🔵 Low</option>
+                  </select>
                   {['Resolve', 'Escalate', 'Transfer'].map(btn => (
                     <button key={btn} className="action-btn" style={{
                       background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(124,111,160,0.3)',
@@ -756,6 +986,34 @@ export default function SupportCRMPage() {
             flexDirection: 'column',
             gap: 14,
           }}>
+            {/* Assignment Log */}
+            {autoAssignEnabled && assignmentLog.length > 0 && (
+              <div style={{
+                background: 'linear-gradient(135deg, #251240, #1a0d35)',
+                border: '1px solid rgba(34,197,94,0.3)',
+                borderRadius: 12, padding: '14px',
+                boxShadow: '0 4px 16px rgba(34,197,94,0.1)',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: 14 }}>🤖</span>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#22c55e' }}>Auto-Assignment Log</div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 150, overflowY: 'auto' }}>
+                  {assignmentLog.slice(-5).reverse().map((log, idx) => (
+                    <div key={idx} style={{
+                      background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.2)',
+                      borderRadius: 6, padding: '8px 10px', fontSize: 11,
+                    }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 2 }}>
+                        <span style={{ color: '#22c55e', fontWeight: 600 }}>{log.ticketId}</span>
+                        <span style={{ color: '#7c6fa0' }}>{log.timestamp}</span>
+                      </div>
+                      <div style={{ color: '#c4b5d4' }}>→ Assigned to {log.agentId}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             {/* Player Card */}
             <div style={{
               background: 'linear-gradient(135deg, #251240, #1a0d35)',

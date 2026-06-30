@@ -23,8 +23,8 @@ const COLUMNS = [
     links: [
       { label: 'All Games', href: '/' },
       { label: 'Neon Palace', href: '/games/neon-palace' },
-      { label: 'Lucky 7s', href: '/games/lucky-7s' },
       { label: 'Blackjack Pro', href: '/games/blackjack-pro' },
+      { label: 'Cyber Roulette', href: '/games/cyber-roulette' },
     ],
   },
   {
