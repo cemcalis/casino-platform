@@ -179,10 +179,15 @@ function mapServerGrid(grid: string[][]): string[][] {
 function serverWinTier(payout: number, bet: number): string {
   if (payout <= 0) return 'none';
   const m = payout / bet;
-  if (m >= 50) return 'jackpot';
+  if (m >= 100) return 'mega';
+  if (m >= 50) return 'epic';
   if (m >= 15) return 'big';
   if (m >= 3) return 'medium';
   return 'small';
+}
+function isJackpot(grid: string[][]): boolean {
+  // 5 WILDs on the middle row (row 1) triggers the progressive jackpot
+  return grid.every(col => col[1] === 'WILD');
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -219,7 +224,7 @@ function evaluateWin(grid: string[][], bet: number): { payout: number; winLines:
   let tier = 'none';
   if (payout > 0) {
     const mult = payout/bet;
-    if (mult >= 200) tier='mega'; else if (mult >= 50) tier='big'; else if (mult >= 10) tier='medium'; else tier='small';
+    if (mult >= 100) tier='mega'; else if (mult >= 50) tier='epic'; else if (mult >= 15) tier='big'; else if (mult >= 3) tier='medium'; else tier='small';
   }
   if (scatCount >= 3 && tier==='none') tier='scatter';
   return { payout, winLines, winTier: tier };
@@ -707,32 +712,40 @@ function StarField() {
 /* ─────────────────────────────────────────────────────────────────────────────
    BIG WIN OVERLAY
 ───────────────────────────────────────────────────────────────────────────── */
+const WIN_TIER_CONFIG: Record<string, { label: string; grad: string; glow: string; bg: string }> = {
+  mega:    { label:'⚡ MEGA WIN ⚡',  grad:'linear-gradient(135deg,#ff2d78,#f4c430,#00d4c8,#ff2d78)', glow:'#ff2d78', bg:'radial-gradient(ellipse at center,#2d0050dd,#0a001099)' },
+  epic:    { label:'💫 EPIC WIN 💫',  grad:'linear-gradient(135deg,#a855f7,#f4c430,#00d4c8,#a855f7)', glow:'#a855f7', bg:'radial-gradient(ellipse at center,#1a0040dd,#0a001099)' },
+  big:     { label:'🔥 BIG WIN 🔥',   grad:'linear-gradient(135deg,#f4c430,#ffdd00,#ff8c00,#f4c430)', glow:'#f4c430', bg:'radial-gradient(ellipse at center,#1a0035cc,#0a001099)' },
+  jackpot: { label:'👑 JACKPOT! 👑',  grad:'linear-gradient(135deg,#ff2d78,#f4c430,#00d4c8,#ff2d78)', glow:'#ffdd00', bg:'radial-gradient(ellipse at center,#3d0070ee,#0a001099)' },
+};
+
 function BigWinOverlay({ tier, amount, onClose }: { tier:string; amount:number; onClose:()=>void }) {
-  const isMega = tier==='mega';
+  const cfg = WIN_TIER_CONFIG[tier] ?? WIN_TIER_CONFIG.big!;
+  const isMega = tier === 'mega' || tier === 'jackpot';
   return (
     <div onClick={onClose} style={{
       position:'fixed',inset:0,zIndex:9000,
-      background:isMega?'radial-gradient(ellipse at center,#2d0050dd,#0a001099)':'radial-gradient(ellipse at center,#1a0035cc,#0a001099)',
+      background: cfg.bg,
       display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',
       cursor:'pointer',backdropFilter:'blur(4px)',
     }}>
       <div style={{
         fontSize:isMega?'clamp(40px,8vw,90px)':'clamp(30px,6vw,70px)',
         fontWeight:900, fontFamily:'Outfit,sans-serif',
-        background:isMega?'linear-gradient(135deg,#ff2d78,#f4c430,#00d4c8,#ff2d78)':'linear-gradient(135deg,#f4c430,#ffdd00,#f4c430)',
+        background: cfg.grad,
         WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',
         backgroundSize:'200% 200%', animation:'bigWinText 0.8s cubic-bezier(0.34,1.56,0.64,1) both, logoShimmer 2s linear infinite',
         textShadow:'none', textAlign:'center',
-        filter:`drop-shadow(0 0 ${isMega?40:20}px ${isMega?'#ff2d78':'#f4c430'})`,
+        filter:`drop-shadow(0 0 ${isMega?40:20}px ${cfg.glow})`,
       }}>
-        {isMega?'⚡ MEGA WIN ⚡':'🔥 BIG WIN 🔥'}
+        {cfg.label}
       </div>
       <div style={{
         fontSize:'clamp(24px,5vw,60px)', fontWeight:900, fontFamily:'Outfit,sans-serif',
         color:'#f4c430', marginTop:16, animation:'winAmount 0.6s 0.4s both',
-        textShadow:'0 0 30px #f4c430, 0 0 60px #ff8c00',
+        textShadow:`0 0 30px #f4c430, 0 0 60px ${cfg.glow}`,
       }}>
-        ${amount.toLocaleString()}
+        +{amount.toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2})}
       </div>
       <div style={{color:C.textDim,marginTop:24,fontSize:14,fontFamily:'Outfit,sans-serif'}}>Tap to continue</div>
     </div>
@@ -755,7 +768,7 @@ export default function NeonPalacePage() {
     ['ACE','KING','QUEEN'],['ZEUS','POSEIDON','ATHENA'],['KING','ACE','JACK'],
     ['QUEEN','TEN','KING'],['JACK','ACE','POSEIDON'],
   ]);
-  const [stoppedCount, setStoppedCount] = useState(0);
+  const [, setStoppedCount] = useState(0);
   const [winData, setWinData] = useState<{payout:number; winLines:number[]; winTier:string}|null>(null);
   const [showWin, setShowWin] = useState(false);
   const [particles, setParticles] = useState(false);
@@ -768,7 +781,8 @@ export default function NeonPalacePage() {
   const [turbo, setTurbo] = useState(false);
   const [history, setHistory] = useState<{payout:number;tier:string;bet:number}[]>([]);
   const [winCount, setWinCount] = useState(0);
-  const [reelSeeds, setReelSeeds] = useState<string[][][]>(Array.from({length:5},()=>[['ACE','KING','QUEEN']]));
+  // reelSeeds reserved for provably-fair verification display
+  const reelSeeds = useRef<string[][][]>(Array.from({length:5},()=>[['ACE','KING','QUEEN']]));
   const [showPaytable, setShowPaytable] = useState(false);
   const [pendingResult, setPendingResult] = useState<string[][]|null>(null);
   const [apiMode, setApiMode] = useState(false);
@@ -798,15 +812,14 @@ export default function NeonPalacePage() {
     if (!soundInit.current) { soundEngine.init(); soundInit.current=true; }
   },[]);
 
-  const handleSpin = useCallback(async ()=>{
-    if (spinRef.current || balance < bet) return;
+  const handleSpin = useCallback(async (isFree = false)=>{
+    if (spinRef.current || (!isFree && balance < bet)) return;
     initSound();
     soundEngine.playSpin();
-    setBalance(b=>parseFloat((b-bet).toFixed(2)));
+    if (!isFree) setBalance(b=>parseFloat((b-bet).toFixed(2)));
     setShowWin(false); setWinData(null); setParticles(false); setBigWin(false);
     pendingServerWin.current = null;
 
-    // Start animation with local placeholder — reels update before landing if API responds in time
     setPendingResult(spinReels());
     setStoppedCount(0);
     setSpinning(true);
@@ -815,25 +828,30 @@ export default function NeonPalacePage() {
     if (apiMode && tokenRef.current) {
       try {
         const res = await gameApi.spin(tokenRef.current, bet);
-        setPendingResult(mapServerGrid(res.grid));
+        const grid = mapServerGrid(res.grid as string[][]);
+        // Check jackpot: 5 WILDs on middle row
+        const jackpotHit = isJackpot(grid);
+        const winTier = jackpotHit ? 'jackpot' : serverWinTier(res.totalPayout, bet);
+        const payout = jackpotHit ? jackpot : res.totalPayout;
+        setPendingResult(grid);
         pendingServerWin.current = {
-          payout: res.totalPayout,
+          payout: isFree ? payout + bet : payout,
           winLines: res.paylineWins.map(w => w.paylineIndex),
-          winTier: serverWinTier(res.totalPayout, bet),
+          winTier,
           freeSpins: res.freeSpinsAwarded,
         };
+        if (jackpotHit) setJackpot(2500);
       } catch {
         // Local result already set — demo fallback
       }
     }
-  },[balance, bet, initSound, apiMode]);
+  },[balance, bet, initSound, apiMode, jackpot]);
 
   const handleReelStop = useCallback((reelIndex: number)=>{
     soundEngine.playReel(reelIndex);
     setStoppedCount(c=>{
       const next = c+1;
       if (next===5) {
-        // All reels stopped — use server win data if available, otherwise local evaluation
         setTimeout(()=>{
           if (!pendingResult) return;
           const serverWin = pendingServerWin.current;
@@ -846,20 +864,26 @@ export default function NeonPalacePage() {
             setShowWin(true);
             setParticles(true);
             soundEngine.playWin(evaluation.winTier);
-            if (evaluation.payout/bet>=50) setBigWin(true);
+            const isBigWinTier = ['big','epic','mega','jackpot'].includes(evaluation.winTier);
+            if (isBigWinTier) setBigWin(true);
             if (evaluation.winTier==='scatter') {
               soundEngine.playScatter();
-              setFreeSpins(f=>f+(serverWin?.freeSpins ?? 12));
+              setFreeSpins(f=>f+(serverWin?.freeSpins ?? 8));
             }
             setWinCount(n=>n+1);
             setTimeout(()=>setParticles(false),4000);
           }
-          setHistory(h=>[{payout:evaluation.payout,tier:evaluation.winTier,bet},{...h[0]},{...h[1]},{...h[2]},{...h[3]},...h.slice(4)].filter(Boolean).slice(0,10) as any);
+          setHistory(h=>[{payout:evaluation.payout,tier:evaluation.winTier,bet},...h].slice(0,10));
           setReelResults(pendingResult);
           setSpinning(false);
           spinRef.current=false;
+          // Resync balance from server after each spin
+          const tok = tokenRef.current;
+          if (tok) {
+            userApi.getWallet(tok).then(w=>setBalance(parseFloat(w.balance))).catch(()=>{});
+          }
           if (autoRef.current && (freeSpins>0||balance>bet)) {
-            setTimeout(handleSpin, turbo?400:1200);
+            setTimeout(()=>handleSpin(), turbo?400:1200);
           }
         },200);
       }
@@ -870,14 +894,10 @@ export default function NeonPalacePage() {
   useEffect(()=>{ soundEngine.setVolume(volume); },[volume]);
   useEffect(()=>{ autoRef.current=autoSpin; },[autoSpin]);
 
-  // Free spin usage
   const effectiveSpin = useCallback(()=>{
-    if (freeSpins>0) { setFreeSpins(f=>f-1); if(spinRef.current)return; initSound(); soundEngine.playSpin();
-      const result=spinReels(); setPendingResult(result); setStoppedCount(0); setSpinning(true); spinRef.current=true;
-      setShowWin(false);setWinData(null);setParticles(false);setBigWin(false); return;
-    }
+    if (freeSpins>0) { setFreeSpins(f=>f-1); handleSpin(true); return; }
     handleSpin();
-  },[freeSpins, handleSpin, initSound]);
+  },[freeSpins, handleSpin]);
 
   const getReelResult = (col:number) => pendingResult ? pendingResult[col] : reelResults[col];
   const getWinningRows = (col:number): number[] => {
@@ -1013,7 +1033,7 @@ export default function NeonPalacePage() {
             position:'relative',overflow:'hidden',
           }}>
             {/* Corner ornaments */}
-            {['topLeft','topRight','bottomLeft','bottomRight'].map((pos,i)=>(<div key={i} style={{
+            {['topLeft','topRight','bottomLeft','bottomRight'].map((_pos,i)=>(<div key={i} style={{
               position:'absolute',
               top:i<2?8:'auto',bottom:i>=2?8:'auto',
               left:i%2===0?8:'auto',right:i%2===1?8:'auto',
