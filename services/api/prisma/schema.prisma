@@ -123,3 +123,11 @@ model Leaderboard {
   @@unique([userId, gameType, period])
   @@index([gameType, period])
 }
+
+model Jackpot {
+  id         String   @id @default(cuid())
+  gameType   String   @unique
+  amount     Decimal  @db.Decimal(18, 2)
+  seedAmount Decimal  @db.Decimal(18, 2)
+  updatedAt  DateTime @updatedAt
+}

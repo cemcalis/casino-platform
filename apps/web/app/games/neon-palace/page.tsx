@@ -849,6 +849,13 @@ export default function NeonPalacePage() {
       .catch(() => {});
   }, []);
 
+  // Jackpot pool from server on mount
+  useEffect(() => {
+    gameApi.getJackpot()
+      .then(r => setJackpot(parseFloat(r.amount)))
+      .catch(() => {});
+  }, []);
+
   // Win count-up animation
   useEffect(() => {
     if (!showWin || !winData || winData.payout === 0) { setDisplayPayout(0); return; }
@@ -936,9 +943,10 @@ export default function NeonPalacePage() {
       try {
         const res = await gameApi.spin(tokenRef.current, betRef.current);
         const grid       = mapServerGrid(res.grid);
-        const jackpotHit = isJackpot(grid);
+        const jackpotHit = res.jackpotWon ?? isJackpot(grid);
+        const jackpotPay = res.jackpotAmount ?? jackpot;
         const winTier    = jackpotHit ? 'jackpot' : serverWinTier(res.totalPayout, betRef.current);
-        const payout     = jackpotHit ? jackpot : res.totalPayout;
+        const payout     = jackpotHit ? jackpotPay : res.totalPayout;
         pendingResultRef.current = grid;
         setPendingResult(grid);
         pendingServerWin.current = {
@@ -947,7 +955,9 @@ export default function NeonPalacePage() {
           winTier,
           freeSpins: res.freeSpinsAwarded,
         };
-        if (jackpotHit) setJackpot(2500);
+        if (jackpotHit) {
+          gameApi.getJackpot().then(r => setJackpot(parseFloat(r.amount))).catch(() => setJackpot(2500));
+        }
       } catch { /* keep local result */ }
     }
   }, [initSound, apiMode, jackpot]);
