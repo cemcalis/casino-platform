@@ -81,7 +81,7 @@ export interface BonusTrigger {
 export interface SpinResult extends RoundOutcome {
   readonly grid: SymbolGrid;
   readonly bet: number;
-  readonly isFreeSpın: boolean;
+  readonly isFreeSpins: boolean;
   readonly paylineWins: ReadonlyArray<PaylineWin>;
   readonly scatterWin: ScatterWin | null;
   readonly bonusTrigger: BonusTrigger | null;

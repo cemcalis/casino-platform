@@ -3,7 +3,7 @@ import { apiClient } from './api-client';
 export interface SpinResponse {
   grid: string[][];
   bet: number;
-  isFreeSpın: boolean;
+  isFreeSpins: boolean;
   paylineWins: Array<{
     paylineIndex: number;
     symbolId: string;

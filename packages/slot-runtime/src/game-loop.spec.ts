@@ -63,7 +63,7 @@ describe('GameLoop', () => {
     };
     const before = session.balance;
     const { result, updatedSession } = loop.spin(session);
-    expect(result.isFreeSpın).toBe(true);
+    expect(result.isFreeSpins).toBe(true);
     expect(updatedSession.balance).toBe(before + result.totalPayout);
   });
 
