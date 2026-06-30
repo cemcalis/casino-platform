@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",
+    "start": "next start -p ${PORT:-3000}",
     "lint": "next lint",
     "test": "echo 'No tests yet'",
     "typecheck": "tsc --noEmit"
