@@ -13,7 +13,7 @@ function makeResult(overrides: Partial<SpinResult> = {}): SpinResult {
   return {
     grid: EMPTY_GRID,
     bet: 10,
-    isFreeSpın: false,
+    isFreeSpins: false,
     paylineWins: [],
     scatterWin: null,
     bonusTrigger: null,
@@ -79,7 +79,7 @@ describe('applySpinResult', () => {
 
   it('does not deduct bet on free spin', () => {
     const s = createSession(NEON_PALACE_CONFIG, 1000);
-    const updated = applySpinResult(s, makeResult({ bet: 10, isFreeSpın: true, totalPayout: 0 }));
+    const updated = applySpinResult(s, makeResult({ bet: 10, isFreeSpins: true, totalPayout: 0 }));
     expect(updated.balance).toBe(1000);
   });
 
@@ -103,7 +103,7 @@ describe('applySpinResult', () => {
 
   it('decrements freeSpinsRemaining on free spin', () => {
     let s = { ...createSession(NEON_PALACE_CONFIG, 1000), freeSpinsRemaining: 8 };
-    s = applySpinResult(s, makeResult({ isFreeSpın: true, freeSpinsAwarded: 0 }));
+    s = applySpinResult(s, makeResult({ isFreeSpins: true, freeSpinsAwarded: 0 }));
     expect(s.freeSpinsRemaining).toBe(7);
   });
 });

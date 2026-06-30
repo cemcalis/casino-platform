@@ -4,7 +4,7 @@ import type { BonusTrigger } from './types';
 export function computeSpinResult(
   grid: SymbolGrid,
   bet: number,
-  isFreeSpın: boolean,
+  isFreeSpins: boolean,
   paylineWins: ReadonlyArray<PaylineWin>,
   scatterWin: ScatterWin | null,
   bonusTrigger: BonusTrigger | null,
@@ -14,7 +14,7 @@ export function computeSpinResult(
   const totalPaylinesPayout = paylineWins.reduce((sum, w) => sum + w.payout, 0);
   const scatterPayout = scatterWin?.payout ?? 0;
   const totalPayout = totalPaylinesPayout + scatterPayout;
-  const betDeducted = isFreeSpın ? 0 : bet;
+  const betDeducted = isFreeSpins ? 0 : bet;
   const netResult = totalPayout - betDeducted;
   const freeSpinsAwarded = scatterWin?.freeSpinsAwarded ?? 0;
   const multiplier = bet > 0 ? totalPayout / bet : 0;
@@ -22,7 +22,7 @@ export function computeSpinResult(
   return {
     grid,
     bet,
-    isFreeSpın,
+    isFreeSpins,
     paylineWins,
     scatterWin,
     bonusTrigger,

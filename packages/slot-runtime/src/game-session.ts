@@ -28,9 +28,9 @@ export function setBet(session: GameSession, newBet: number): GameSession {
 }
 
 export function applySpinResult(session: GameSession, result: SpinResult): GameSession {
-  const betDeducted = result.isFreeSpın ? 0 : result.bet;
+  const betDeducted = result.isFreeSpins ? 0 : result.bet;
   const newBalance = session.balance - betDeducted + result.totalPayout;
-  const newFreeSpins = Math.max(0, session.freeSpinsRemaining - (result.isFreeSpın ? 1 : 0))
+  const newFreeSpins = Math.max(0, session.freeSpinsRemaining - (result.isFreeSpins ? 1 : 0))
     + result.freeSpinsAwarded;
 
   return {

@@ -24,10 +24,10 @@ export class GameLoop {
       throw new Error('Insufficient balance to spin');
     }
 
-    const isFreeSpın = session.freeSpinsRemaining > 0;
+    const isFreeSpins = session.freeSpinsRemaining > 0;
     const bet = session.bet;
 
-    if (!isFreeSpın) {
+    if (!isFreeSpins) {
       const error = validateBet(bet, session.config);
       if (error) throw new RangeError(error);
     }
@@ -45,7 +45,7 @@ export class GameLoop {
     const result = computeSpinResult(
       grid,
       bet,
-      isFreeSpın,
+      isFreeSpins,
       paylineWins,
       scatterWin,
       bonusTrigger,
