@@ -10,7 +10,10 @@
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "format": "prettier --check .",
-    "format:fix": "prettier --write ."
+    "format:fix": "prettier --write .",
+    "asset:queue": "node tools/asset-factory/queue.mjs",
+    "asset:check": "node tools/asset-factory/check.mjs",
+    "asset:generate": "node tools/asset-factory/generate.mjs"
   },
   "devDependencies": {
     "prettier": "^3.2.0",
