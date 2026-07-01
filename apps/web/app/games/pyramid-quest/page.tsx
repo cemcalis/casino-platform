@@ -87,6 +87,12 @@ body { background: #0a0500; font-family: 'Outfit', sans-serif; }
   from { opacity:0; transform:translateX(-20px); }
   to   { opacity:1; transform:translateX(0); }
 }
+@keyframes reelLandShake {
+  0%   { transform: translateX(0); }
+  30%  { transform: translateX(-2px); }
+  60%  { transform: translateX(1.5px); }
+  100% { transform: translateX(0); }
+}
 @keyframes screenShake {
   0%,100% { transform: translate(0,0) rotate(0deg); }
   10% { transform: translate(-5px,-2px) rotate(-0.4deg); }
@@ -388,14 +394,29 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
 
     phaseRef.current = 'spinning';
     setLanded(false);
-    applyPos(SPIN_START, 'none', 'blur(3px) brightness(1.15)');
+    applyPos(SPIN_START, 'none', 'blur(0px) brightness(1)');
 
-    const SPEED = 18;
+    const SPEED      = 18;
+    const SPEED_MIN  = 3;
+    const ACCEL_MS   = 140;
+    const DECEL_MS   = anticipation ? 560 : 380;
+    const startedAt  = performance.now();
 
     const tick = () => {
       if (phaseRef.current !== 'spinning') return;
-      const next = posRef.current + SPEED;
-      applyPos(next > LOOP_PT ? next - LOOP_PERIOD : next, 'none');
+      const elapsed   = performance.now() - startedAt;
+      const remaining = stopDelay - elapsed;
+      let speed = SPEED;
+      if (elapsed < ACCEL_MS) {
+        const t = elapsed / ACCEL_MS;
+        speed = SPEED_MIN + (SPEED - SPEED_MIN) * (t * (2 - t)); // ease-out — spin-up inertia
+      } else if (remaining < DECEL_MS) {
+        const t = Math.max(0, remaining / DECEL_MS);
+        speed = SPEED_MIN + (SPEED - SPEED_MIN) * (t * t); // ease-in — wind-down before the snap
+      }
+      const blurAmt = ((speed - SPEED_MIN) / (SPEED - SPEED_MIN)) * 3;
+      const next = posRef.current + speed;
+      applyPos(next > LOOP_PT ? next - LOOP_PERIOD : next, 'none', `blur(${blurAmt.toFixed(2)}px) brightness(${(1 + blurAmt * 0.05).toFixed(3)})`);
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
@@ -441,6 +462,7 @@ function ReelStrip({ reelSymbols, result, isSpinning, stopDelay, onStopped, winn
         ? `inset 0 0 24px #00000099, 0 0 18px ${C.gold}aa, inset 0 0 16px ${C.gold}44`
         : 'inset 0 0 24px #00000099, inset 0 2px 0 #d4af3722, inset 0 -2px 0 #d4af3722',
       transition:'box-shadow 0.3s',
+      animation: landed ? 'reelLandShake 0.22s ease-out' : 'none',
     }}>
       <div style={{position:'absolute',top:0,left:0,right:0,height:30,background:'linear-gradient(180deg,#0a0500cc,transparent)',zIndex:10,pointerEvents:'none'}}/>
       <div style={{position:'absolute',bottom:0,left:0,right:0,height:30,background:'linear-gradient(0deg,#0a0500cc,transparent)',zIndex:10,pointerEvents:'none'}}/>
