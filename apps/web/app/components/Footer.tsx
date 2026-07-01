@@ -116,27 +116,47 @@ export default function Footer() {
       {/* ── Top section: logo + tagline ───────────────────────── */}
       <div
         style={{
-          padding: '48px 40px 32px',
+          padding: 'clamp(32px, 6vw, 48px) clamp(20px, 5vw, 40px) 32px',
           maxWidth: 1200,
           margin: '0 auto',
         }}
       >
-        <div style={{ marginBottom: 10 }}>
-          <span
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div
             style={{
-              fontSize: 22,
-              fontWeight: 900,
-              letterSpacing: '0.14em',
-              color: T.goldBright,
-              textShadow: `0 0 20px ${T.gold}66`,
+              width: 34,
+              height: 34,
+              borderRadius: 9,
+              background: `linear-gradient(135deg, ${T.purple}, ${T.goldBright})`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: `0 0 15px ${T.gold}4d`,
+              flexShrink: 0,
             }}
           >
-            🎰 NEON PALACE
+            <div style={{ width: 16, height: 18, position: 'relative' }}>
+              <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 2.5, background: '#fff', borderRadius: 2 }} />
+              <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 2.5, background: '#fff', borderRadius: 2 }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2.5, background: '#fff', borderRadius: 2, transformOrigin: 'top left', transform: 'rotate(35deg) scaleX(1.15)' }} />
+            </div>
+          </div>
+          <span
+            style={{
+              fontSize: 20,
+              fontWeight: 900,
+              letterSpacing: '0.1em',
+              background: `linear-gradient(135deg, ${T.goldBright}, ${T.gold})`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            NEON PALACE
           </span>
         </div>
         <p
           style={{
-            margin: '0 0 40px',
+            margin: '0 0 36px',
             fontSize: 13,
             color: T.textDim,
             letterSpacing: '0.05em',
@@ -151,8 +171,8 @@ export default function Footer() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-            gap: 32,
+            gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+            gap: '28px 24px',
           }}
         >
           {COLUMNS.map((col) => (
@@ -202,7 +222,7 @@ export default function Footer() {
         style={{
           maxWidth: 1200,
           margin: '0 auto',
-          padding: '24px 40px',
+          padding: '24px clamp(20px, 5vw, 40px)',
           display: 'flex',
           flexDirection: 'column',
           gap: 20,
@@ -243,7 +263,7 @@ export default function Footer() {
         style={{
           maxWidth: 1200,
           margin: '0 auto',
-          padding: '20px 40px',
+          padding: '20px clamp(20px, 5vw, 40px) clamp(20px, 4vw, 28px)',
           display: 'flex',
           flexWrap: 'wrap',
           alignItems: 'center',
@@ -259,7 +279,7 @@ export default function Footer() {
           <div
             style={{
               fontSize: 11,
-              color: T.textDim,
+              color: T.gold,
               letterSpacing: '0.05em',
               background: `${T.gold}18`,
               border: `1px solid ${T.gold}33`,
@@ -269,7 +289,7 @@ export default function Footer() {
               maxWidth: 'max-content',
             }}
           >
-            🎭 Social Casino · No Real Money · Entertainment Only
+            Social Casino · No Real Money · Entertainment Only
           </div>
         </div>
 
@@ -278,17 +298,17 @@ export default function Footer() {
           {/* 18+ badge */}
           <div
             style={{
-              width: 36,
-              height: 36,
+              width: 32,
+              height: 32,
               borderRadius: '50%',
-              background: '#ff4444',
-              border: '2px solid #ff6666',
+              background: 'rgba(255,68,68,0.12)',
+              border: '1.5px solid #ff4444',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: 11,
               fontWeight: 900,
-              color: '#fff',
+              color: '#ff6b6b',
               letterSpacing: '-0.02em',
               flexShrink: 0,
             }}
@@ -310,9 +330,10 @@ export default function Footer() {
               display: 'flex',
               alignItems: 'center',
               gap: 6,
+              whiteSpace: 'nowrap',
             }}
           >
-            🛡️ RESPONSIBLE GAMING
+            RESPONSIBLE GAMING
           </div>
 
           {/* License */}
