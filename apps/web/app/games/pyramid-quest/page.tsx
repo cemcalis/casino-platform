@@ -255,6 +255,7 @@ class SoundEngine {
   }
 
   playButtonClick() { this.play(getSharedAsset('button_click_sfx')); }
+  playHover() { this.play(getSharedAsset('button_click_sfx'), 0.25); }
   playSpin() { this.play(getPQAsset('spin_start_sfx')); }
   playReel(idx: number) { this.play(getPQAsset('reel_stop_sfx'), 0.8 + idx * 0.05); }
   playWin(_tier: string) { this.play(getPQAsset('win_sfx')); }
@@ -516,8 +517,23 @@ const WIN_TIER_CFG: Record<string,{label:string;banner:string|null;glow:string;b
 };
 function BigWinOverlay({ tier, amount, onClose }: { tier:string; amount:number; onClose:()=>void }) {
   const cfg = WIN_TIER_CFG[tier] ?? WIN_TIER_CFG['big']!;
+  const showRays = ['epic', 'mega', 'jackpot'].includes(tier);
+  const lightBurst = getPQAsset('light_burst');
+  const starCluster = getPQAsset('star_cluster');
   return (
-    <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:9000,background:cfg.bg,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',cursor:'pointer',backdropFilter:'blur(6px)'}}>
+    <div onClick={onClose} style={{position:'fixed',inset:0,zIndex:9000,background:cfg.bg,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',cursor:'pointer',backdropFilter:'blur(6px)',overflow:'hidden'}}>
+      {showRays && lightBurst && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={lightBurst} alt="" aria-hidden="true" style={{position:'absolute',width:'min(1100px,150vw)',maxWidth:'none',opacity:0.55,mixBlendMode:'screen',animation:'rayDrift 6s ease-in-out infinite',pointerEvents:'none'}}/>
+      )}
+      {showRays && starCluster && (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={starCluster} alt="" aria-hidden="true" style={{position:'absolute',top:'14%',left:'18%',width:120,opacity:0.85,animation:'scatterPulse 1.4s ease-in-out infinite',pointerEvents:'none'}}/>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={starCluster} alt="" aria-hidden="true" style={{position:'absolute',bottom:'16%',right:'16%',width:100,opacity:0.85,animation:'scatterPulse 1.4s 0.5s ease-in-out infinite',pointerEvents:'none'}}/>
+        </>
+      )}
       {cfg.banner ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={cfg.banner} alt={cfg.label} style={{maxWidth:'min(560px,86vw)',filter:`drop-shadow(0 0 32px ${cfg.glow})`,animation:'bigWinText 0.8s cubic-bezier(0.34,1.56,0.64,1) both'}}/>
@@ -1053,7 +1069,7 @@ export default function PyramidQuestPage() {
                 <div style={{flex:'0 0 auto',order:0}}>
                   <button
                     onClick={() => { initSound(); if (!spinRef.current) effectiveSpin(); }}
-                    onMouseEnter={() => setSpinHover(true)}
+                    onMouseEnter={() => { setSpinHover(true); if (!spinning) soundEngine.playHover(); }}
                     onMouseLeave={e => { setSpinHover(false); e.currentTarget.style.transform = 'scale(1)'; }}
                     onMouseDown={e => { if (!spinning) e.currentTarget.style.transform = 'scale(0.95)'; }}
                     onMouseUp={e => { e.currentTarget.style.transform = spinHover ? 'scale(1.04)' : 'scale(1)'; }}
