@@ -42,6 +42,17 @@ interface Winner {
 
 const SLIDER_GAMES: SliderGame[] = [
   {
+    id: 'pyramid-quest',
+    name: 'Pyramid Quest',
+    provider: 'In-House Studio',
+    rtp: '96.2%',
+    badge: 'FEATURED',
+    badgeColor: '#f4c430',
+    category: 'Slots',
+    bg: 'linear-gradient(160deg, #1c1200 0%, #3a2600 40%, #5c4108 70%, #0a0500 100%)',
+    accentColor: '#f4c430',
+  },
+  {
     id: 'neon-palace',
     name: 'Neon Palace',
     provider: 'Pragmatic Play',
@@ -319,12 +330,12 @@ const VOLATILITY_OPTIONS = ['All', 'Low', 'Medium', 'High'];
 
 const CATEGORY_MAP: Record<string, string[]> = {
   All: SLIDER_GAMES.map(g => g.id),
-  Slots: ['neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure'],
+  Slots: ['pyramid-quest', 'neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure'],
   Table: ['cyber-roulette', 'blackjack-pro', 'baccarat', 'video-poker'],
   Live: ['cyber-roulette', 'lightning-roulette', 'dream-catcher', 'crazy-time', 'baccarat'],
   Jackpots: ['golden-vault', 'mega-moolah'],
   New: ['olympus-strikes', 'crystal-caverns', 'starburst', 'dragon-fortune'],
-  Popular: ['neon-palace', 'dragons-fortune', 'solar-wilds', 'gonzo-quest', 'fruit-frenzy'],
+  Popular: ['pyramid-quest', 'neon-palace', 'dragons-fortune', 'solar-wilds', 'gonzo-quest', 'fruit-frenzy'],
 };
 
 const WINNERS: Winner[] = [
@@ -347,6 +358,17 @@ const VIP_LEVELS = [
 ];
 
 const HERO_SLIDES = [
+  {
+    id: 'pyramid-quest-promo',
+    title: 'PYRAMID QUEST',
+    subtitle: 'Our New Flagship Premium Slot',
+    desc: 'Uncover the tomb of Ra and win up to 10,000x your bet',
+    cta: 'PLAY NOW',
+    ctaLink: '/games/pyramid-quest',
+    bg: 'linear-gradient(135deg, #1c1200 0%, #3a2600 40%, #5c4108 70%, #0a0500 100%)',
+    accentColor: '#f4c430',
+    glowColor: 'rgba(244,196,48,0.3)',
+  },
   {
     id: 'neon-palace-promo',
     title: 'NEON PALACE',
@@ -467,6 +489,17 @@ function StarBackground() {
 // ─────────────────────────────────────────────────────────────────────────────
 // GAME CARD ART COMPONENTS (CSS-only, zero emoji)
 // ─────────────────────────────────────────────────────────────────────────────
+
+function PyramidQuestArt() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/assets/pyramid-quest/backgrounds/background.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.85 }} />
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 40%, rgba(10,5,0,0.9) 100%)' }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg, transparent, #f4c430, #d4af37, #f4c430, transparent)', boxShadow: '0 0 20px rgba(244,196,48,0.8)' }} />
+    </div>
+  );
+}
 
 function NeonPalaceArt() {
   return (
@@ -752,6 +785,7 @@ function CrazyTimeArt() {
 }
 
 const GAME_ARTS: Record<string, () => JSX.Element> = {
+  'pyramid-quest': PyramidQuestArt,
   'neon-palace': NeonPalaceArt,
   'dragons-fortune': DragonArt,
   'olympus-strikes': OlympusArt,
@@ -779,7 +813,7 @@ function GameSliderCard({ game, isActive, onUnderConstruction }: { game: SliderG
   const router = useRouter();
   const ArtComponent = GAME_ARTS[game.id] ?? (() => <div />);
   const PLAYABLE_GAMES = new Set([
-    'neon-palace', 'lucky-7s', 'blackjack-pro', 'cyber-roulette',
+    'pyramid-quest', 'neon-palace', 'lucky-7s', 'blackjack-pro', 'cyber-roulette',
     'dragons-fortune', 'crystal-caverns', 'solar-wilds', 'starburst',
     'gonzo-quest', 'book-of-dead', 'golden-vault', 'olympus-strikes',
     'mega-moolah', 'lightning-roulette', 'crazy-time',
@@ -1716,7 +1750,7 @@ export default function LobbyPage() {
               }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.07)'; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
-                onClick={() => router.push('/games/neon-palace')}
+                onClick={() => router.push('/games/pyramid-quest')}
               >PLAY NOW</button>
               <button style={{
                 padding: '16px 52px', borderRadius: 16,
