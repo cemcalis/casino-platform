@@ -127,6 +127,12 @@ export default function TournamentsPage() {
         </div>
 
         {/* Tournament grid */}
+        {filtered.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '48px 20px', color: LC.textDim }}>
+            <div style={{ fontSize: 32, marginBottom: 10 }}>⚔️</div>
+            No {filter !== 'All' ? filter.toLowerCase() : ''} tournaments right now — check back soon.
+          </div>
+        ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
           {filtered.map((t) => (
             <div
@@ -207,6 +213,7 @@ export default function TournamentsPage() {
             </div>
           ))}
         </div>
+        )}
 
         {/* Live leaderboard preview */}
         <LobbyCard accent={LC.gold}>

@@ -1889,13 +1889,13 @@ export default function LobbyPage() {
         </section>
 
         {/* ── FEATURED GAMES SLIDER ── */}
-        <section style={{ marginBottom: 52, animation: mounted ? 'slideUp 0.7s ease 0.15s both' : 'none' }}>
+        <section id="all-games" style={{ marginBottom: 52, animation: mounted ? 'slideUp 0.7s ease 0.15s both' : 'none' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 22, flexWrap: 'wrap', gap: 14 }}>
             <div>
               <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Featured Games</h2>
               <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>The best games handpicked for you</div>
             </div>
-            <a href="#" style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, alignSelf: 'center' }}>
+            <a href="#all-games" style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, alignSelf: 'center' }}>
               View All
               <div style={{ width: 8, height: 8, borderRight: '2px solid #f4c430', borderTop: '2px solid #f4c430', transform: 'rotate(45deg) translate(-1px,1px)' }} />
             </a>
@@ -2130,7 +2130,7 @@ export default function LobbyPage() {
               </div>
               <div style={{ fontSize: 13, color: '#6b5d8a' }}>Real dealers, real action — streaming now</div>
             </div>
-            <a href="#" style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <a href="#all-games" style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
               All Live Games
               <div style={{ width: 8, height: 8, borderRight: '2px solid #f4c430', borderTop: '2px solid #f4c430', transform: 'rotate(45deg) translate(-1px,1px)' }} />
             </a>

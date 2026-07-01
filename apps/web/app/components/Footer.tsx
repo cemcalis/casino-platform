@@ -21,7 +21,8 @@ const COLUMNS = [
   {
     title: 'Games',
     links: [
-      { label: 'All Games', href: '/' },
+      { label: 'All Games', href: '/#all-games' },
+      { label: 'Search Games', href: '/search' },
       { label: 'Neon Palace', href: '/games/neon-palace' },
       { label: 'Blackjack Pro', href: '/games/blackjack-pro' },
       { label: 'Cyber Roulette', href: '/games/cyber-roulette' },
@@ -30,10 +31,12 @@ const COLUMNS = [
   {
     title: 'Account',
     links: [
-      { label: 'Profile', href: '/dashboard' },
+      { label: 'Profile', href: '/profile' },
       { label: 'Wallet', href: '/wallet' },
       { label: 'History', href: '/history' },
       { label: 'VIP Club', href: '/vip' },
+      { label: 'Tournaments', href: '/tournaments' },
+      { label: 'Settings', href: '/settings' },
     ],
   },
   {

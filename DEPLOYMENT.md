@@ -1,5 +1,25 @@
 # Deployment Guide
 
+## Render service URLs
+
+Current production deploy target is Render (see `render.yaml`), not Vercel.
+Each app is its own Render web service on its own origin — there is no
+shared domain, so cross-app navigation must use a full URL, not a relative
+link. Default Render URLs (unless a custom domain is attached):
+
+| App | Render service | URL |
+|---|---|---|
+| Player-facing site | `casino-web` | https://casino-web.onrender.com |
+| Admin panel | `casino-admin` | https://casino-admin.onrender.com |
+| Finance dashboard | `casino-finance` | https://casino-finance.onrender.com |
+| Support CRM | `casino-support` | https://casino-support.onrender.com |
+| API | `casino-api` | https://casino-api.onrender.com |
+
+Staff tools (admin/finance/support) are intentionally not linked from the
+public player site — access them directly via the URLs above.
+
+---
+
 ## apps/web — Vercel
 
 ### Prerequisites
