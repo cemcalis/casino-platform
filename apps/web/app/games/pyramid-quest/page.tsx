@@ -671,6 +671,7 @@ export default function PyramidQuestPage() {
   const [showPaytable, setShowPaytable] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showGamble, setShowGamble]   = useState(false);
+  const [spinHover, setSpinHover]     = useState(false);
   const [anticipation, setAnticipation] = useState(false);
   const [pendingResult, setPendingResult] = useState<string[][]|null>(null);
   const [apiMode, setApiMode]         = useState(false);
@@ -686,6 +687,17 @@ export default function PyramidQuestPage() {
   const balanceRef        = useRef(balance);
   const turboRef          = useRef(turbo);
   const freeSpinsRef      = useRef(freeSpins);
+
+  // Demo banner is rendered globally in the root layout — hide it only while this page is mounted.
+  useEffect(() => {
+    const banner = Array.from(document.body.children).find(
+      el => el.tagName === 'DIV' && el.textContent?.includes('Demo Mode')
+    ) as HTMLElement | undefined;
+    if (!banner) return;
+    const prevDisplay = banner.style.display;
+    banner.style.display = 'none';
+    return () => { banner.style.display = prevDisplay; };
+  }, []);
 
   useEffect(() => { betRef.current = bet; },            [bet]);
   useEffect(() => { balanceRef.current = balance; },    [balance]);
@@ -888,40 +900,38 @@ export default function PyramidQuestPage() {
         minHeight:'100vh', position:'relative', zIndex:1,
         background: isFreeSpinBg
           ? 'linear-gradient(135deg,#241800,#0d1500,#001a14,#241800)'
-          : (getPQAsset('background')
-              ? `url(${getPQAsset('background')}) center/cover no-repeat`
-              : 'radial-gradient(ellipse at 50% 0%,#1c1200 0%,#0a0500 65%)'),
+          : 'radial-gradient(ellipse at 50% 0%,#1c1200 0%,#0a0500 65%)',
         backgroundSize: isFreeSpinBg ? '400% 400%' : 'cover',
         animation: isFreeSpinBg ? 'freeSpinBg 3s ease infinite' : (isBigWin ? 'screenShake 0.6s ease-out' : 'none'),
         display:'flex', flexDirection:'column', alignItems:'center',
-        padding:'12px 16px 24px', gap:12,
+        padding:'8px 16px 24px', gap:12,
         fontFamily:'Outfit,sans-serif',
       }}>
 
-        {/* HEADER */}
-        <div style={{width:'100%',maxWidth:800,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'8px 0'}}>
-          <div style={{lineHeight:1}}>
-            {getPQAsset('logo') ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={getPQAsset('logo')!} alt="Pyramid Quest" style={{height:56,display:'block'}}/>
-            ) : (
-              <>
-                <span style={{fontSize:'clamp(18px,3vw,28px)',fontWeight:900,fontFamily:'Cinzel,serif',background:'linear-gradient(90deg,#8a5e10,#f4c430,#ffe066,#d4af37,#8a5e10)',backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',animation:'logoShimmer 3s linear infinite',letterSpacing:1,display:'block'}}>PYRAMID QUEST</span>
-                <span style={{fontSize:'clamp(8px,1.5vw,10px)',color:C.textDim,letterSpacing:4,textTransform:'uppercase',fontWeight:700}}>Premium Slots</span>
-              </>
-            )}
+        {/* Background art layer — kept below hierarchy, dark vignette masks the low native resolution instead of blur/stretch */}
+        {!isFreeSpinBg && getPQAsset('background') && (
+          <div style={{position:'fixed',inset:0,zIndex:-1,overflow:'hidden'}}>
+            <div style={{position:'absolute',inset:0,background:`url(${getPQAsset('background')}) center 30%/cover no-repeat`}}/>
+            <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 50% 35%,transparent 25%,rgba(5,3,0,0.55) 68%,rgba(5,3,0,0.92) 100%)'}}/>
+            <div style={{position:'absolute',inset:0,background:'linear-gradient(180deg,rgba(5,3,0,0.75) 0%,transparent 22%,transparent 65%,rgba(5,3,0,0.85) 100%)'}}/>
           </div>
-          <div style={{display:'flex',alignItems:'center',gap:10}}>
-            <div style={{background:'linear-gradient(135deg,#1c1200,#241800)',border:`1px solid ${C.gold}44`,borderRadius:10,padding:'6px 18px',textAlign:'center',boxShadow:`0 0 16px ${C.gold}20`}}>
-              <div style={{fontSize:9,color:C.textDim,textTransform:'uppercase',letterSpacing:3,fontWeight:700}}>Balance</div>
-              <div style={{fontSize:22,fontWeight:900,color:C.goldBright,lineHeight:1.1,textShadow:`0 0 12px ${C.gold}88`}}>${balance.toFixed(2)}</div>
+        )}
+
+        {/* HEADER — compact, centered title, grouped balance + menu */}
+        <div style={{width:'100%',maxWidth:800,display:'grid',gridTemplateColumns:'1fr auto 1fr',alignItems:'center',padding:'4px 0 8px',gap:8}}>
+          <div/>
+          <div style={{textAlign:'center',lineHeight:1.2}}>
+            <span style={{fontSize:'clamp(15px,2.6vw,21px)',fontWeight:900,fontFamily:'Cinzel,serif',background:'linear-gradient(90deg,#8a5e10,#f4c430,#ffe066,#d4af37,#8a5e10)',backgroundSize:'200% auto',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',backgroundClip:'text',animation:'logoShimmer 3s linear infinite',letterSpacing:2,display:'block',whiteSpace:'nowrap'}}>PYRAMID QUEST</span>
+            <span style={{fontSize:8,color:C.textDim,letterSpacing:3,textTransform:'uppercase',fontWeight:700}}>Premium Slots</span>
+          </div>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'flex-end',gap:8}}>
+            <div style={{background:'linear-gradient(135deg,#1c1200,#241800)',border:`1px solid ${C.gold}44`,borderRadius:9,padding:'3px 14px',textAlign:'right',boxShadow:`0 0 12px ${C.gold}18`,lineHeight:1.15}}>
+              <div style={{fontSize:8,color:C.textDim,textTransform:'uppercase',letterSpacing:2,fontWeight:700}}>Balance</div>
+              <div style={{fontSize:16,fontWeight:900,color:C.goldBright,textShadow:`0 0 10px ${C.gold}77`}}>${balance.toFixed(2)}</div>
             </div>
-            <button onClick={() => { initSound(); soundEngine.playButtonClick(); setShowGamble(true); }}
-              title="Gamble"
-              style={{width:88,height:38,borderRadius:10,border:`1px solid ${C.cardBorder}`,background:`url(${getPQAsset('gamble_button')}) center/contain no-repeat, ${C.card}`,cursor:'pointer'}}/>
             <button onClick={() => { initSound(); soundEngine.playButtonClick(); setShowSettings(true); }}
               title="Settings"
-              style={{width:38,height:38,borderRadius:10,border:`1px solid ${C.cardBorder}`,background:C.card,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',padding:6}}>
+              style={{width:30,height:30,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.card,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',padding:5,flexShrink:0}}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={getPQAsset('settings_icon')!} alt="Settings" style={{width:'100%',height:'100%',objectFit:'contain'}}/>
             </button>
@@ -985,65 +995,102 @@ export default function PyramidQuestPage() {
                 ))}
               </div>
             </div>
-
-            <div style={{display:'flex',gap:3,justifyContent:'center',marginTop:8}}>
-              {[0,1,2,3,4].map(i => (
-                <div key={i} style={{width:100,textAlign:'center',fontSize:8,color:`${C.gold}66`,letterSpacing:3,textTransform:'uppercase',fontWeight:700}}>Reel {i+1}</div>
-              ))}
-            </div>
           </div>
         </div>
 
-        {/* WIN BREAKDOWN PANEL */}
+        {/* WIN BREAKDOWN PANEL — compact premium strip */}
         {showWin && winData && winData.payout > 0 && (
           <div style={{
             width:'100%',maxWidth:800,
             background:'linear-gradient(135deg,#1c1200,#241800)',
-            border:`1px solid ${C.gold}55`,borderRadius:14,
-            padding:'14px 24px',textAlign:'center',
-            boxShadow:`0 0 24px ${C.gold}33`,
+            border:`1px solid ${C.gold}55`,borderRadius:12,
+            padding:'10px 22px',
+            boxShadow:`0 0 20px ${C.gold}2e, inset 0 1px 0 #ffe06618`,
             animation:'winAmount 0.5s cubic-bezier(0.34,1.56,0.64,1) both',
+            display:'flex',alignItems:'center',justifyContent:'space-between',gap:16,flexWrap:'wrap',
           }}>
-            <div style={{fontSize:10,color:C.textDim,textTransform:'uppercase',letterSpacing:3,fontWeight:700,marginBottom:6}}>
-              {winData.winTier==='scatter' ? 'FREE SPINS TRIGGERED' : winData.winLines.length > 1 ? `${winData.winLines.length} WINNING LINES` : 'WIN'}
+            <div style={{display:'flex',alignItems:'baseline',gap:12}}>
+              <div style={{fontSize:'clamp(22px,4vw,36px)',fontWeight:900,color:C.goldBright,textShadow:`0 0 16px ${C.gold}, 0 0 30px #c8921a`,lineHeight:1}}>
+                +${displayPayout.toFixed(2)}
+              </div>
+              <div style={{fontSize:10,color:C.textDim,textTransform:'uppercase',letterSpacing:2,fontWeight:700}}>
+                {winData.winTier==='scatter' ? 'Free Spins Triggered' : winData.winLines.length > 1 ? `${winData.winLines.length} Lines` : 'Win'}
+              </div>
             </div>
-            <div style={{fontSize:'clamp(28px,5vw,50px)',fontWeight:900,color:C.goldBright,textShadow:`0 0 18px ${C.gold}, 0 0 36px #c8921a`,lineHeight:1.1}}>
-              +${displayPayout.toFixed(2)}
-            </div>
-            <div style={{display:'flex',justifyContent:'center',gap:24,marginTop:10}}>
+            <div style={{display:'flex',gap:18}}>
               <div style={{textAlign:'center'}}>
-                <div style={{fontSize:9,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>BET</div>
-                <div style={{fontSize:14,fontWeight:800,color:C.text}}>${bet.toFixed(2)}</div>
+                <div style={{fontSize:8,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>Bet</div>
+                <div style={{fontSize:13,fontWeight:800,color:C.text}}>${bet.toFixed(2)}</div>
               </div>
               <div style={{width:1,background:C.cardBorder}}/>
               <div style={{textAlign:'center'}}>
-                <div style={{fontSize:9,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>MULTIPLIER</div>
-                <div style={{fontSize:14,fontWeight:800,color:C.teal}}>x{multiplier.toFixed(1)}</div>
-              </div>
-              <div style={{width:1,background:C.cardBorder}}/>
-              <div style={{textAlign:'center'}}>
-                <div style={{fontSize:9,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>PAYOUT</div>
-                <div style={{fontSize:14,fontWeight:800,color:C.goldBright}}>${winData.payout.toFixed(2)}</div>
+                <div style={{fontSize:8,color:C.textDim,letterSpacing:2,textTransform:'uppercase'}}>Multiplier</div>
+                <div style={{fontSize:13,fontWeight:800,color:C.teal}}>x{multiplier.toFixed(1)}</div>
               </div>
             </div>
           </div>
         )}
 
-        {/* CONTROL PANEL */}
-        <div style={{width:'100%',maxWidth:800,background:'linear-gradient(180deg,#1c1200,#0a0500)',border:`1px solid ${C.cardBorder}`,borderRadius:16,padding:'16px 20px',boxShadow:'0 -2px 20px #00000066'}}>
-          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:14,gap:8,flexWrap:'wrap'}}>
-            <div style={{display:'flex',alignItems:'center',gap:10}}>
+        {/* CONTROL DECK — bet seat | spin seat | auto/turbo seat, real cabinet layout */}
+        <div style={{width:'100%',maxWidth:800,background:'linear-gradient(180deg,#1c1200,#0a0500)',border:`1px solid ${C.cardBorder}`,borderRadius:16,padding:'14px 20px',boxShadow:'0 -2px 20px #00000066'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'center',gap:20,flexWrap:'wrap'}}>
+
+            {/* Bet seat */}
+            <div style={{display:'flex',alignItems:'center',gap:8,flex:'1 1 180px',justifyContent:'center'}}>
               <span style={{fontSize:10,color:C.textDim,textTransform:'uppercase',letterSpacing:2,fontWeight:700}}>Bet</span>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); const ni = Math.max(0,betIdx-1); setBetIdx(ni); setBet(BET_OPTIONS[ni]!); }} disabled={spinning}
-                style={{width:32,height:32,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.surface,color:C.text,cursor:'pointer',fontSize:18,fontWeight:700,opacity:spinning?.5:1,transition:'opacity 0.2s'}}>−</button>
-              <div style={{background:C.surface,border:`1px solid ${C.gold}55`,borderRadius:10,padding:'4px 16px',minWidth:82,textAlign:'center',color:C.goldBright,fontWeight:800,fontSize:18,textShadow:`0 0 8px ${C.gold}66`}}>${bet.toFixed(2)}</div>
+                style={{width:30,height:30,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.surface,color:C.text,cursor:'pointer',fontSize:17,fontWeight:700,opacity:spinning?.5:1,transition:'opacity 0.2s'}}>−</button>
+              <div style={{background:C.surface,border:`1px solid ${C.gold}55`,borderRadius:10,padding:'4px 14px',minWidth:76,textAlign:'center',color:C.goldBright,fontWeight:800,fontSize:16,textShadow:`0 0 8px ${C.gold}66`}}>${bet.toFixed(2)}</div>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); const ni = Math.min(BET_OPTIONS.length-1,betIdx+1); setBetIdx(ni); setBet(BET_OPTIONS[ni]!); }} disabled={spinning}
-                style={{width:32,height:32,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.surface,color:C.text,cursor:'pointer',fontSize:18,fontWeight:700,opacity:spinning?.5:1,transition:'opacity 0.2s'}}>+</button>
+                style={{width:30,height:30,borderRadius:8,border:`1px solid ${C.cardBorder}`,background:C.surface,color:C.text,cursor:'pointer',fontSize:17,fontWeight:700,opacity:spinning?.5:1,transition:'opacity 0.2s'}}>+</button>
             </div>
-            <div style={{display:'flex',gap:8}}>
+
+            {/* Spin seat — default / hover / pressed / disabled / spinning states */}
+            {(() => {
+              const idle = !spinning && freeSpins === 0 && balance >= bet;
+              const label = spinning ? null : freeSpins > 0 ? `FREE SPIN (${freeSpins})` : balance < bet ? 'INSUFFICIENT FUNDS' : null;
+              return (
+                <div style={{flex:'0 0 auto',order:0}}>
+                  <button
+                    onClick={() => { initSound(); if (!spinRef.current) effectiveSpin(); }}
+                    onMouseEnter={() => setSpinHover(true)}
+                    onMouseLeave={e => { setSpinHover(false); e.currentTarget.style.transform = 'scale(1)'; }}
+                    onMouseDown={e => { if (!spinning) e.currentTarget.style.transform = 'scale(0.95)'; }}
+                    onMouseUp={e => { e.currentTarget.style.transform = spinHover ? 'scale(1.04)' : 'scale(1)'; }}
+                    disabled={spinning}
+                    style={{
+                      width:'clamp(150px,26vw,196px)', aspectRatio:'224 / 68',
+                      borderRadius:999,
+                      background: idle
+                        ? `url(${getPQAsset('spin_button')}) center/cover no-repeat`
+                        : spinning ? 'linear-gradient(135deg,#1c1200,#0a0500)' : C.btnGrad,
+                      border: spinning ? `2px solid ${C.cardBorder}` : `2px solid ${C.gold}`,
+                      color: spinning ? C.textDim : '#04140f',
+                      fontSize:'clamp(12px,2vw,15px)',fontWeight:900,
+                      cursor: spinning ? 'not-allowed' : 'pointer',
+                      letterSpacing:2,textTransform:'uppercase',
+                      filter: idle && spinHover ? 'brightness(1.15)' : 'none',
+                      animation: spinning ? 'none' : 'spinButtonPulse 2.2s ease-in-out infinite',
+                      transition:'background 0.3s, color 0.3s, border-color 0.3s, transform 0.12s, filter 0.15s',
+                      boxShadow: spinning ? 'none' : `0 0 24px ${C.gold}66, 0 4px 16px #00000088, inset 0 1px 0 #ffe06666`,
+                    }}>
+                    {spinning ? (
+                      <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:10}}>
+                        <span style={{display:'inline-block',animation:'coinSpin 0.5s linear infinite'}}>◈</span>
+                        SPIN
+                        <span style={{display:'inline-block',animation:'coinSpin 0.5s linear infinite reverse'}}>◈</span>
+                      </span>
+                    ) : label}
+                  </button>
+                </div>
+              );
+            })()}
+
+            {/* Auto/Turbo seat */}
+            <div style={{display:'flex',gap:8,flex:'1 1 180px',justifyContent:'center'}}>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); setAutoSpin(a => { const n = !a; autoRef.current = n; return n; }); }}
                 style={{
-                  padding:'6px 16px',borderRadius:10,
+                  padding:'8px 16px',borderRadius:10,
                   border:`1px solid ${autoSpin?C.teal:C.cardBorder}`,
                   background: autoSpin?`${C.teal}20`:C.surface,
                   color:autoSpin?C.teal:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'
@@ -1052,55 +1099,23 @@ export default function PyramidQuestPage() {
               </button>
               <button onClick={() => { initSound(); soundEngine.playButtonClick(); setTurbo(t => !t); }}
                 style={{
-                  padding:'6px 16px',borderRadius:10,
+                  padding:'8px 16px',borderRadius:10,
                   border:`1px solid ${turbo?C.red:C.cardBorder}`,
                   background: turbo?`${C.red}20`:C.surface,
                   color:turbo?'#e57368':C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'
                 }}>Turbo</button>
             </div>
           </div>
-
-          {/* Spin button — default / hover / pressed / disabled / spinning states */}
-          {(() => {
-            const idle = !spinning && freeSpins === 0 && balance >= bet;
-            const label = spinning ? null : freeSpins > 0 ? `FREE SPIN (${freeSpins})` : balance < bet ? 'INSUFFICIENT FUNDS' : null;
-            return (
-              <div style={{display:'flex',justifyContent:'center'}}>
-                <button
-                  onClick={() => { initSound(); if (!spinRef.current) effectiveSpin(); }}
-                  onMouseDown={e => { if (!spinning) e.currentTarget.style.transform = 'scale(0.96)'; }}
-                  onMouseUp={e => { e.currentTarget.style.transform = 'scale(1)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
-                  disabled={spinning}
-                  style={{
-                    width:'min(260px,70%)',height:78,borderRadius:16,
-                    background: idle
-                      ? `url(${getPQAsset('spin_button')}) center/contain no-repeat, ${C.btnGrad}`
-                      : spinning ? 'linear-gradient(135deg,#1c1200,#0a0500)' : C.btnGrad,
-                    border: spinning ? `2px solid ${C.cardBorder}` : `2px solid ${C.gold}`,
-                    color: spinning ? C.textDim : '#04140f',
-                    fontSize:'clamp(14px,2.4vw,18px)',fontWeight:900,
-                    cursor: spinning ? 'not-allowed' : 'pointer',
-                    letterSpacing:3,textTransform:'uppercase',
-                    animation: spinning ? 'none' : 'spinButtonPulse 2.2s ease-in-out infinite',
-                    transition:'background 0.3s, color 0.3s, border-color 0.3s, transform 0.12s',
-                    boxShadow: spinning ? 'none' : `0 0 24px ${C.gold}66, 0 4px 16px #00000088, inset 0 1px 0 #ffe06666`,
-                  }}>
-                  {spinning ? (
-                    <span style={{display:'flex',alignItems:'center',justifyContent:'center',gap:14}}>
-                      <span style={{display:'inline-block',animation:'coinSpin 0.5s linear infinite'}}>◈</span>
-                      SPINNING
-                      <span style={{display:'inline-block',animation:'coinSpin 0.5s linear infinite reverse'}}>◈</span>
-                    </span>
-                  ) : label}
-                </button>
-              </div>
-            );
-          })()}
         </div>
 
         {/* BOTTOM INFO */}
         <div style={{width:'100%',maxWidth:800,display:'flex',gap:10,flexWrap:'wrap'}}>
+          <button onClick={() => { initSound(); soundEngine.playButtonClick(); setShowGamble(true); }}
+            title="Gamble"
+            style={{width:44,minWidth:44,borderRadius:10,background:C.card,border:`1px solid ${C.cardBorder}`,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',padding:6}}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={getPQAsset('gamble_button')!} alt="Gamble" style={{width:'100%',objectFit:'contain'}}/>
+          </button>
           <button onClick={() => { initSound(); soundEngine.playButtonClick(); setShowPaytable(p => !p); }}
             style={{flex:1,minWidth:120,padding:'8px 12px',borderRadius:10,background:showPaytable?`${C.gold}18`:C.card,border:`1px solid ${showPaytable?C.gold:C.cardBorder}`,color:showPaytable?C.goldBright:C.textDim,cursor:'pointer',fontSize:11,fontWeight:700,letterSpacing:1,textTransform:'uppercase',transition:'all 0.2s'}}>Paytable</button>
           <div style={{flex:1,minWidth:120,padding:'8px 12px',borderRadius:10,background:C.card,border:`1px solid ${C.cardBorder}`,color:C.textDim,fontSize:11,fontWeight:600,textAlign:'center',display:'flex',alignItems:'center',justifyContent:'center',gap:6}}>
