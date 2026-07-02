@@ -288,6 +288,14 @@ export default function SupportCRMPage() {
         textarea:focus { outline: none; }
         input:focus { outline: none; }
         .status-select:focus { outline: none; }
+        @media (max-width: 1100px) {
+          .support-grid { grid-template-columns: 240px 1fr !important; }
+          .support-detail-col { display: none !important; }
+        }
+        @media (max-width: 700px) {
+          .support-grid { grid-template-columns: 1fr !important; }
+          .support-queue-col { display: none !important; }
+        }
       `}</style>
 
       <div style={{
@@ -440,7 +448,7 @@ export default function SupportCRMPage() {
         </header>
 
         {/* ══ THREE-COLUMN BODY ════════════════════════════════════════════════ */}
-        <div style={{
+        <div className="support-grid" style={{
           flex: 1,
           display: 'grid',
           gridTemplateColumns: '300px 1fr 320px',
@@ -449,7 +457,7 @@ export default function SupportCRMPage() {
         }}>
 
           {/* ── COLUMN 1: TICKET QUEUE ── */}
-          <div style={{
+          <div className="support-queue-col" style={{
             borderRight: '1px solid rgba(244,196,48,0.1)',
             display: 'flex',
             flexDirection: 'column',
@@ -832,7 +840,7 @@ export default function SupportCRMPage() {
           </div>
 
           {/* ── COLUMN 3: PLAYER SUMMARY ── */}
-          <div style={{
+          <div className="support-detail-col" style={{
             borderLeft: '1px solid rgba(244,196,48,0.1)',
             overflowY: 'auto',
             padding: '16px',

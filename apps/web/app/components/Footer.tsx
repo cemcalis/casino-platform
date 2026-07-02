@@ -21,6 +21,7 @@ const COLUMNS = [
   {
     title: 'Games',
     links: [
+      { label: 'Pyramid Quest (Flagship)', href: '/games/pyramid-quest' },
       { label: 'All Games', href: '/#all-games' },
       { label: 'Search Games', href: '/search' },
       { label: 'Neon Palace', href: '/games/neon-palace' },
