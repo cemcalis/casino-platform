@@ -2164,7 +2164,7 @@ export default function LobbyPage() {
               </div>
               <div style={{ fontSize: 13, color: '#6b5d8a' }}>Real dealers, real action — streaming now</div>
             </div>
-            <a href="#all-games" style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <a href="#all-games" onClick={() => setActiveCategory('Live')} style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
               All Live Games
               <div style={{ width: 8, height: 8, borderRight: '2px solid #f4c430', borderTop: '2px solid #f4c430', transform: 'rotate(45deg) translate(-1px,1px)' }} />
             </a>
