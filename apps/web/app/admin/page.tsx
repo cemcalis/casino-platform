@@ -649,6 +649,9 @@ export default function AdminPage() {
         ::-webkit-scrollbar-track { background: #0d0618; }
         ::-webkit-scrollbar-thumb { background: #3d2060; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #f4c430; }
+        @media (max-width: 1100px) {
+          .dash-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* Root wrapper */}
@@ -772,7 +775,7 @@ export default function AdminPage() {
           </div>
 
           {/* ── TWO-COLUMN LAYOUT ─────────────────────────────────────────── */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: 24, marginBottom: 28 }}>
+          <div className="dash-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: 24, marginBottom: 28 }}>
 
             {/* TOP GAMES TABLE */}
             <div style={{ background: '#251240', borderRadius: 16, border: '1px solid rgba(244,196,48,0.1)', overflow: 'hidden', animation: 'slideUp 0.6s ease 0.4s both' }}>
@@ -867,7 +870,7 @@ export default function AdminPage() {
           </div>
 
           {/* ── RECENT PLAYERS + ACTIVITY FEED ───────────────────────────── */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24 }}>
+          <div className="dash-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 24 }}>
 
             {/* RECENT PLAYERS TABLE */}
             <div style={{ background: '#251240', borderRadius: 16, border: '1px solid rgba(244,196,48,0.1)', overflow: 'hidden', animation: 'slideUp 0.6s ease 0.6s both' }}>
@@ -1076,14 +1079,13 @@ export default function AdminPage() {
               <span style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 14, background: 'linear-gradient(135deg, #f4c430, #ff8c00)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>♠ NEON PALACE</span>
               <span style={{ color: '#6b5a8a', fontSize: 13 }}>Admin Panel v2.4.1</span>
             </div>
-            <div style={{ display: 'flex', gap: 24 }}>
-              {['Documentation', 'API Status', 'Support', 'Changelog'].map(link => (
-                <a key={link} href="#" style={{ color: '#6b5a8a', fontSize: 13, textDecoration: 'none', transition: 'color 0.2s' }}
-                  onMouseEnter={e => ((e.target as HTMLElement).style.color = '#f4c430')}
-                  onMouseLeave={e => ((e.target as HTMLElement).style.color = '#6b5a8a')}>
-                  {link}
-                </a>
-              ))}
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+              <a href="/support" style={{ color: '#6b5a8a', fontSize: 13, textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => ((e.target as HTMLElement).style.color = '#f4c430')}
+                onMouseLeave={e => ((e.target as HTMLElement).style.color = '#6b5a8a')}>
+                Support
+              </a>
+              <span style={{ color: '#4a4064', fontSize: 13 }}>System Operational</span>
             </div>
             <div style={{ color: '#6b5a8a', fontSize: 12 }}>
               © 2026 Neon Palace Gaming. All rights reserved.

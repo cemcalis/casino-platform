@@ -451,6 +451,15 @@ body{background:#0a0010;font-family:'Outfit',sans-serif;color:#f0e8ff;overflow-x
 @keyframes borderGlow{0%,100%{border-color:rgba(244,196,48,0.15);}50%{border-color:rgba(244,196,48,0.5);}}
 @keyframes heroSlide{from{opacity:0;transform:translateX(60px);}to{opacity:1;transform:translateX(0);}}
 @keyframes heroPop{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:scale(1);}}
+
+.mobile-hamburger{display:none !important;}
+@media (max-width: 900px){
+  .desktop-nav{display:none !important;}
+  .mobile-hamburger{display:flex !important;}
+}
+@media (max-width: 680px){
+  .nav-balance,.nav-deposit,.nav-profile-text{display:none !important;}
+}
 `;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1513,7 +1522,7 @@ export default function LobbyPage() {
 
             {/* Balance (only if logged in) */}
             {username && (
-              <div style={{
+              <div className="nav-balance" style={{
                 display: 'flex', alignItems: 'center', gap: 10,
                 padding: '7px 14px', borderRadius: 12,
                 background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(244,196,48,0.2)',
@@ -1544,7 +1553,7 @@ export default function LobbyPage() {
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 13, fontWeight: 800, color: '#fff',
                   }}>{username[0]?.toUpperCase()}</div>
-                  <div>
+                  <div className="nav-profile-text">
                     <div style={{ fontSize: 12, fontWeight: 700, color: '#f0e8ff' }}>{username}</div>
                     <div style={{ fontSize: 10, color: '#f4c430', fontWeight: 600 }}>GOLD VIP</div>
                   </div>
@@ -1623,7 +1632,7 @@ export default function LobbyPage() {
             )}
 
             {/* Deposit CTA (always show) */}
-            <button style={{
+            <button className="nav-deposit" style={{
               padding: '10px 22px', borderRadius: 12,
               background: 'linear-gradient(135deg,#f4c430,#d97706)',
               color: '#0a0010', fontSize: 13, fontWeight: 900,
@@ -1638,6 +1647,7 @@ export default function LobbyPage() {
 
             {/* Hamburger button (mobile) */}
             <button
+              className="mobile-hamburger"
               onClick={() => setShowMobileMenu(m => !m)}
               style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5 }}
             >

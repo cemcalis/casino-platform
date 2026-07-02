@@ -230,6 +230,9 @@ export default function ReportsPage() {
         ::-webkit-scrollbar-thumb { background: #3d2060; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #f4c430; }
         input[type=date] { color-scheme: dark; }
+        @media (max-width: 1000px) {
+          .reports-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       <div style={{ minHeight: '100vh', background: '#0d0618', backgroundImage: 'radial-gradient(circle at 20% 50%,rgba(37,18,64,.8) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(0,212,200,.05) 0%,transparent 40%)', fontFamily: "'Inter',sans-serif", color: '#f0e8ff', position: 'relative' }}>
@@ -313,7 +316,7 @@ export default function ReportsPage() {
           </div>
 
           {/* KPI ROW 2 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, marginBottom: 28, animation: 'slideUp .5s ease .2s both' }}>
+          <div className="reports-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, marginBottom: 28, animation: 'slideUp .5s ease .2s both' }}>
             {/* Chart */}
             <div style={{ background: '#251240', borderRadius: 16, padding: 24, border: '1px solid rgba(244,196,48,.1)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
