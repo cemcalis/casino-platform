@@ -86,6 +86,18 @@ class ForgeAudio {
       this.sfxGain = this.ctx.createGain();
       this.sfxGain.gain.value = 0.25;
       this.sfxGain.connect(this.ctx.destination);
+      // Short feedback delay gives one-shot synth SFX a room tail.
+      const delay = this.ctx.createDelay(0.5);
+      delay.delayTime.value = 0.16;
+      const feedback = this.ctx.createGain();
+      feedback.gain.value = 0.22;
+      const wet = this.ctx.createGain();
+      wet.gain.value = 0.18;
+      this.sfxGain.connect(delay);
+      delay.connect(feedback);
+      feedback.connect(delay);
+      delay.connect(wet);
+      wet.connect(this.ctx.destination);
     }
     if (this.ctx.state === 'suspended') void this.ctx.resume();
     return this.ctx;
@@ -157,20 +169,32 @@ class ForgeAudio {
     const tone = (
       freq: number,
       dur: number,
-      opts: { type?: OscillatorType; at?: number; gain?: number; slideTo?: number } = {},
+      opts: {
+        type?: OscillatorType;
+        at?: number;
+        gain?: number;
+        slideTo?: number;
+        detune?: number;
+      } = {},
     ) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = opts.type ?? 'sine';
       const t0 = now + (opts.at ?? 0);
-      osc.frequency.setValueAtTime(freq, t0);
-      if (opts.slideTo) osc.frequency.exponentialRampToValueAtTime(opts.slideTo, t0 + dur);
-      gain.gain.setValueAtTime(opts.gain ?? 0.5, t0);
-      gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
-      osc.connect(gain);
-      gain.connect(out);
-      osc.start(t0);
-      osc.stop(t0 + dur);
+      const voices = opts.detune ? [-opts.detune, opts.detune] : [0];
+      for (const cents of voices) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = opts.type ?? 'sine';
+        osc.detune.value = cents;
+        osc.frequency.setValueAtTime(freq, t0);
+        if (opts.slideTo) osc.frequency.exponentialRampToValueAtTime(opts.slideTo, t0 + dur);
+        const g = (opts.gain ?? 0.5) / voices.length;
+        gain.gain.setValueAtTime(0.0001, t0);
+        gain.gain.exponentialRampToValueAtTime(g, t0 + 0.012);
+        gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+        osc.connect(gain);
+        gain.connect(out);
+        osc.start(t0);
+        osc.stop(t0 + dur + 0.02);
+      }
     };
 
     const noise = (dur: number, opts: { at?: number; gain?: number } = {}) => {
@@ -191,8 +215,9 @@ class ForgeAudio {
         tone(880, 0.05, { gain: 0.3 });
         break;
       case 'spin':
-        tone(220, 0.35, { type: 'sawtooth', gain: 0.12, slideTo: 440 });
-        noise(0.3, { gain: 0.06 });
+        tone(180, 0.45, { type: 'sawtooth', gain: 0.1, slideTo: 520, detune: 8 });
+        tone(90, 0.4, { type: 'triangle', gain: 0.14, slideTo: 200 });
+        noise(0.4, { gain: 0.07 });
         break;
       case 'reelStop':
         tone(330, 0.07, { type: 'triangle', gain: 0.4 });
@@ -205,13 +230,14 @@ class ForgeAudio {
         tone(1320, 0.03, { gain: 0.18 });
         break;
       case 'winSmall':
-        tone(523.25, 0.12, { gain: 0.35 });
-        tone(659.25, 0.14, { at: 0.09, gain: 0.35 });
+        tone(523.25, 0.14, { gain: 0.35, detune: 6, type: 'triangle' });
+        tone(659.25, 0.18, { at: 0.09, gain: 0.35, detune: 6, type: 'triangle' });
         break;
       case 'winMedium':
-        tone(523.25, 0.12, { gain: 0.4 });
-        tone(659.25, 0.12, { at: 0.09, gain: 0.4 });
-        tone(783.99, 0.2, { at: 0.18, gain: 0.4 });
+        tone(523.25, 0.14, { gain: 0.4, detune: 7, type: 'triangle' });
+        tone(659.25, 0.14, { at: 0.09, gain: 0.4, detune: 7, type: 'triangle' });
+        tone(783.99, 0.26, { at: 0.18, gain: 0.42, detune: 7, type: 'triangle' });
+        tone(261.63, 0.4, { gain: 0.18, type: 'sine' });
         break;
       case 'burst':
         noise(0.18, { gain: 0.2 });
@@ -233,10 +259,12 @@ class ForgeAudio {
         );
         break;
       case 'bigWin':
-        [392, 523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5, 1318.51].forEach((f, i) =>
-          tone(f, 0.28, { at: i * 0.13, gain: 0.45, type: i % 2 ? 'triangle' : 'sine' }),
-        );
-        noise(0.4, { gain: 0.08 });
+        [392, 523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5, 1318.51].forEach((f, i) => {
+          tone(f, 0.3, { at: i * 0.13, gain: 0.45, type: i % 2 ? 'triangle' : 'sine', detune: 9 });
+          tone(f / 2, 0.3, { at: i * 0.13, gain: 0.16, type: 'sine' });
+        });
+        tone(130.81, 1.4, { gain: 0.2, type: 'sawtooth', detune: 10 });
+        noise(0.5, { gain: 0.09 });
         break;
       case 'coin':
         tone(1567.98, 0.08, { gain: 0.25 });

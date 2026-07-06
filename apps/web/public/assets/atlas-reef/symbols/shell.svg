@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="sh1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd9e3"/>
+      <stop offset="0.5" stop-color="#fb9db4"/>
+      <stop offset="1" stop-color="#c05577"/>
+    </linearGradient>
+    <linearGradient id="sh2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffeef3"/>
+      <stop offset="1" stop-color="#e87d9d"/>
+    </linearGradient>
+    <filter id="shg" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+  </defs>
+  <ellipse cx="64" cy="74" rx="46" ry="40" fill="#8d2f52" opacity="0.5" filter="url(#shg)"/>
+  <path d="M64 22 C 98 22 116 52 112 84 Q 112 96 98 98 L 30 98 Q 16 96 16 84 C 12 52 30 22 64 22 Z" fill="url(#sh1)"/>
+  <g fill="url(#sh2)">
+    <path d="M64 26 L 70 94 L 58 94 Z"/>
+    <path d="M42 32 L 56 93 L 44 93 Z" opacity="0.9"/>
+    <path d="M86 32 L 84 93 L 72 93 Z" opacity="0.9"/>
+    <path d="M26 48 L 42 92 L 32 92 Z" opacity="0.8"/>
+    <path d="M102 48 L 96 92 L 86 92 Z" opacity="0.8"/>
+  </g>
+  <path d="M30 98 Q 64 108 98 98 L 98 98 Q 100 106 92 108 L 36 108 Q 28 106 30 98 Z" fill="#a84a6c"/>
+  <ellipse cx="48" cy="38" rx="12" ry="7" fill="#ffffff" opacity="0.55" transform="rotate(-24 48 38)"/>
+</svg>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="st1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe08a"/>
+      <stop offset="0.55" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#d97706"/>
+    </linearGradient>
+    <filter id="stg" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+  </defs>
+  <circle cx="64" cy="70" r="44" fill="#b45309" opacity="0.45" filter="url(#stg)"/>
+  <path d="M64 12 L 78 47 L 116 50 L 87 74 L 97 112 L 64 91 L 31 112 L 41 74 L 12 50 L 50 47 Z"
+        fill="url(#st1)" stroke="#a16207" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M64 24 L 74 50 L 64 82 L 54 50 Z" fill="#fde68a" opacity="0.65"/>
+  <g fill="#b45309" opacity="0.7">
+    <circle cx="64" cy="40" r="3"/>
+    <circle cx="56" cy="56" r="2.6"/>
+    <circle cx="72" cy="56" r="2.6"/>
+    <circle cx="48" cy="70" r="2.4"/>
+    <circle cx="80" cy="70" r="2.4"/>
+    <circle cx="64" cy="66" r="2.8"/>
+    <circle cx="42" cy="88" r="2.2"/>
+    <circle cx="86" cy="88" r="2.2"/>
+  </g>
+  <ellipse cx="52" cy="34" rx="8" ry="5" fill="#ffffff" opacity="0.5" transform="rotate(-30 52 34)"/>
+</svg>

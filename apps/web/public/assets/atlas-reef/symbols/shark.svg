@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="k1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b8cbdc"/>
+      <stop offset="0.5" stop-color="#64748b"/>
+      <stop offset="1" stop-color="#334155"/>
+    </linearGradient>
+    <filter id="kg1" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+  </defs>
+  <ellipse cx="64" cy="76" rx="50" ry="28" fill="#1e293b" opacity="0.55" filter="url(#kg1)"/>
+  <!-- tail -->
+  <path d="M104 62 L 124 40 Q 120 58 126 66 Q 116 66 108 74 Z" fill="url(#k1)"/>
+  <!-- body -->
+  <path d="M8 70 Q 40 38 76 44 Q 106 50 110 66 Q 104 84 72 88 Q 36 92 8 70 Z" fill="url(#k1)"/>
+  <!-- belly -->
+  <path d="M14 72 Q 44 86 80 84 Q 60 92 40 90 Q 24 86 14 72 Z" fill="#e2e8f0" opacity="0.85"/>
+  <!-- dorsal fin -->
+  <path d="M56 44 Q 60 20 78 16 Q 74 34 82 46 Q 68 42 56 44 Z" fill="url(#k1)"/>
+  <!-- pectoral fin -->
+  <path d="M54 78 Q 46 96 30 100 Q 40 84 42 74 Z" fill="#475569"/>
+  <!-- gills -->
+  <g stroke="#334155" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.8">
+    <path d="M64 56 q 3 10 0 20"/>
+    <path d="M72 55 q 3 11 0 22"/>
+    <path d="M80 55 q 3 11 0 21"/>
+  </g>
+  <!-- eye -->
+  <circle cx="30" cy="60" r="6" fill="#ffffff"/>
+  <circle cx="28.5" cy="60.5" r="3.4" fill="#0f172a"/>
+  <circle cx="27.5" cy="59" r="1.2" fill="#ffffff"/>
+  <!-- mouth + teeth -->
+  <path d="M12 72 Q 24 80 40 80" stroke="#1e293b" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <g fill="#f8fafc">
+    <path d="M18 74 l 3.4 6 l 3 -5 Z"/>
+    <path d="M26 77 l 3.2 5.4 l 3 -4.6 Z"/>
+    <path d="M34 79 l 3 4.6 l 2.8 -4 Z"/>
+  </g>
+  <ellipse cx="52" cy="52" rx="16" ry="5.5" fill="#ffffff" opacity="0.3" transform="rotate(-8 52 52)"/>
+</svg>
