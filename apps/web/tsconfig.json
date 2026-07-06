@@ -27,7 +27,8 @@
       "@casino/types": ["../../packages/types/src/index.ts"],
       "@casino/engine": ["../../packages/engine/src/index.ts"],
       "@casino/config": ["../../packages/config/src/index.ts"],
-      "@casino/rng": ["../../packages/rng/src/index.ts"]
+      "@casino/rng": ["../../packages/rng/src/index.ts"],
+      "@casino/forge": ["../../packages/forge/src/index.ts"]
     }
   },
   "include": [

@@ -11,7 +11,8 @@ const nextConfig = {
     '@casino/types',
     '@casino/engine',
     '@casino/config',
-    '@casino/rng'
+    '@casino/rng',
+    '@casino/forge'
   ],
   webpack: (config) => {
     config.resolve.alias = {
@@ -25,6 +26,7 @@ const nextConfig = {
       '@casino/engine': path.resolve(__dirname, '../../packages/engine/src/index.ts'),
       '@casino/config': path.resolve(__dirname, '../../packages/config/src/index.ts'),
       '@casino/rng': path.resolve(__dirname, '../../packages/rng/src/index.ts'),
+      '@casino/forge': path.resolve(__dirname, '../../packages/forge/src/index.ts'),
     };
     return config;
   },
