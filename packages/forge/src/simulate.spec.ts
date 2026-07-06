@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { simulate, formatReport } from './simulate';
 import { emberFalls, sugarRealm } from './reference-manifests';
+import { atlasReef } from './manifests/atlas-reef';
 
 const GATE_SPINS = 200_000;
 
@@ -16,6 +17,17 @@ describe('RTP gate', () => {
 
   it('sugar-realm (scatterPays/tumble) lands in the target band', () => {
     const manifest = sugarRealm();
+    const report = simulate(manifest, { spins: GATE_SPINS, seed: 1337 });
+    // eslint-disable-next-line no-console
+    console.log('\n' + formatReport(manifest, report));
+    expect(report.rtp).toBeGreaterThanOrEqual(manifest.targetRtp.min);
+    expect(report.rtp).toBeLessThanOrEqual(manifest.targetRtp.max);
+  });
+});
+
+describe('RTP gate — factory games', () => {
+  it('atlas-reef lands in the target band', () => {
+    const manifest = atlasReef();
     const report = simulate(manifest, { spins: GATE_SPINS, seed: 1337 });
     // eslint-disable-next-line no-console
     console.log('\n' + formatReport(manifest, report));

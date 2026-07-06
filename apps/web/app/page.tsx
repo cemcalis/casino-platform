@@ -42,6 +42,17 @@ interface Winner {
 
 const SLIDER_GAMES: SliderGame[] = [
   {
+    id: 'atlas-reef',
+    name: 'Atlas Reef',
+    provider: 'Forge Studio',
+    rtp: '95.9%',
+    badge: 'YENİ',
+    badgeColor: '#22d3ee',
+    category: 'Slots',
+    bg: 'linear-gradient(160deg, #082f49 0%, #0c1e3a 45%, #155e75 75%, #020617 100%)',
+    accentColor: '#22d3ee',
+  },
+  {
     id: 'pyramid-quest',
     name: 'Pyramid Quest',
     provider: 'In-House Studio',
@@ -330,11 +341,11 @@ const VOLATILITY_OPTIONS = ['All', 'Low', 'Medium', 'High'];
 
 const CATEGORY_MAP: Record<string, string[]> = {
   All: SLIDER_GAMES.map(g => g.id),
-  Slots: ['pyramid-quest', 'neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure'],
+  Slots: ['atlas-reef', 'pyramid-quest', 'neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure'],
   Table: ['cyber-roulette', 'blackjack-pro', 'baccarat', 'video-poker'],
   Live: ['cyber-roulette', 'lightning-roulette', 'dream-catcher', 'crazy-time', 'baccarat'],
   Jackpots: ['golden-vault', 'mega-moolah'],
-  New: ['olympus-strikes', 'crystal-caverns', 'starburst', 'dragon-fortune'],
+  New: ['atlas-reef', 'olympus-strikes', 'crystal-caverns', 'starburst', 'dragon-fortune'],
   Popular: ['pyramid-quest', 'neon-palace', 'dragons-fortune', 'solar-wilds', 'gonzo-quest', 'fruit-frenzy'],
 };
 
@@ -793,7 +804,26 @@ function CrazyTimeArt() {
   );
 }
 
+function AtlasReefArt() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+      {/* Deep sea glow */}
+      <div style={{ position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)', width: 130, height: 130, borderRadius: '50%', background: 'radial-gradient(circle, rgba(34,211,238,0.35), transparent 70%)' }} />
+      {/* Trident */}
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: 64, filter: 'drop-shadow(0 0 18px rgba(253,224,71,0.7))' }}>🔱</div>
+      {/* Rising bubbles */}
+      {[14, 32, 58, 76, 88].map((left, i) => (
+        <div key={i} style={{ position: 'absolute', bottom: -10, left: `${left}%`, width: 8 + (i % 3) * 5, height: 8 + (i % 3) * 5, borderRadius: '50%', border: '1.5px solid rgba(125,211,252,0.5)', animation: `floatY 6s ease-in-out ${i * 0.7}s infinite` }} />
+      ))}
+      {/* Reef silhouette */}
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 34, background: 'linear-gradient(0deg, rgba(21,94,117,0.8), transparent)' }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg,transparent,#22d3ee,#fde047,#22d3ee,transparent)', boxShadow: '0 0 20px rgba(34,211,238,0.8)' }} />
+    </div>
+  );
+}
+
 const GAME_ARTS: Record<string, () => JSX.Element> = {
+  'atlas-reef': AtlasReefArt,
   'pyramid-quest': PyramidQuestArt,
   'neon-palace': NeonPalaceArt,
   'dragons-fortune': DragonArt,
@@ -822,6 +852,7 @@ function GameSliderCard({ game, isActive, onUnderConstruction }: { game: SliderG
   const router = useRouter();
   const ArtComponent = GAME_ARTS[game.id] ?? (() => <div />);
   const PLAYABLE_GAMES = new Set([
+    'atlas-reef',
     'pyramid-quest', 'neon-palace', 'lucky-7s', 'blackjack-pro', 'cyber-roulette',
     'dragons-fortune', 'crystal-caverns', 'solar-wilds', 'starburst',
     'gonzo-quest', 'book-of-dead', 'golden-vault', 'olympus-strikes',
