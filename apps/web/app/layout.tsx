@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import './globals.css';
 import DemoBanner from './components/DemoBanner';
 import Footer from './components/Footer';
+import MobileNav from './components/MobileNav';
 
 export const metadata: Metadata = {
   title: 'Neon Palace Casino | Social Casino Games',
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <DemoBanner />
         {children}
         <Footer />
+        <MobileNav />
       </body>
     </html>
   );
