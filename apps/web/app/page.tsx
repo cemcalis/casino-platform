@@ -300,10 +300,10 @@ const SLIDER_GAMES: SliderGame[] = [
 const PROMO_CARDS = [
   {
     id: 'welcome',
-    title: 'WELCOME BONUS',
-    subtitle: '100% up to $1,000',
-    detail: '+ 200 Free Spins on first deposit',
-    cta: 'CLAIM NOW',
+    title: 'HOŞ GELDİN BONUSU',
+    subtitle: '5.000 Coin hediye',
+    detail: '+ İlk girişte 200 Free Spin',
+    cta: 'HEMEN AL',
     bg: 'linear-gradient(135deg, #2d0060 0%, #1a0040 50%, #0d0020 100%)',
     border: 'rgba(244,196,48,0.4)',
     accent: '#f4c430',
@@ -311,10 +311,10 @@ const PROMO_CARDS = [
   },
   {
     id: 'reload',
-    title: 'WEEKLY RELOAD',
-    subtitle: '50% Reload Every Monday',
-    detail: 'Up to $500 · Minimum deposit $20',
-    cta: 'GET BONUS',
+    title: 'HAFTALIK YENİLEME',
+    subtitle: 'Her Pazartesi %50 coin takviyesi',
+    detail: "2.500 Coin'e kadar — tamamen ücretsiz",
+    cta: 'BONUSU AL',
     bg: 'linear-gradient(135deg, #00302e 0%, #001a18 50%, #000d0c 100%)',
     border: 'rgba(0,212,200,0.4)',
     accent: '#00d4c8',
@@ -322,10 +322,10 @@ const PROMO_CARDS = [
   },
   {
     id: 'vip-cashback',
-    title: 'VIP CASHBACK',
-    subtitle: '20% Weekly Cashback',
-    detail: 'Exclusive for VIP Gold+ members',
-    cta: 'JOIN VIP',
+    title: 'VIP GERİ ÖDEME',
+    subtitle: 'Haftalık %20 coin iadesi',
+    detail: 'VIP Gold+ üyelerine özel',
+    cta: "VIP'E KATIL",
     bg: 'linear-gradient(135deg, #3d2000 0%, #1a0d00 50%, #0d0800 100%)',
     border: 'rgba(244,196,48,0.4)',
     accent: '#f4c430',
@@ -374,7 +374,7 @@ const HERO_SLIDES = [
     title: 'PYRAMID QUEST',
     subtitle: 'Our New Flagship Premium Slot',
     desc: 'Uncover the tomb of Ra and win up to 10,000x your bet',
-    cta: 'PLAY NOW',
+    cta: 'HEMEN OYNA',
     ctaLink: '/games/pyramid-quest',
     bg: 'linear-gradient(135deg, #1c1200 0%, #3a2600 40%, #5c4108 70%, #0a0500 100%)',
     accentColor: '#f4c430',
@@ -385,7 +385,7 @@ const HERO_SLIDES = [
     title: 'NEON PALACE',
     subtitle: 'The Ultimate Slot Experience',
     desc: 'Spin the reels and win up to 10,000x your bet',
-    cta: 'PLAY NOW',
+    cta: 'HEMEN OYNA',
     ctaLink: '/games/neon-palace',
     bg: 'linear-gradient(135deg, #1a0040 0%, #2d0060 40%, #3d0080 70%, #0a0020 100%)',
     accentColor: '#f4c430',
@@ -396,7 +396,7 @@ const HERO_SLIDES = [
     title: 'WELCOME BONUS',
     subtitle: '100% up to 5,000 Coins',
     desc: '+ 200 Free Spins on your first deposit today',
-    cta: 'CLAIM NOW',
+    cta: 'HEMEN AL',
     ctaLink: '/promotions',
     bg: 'linear-gradient(135deg, #1a0d00 0%, #3d2200 40%, #5a3200 70%, #0d0800 100%)',
     accentColor: '#f4c430',
@@ -944,7 +944,7 @@ function GameSliderCard({ game, isActive, onUnderConstruction }: { game: SliderG
           boxShadow: hovered ? `0 0 20px ${game.accentColor}60` : 'none',
           transition: 'all 0.25s',
         }}>
-          PLAY NOW
+          OYNA
         </button>
       </div>
     </div>
@@ -1591,8 +1591,8 @@ export default function LobbyPage() {
               }}>
                 <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'linear-gradient(135deg,#f4c430,#d97706)', flexShrink: 0, boxShadow: '0 0 10px rgba(244,196,48,0.4)' }} />
                 <div>
-                  <div style={{ fontSize: 10, color: '#6b5d8a', fontWeight: 600, letterSpacing: '1px' }}>BALANCE</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: '#f4c430', fontFamily: 'monospace' }}>${balance}</div>
+                  <div style={{ fontSize: 10, color: '#6b5d8a', fontWeight: 600, letterSpacing: '1px' }}>BAKİYE</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: '#f4c430', fontFamily: 'monospace' }}>{balance} 🪙</div>
                 </div>
               </div>
             )}
@@ -1786,7 +1786,7 @@ export default function LobbyPage() {
                 animation: `shimmer 3s linear infinite${jpFlash ? ', jackpotFlash 0.3s ease' : ''}`,
                 transition: 'all 0.15s',
               }}>
-                ${megaJP.toLocaleString('en-US')}
+                {megaJP.toLocaleString('tr-TR')} 🪙
               </div>
             </div>
 
@@ -1803,7 +1803,7 @@ export default function LobbyPage() {
                 }}>
                   <div style={{ fontSize: 10, color: '#6b5d8a', fontWeight: 700, letterSpacing: '2px', marginBottom: 4 }}>{jp.label}</div>
                   <div style={{ fontSize: 22, fontWeight: 900, color: jp.color, animation: jpFlash ? 'jackpotNum 0.15s ease' : 'none' }}>
-                    ${jp.value.toLocaleString('en-US')}
+                    {jp.value.toLocaleString('tr-TR')} 🪙
                   </div>
                 </div>
               ))}
@@ -1823,7 +1823,7 @@ export default function LobbyPage() {
                 onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.07)'; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
                 onClick={() => router.push('/games/pyramid-quest')}
-              >PLAY NOW</button>
+              >OYNA</button>
               <button style={{
                 padding: '16px 52px', borderRadius: 16,
                 background: 'transparent',
@@ -1839,10 +1839,10 @@ export default function LobbyPage() {
 
             <div style={{ display: 'flex', justifyContent: 'center', gap: 56, marginTop: 44, paddingTop: 36, borderTop: '1px solid rgba(124,58,237,0.2)', flexWrap: 'wrap' }}>
               {[
-                { label: 'PLAYERS ONLINE', value: '2,847', dotColor: '#22c55e' },
-                { label: 'GAMES AVAILABLE', value: '500+', dotColor: '#f4c430' },
-                { label: 'WINNERS TODAY', value: '14,293', dotColor: '#00d4c8' },
-                { label: 'TOTAL PAID OUT', value: '$2.8B', dotColor: '#a855f7' },
+                { label: 'ÇEVRİMİÇİ OYUNCU', value: '2.847', dotColor: '#22c55e' },
+                { label: 'OYUN SAYISI', value: '500+', dotColor: '#f4c430' },
+                { label: 'BUGÜNKÜ KAZANANLAR', value: '14.293', dotColor: '#00d4c8' },
+                { label: 'TOPLAM ÖDENEN', value: '2,8Mr 🪙', dotColor: '#a855f7' },
               ].map(s => (
                 <div key={s.label} style={{ textAlign: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 4 }}>
@@ -1877,7 +1877,7 @@ export default function LobbyPage() {
               <div style={{ width: 6, height: 6, background: '#f4c430', marginTop: 2 }} />
               <div style={{ width: 14, height: 3, background: '#f4c430', borderRadius: 2 }} />
             </div>
-            <span style={{ fontSize: 11, fontWeight: 800, color: '#f4c430', letterSpacing: '1.5px', marginLeft: 8 }}>WINNERS</span>
+            <span style={{ fontSize: 11, fontWeight: 800, color: '#f4c430', letterSpacing: '1.5px', marginLeft: 8 }}>KAZANANLAR</span>
           </div>
           <div style={{ overflow: 'hidden', flex: 1, padding: '0 4px' }}>
             <div style={{ display: 'flex', gap: 40, animation: 'winnerScroll 28s linear infinite', width: 'max-content', alignItems: 'center', height: 46 }}>
@@ -1888,9 +1888,9 @@ export default function LobbyPage() {
                   </div>
                   <span style={{ fontSize: 13, color: '#9b8ab8', whiteSpace: 'nowrap' }}>
                     <span style={{ color: '#f0e8ff', fontWeight: 700 }}>{w.username}</span>
-                    {' won '}
+                    <span style={{ color: '#6b5d8a' }}> — {w.game}: </span>
                     <span style={{ color: '#f4c430', fontWeight: 800 }}>{w.amount}</span>
-                    <span style={{ color: '#6b5d8a' }}> on {w.game}</span>
+                    {' kazandı'}
                   </span>
                 </div>
               ))}
@@ -1902,8 +1902,8 @@ export default function LobbyPage() {
         <section style={{ marginBottom: 52, animation: mounted ? 'slideUp 0.7s ease 0.1s both' : 'none' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <div>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Hot Promotions</h2>
-              <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>Exclusive offers for new and returning players</div>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Sıcak Promosyonlar</h2>
+              <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>Yeni ve mevcut oyunculara özel teklifler</div>
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {PROMO_CARDS.map((_, i) => (
@@ -1998,11 +1998,11 @@ export default function LobbyPage() {
         <section id="all-games" style={{ marginBottom: 52, animation: mounted ? 'slideUp 0.7s ease 0.15s both' : 'none' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 22, flexWrap: 'wrap', gap: 14 }}>
             <div>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Featured Games</h2>
-              <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>The best games handpicked for you</div>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Öne Çıkan Oyunlar</h2>
+              <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>Senin için seçtiğimiz en iyi oyunlar</div>
             </div>
             <a href="#all-games" style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, alignSelf: 'center' }}>
-              View All
+              Tümünü Gör
               <div style={{ width: 8, height: 8, borderRight: '2px solid #f4c430', borderTop: '2px solid #f4c430', transform: 'rotate(45deg) translate(-1px,1px)' }} />
             </a>
           </div>
@@ -2158,7 +2158,7 @@ export default function LobbyPage() {
 
             {/* Results count */}
             <div style={{ fontSize: 12, color: '#6b5d8a', fontWeight: 600 }}>
-              {filteredGames.length} games
+              {filteredGames.length} oyun
             </div>
           </div>
 
@@ -2246,7 +2246,7 @@ export default function LobbyPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Live Casino</h2>
+                <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Canlı Casino</h2>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '3px 12px', borderRadius: 20, background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)' }}>
                   <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px rgba(34,197,94,0.9)', animation: 'liveDot 1.5s ease-in-out infinite' }} />
                   <span style={{ fontSize: 11, fontWeight: 800, color: '#22c55e', letterSpacing: '1.5px' }}>LIVE</span>
@@ -2269,8 +2269,8 @@ export default function LobbyPage() {
         {/* ── CATEGORIES GRID ── */}
         <section style={{ marginBottom: 52, animation: mounted ? 'slideUp 0.7s ease 0.2s both' : 'none' }}>
           <div style={{ marginBottom: 22 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Game Categories</h2>
-            <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>Find your perfect game type</div>
+            <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Oyun Kategorileri</h2>
+            <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>Sana uygun oyun türünü bul</div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             {[
@@ -2373,8 +2373,8 @@ export default function LobbyPage() {
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 24, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px', marginBottom: 4 }}>VIP Program</div>
-                  <div style={{ fontSize: 14, color: '#9b8ab8' }}>Unlock exclusive rewards as you play</div>
+                  <div style={{ fontSize: 24, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px', marginBottom: 4 }}>VIP Programı</div>
+                  <div style={{ fontSize: 14, color: '#9b8ab8' }}>Oynadıkça özel ödüllerin kilidini aç</div>
                 </div>
               </div>
 
