@@ -350,14 +350,14 @@ const CATEGORY_MAP: Record<string, string[]> = {
 };
 
 const WINNERS: Winner[] = [
-  { initials: 'DK', username: 'Dragon***', game: 'Neon Palace', amount: '$24,750', avatarBg: 'linear-gradient(135deg,#f4c430,#d97706)' },
-  { initials: 'RM', username: 'Royal***', game: "Dragon's Fortune", amount: '$18,200', avatarBg: 'linear-gradient(135deg,#ff2d78,#9f1239)' },
-  { initials: 'LK', username: 'Lucky***', game: 'Cyber Roulette', amount: '$12,500', avatarBg: 'linear-gradient(135deg,#00d4c8,#0e7490)' },
-  { initials: 'MX', username: 'Mega***', game: 'Golden Vault', amount: '$9,800', avatarBg: 'linear-gradient(135deg,#7c3aed,#4c1d95)' },
-  { initials: 'ST', username: 'Star***', game: 'Crystal Caverns', amount: '$8,400', avatarBg: 'linear-gradient(135deg,#a855f7,#7c3aed)' },
-  { initials: 'NX', username: 'Neon***', game: 'Solar Wilds', amount: '$7,200', avatarBg: 'linear-gradient(135deg,#ff9500,#d97706)' },
-  { initials: 'PK', username: 'Phoenix***', game: 'Lucky 7s Classic', amount: '$6,100', avatarBg: 'linear-gradient(135deg,#22c55e,#15803d)' },
-  { initials: 'AX', username: 'Apex***', game: 'Olympus Strikes', amount: '$5,500', avatarBg: 'linear-gradient(135deg,#00d4c8,#7c3aed)' },
+  { initials: 'DK', username: 'Dragon***', game: 'Neon Palace', amount: '24,750 🪙', avatarBg: 'linear-gradient(135deg,#f4c430,#d97706)' },
+  { initials: 'RM', username: 'Royal***', game: 'Atlas Reef', amount: '18,200 🪙', avatarBg: 'linear-gradient(135deg,#ff2d78,#9f1239)' },
+  { initials: 'LK', username: 'Lucky***', game: 'Cyber Roulette', amount: '12,500 🪙', avatarBg: 'linear-gradient(135deg,#00d4c8,#0e7490)' },
+  { initials: 'MX', username: 'Mega***', game: 'Golden Vault', amount: '9,800 🪙', avatarBg: 'linear-gradient(135deg,#7c3aed,#4c1d95)' },
+  { initials: 'ST', username: 'Star***', game: 'Crystal Caverns', amount: '8,400 🪙', avatarBg: 'linear-gradient(135deg,#a855f7,#7c3aed)' },
+  { initials: 'NX', username: 'Neon***', game: 'Solar Wilds', amount: '7,200 🪙', avatarBg: 'linear-gradient(135deg,#ff9500,#d97706)' },
+  { initials: 'PK', username: 'Phoenix***', game: 'Lucky 7s Classic', amount: '6,100 🪙', avatarBg: 'linear-gradient(135deg,#22c55e,#15803d)' },
+  { initials: 'AX', username: 'Apex***', game: 'Olympus Strikes', amount: '5,500 🪙', avatarBg: 'linear-gradient(135deg,#00d4c8,#7c3aed)' },
 ];
 
 const VIP_LEVELS = [
@@ -1254,6 +1254,37 @@ export default function LobbyPage() {
   // Promo slider state
   const [promoIndex, setPromoIndex] = useState(0);
 
+  // Live winners ticker — new entries appear while the page is open
+  const [liveWinners, setLiveWinners] = useState<Winner[]>(WINNERS);
+  useEffect(() => {
+    const NAMES = ['Tiger', 'Comet', 'Blaze', 'Nova', 'Falcon', 'Viper', 'Storm', 'Atlas', 'Orion', 'Zafer', 'Kartal', 'Deniz'];
+    const PALETTES = [
+      'linear-gradient(135deg,#f4c430,#d97706)',
+      'linear-gradient(135deg,#ff2d78,#9f1239)',
+      'linear-gradient(135deg,#00d4c8,#0e7490)',
+      'linear-gradient(135deg,#7c3aed,#4c1d95)',
+      'linear-gradient(135deg,#22c55e,#15803d)',
+    ];
+    const timer = setInterval(() => {
+      const name = NAMES[Math.floor(Math.random() * NAMES.length)];
+      const game = SLIDER_GAMES[Math.floor(Math.random() * SLIDER_GAMES.length)];
+      const amount = Math.floor(500 + Math.random() * 30000);
+      setLiveWinners(prev =>
+        [
+          {
+            initials: name.slice(0, 2).toUpperCase(),
+            username: `${name}***`,
+            game: game.name,
+            amount: `${amount.toLocaleString('en-US')} 🪙`,
+            avatarBg: PALETTES[Math.floor(Math.random() * PALETTES.length)],
+          },
+          ...prev,
+        ].slice(0, 12),
+      );
+    }, 7000);
+    return () => clearInterval(timer);
+  }, []);
+
   // Nav state
   const [activeNav, setActiveNav] = useState('Lobby');
   const [balance, setBalance] = useState('10,000.00');
@@ -1850,7 +1881,7 @@ export default function LobbyPage() {
           </div>
           <div style={{ overflow: 'hidden', flex: 1, padding: '0 4px' }}>
             <div style={{ display: 'flex', gap: 40, animation: 'winnerScroll 28s linear infinite', width: 'max-content', alignItems: 'center', height: 46 }}>
-              {[...WINNERS, ...WINNERS].map((w, i) => (
+              {[...liveWinners, ...liveWinners].map((w, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
                   <div style={{ width: 28, height: 28, borderRadius: '50%', background: w.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff', flexShrink: 0 }}>
                     {w.initials}
@@ -2107,8 +2138,26 @@ export default function LobbyPage() {
               </button>
             </div>
 
+            {/* Random game (competitor lobby pattern) */}
+            <button
+              onClick={() => {
+                const playable = filteredGames.length > 0 ? filteredGames : SLIDER_GAMES;
+                const pick = playable[Math.floor(Math.random() * playable.length)];
+                router.push(`/games/${pick.id}`);
+              }}
+              style={{
+                marginLeft: 'auto', padding: '9px 16px', borderRadius: 12,
+                background: 'rgba(244,196,48,0.1)', border: '1px solid rgba(244,196,48,0.35)',
+                color: '#f4c430', fontSize: 12, fontWeight: 800, letterSpacing: '0.5px',
+                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
+                transition: 'all 0.2s',
+              }}
+            >
+              🎲 Rastgele Oyun
+            </button>
+
             {/* Results count */}
-            <div style={{ marginLeft: 'auto', fontSize: 12, color: '#6b5d8a', fontWeight: 600 }}>
+            <div style={{ fontSize: 12, color: '#6b5d8a', fontWeight: 600 }}>
               {filteredGames.length} games
             </div>
           </div>
