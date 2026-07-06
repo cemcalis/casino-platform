@@ -903,9 +903,23 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-pt-sym { font-size: 26px; width: 40px; text-align: center; }
         .fg-pt-pays { font-size: 12.5px; opacity: 0.9; }
         @media (max-width: 900px) {
-          .fg-stage { flex-direction: column; }
-          .fg-side { flex-direction: row; }
+          .fg-root { overflow-x: hidden; }
+          .fg-stage { flex-direction: column; padding: 4px 10px; gap: 10px; }
+          .fg-side { flex-direction: row; justify-content: center; }
           .fg-marquee { display: none; }
+          .fg-header { padding: 10px 14px; }
+          .fg-title { font-size: 20px; }
+          .fg-balance { font-size: 16px; }
+          .fg-board-wrap { padding: 8px; border-width: 2px; }
+          .fg-board { gap: 5px; }
+          .fg-col { gap: 5px; }
+          .fg-cell { width: clamp(44px, 13.5vw, 64px); height: clamp(44px, 13.5vw, 64px); }
+          .fg-controls { gap: 8px; padding: 12px 10px 6px; }
+          .fg-chip { padding: 5px 10px; font-size: 12px; }
+          .fg-spin-btn { padding: 13px 30px; font-size: 16px; }
+          .fg-reset-btn { padding: 9px 10px; font-size: 10px; }
+          .fg-feature-btn { min-width: 0; padding: 10px 12px; font-size: 11px; }
+          .fg-fs-banner { font-size: 10px; padding: 4px 12px; max-width: 92vw; overflow: hidden; text-overflow: ellipsis; }
         }
       `}</style>
     </div>
