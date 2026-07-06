@@ -1,0 +1,250 @@
+'use client';
+
+/**
+ * Layered WebAudio engine for Slot Forge games.
+ * One shared AudioContext; a looping ambient music bed per theme profile plus
+ * one-shot SFX. Everything is synthesized — no audio assets to load.
+ */
+
+export type MusicProfile = 'mystic' | 'festive' | 'epic' | 'serene' | 'arcade';
+
+export type SfxName =
+  | 'click'
+  | 'spin'
+  | 'reelStop'
+  | 'anticipation'
+  | 'winSmall'
+  | 'winMedium'
+  | 'tick'
+  | 'burst'
+  | 'bomb'
+  | 'scatter'
+  | 'bigWin'
+  | 'freeSpinIntro'
+  | 'coin';
+
+interface MusicVoice {
+  osc: OscillatorNode;
+  gain: GainNode;
+}
+
+const PROFILE_CHORDS: Record<MusicProfile, number[][]> = {
+  // Frequencies per chord; loops chord-to-chord on a slow timer.
+  mystic: [
+    [130.81, 155.56, 196.0],
+    [116.54, 138.59, 174.61],
+    [103.83, 130.81, 155.56],
+    [116.54, 146.83, 174.61],
+  ],
+  festive: [
+    [146.83, 185.0, 220.0],
+    [164.81, 207.65, 246.94],
+    [174.61, 220.0, 261.63],
+    [164.81, 196.0, 246.94],
+  ],
+  epic: [
+    [98.0, 123.47, 146.83],
+    [87.31, 110.0, 130.81],
+    [92.5, 116.54, 138.59],
+    [110.0, 138.59, 164.81],
+  ],
+  serene: [
+    [174.61, 220.0, 261.63],
+    [155.56, 196.0, 233.08],
+    [146.83, 185.0, 220.0],
+    [164.81, 207.65, 246.94],
+  ],
+  arcade: [
+    [130.81, 164.81, 196.0],
+    [146.83, 174.61, 220.0],
+    [130.81, 155.56, 207.65],
+    [123.47, 155.56, 185.0],
+  ],
+};
+
+class ForgeAudio {
+  private ctx: AudioContext | null = null;
+  private musicGain: GainNode | null = null;
+  private sfxGain: GainNode | null = null;
+  private musicVoices: MusicVoice[] = [];
+  private chordTimer: ReturnType<typeof setInterval> | null = null;
+  private chordIndex = 0;
+  private profile: MusicProfile = 'mystic';
+  muted = false;
+  musicOn = true;
+
+  private ensureCtx(): AudioContext | null {
+    if (typeof window === 'undefined') return null;
+    if (!this.ctx) {
+      const Ctor =
+        window.AudioContext ??
+        (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      this.ctx = new Ctor();
+      this.musicGain = this.ctx.createGain();
+      this.musicGain.gain.value = 0.05;
+      this.musicGain.connect(this.ctx.destination);
+      this.sfxGain = this.ctx.createGain();
+      this.sfxGain.gain.value = 0.25;
+      this.sfxGain.connect(this.ctx.destination);
+    }
+    if (this.ctx.state === 'suspended') void this.ctx.resume();
+    return this.ctx;
+  }
+
+  setMuted(muted: boolean): void {
+    this.muted = muted;
+    if (muted) this.stopMusic();
+  }
+
+  startMusic(profile: MusicProfile): void {
+    if (this.muted || !this.musicOn) return;
+    const ctx = this.ensureCtx();
+    if (!ctx || !this.musicGain) return;
+    if (this.musicVoices.length > 0 && this.profile === profile) return;
+    this.stopMusic();
+    this.profile = profile;
+
+    const chord = PROFILE_CHORDS[profile][0];
+    for (const freq of chord) {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = profile === 'arcade' ? 'square' : 'sine';
+      osc.frequency.value = freq;
+      gain.gain.value = profile === 'arcade' ? 0.12 : 0.32;
+      osc.connect(gain);
+      gain.connect(this.musicGain);
+      osc.start();
+      this.musicVoices.push({ osc, gain });
+    }
+    this.chordIndex = 0;
+    this.chordTimer = setInterval(() => this.nextChord(), 3600);
+  }
+
+  private nextChord(): void {
+    const ctx = this.ctx;
+    if (!ctx) return;
+    const chords = PROFILE_CHORDS[this.profile];
+    this.chordIndex = (this.chordIndex + 1) % chords.length;
+    const chord = chords[this.chordIndex];
+    this.musicVoices.forEach((voice, i) => {
+      const freq = chord[i % chord.length];
+      voice.osc.frequency.linearRampToValueAtTime(freq, ctx.currentTime + 1.2);
+    });
+  }
+
+  stopMusic(): void {
+    if (this.chordTimer) {
+      clearInterval(this.chordTimer);
+      this.chordTimer = null;
+    }
+    for (const voice of this.musicVoices) {
+      try {
+        voice.osc.stop();
+      } catch {
+        /* already stopped */
+      }
+    }
+    this.musicVoices = [];
+  }
+
+  play(name: SfxName): void {
+    if (this.muted) return;
+    const ctx = this.ensureCtx();
+    if (!ctx || !this.sfxGain) return;
+    const now = ctx.currentTime;
+    const out = this.sfxGain;
+
+    const tone = (
+      freq: number,
+      dur: number,
+      opts: { type?: OscillatorType; at?: number; gain?: number; slideTo?: number } = {},
+    ) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = opts.type ?? 'sine';
+      const t0 = now + (opts.at ?? 0);
+      osc.frequency.setValueAtTime(freq, t0);
+      if (opts.slideTo) osc.frequency.exponentialRampToValueAtTime(opts.slideTo, t0 + dur);
+      gain.gain.setValueAtTime(opts.gain ?? 0.5, t0);
+      gain.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+      osc.connect(gain);
+      gain.connect(out);
+      osc.start(t0);
+      osc.stop(t0 + dur);
+    };
+
+    const noise = (dur: number, opts: { at?: number; gain?: number } = {}) => {
+      const buffer = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+      const src = ctx.createBufferSource();
+      src.buffer = buffer;
+      const gain = ctx.createGain();
+      gain.gain.value = opts.gain ?? 0.15;
+      src.connect(gain);
+      gain.connect(out);
+      src.start(now + (opts.at ?? 0));
+    };
+
+    switch (name) {
+      case 'click':
+        tone(880, 0.05, { gain: 0.3 });
+        break;
+      case 'spin':
+        tone(220, 0.35, { type: 'sawtooth', gain: 0.12, slideTo: 440 });
+        noise(0.3, { gain: 0.06 });
+        break;
+      case 'reelStop':
+        tone(330, 0.07, { type: 'triangle', gain: 0.4 });
+        noise(0.05, { gain: 0.12 });
+        break;
+      case 'anticipation':
+        for (let i = 0; i < 6; i++) tone(523 + i * 60, 0.09, { at: i * 0.11, gain: 0.25 });
+        break;
+      case 'tick':
+        tone(1320, 0.03, { gain: 0.18 });
+        break;
+      case 'winSmall':
+        tone(523.25, 0.12, { gain: 0.35 });
+        tone(659.25, 0.14, { at: 0.09, gain: 0.35 });
+        break;
+      case 'winMedium':
+        tone(523.25, 0.12, { gain: 0.4 });
+        tone(659.25, 0.12, { at: 0.09, gain: 0.4 });
+        tone(783.99, 0.2, { at: 0.18, gain: 0.4 });
+        break;
+      case 'burst':
+        noise(0.18, { gain: 0.2 });
+        tone(196, 0.15, { type: 'triangle', gain: 0.3, slideTo: 98 });
+        break;
+      case 'bomb':
+        tone(80, 0.3, { type: 'sawtooth', gain: 0.5, slideTo: 40 });
+        noise(0.25, { gain: 0.25 });
+        tone(1046, 0.25, { at: 0.12, gain: 0.3 });
+        break;
+      case 'scatter':
+        tone(880, 0.15, { gain: 0.4 });
+        tone(1108.73, 0.18, { at: 0.1, gain: 0.4 });
+        tone(1318.51, 0.25, { at: 0.2, gain: 0.4 });
+        break;
+      case 'freeSpinIntro':
+        [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((f, i) =>
+          tone(f, 0.3, { at: i * 0.12, gain: 0.4 }),
+        );
+        break;
+      case 'bigWin':
+        [392, 523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5, 1318.51].forEach((f, i) =>
+          tone(f, 0.28, { at: i * 0.13, gain: 0.45, type: i % 2 ? 'triangle' : 'sine' }),
+        );
+        noise(0.4, { gain: 0.08 });
+        break;
+      case 'coin':
+        tone(1567.98, 0.08, { gain: 0.25 });
+        tone(2093, 0.1, { at: 0.05, gain: 0.2 });
+        break;
+    }
+  }
+}
+
+/** Module-level singleton — shared across all Forge games in the session. */
+export const forgeAudio = new ForgeAudio();

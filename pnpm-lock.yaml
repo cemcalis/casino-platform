@@ -119,6 +119,9 @@ importers:
       '@casino/audio':
         specifier: workspace:*
         version: link:../../packages/audio
+      '@casino/forge':
+        specifier: workspace:*
+        version: link:../../packages/forge
       '@casino/slot-runtime':
         specifier: workspace:*
         version: link:../../packages/slot-runtime

@@ -13,6 +13,7 @@
   "dependencies": {
     "@casino/animation": "workspace:*",
     "@casino/audio": "workspace:*",
+    "@casino/forge": "workspace:*",
     "@casino/slot-runtime": "workspace:*",
     "@casino/theme": "workspace:*",
     "@casino/ui": "workspace:*",
