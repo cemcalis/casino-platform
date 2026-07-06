@@ -71,7 +71,7 @@ const SLIDER_GAMES: SliderGame[] = [
     badge: 'HOT',
     badgeColor: '#ff2d78',
     category: 'Slots',
-    bg: 'linear-gradient(160deg, #1a0040 0%, #2d0060 40%, #3d0080 70%, #0a0020 100%)',
+    bg: 'linear-gradient(160deg, #15151a 0%, #1d1d24 40%, #3d0080 70%, #0a0020 100%)',
     accentColor: '#f4c430',
   },
   {
@@ -182,7 +182,7 @@ const SLIDER_GAMES: SliderGame[] = [
     badge: 'NEW',
     badgeColor: '#00d4c8',
     category: 'Slots',
-    bg: 'linear-gradient(160deg, #1a0030 0%, #2d0050 40%, #1a0040 70%, #0d001a 100%)',
+    bg: 'linear-gradient(160deg, #131318 0%, #2d0050 40%, #15151a 70%, #0d001a 100%)',
     accentColor: '#e879f9',
   },
   {
@@ -226,7 +226,7 @@ const SLIDER_GAMES: SliderGame[] = [
     badge: 'LIVE',
     badgeColor: '#22c55e',
     category: 'Live',
-    bg: 'linear-gradient(160deg, #1a0040 0%, #2d0060 40%, #3d0080 70%, #0a0020 100%)',
+    bg: 'linear-gradient(160deg, #15151a 0%, #1d1d24 40%, #3d0080 70%, #0a0020 100%)',
     accentColor: '#f0abfc',
   },
   {
@@ -304,7 +304,7 @@ const PROMO_CARDS = [
     subtitle: '5.000 Coin hediye',
     detail: '+ İlk girişte 200 Free Spin',
     cta: 'HEMEN AL',
-    bg: 'linear-gradient(135deg, #2d0060 0%, #1a0040 50%, #0d0020 100%)',
+    bg: 'linear-gradient(135deg, #1d1d24 0%, #15151a 50%, #0e0e12 100%)',
     border: 'rgba(244,196,48,0.4)',
     accent: '#f4c430',
     tag: 'LIMITED OFFER',
@@ -372,8 +372,8 @@ const HERO_SLIDES = [
   {
     id: 'pyramid-quest-promo',
     title: 'PYRAMID QUEST',
-    subtitle: 'Our New Flagship Premium Slot',
-    desc: 'Uncover the tomb of Ra and win up to 10,000x your bet',
+    subtitle: 'Yeni Amiral Gemisi Premium Slot',
+    desc: "Ra'nın mezarını keşfet — bahsinin 10.000 katına kadar kazan",
     cta: 'HEMEN OYNA',
     ctaLink: '/games/pyramid-quest',
     bg: 'linear-gradient(135deg, #1c1200 0%, #3a2600 40%, #5c4108 70%, #0a0500 100%)',
@@ -383,19 +383,19 @@ const HERO_SLIDES = [
   {
     id: 'neon-palace-promo',
     title: 'NEON PALACE',
-    subtitle: 'The Ultimate Slot Experience',
-    desc: 'Spin the reels and win up to 10,000x your bet',
+    subtitle: 'Zirve Slot Deneyimi',
+    desc: 'Makaraları çevir — bahsinin 10.000 katına kadar kazan',
     cta: 'HEMEN OYNA',
     ctaLink: '/games/neon-palace',
-    bg: 'linear-gradient(135deg, #1a0040 0%, #2d0060 40%, #3d0080 70%, #0a0020 100%)',
+    bg: 'linear-gradient(135deg, #15151a 0%, #1d1d24 40%, #2a2412 70%, #0b0b0f 100%)',
     accentColor: '#f4c430',
     glowColor: 'rgba(244,196,48,0.3)',
   },
   {
     id: 'welcome-bonus',
-    title: 'WELCOME BONUS',
-    subtitle: '100% up to 5,000 Coins',
-    desc: '+ 200 Free Spins on your first deposit today',
+    title: 'HOŞ GELDİN BONUSU',
+    subtitle: '5.000 Coin hediye',
+    desc: '+ İlk girişte 200 Free Spin — tamamen ücretsiz',
     cta: 'HEMEN AL',
     ctaLink: '/promotions',
     bg: 'linear-gradient(135deg, #1a0d00 0%, #3d2200 40%, #5a3200 70%, #0d0800 100%)',
@@ -404,10 +404,10 @@ const HERO_SLIDES = [
   },
   {
     id: 'vip-club',
-    title: 'VIP CLUB',
-    subtitle: 'Exclusive Rewards Await',
-    desc: 'Join our elite Diamond program and enjoy 25% cashback',
-    cta: 'JOIN VIP',
+    title: 'VIP KULÜP',
+    subtitle: 'Özel ödüller seni bekliyor',
+    desc: "Diamond programına katıl, haftalık %25 coin iadesi kazan",
+    cta: "VIP'E KATIL",
     ctaLink: '/vip',
     bg: 'linear-gradient(135deg, #001a2d 0%, #002d40 40%, #003d50 70%, #000d1a 100%)',
     accentColor: '#00d4c8',
@@ -436,9 +436,9 @@ const GLOBAL_CSS = `
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:#0a0010;font-family:'Outfit',sans-serif;color:#f0e8ff;overflow-x:hidden;}
+body{background:#0b0b0d;font-family:'Outfit',sans-serif;color:#f1efe9;overflow-x:hidden;}
 ::-webkit-scrollbar{width:6px;height:6px;}
-::-webkit-scrollbar-track{background:#0a0010;}
+::-webkit-scrollbar-track{background:#0b0b0d;}
 ::-webkit-scrollbar-thumb{background:#3d1f6e;border-radius:3px;}
 ::-webkit-scrollbar-thumb:hover{background:#7c3aed;}
 
@@ -499,7 +499,7 @@ function StarBackground() {
           animation: `twinkle ${s.duration} ${s.delay} ease-in-out infinite`,
         }} />
       ))}
-      <div style={{ position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)', width: 800, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)', animation: 'floatOrb 8s ease-in-out infinite' }} />
+      <div style={{ position: 'absolute', top: '-20%', left: '50%', transform: 'translateX(-50%)', width: 800, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(244,196,48,0.12) 0%, transparent 70%)', animation: 'floatOrb 8s ease-in-out infinite' }} />
       <div style={{ position: 'absolute', bottom: '-10%', left: '-10%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,212,200,0.07) 0%, transparent 70%)', animation: 'floatOrb 11s ease-in-out 2s infinite' }} />
       <div style={{ position: 'absolute', top: '30%', right: '-10%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,45,120,0.06) 0%, transparent 70%)', animation: 'floatOrb 9s ease-in-out 4s infinite' }} />
     </div>
@@ -698,7 +698,7 @@ function StarburstArt() {
         <div key={i} style={{ position:'absolute', top:'50%', left:'50%', width:3, height:90, background:`linear-gradient(180deg, rgba(232,121,249,0.8) 0%, transparent 100%)`, transformOrigin:'top center', transform:`translate(-50%,-100%) rotate(${i*45}deg)`, borderRadius:2 }} />
       ))}
       {/* Star core */}
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 50, height: 50, borderRadius: '50%', background: 'radial-gradient(circle, #fff 0%, #e879f9 40%, #7c3aed 80%, transparent 100%)', boxShadow: '0 0 30px rgba(232,121,249,0.9), 0 0 60px rgba(124,58,237,0.5)' }} />
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 50, height: 50, borderRadius: '50%', background: 'radial-gradient(circle, #fff 0%, #e879f9 40%, #7c3aed 80%, transparent 100%)', boxShadow: '0 0 30px rgba(232,121,249,0.9), 0 0 60px rgba(244,196,48,0.5)' }} />
       {/* Ring */}
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: 100, height: 100, borderRadius: '50%', border: '2px solid rgba(232,121,249,0.4)', boxShadow: '0 0 20px rgba(232,121,249,0.3)' }} />
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg,transparent,#e879f9,#7c3aed,#e879f9,transparent)', boxShadow: '0 0 20px rgba(232,121,249,0.8)' }} />
@@ -934,18 +934,32 @@ function GameSliderCard({ game, isActive, onUnderConstruction }: { game: SliderG
           {game.category}
         </div>
 
-        <button onClick={handlePlay} style={{
-          width: '100%', padding: '11px 0', borderRadius: 12,
-          background: hovered ? `linear-gradient(135deg, ${game.accentColor}, ${game.accentColor}aa)` : 'rgba(255,255,255,0.08)',
-          border: `1px solid ${hovered ? game.accentColor : 'rgba(255,255,255,0.15)'}`,
-          color: hovered ? '#0a0010' : '#fff',
-          fontSize: 13, fontWeight: 800, letterSpacing: '1.5px', cursor: 'pointer',
-          fontFamily: "'Outfit', sans-serif",
-          boxShadow: hovered ? `0 0 20px ${game.accentColor}60` : 'none',
-          transition: 'all 0.25s',
-        }}>
-          OYNA
-        </button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button onClick={handlePlay} style={{
+            flex: 1, padding: '11px 0', borderRadius: 12,
+            background: 'transparent',
+            border: '1px solid rgba(255,255,255,0.3)',
+            color: '#fff',
+            fontSize: 12, fontWeight: 800, letterSpacing: '1.5px', cursor: 'pointer',
+            fontFamily: "'Outfit', sans-serif",
+            transition: 'all 0.25s',
+            opacity: hovered ? 1 : 0.75,
+          }}>
+            DEMO
+          </button>
+          <button onClick={handlePlay} style={{
+            flex: 1.4, padding: '11px 0', borderRadius: 12,
+            background: hovered ? `linear-gradient(135deg, ${game.accentColor}, ${game.accentColor}aa)` : 'linear-gradient(135deg,#f4c430,#d97706)',
+            border: 'none',
+            color: '#0b0b0d',
+            fontSize: 12, fontWeight: 900, letterSpacing: '1.5px', cursor: 'pointer',
+            fontFamily: "'Outfit', sans-serif",
+            boxShadow: hovered ? `0 0 20px ${game.accentColor}60` : 'none',
+            transition: 'all 0.25s',
+          }}>
+            OYNA
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -1037,14 +1051,14 @@ function HeroSlide({ slide }: { slide: typeof HERO_SLIDES[0] }) {
           WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
           lineHeight: 1.1,
         }}>{slide.title}</h1>
-        <p style={{ fontSize: 22, fontWeight: 800, color: '#f0e8ff', marginBottom: 8 }}>{slide.subtitle}</p>
+        <p style={{ fontSize: 22, fontWeight: 800, color: '#f1efe9', marginBottom: 8 }}>{slide.subtitle}</p>
         <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', marginBottom: 32 }}>{slide.desc}</p>
         <button
           onClick={() => router.push(slide.ctaLink)}
           style={{
             padding: '15px 48px', borderRadius: 14,
             background: `linear-gradient(135deg,${slide.accentColor},${slide.accentColor}bb)`,
-            color: '#0a0010', fontSize: 15, fontWeight: 900,
+            color: '#0b0b0d', fontSize: 15, fontWeight: 900,
             border: 'none', cursor: 'pointer', letterSpacing: '1.5px',
             fontFamily: "'Outfit',sans-serif",
             boxShadow: `0 8px 40px ${slide.glowColor}`,
@@ -1075,8 +1089,8 @@ function HeroBanner() {
       borderRadius: 28,
       overflow: 'hidden',
       marginBottom: 0,
-      border: '1px solid rgba(124,58,237,0.25)',
-      boxShadow: '0 0 60px rgba(124,58,237,0.12)',
+      border: '1px solid rgba(244,196,48,0.25)',
+      boxShadow: '0 0 60px rgba(244,196,48,0.12)',
     }}>
       <HeroSlide key={slideIndex} slide={HERO_SLIDES[slideIndex]!} />
 
@@ -1130,8 +1144,8 @@ function LiveCasinoCard({ game, onComingSoon }: { game: typeof LIVE_CASINO_GAMES
         overflow: 'hidden',
         position: 'relative',
         cursor: 'pointer',
-        background: 'linear-gradient(160deg, #0d0020 0%, #1a0030 50%, #0a0018 100%)',
-        border: `1px solid ${hovered ? game.color + '50' : 'rgba(124,58,237,0.2)'}`,
+        background: 'linear-gradient(160deg, #0e0e12 0%, #131318 50%, #0b0b0f 100%)',
+        border: `1px solid ${hovered ? game.color + '50' : 'rgba(244,196,48,0.2)'}`,
         boxShadow: hovered ? `0 0 30px ${game.color}30, 0 10px 40px rgba(0,0,0,0.7)` : '0 4px 20px rgba(0,0,0,0.5)',
         transition: 'all 0.3s ease',
         minHeight: 200,
@@ -1161,7 +1175,7 @@ function LiveCasinoCard({ game, onComingSoon }: { game: typeof LIVE_CASINO_GAMES
         <span style={{ marginLeft: 'auto', fontSize: 10, color: 'rgba(255,255,255,0.4)', fontWeight: 600 }}>{game.players} players</span>
       </div>
 
-      <div style={{ fontSize: 16, fontWeight: 800, color: '#f0e8ff', marginBottom: 4 }}>{game.name}</div>
+      <div style={{ fontSize: 16, fontWeight: 800, color: '#f1efe9', marginBottom: 4 }}>{game.name}</div>
       <div style={{ fontSize: 11, color: game.color, fontWeight: 600, letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: 14 }}>{game.provider}</div>
 
       <button style={{
@@ -1188,13 +1202,13 @@ function ProvidersStrip() {
   return (
     <section style={{ marginBottom: 52, overflow: 'hidden' }}>
       <div style={{ marginBottom: 20 }}>
-        <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Game Providers</h2>
-        <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>World-class studios powering your experience</div>
+        <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f1efe9', letterSpacing: '-0.3px' }}>Game Providers</h2>
+        <div style={{ fontSize: 13, color: '#7d7d86', marginTop: 2 }}>World-class studios powering your experience</div>
       </div>
       <div style={{ overflow: 'hidden', position: 'relative' }}>
         {/* Fade edges */}
-        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 80, background: 'linear-gradient(90deg, #0a0010, transparent)', zIndex: 2, pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 80, background: 'linear-gradient(-90deg, #0a0010, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 80, background: 'linear-gradient(90deg, #0b0b0d, transparent)', zIndex: 2, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: 80, background: 'linear-gradient(-90deg, #0b0b0d, transparent)', zIndex: 2, pointerEvents: 'none' }} />
         <div style={{
           display: 'flex', gap: 14,
           animation: 'providerScroll 24s linear infinite',
@@ -1211,7 +1225,7 @@ function ProvidersStrip() {
                 background: hoveredProvider === `${provider}-${i}` ? 'rgba(244,196,48,0.08)' : 'rgba(255,255,255,0.04)',
                 border: `1px solid ${hoveredProvider === `${provider}-${i}` ? 'rgba(244,196,48,0.4)' : 'rgba(255,255,255,0.08)'}`,
                 fontSize: 13, fontWeight: 700,
-                color: hoveredProvider === `${provider}-${i}` ? '#f4c430' : '#6b5d8a',
+                color: hoveredProvider === `${provider}-${i}` ? '#f4c430' : '#7d7d86',
                 whiteSpace: 'nowrap' as const,
                 cursor: 'pointer',
                 transition: 'all 0.2s',
@@ -1286,7 +1300,7 @@ export default function LobbyPage() {
   }, []);
 
   // Nav state
-  const [activeNav, setActiveNav] = useState('Lobby');
+  const [activeNav, setActiveNav] = useState('Lobi');
   const [balance, setBalance] = useState('10,000.00');
   const [username, setUsername] = useState<string | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -1309,12 +1323,12 @@ export default function LobbyPage() {
   const handleComingSoon = (name: string) => setOverlayGame(name);
 
   const NAV_ITEMS = [
-    { label: 'Lobby', href: '/' },
-    { label: 'Promotions', href: '/promotions' },
-    { label: 'Tournaments', href: '/tournaments' },
-    { label: 'Leaderboard', href: '/leaderboard' },
+    { label: 'Lobi', href: '/' },
+    { label: 'Promosyonlar', href: '/promotions' },
+    { label: 'Turnuvalar', href: '/tournaments' },
+    { label: 'Liderlik', href: '/leaderboard' },
     { label: 'VIP', href: '/vip' },
-    { label: 'FAQ', href: '/faq' },
+    { label: 'SSS', href: '/faq' },
   ];
 
   useEffect(() => {
@@ -1436,7 +1450,7 @@ export default function LobbyPage() {
   const currentTranslate = sliderOffset + dragDelta;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0010', fontFamily: "'Outfit', sans-serif", overflowX: 'hidden', color: '#f0e8ff' }}>
+    <div style={{ minHeight: '100vh', background: '#0b0b0d', fontFamily: "'Outfit', sans-serif", overflowX: 'hidden', color: '#f1efe9' }}>
       <style dangerouslySetInnerHTML={{ __html: GLOBAL_CSS }} />
       <StarBackground />
 
@@ -1456,8 +1470,8 @@ export default function LobbyPage() {
             style={{
               padding: '52px 60px', borderRadius: 28,
               background: 'linear-gradient(135deg,#130020,#0d0018)',
-              border: '1px solid rgba(124,58,237,0.4)',
-              boxShadow: '0 0 80px rgba(124,58,237,0.2)',
+              border: '1px solid rgba(244,196,48,0.4)',
+              boxShadow: '0 0 80px rgba(244,196,48,0.2)',
               textAlign: 'center', maxWidth: 440,
               animation: 'scalePop 0.3s cubic-bezier(0.34,1.56,0.64,1) both',
             }}
@@ -1470,7 +1484,7 @@ export default function LobbyPage() {
                 <div style={{ position: 'absolute', top: 22, left: 0, right: 0, height: 4, background: 'rgba(244,196,48,0.3)', borderRadius: 2 }} />
               </div>
             </div>
-            <h3 style={{ fontSize: 26, fontWeight: 900, color: '#f0e8ff', marginBottom: 8, letterSpacing: '-0.3px' }}>Coming Soon</h3>
+            <h3 style={{ fontSize: 26, fontWeight: 900, color: '#f1efe9', marginBottom: 8, letterSpacing: '-0.3px' }}>Coming Soon</h3>
             <p style={{ fontSize: 16, fontWeight: 700, color: '#f4c430', marginBottom: 8 }}>{overlayGame}</p>
             <p style={{ fontSize: 14, color: '#7a7090', marginBottom: 32, lineHeight: 1.6 }}>We&apos;re working on bringing this game to you. Stay tuned for the launch!</p>
             <button
@@ -1480,7 +1494,7 @@ export default function LobbyPage() {
                 background: 'linear-gradient(135deg,#7c3aed,#5b21b6)',
                 color: '#fff', fontSize: 14, fontWeight: 800, border: 'none', cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif", letterSpacing: '1px',
-                boxShadow: '0 8px 30px rgba(124,58,237,0.4)',
+                boxShadow: '0 8px 30px rgba(244,196,48,0.4)',
               }}
             >GOT IT</button>
           </div>
@@ -1492,8 +1506,8 @@ export default function LobbyPage() {
       {/* ──────────────────────────────────────────────────────────── */}
       <nav style={{
         position: 'sticky', top: 0, zIndex: 200,
-        background: 'rgba(10,0,16,0.92)', backdropFilter: 'blur(24px)',
-        borderBottom: '1px solid rgba(124,58,237,0.25)',
+        background: 'rgba(11,11,13,0.92)', backdropFilter: 'blur(24px)',
+        borderBottom: '1px solid rgba(244,196,48,0.25)',
         boxShadow: '0 4px 40px rgba(0,0,0,0.5)',
       }}>
         <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 28px', display: 'flex', alignItems: 'center', height: 72, gap: 28 }}>
@@ -1525,14 +1539,14 @@ export default function LobbyPage() {
                 padding: '7px 18px', borderRadius: 10,
                 background: activeNav === item.label ? 'rgba(244,196,48,0.1)' : 'transparent',
                 border: 'none',
-                color: activeNav === item.label ? '#f4c430' : '#9b8ab8',
+                color: activeNav === item.label ? '#f4c430' : '#a6a6ae',
                 fontSize: 13, fontWeight: 600, cursor: 'pointer', letterSpacing: '0.5px',
                 borderBottom: activeNav === item.label ? '2px solid #f4c430' : '2px solid transparent',
                 transition: 'all 0.2s',
                 fontFamily: "'Outfit', sans-serif",
               }}
-                onMouseEnter={e => { if (activeNav !== item.label) { e.currentTarget.style.color = '#f0e8ff'; } }}
-                onMouseLeave={e => { if (activeNav !== item.label) { e.currentTarget.style.color = '#9b8ab8'; } }}
+                onMouseEnter={e => { if (activeNav !== item.label) { e.currentTarget.style.color = '#f1efe9'; } }}
+                onMouseLeave={e => { if (activeNav !== item.label) { e.currentTarget.style.color = '#a6a6ae'; } }}
               >{item.label}</button>
             ))}
           </div>
@@ -1548,8 +1562,8 @@ export default function LobbyPage() {
               >
                 {/* Magnifier icon */}
                 <div style={{ position: 'relative', width: 16, height: 16 }}>
-                  <div style={{ width: 11, height: 11, borderRadius: '50%', border: `2px solid ${showSearch ? '#f4c430' : '#9b8ab8'}`, position: 'absolute', top: 0, left: 0 }} />
-                  <div style={{ width: 6, height: 2, background: showSearch ? '#f4c430' : '#9b8ab8', borderRadius: 1, position: 'absolute', bottom: 0, right: 0, transform: 'rotate(-45deg)', transformOrigin: 'left center' }} />
+                  <div style={{ width: 11, height: 11, borderRadius: '50%', border: `2px solid ${showSearch ? '#f4c430' : '#a6a6ae'}`, position: 'absolute', top: 0, left: 0 }} />
+                  <div style={{ width: 6, height: 2, background: showSearch ? '#f4c430' : '#a6a6ae', borderRadius: 1, position: 'absolute', bottom: 0, right: 0, transform: 'rotate(-45deg)', transformOrigin: 'left center' }} />
                 </div>
               </button>
               {showSearch && (
@@ -1561,8 +1575,8 @@ export default function LobbyPage() {
                   style={{
                     position: 'absolute', right: 0, top: '110%',
                     width: 220, padding: '10px 16px', borderRadius: 12,
-                    background: '#130020', border: '1px solid rgba(124,58,237,0.4)',
-                    color: '#f0e8ff', fontSize: 13, fontFamily: "'Outfit',sans-serif",
+                    background: '#130020', border: '1px solid rgba(244,196,48,0.4)',
+                    color: '#f1efe9', fontSize: 13, fontFamily: "'Outfit',sans-serif",
                     outline: 'none', boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
                     animation: 'slideUp 0.15s ease both',
                     zIndex: 300,
@@ -1574,11 +1588,11 @@ export default function LobbyPage() {
             {/* Notification bell */}
             <button style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
               <div style={{ position: 'relative' }}>
-                <div style={{ width: 16, height: 14, borderRadius: '8px 8px 0 0', background: '#9b8ab8', position: 'relative' }}>
-                  <div style={{ position: 'absolute', bottom: -3, left: -3, right: -3, height: 4, background: '#9b8ab8', borderRadius: '0 0 2px 2px' }} />
-                  <div style={{ position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%)', width: 6, height: 3, borderRadius: '0 0 3px 3px', background: '#9b8ab8' }} />
+                <div style={{ width: 16, height: 14, borderRadius: '8px 8px 0 0', background: '#a6a6ae', position: 'relative' }}>
+                  <div style={{ position: 'absolute', bottom: -3, left: -3, right: -3, height: 4, background: '#a6a6ae', borderRadius: '0 0 2px 2px' }} />
+                  <div style={{ position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%)', width: 6, height: 3, borderRadius: '0 0 3px 3px', background: '#a6a6ae' }} />
                 </div>
-                <div style={{ position: 'absolute', top: -3, right: -3, width: 8, height: 8, borderRadius: '50%', background: '#ff2d78', border: '1px solid #0a0010' }} />
+                <div style={{ position: 'absolute', top: -3, right: -3, width: 8, height: 8, borderRadius: '50%', background: '#ff2d78', border: '1px solid #0b0b0d' }} />
               </div>
             </button>
 
@@ -1591,7 +1605,7 @@ export default function LobbyPage() {
               }}>
                 <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'linear-gradient(135deg,#f4c430,#d97706)', flexShrink: 0, boxShadow: '0 0 10px rgba(244,196,48,0.4)' }} />
                 <div>
-                  <div style={{ fontSize: 10, color: '#6b5d8a', fontWeight: 600, letterSpacing: '1px' }}>BAKİYE</div>
+                  <div style={{ fontSize: 10, color: '#7d7d86', fontWeight: 600, letterSpacing: '1px' }}>BAKİYE</div>
                   <div style={{ fontSize: 13, fontWeight: 800, color: '#f4c430', fontFamily: 'monospace' }}>{balance} 🪙</div>
                 </div>
               </div>
@@ -1605,7 +1619,7 @@ export default function LobbyPage() {
                   style={{
                     display: 'flex', alignItems: 'center', gap: 10,
                     padding: '7px 14px', borderRadius: 12,
-                    background: 'rgba(124,58,237,0.1)', border: '1px solid rgba(124,58,237,0.25)',
+                    background: 'rgba(244,196,48,0.1)', border: '1px solid rgba(244,196,48,0.25)',
                     cursor: 'pointer',
                   }}
                 >
@@ -1616,10 +1630,10 @@ export default function LobbyPage() {
                     fontSize: 13, fontWeight: 800, color: '#fff',
                   }}>{username[0]?.toUpperCase()}</div>
                   <div className="nav-profile-text">
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#f0e8ff' }}>{username}</div>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: '#f1efe9' }}>{username}</div>
                     <div style={{ fontSize: 10, color: '#f4c430', fontWeight: 600 }}>GOLD VIP</div>
                   </div>
-                  <div style={{ width: 12, height: 12, borderRight: '2px solid #6b5d8a', borderBottom: '2px solid #6b5d8a', transform: showProfileDropdown ? 'rotate(-135deg)' : 'rotate(45deg)', transition: 'transform 0.2s', marginTop: showProfileDropdown ? 4 : -2 }} />
+                  <div style={{ width: 12, height: 12, borderRight: '2px solid #7d7d86', borderBottom: '2px solid #7d7d86', transform: showProfileDropdown ? 'rotate(-135deg)' : 'rotate(45deg)', transition: 'transform 0.2s', marginTop: showProfileDropdown ? 4 : -2 }} />
                 </div>
 
                 {showProfileDropdown && (
@@ -1627,7 +1641,7 @@ export default function LobbyPage() {
                     onClick={e => e.stopPropagation()}
                     style={{
                       position: 'absolute', right: 0, top: '110%',
-                      background: '#130020', border: '1px solid rgba(124,58,237,0.3)',
+                      background: '#130020', border: '1px solid rgba(244,196,48,0.3)',
                       borderRadius: 14, padding: '8px 0', minWidth: 180,
                       boxShadow: '0 16px 50px rgba(0,0,0,0.6)',
                       animation: 'slideUp 0.15s ease both', zIndex: 300,
@@ -1644,12 +1658,12 @@ export default function LobbyPage() {
                       <div
                         key={item.label}
                         onClick={() => { router.push(item.href); setShowProfileDropdown(false); }}
-                        style={{ padding: '10px 18px', fontSize: 13, fontWeight: 600, color: '#9b8ab8', cursor: 'pointer', transition: 'all 0.15s' }}
+                        style={{ padding: '10px 18px', fontSize: 13, fontWeight: 600, color: '#a6a6ae', cursor: 'pointer', transition: 'all 0.15s' }}
                         onMouseEnter={e => { e.currentTarget.style.color = '#f4c430'; e.currentTarget.style.background = 'rgba(244,196,48,0.06)'; }}
-                        onMouseLeave={e => { e.currentTarget.style.color = '#9b8ab8'; e.currentTarget.style.background = 'transparent'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = '#a6a6ae'; e.currentTarget.style.background = 'transparent'; }}
                       >{item.label}</div>
                     ))}
-                    <div style={{ height: 1, background: 'rgba(124,58,237,0.2)', margin: '6px 0' }} />
+                    <div style={{ height: 1, background: 'rgba(244,196,48,0.2)', margin: '6px 0' }} />
                     <div
                       onClick={() => { sessionStorage.removeItem('accessToken'); window.location.reload(); }}
                       style={{ padding: '10px 18px', fontSize: 13, fontWeight: 600, color: '#ff2d78', cursor: 'pointer', transition: 'all 0.15s' }}
@@ -1675,13 +1689,13 @@ export default function LobbyPage() {
                   }}
                   onMouseEnter={e => { e.currentTarget.style.background = 'rgba(244,196,48,0.08)'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-                >LOGIN</button>
+                >GİRİŞ</button>
                 <button
                   onClick={() => router.push('/register')}
                   style={{
                     padding: '9px 20px', borderRadius: 10,
                     background: 'linear-gradient(135deg,#f4c430,#d97706)',
-                    color: '#0a0010', fontSize: 13, fontWeight: 900,
+                    color: '#0b0b0d', fontSize: 13, fontWeight: 900,
                     border: 'none', cursor: 'pointer', letterSpacing: '0.5px',
                     fontFamily: "'Outfit',sans-serif",
                     boxShadow: '0 4px 20px rgba(244,196,48,0.35)',
@@ -1689,7 +1703,7 @@ export default function LobbyPage() {
                   }}
                   onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.04)'; }}
                   onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
-                >REGISTER</button>
+                >KAYIT</button>
               </div>
             )}
 
@@ -1697,7 +1711,7 @@ export default function LobbyPage() {
             <button className="nav-deposit" style={{
               padding: '10px 22px', borderRadius: 12,
               background: 'linear-gradient(135deg,#f4c430,#d97706)',
-              color: '#0a0010', fontSize: 13, fontWeight: 900,
+              color: '#0b0b0d', fontSize: 13, fontWeight: 900,
               border: 'none', cursor: 'pointer', letterSpacing: '1px',
               fontFamily: "'Outfit', sans-serif",
               boxShadow: '0 4px 20px rgba(244,196,48,0.35)',
@@ -1705,7 +1719,7 @@ export default function LobbyPage() {
             }}
               onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; e.currentTarget.style.boxShadow = '0 8px 30px rgba(244,196,48,0.5)'; }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(244,196,48,0.35)'; }}
-            >DEPOSIT</button>
+            >CÜZDAN</button>
 
             {/* Hamburger button (mobile) */}
             <button
@@ -1714,7 +1728,7 @@ export default function LobbyPage() {
               style={{ width: 38, height: 38, borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5 }}
             >
               {[0,1,2].map(i => (
-                <div key={i} style={{ width: 18, height: 2, borderRadius: 1, background: '#9b8ab8', transition: 'all 0.2s' }} />
+                <div key={i} style={{ width: 18, height: 2, borderRadius: 1, background: '#a6a6ae', transition: 'all 0.2s' }} />
               ))}
             </button>
           </div>
@@ -1723,7 +1737,7 @@ export default function LobbyPage() {
         {/* Mobile Menu */}
         {showMobileMenu && (
           <div style={{
-            background: 'rgba(10,0,16,0.98)', borderTop: '1px solid rgba(124,58,237,0.2)',
+            background: 'rgba(11,11,13,0.98)', borderTop: '1px solid rgba(244,196,48,0.2)',
             padding: '16px 28px 20px',
             animation: 'slideUp 0.2s ease both',
           }}>
@@ -1731,14 +1745,54 @@ export default function LobbyPage() {
               <button key={item.label} onClick={() => { router.push(item.href); setShowMobileMenu(false); }} style={{
                 display: 'block', width: '100%', textAlign: 'left',
                 padding: '12px 0', borderRadius: 0,
-                background: 'transparent', border: 'none', borderBottom: '1px solid rgba(124,58,237,0.1)',
-                color: '#9b8ab8', fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                background: 'transparent', border: 'none', borderBottom: '1px solid rgba(244,196,48,0.1)',
+                color: '#a6a6ae', fontSize: 14, fontWeight: 600, cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
               }}>{item.label}</button>
             ))}
           </div>
         )}
       </nav>
+
+      {/* ── LEFT ICON RAIL (desktop) — reference-lobby pattern ── */}
+      <aside className="lobby-rail" aria-label="Hızlı gezinme">
+        {[
+          { icon: '🎰', label: 'Slots', action: () => setActiveCategory('Slots') },
+          { icon: '🃏', label: 'Masa', action: () => setActiveCategory('Table') },
+          { icon: '🎥', label: 'Canlı', action: () => setActiveCategory('Live') },
+          { icon: '💰', label: 'Jackpot', action: () => setActiveCategory('Jackpots') },
+          { icon: '🏆', label: 'Turnuva', action: () => router.push('/tournaments') },
+          { icon: '👑', label: 'VIP', action: () => router.push('/vip') },
+          { icon: '🎧', label: 'Destek', action: () => router.push('/support') },
+        ].map((item) => (
+          <button key={item.label} className="lobby-rail-btn" onClick={item.action} title={item.label}>
+            <span className="lobby-rail-ico">{item.icon}</span>
+            <span className="lobby-rail-lbl">{item.label}</span>
+          </button>
+        ))}
+      </aside>
+      <style>{`
+        .lobby-rail { display: none; }
+        @media (min-width: 1200px) {
+          .lobby-rail {
+            display: flex; flex-direction: column; gap: 6px;
+            position: fixed; left: 12px; top: 96px; z-index: 150;
+            background: rgba(15, 15, 18, 0.92); backdrop-filter: blur(16px);
+            border: 1px solid rgba(244, 196, 48, 0.15); border-radius: 16px;
+            padding: 10px 6px;
+          }
+          .lobby-rail-btn {
+            display: flex; flex-direction: column; align-items: center; gap: 3px;
+            background: none; border: none; cursor: pointer;
+            color: #a6a6ae; font-size: 9.5px; font-weight: 700; letter-spacing: 0.4px;
+            padding: 8px 10px; border-radius: 12px; transition: all 0.2s;
+            font-family: 'Outfit', sans-serif;
+          }
+          .lobby-rail-btn:hover { color: #f4c430; background: rgba(244, 196, 48, 0.1); }
+          .lobby-rail-ico { font-size: 20px; line-height: 1; filter: grayscale(0.3); }
+          .lobby-rail-btn:hover .lobby-rail-ico { filter: none; }
+        }
+      `}</style>
 
       {/* ──────────────────────────────────────────────────────────── */}
       {/* MAIN CONTENT */}
@@ -1755,15 +1809,15 @@ export default function LobbyPage() {
           margin: '0 0 48px',
           padding: '40px 64px 36px',
           borderRadius: 28,
-          background: 'linear-gradient(135deg, #160825 0%, #220a40 30%, #1a0535 60%, #0d0020 100%)',
-          border: '1px solid rgba(124,58,237,0.2)',
-          boxShadow: '0 0 80px rgba(124,58,237,0.08), inset 0 1px 0 rgba(255,255,255,0.04)',
+          background: 'linear-gradient(135deg, #141418 0%, #220a40 30%, #1a0535 60%, #0e0e12 100%)',
+          border: '1px solid rgba(244,196,48,0.2)',
+          boxShadow: '0 0 80px rgba(244,196,48,0.08), inset 0 1px 0 rgba(255,255,255,0.04)',
           position: 'relative', overflow: 'hidden',
           animation: mounted ? 'slideUp 0.7s ease both' : 'none',
         }}>
           <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(244,196,48,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(244,196,48,0.03) 1px,transparent 1px)', backgroundSize: '60px 60px', pointerEvents: 'none' }} />
           <div style={{ position: 'absolute', top: -80, right: '10%', width: 350, height: 350, borderRadius: '50%', background: 'radial-gradient(circle,rgba(244,196,48,0.1) 0%,transparent 70%)', animation: 'floatOrb 7s ease-in-out infinite', pointerEvents: 'none' }} />
-          <div style={{ position: 'absolute', bottom: -60, left: '5%', width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle,rgba(124,58,237,0.12) 0%,transparent 70%)', animation: 'floatOrb 9s ease-in-out 3s infinite', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', bottom: -60, left: '5%', width: 280, height: 280, borderRadius: '50%', background: 'radial-gradient(circle,rgba(244,196,48,0.12) 0%,transparent 70%)', animation: 'floatOrb 9s ease-in-out 3s infinite', pointerEvents: 'none' }} />
 
           {[{t:'10%',l:'8%'},{t:'70%',l:'4%'},{t:'20%',r:'5%'},{t:'80%',r:'8%'},{t:'45%',l:'50%'}].map((pos,i)=>(
             <div key={i} style={{ position:'absolute', ...pos as React.CSSProperties, width:6, height:6, background:'rgba(244,196,48,0.6)', clipPath:'polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)', boxShadow:'0 0 10px rgba(244,196,48,0.6)', animation:`twinkle ${2+i*0.5}s ease-in-out ${i*0.4}s infinite`, pointerEvents:'none' }} />
@@ -1776,7 +1830,7 @@ export default function LobbyPage() {
             </div>
 
             <div style={{ marginBottom: 12 }}>
-              <div style={{ fontSize: 12, fontWeight: 700, color: '#9b8ab8', letterSpacing: '3px', marginBottom: 8 }}>MEGA JACKPOT</div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: '#a6a6ae', letterSpacing: '3px', marginBottom: 8 }}>MEGA JACKPOT</div>
               <div style={{
                 fontSize: 'clamp(3rem,7vw,5.5rem)',
                 fontWeight: 900, letterSpacing: '-2px',
@@ -1801,7 +1855,7 @@ export default function LobbyPage() {
                   background: 'rgba(0,0,0,0.3)', border: `1px solid ${jp.color}30`,
                   textAlign: 'center', backdropFilter: 'blur(8px)',
                 }}>
-                  <div style={{ fontSize: 10, color: '#6b5d8a', fontWeight: 700, letterSpacing: '2px', marginBottom: 4 }}>{jp.label}</div>
+                  <div style={{ fontSize: 10, color: '#7d7d86', fontWeight: 700, letterSpacing: '2px', marginBottom: 4 }}>{jp.label}</div>
                   <div style={{ fontSize: 22, fontWeight: 900, color: jp.color, animation: jpFlash ? 'jackpotNum 0.15s ease' : 'none' }}>
                     {jp.value.toLocaleString('tr-TR')} 🪙
                   </div>
@@ -1813,7 +1867,7 @@ export default function LobbyPage() {
               <button style={{
                 padding: '16px 52px', borderRadius: 16,
                 background: 'linear-gradient(135deg,#f4c430,#d97706)',
-                color: '#0a0010', fontSize: 16, fontWeight: 900,
+                color: '#0b0b0d', fontSize: 16, fontWeight: 900,
                 border: 'none', cursor: 'pointer', letterSpacing: '2px',
                 fontFamily: "'Outfit', sans-serif",
                 boxShadow: '0 8px 40px rgba(244,196,48,0.4)',
@@ -1827,17 +1881,17 @@ export default function LobbyPage() {
               <button style={{
                 padding: '16px 52px', borderRadius: 16,
                 background: 'transparent',
-                color: '#f0e8ff', fontSize: 16, fontWeight: 700,
+                color: '#f1efe9', fontSize: 16, fontWeight: 700,
                 border: '2px solid rgba(255,255,255,0.15)', cursor: 'pointer', letterSpacing: '2px',
                 fontFamily: "'Outfit', sans-serif",
                 transition: 'all 0.2s',
               }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(244,196,48,0.5)'; e.currentTarget.style.color = '#f4c430'; e.currentTarget.style.background = 'rgba(244,196,48,0.05)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = '#f0e8ff'; e.currentTarget.style.background = 'transparent'; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)'; e.currentTarget.style.color = '#f1efe9'; e.currentTarget.style.background = 'transparent'; }}
               >HOW TO PLAY</button>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 56, marginTop: 44, paddingTop: 36, borderTop: '1px solid rgba(124,58,237,0.2)', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 56, marginTop: 44, paddingTop: 36, borderTop: '1px solid rgba(244,196,48,0.2)', flexWrap: 'wrap' }}>
               {[
                 { label: 'ÇEVRİMİÇİ OYUNCU', value: '2.847', dotColor: '#22c55e' },
                 { label: 'OYUN SAYISI', value: '500+', dotColor: '#f4c430' },
@@ -1847,9 +1901,9 @@ export default function LobbyPage() {
                 <div key={s.label} style={{ textAlign: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 4 }}>
                     <div style={{ width: 6, height: 6, borderRadius: '50%', background: s.dotColor, boxShadow: `0 0 8px ${s.dotColor}` }} />
-                    <span style={{ fontSize: 10, color: '#6b5d8a', letterSpacing: '1.5px', fontWeight: 600 }}>{s.label}</span>
+                    <span style={{ fontSize: 10, color: '#7d7d86', letterSpacing: '1.5px', fontWeight: 600 }}>{s.label}</span>
                   </div>
-                  <div style={{ fontSize: 26, fontWeight: 900, color: '#f0e8ff', fontFamily: "'Outfit',sans-serif" }}>{s.value}</div>
+                  <div style={{ fontSize: 26, fontWeight: 900, color: '#f1efe9', fontFamily: "'Outfit',sans-serif" }}>{s.value}</div>
                 </div>
               ))}
             </div>
@@ -1860,15 +1914,15 @@ export default function LobbyPage() {
         <div style={{
           margin: '0 0 44px',
           borderRadius: 14,
-          background: 'rgba(22,8,37,0.7)',
-          border: '1px solid rgba(124,58,237,0.2)',
+          background: 'rgba(20,20,24,0.7)',
+          border: '1px solid rgba(244,196,48,0.2)',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'stretch',
         }}>
           <div style={{
             padding: '12px 20px', background: 'linear-gradient(135deg,rgba(244,196,48,0.15),rgba(244,196,48,0.08))',
-            borderRight: '1px solid rgba(124,58,237,0.2)', display: 'flex', alignItems: 'center', flexShrink: 0,
+            borderRight: '1px solid rgba(244,196,48,0.2)', display: 'flex', alignItems: 'center', flexShrink: 0,
           }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
               <div style={{ width: 18, height: 14, background: 'linear-gradient(135deg,#f4c430,#d97706)', borderRadius: '4px 4px 0 0', position: 'relative' }}>
@@ -1886,9 +1940,9 @@ export default function LobbyPage() {
                   <div style={{ width: 28, height: 28, borderRadius: '50%', background: w.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: '#fff', flexShrink: 0 }}>
                     {w.initials}
                   </div>
-                  <span style={{ fontSize: 13, color: '#9b8ab8', whiteSpace: 'nowrap' }}>
-                    <span style={{ color: '#f0e8ff', fontWeight: 700 }}>{w.username}</span>
-                    <span style={{ color: '#6b5d8a' }}> — {w.game}: </span>
+                  <span style={{ fontSize: 13, color: '#a6a6ae', whiteSpace: 'nowrap' }}>
+                    <span style={{ color: '#f1efe9', fontWeight: 700 }}>{w.username}</span>
+                    <span style={{ color: '#7d7d86' }}> — {w.game}: </span>
                     <span style={{ color: '#f4c430', fontWeight: 800 }}>{w.amount}</span>
                     {' kazandı'}
                   </span>
@@ -1902,14 +1956,14 @@ export default function LobbyPage() {
         <section style={{ marginBottom: 52, animation: mounted ? 'slideUp 0.7s ease 0.1s both' : 'none' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <div>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Sıcak Promosyonlar</h2>
-              <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>Yeni ve mevcut oyunculara özel teklifler</div>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f1efe9', letterSpacing: '-0.3px' }}>Sıcak Promosyonlar</h2>
+              <div style={{ fontSize: 13, color: '#7d7d86', marginTop: 2 }}>Yeni ve mevcut oyunculara özel teklifler</div>
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {PROMO_CARDS.map((_, i) => (
                 <button key={i} onClick={() => setPromoIndex(i)} style={{
                   width: i === promoIndex ? 28 : 8, height: 8, borderRadius: 4,
-                  background: i === promoIndex ? '#f4c430' : 'rgba(124,58,237,0.4)',
+                  background: i === promoIndex ? '#f4c430' : 'rgba(244,196,48,0.4)',
                   border: 'none', cursor: 'pointer', transition: 'all 0.3s', padding: 0,
                 }} />
               ))}
@@ -1940,7 +1994,7 @@ export default function LobbyPage() {
                   }}>{promo.tag}</div>
                   <h3 style={{
                     fontSize: 'clamp(1.6rem,3.5vw,2.4rem)', fontWeight: 900, marginBottom: 6,
-                    background: `linear-gradient(135deg,${promo.accent},#f0e8ff)`,
+                    background: `linear-gradient(135deg,${promo.accent},#f1efe9)`,
                     WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                     letterSpacing: '-0.5px',
                   }}>{promo.title}</h3>
@@ -1949,7 +2003,7 @@ export default function LobbyPage() {
                   <button style={{
                     padding: '13px 36px', borderRadius: 12,
                     background: `linear-gradient(135deg,${promo.accent},${promo.accent}bb)`,
-                    color: '#0a0010', fontSize: 14, fontWeight: 900,
+                    color: '#0b0b0d', fontSize: 14, fontWeight: 900,
                     border: 'none', cursor: 'pointer', letterSpacing: '1.5px',
                     fontFamily: "'Outfit',sans-serif",
                     boxShadow: `0 8px 30px ${promo.accent}40`,
@@ -1972,22 +2026,22 @@ export default function LobbyPage() {
             <button onClick={() => setPromoIndex(i => Math.max(0, i - 1))} style={{
               width: 36, height: 36, borderRadius: 10,
               background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-              color: '#9b8ab8', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#a6a6ae', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.2s',
             }}
               onMouseEnter={e => { e.currentTarget.style.background = 'rgba(244,196,48,0.1)'; e.currentTarget.style.borderColor = 'rgba(244,196,48,0.3)'; e.currentTarget.style.color = '#f4c430'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#9b8ab8'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#a6a6ae'; }}
             >
               <div style={{ width: 8, height: 8, borderLeft: '2px solid currentColor', borderBottom: '2px solid currentColor', transform: 'rotate(45deg) translate(2px,-2px)' }} />
             </button>
             <button onClick={() => setPromoIndex(i => (i + 1) % PROMO_CARDS.length)} style={{
               width: 36, height: 36, borderRadius: 10,
               background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)',
-              color: '#9b8ab8', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#a6a6ae', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
               transition: 'all 0.2s',
             }}
               onMouseEnter={e => { e.currentTarget.style.background = 'rgba(244,196,48,0.1)'; e.currentTarget.style.borderColor = 'rgba(244,196,48,0.3)'; e.currentTarget.style.color = '#f4c430'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#9b8ab8'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.color = '#a6a6ae'; }}
             >
               <div style={{ width: 8, height: 8, borderRight: '2px solid currentColor', borderTop: '2px solid currentColor', transform: 'rotate(45deg) translate(-2px,2px)' }} />
             </button>
@@ -1998,8 +2052,8 @@ export default function LobbyPage() {
         <section id="all-games" style={{ marginBottom: 52, animation: mounted ? 'slideUp 0.7s ease 0.15s both' : 'none' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 22, flexWrap: 'wrap', gap: 14 }}>
             <div>
-              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Öne Çıkan Oyunlar</h2>
-              <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>Senin için seçtiğimiz en iyi oyunlar</div>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f1efe9', letterSpacing: '-0.3px' }}>Öne Çıkan Oyunlar</h2>
+              <div style={{ fontSize: 13, color: '#7d7d86', marginTop: 2 }}>Senin için seçtiğimiz en iyi oyunlar</div>
             </div>
             <a href="#all-games" style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6, alignSelf: 'center' }}>
               Tümünü Gör
@@ -2016,15 +2070,15 @@ export default function LobbyPage() {
                   background: active ? 'rgba(244,196,48,0.08)' : 'rgba(255,255,255,0.04)',
                   border: 'none',
                   borderBottom: active ? '2px solid #f4c430' : '2px solid transparent',
-                  color: active ? '#f4c430' : '#9b8ab8',
+                  color: active ? '#f4c430' : '#a6a6ae',
                   fontSize: 13, fontWeight: active ? 700 : 500, cursor: 'pointer',
                   fontFamily: "'Outfit',sans-serif",
                   letterSpacing: '0.3px',
                   boxShadow: active ? '0 0 20px rgba(244,196,48,0.1)' : 'none',
                   transition: 'all 0.2s',
                 }}
-                  onMouseEnter={e => { if (!active) { e.currentTarget.style.color = '#f0e8ff'; e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; } }}
-                  onMouseLeave={e => { if (!active) { e.currentTarget.style.color = '#9b8ab8'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; } }}
+                  onMouseEnter={e => { if (!active) { e.currentTarget.style.color = '#f1efe9'; e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; } }}
+                  onMouseLeave={e => { if (!active) { e.currentTarget.style.color = '#a6a6ae'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; } }}
                 >{cat}</button>
               );
             })}
@@ -2038,14 +2092,14 @@ export default function LobbyPage() {
             marginBottom: 24, 
             padding: '12px 16px',
             borderRadius: 14,
-            background: 'rgba(124,58,237,0.06)',
-            border: '1px solid rgba(124,58,237,0.15)',
+            background: 'rgba(244,196,48,0.06)',
+            border: '1px solid rgba(244,196,48,0.15)',
             flexWrap: 'wrap',
             gap: 12,
           }}>
             {/* Sort dropdown */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 12, color: '#6b5d8a', fontWeight: 600, letterSpacing: '0.5px' }}>SORT:</span>
+              <span style={{ fontSize: 12, color: '#7d7d86', fontWeight: 600, letterSpacing: '0.5px' }}>SORT:</span>
               <select 
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
@@ -2053,8 +2107,8 @@ export default function LobbyPage() {
                   padding: '6px 12px',
                   borderRadius: 8,
                   background: '#130020',
-                  border: '1px solid rgba(124,58,237,0.3)',
-                  color: '#f0e8ff',
+                  border: '1px solid rgba(244,196,48,0.3)',
+                  color: '#f1efe9',
                   fontSize: 12,
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -2069,7 +2123,7 @@ export default function LobbyPage() {
 
             {/* Provider filter */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 12, color: '#6b5d8a', fontWeight: 600, letterSpacing: '0.5px' }}>PROVIDER:</span>
+              <span style={{ fontSize: 12, color: '#7d7d86', fontWeight: 600, letterSpacing: '0.5px' }}>PROVIDER:</span>
               <select 
                 value={providerFilter}
                 onChange={e => setProviderFilter(e.target.value)}
@@ -2077,8 +2131,8 @@ export default function LobbyPage() {
                   padding: '6px 12px',
                   borderRadius: 8,
                   background: '#130020',
-                  border: '1px solid rgba(124,58,237,0.3)',
-                  color: '#f0e8ff',
+                  border: '1px solid rgba(244,196,48,0.3)',
+                  color: '#f1efe9',
                   fontSize: 12,
                   fontWeight: 600,
                   cursor: 'pointer',
@@ -2101,7 +2155,7 @@ export default function LobbyPage() {
                   borderRadius: 6,
                   background: viewMode === 'grid' ? 'rgba(244,196,48,0.2)' : 'transparent',
                   border: 'none',
-                  color: viewMode === 'grid' ? '#f4c430' : '#6b5d8a',
+                  color: viewMode === 'grid' ? '#f4c430' : '#7d7d86',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -2122,7 +2176,7 @@ export default function LobbyPage() {
                   borderRadius: 6,
                   background: viewMode === 'list' ? 'rgba(244,196,48,0.2)' : 'transparent',
                   border: 'none',
-                  color: viewMode === 'list' ? '#f4c430' : '#6b5d8a',
+                  color: viewMode === 'list' ? '#f4c430' : '#7d7d86',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -2157,7 +2211,7 @@ export default function LobbyPage() {
             </button>
 
             {/* Results count */}
-            <div style={{ fontSize: 12, color: '#6b5d8a', fontWeight: 600 }}>
+            <div style={{ fontSize: 12, color: '#7d7d86', fontWeight: 600 }}>
               {filteredGames.length} oyun
             </div>
           </div>
@@ -2170,7 +2224,7 @@ export default function LobbyPage() {
               style={{
                 position: 'absolute', left: -20, top: '50%', transform: 'translateY(-50%)',
                 zIndex: 10, width: 44, height: 44, borderRadius: '50%',
-                background: sliderIndex === 0 ? 'rgba(255,255,255,0.03)' : 'rgba(22,8,37,0.95)',
+                background: sliderIndex === 0 ? 'rgba(255,255,255,0.03)' : 'rgba(20,20,24,0.95)',
                 border: `1px solid ${sliderIndex === 0 ? 'rgba(255,255,255,0.05)' : 'rgba(244,196,48,0.3)'}`,
                 color: sliderIndex === 0 ? '#3d1f6e' : '#f4c430',
                 cursor: sliderIndex === 0 ? 'default' : 'pointer',
@@ -2190,7 +2244,7 @@ export default function LobbyPage() {
               style={{
                 position: 'absolute', right: -20, top: '50%', transform: 'translateY(-50%)',
                 zIndex: 10, width: 44, height: 44, borderRadius: '50%',
-                background: sliderIndex >= maxIndex ? 'rgba(255,255,255,0.03)' : 'rgba(22,8,37,0.95)',
+                background: sliderIndex >= maxIndex ? 'rgba(255,255,255,0.03)' : 'rgba(20,20,24,0.95)',
                 border: `1px solid ${sliderIndex >= maxIndex ? 'rgba(255,255,255,0.05)' : 'rgba(244,196,48,0.3)'}`,
                 color: sliderIndex >= maxIndex ? '#3d1f6e' : '#f4c430',
                 cursor: sliderIndex >= maxIndex ? 'default' : 'pointer',
@@ -2232,7 +2286,7 @@ export default function LobbyPage() {
               {Array.from({ length: maxIndex + 1 }, (_, i) => (
                 <button key={i} onClick={() => goToSlide(i)} style={{
                   width: i === sliderIndex ? 24 : 8, height: 8, borderRadius: 4, border: 'none',
-                  background: i === sliderIndex ? '#f4c430' : 'rgba(124,58,237,0.35)',
+                  background: i === sliderIndex ? '#f4c430' : 'rgba(244,196,48,0.35)',
                   cursor: 'pointer', transition: 'all 0.3s', padding: 0,
                   boxShadow: i === sliderIndex ? '0 0 10px rgba(244,196,48,0.5)' : 'none',
                 }} />
@@ -2246,13 +2300,13 @@ export default function LobbyPage() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 4 }}>
-                <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Canlı Casino</h2>
+                <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f1efe9', letterSpacing: '-0.3px' }}>Canlı Casino</h2>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '3px 12px', borderRadius: 20, background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)' }}>
                   <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', boxShadow: '0 0 8px rgba(34,197,94,0.9)', animation: 'liveDot 1.5s ease-in-out infinite' }} />
                   <span style={{ fontSize: 11, fontWeight: 800, color: '#22c55e', letterSpacing: '1.5px' }}>LIVE</span>
                 </div>
               </div>
-              <div style={{ fontSize: 13, color: '#6b5d8a' }}>Real dealers, real action — streaming now</div>
+              <div style={{ fontSize: 13, color: '#7d7d86' }}>Real dealers, real action — streaming now</div>
             </div>
             <a href="#all-games" onClick={() => setActiveCategory('Live')} style={{ fontSize: 13, color: '#f4c430', fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
               All Live Games
@@ -2269,14 +2323,14 @@ export default function LobbyPage() {
         {/* ── CATEGORIES GRID ── */}
         <section style={{ marginBottom: 52, animation: mounted ? 'slideUp 0.7s ease 0.2s both' : 'none' }}>
           <div style={{ marginBottom: 22 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px' }}>Oyun Kategorileri</h2>
-            <div style={{ fontSize: 13, color: '#6b5d8a', marginTop: 2 }}>Sana uygun oyun türünü bul</div>
+            <h2 style={{ fontSize: 22, fontWeight: 900, color: '#f1efe9', letterSpacing: '-0.3px' }}>Oyun Kategorileri</h2>
+            <div style={{ fontSize: 13, color: '#7d7d86', marginTop: 2 }}>Sana uygun oyun türünü bul</div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             {[
-              { name: 'Slots', count: '350+ Games', bg: 'linear-gradient(135deg,#2d0060,#1a0040)', accent: '#f4c430', art: 'slots' },
+              { name: 'Slots', count: '350+ Games', bg: 'linear-gradient(135deg,#1d1d24,#15151a)', accent: '#f4c430', art: 'slots' },
               { name: 'Table Games', count: '80+ Games', bg: 'linear-gradient(135deg,#003d3d,#001a1a)', accent: '#00d4c8', art: 'table' },
-              { name: 'Live Casino', count: '60+ Tables', bg: 'linear-gradient(135deg,#1a0040,#0d0020)', accent: '#ff2d78', art: 'live' },
+              { name: 'Live Casino', count: '60+ Tables', bg: 'linear-gradient(135deg,#15151a,#0e0e12)', accent: '#ff2d78', art: 'live' },
               { name: 'Jackpots', count: '40+ Games', bg: 'linear-gradient(135deg,#3d2000,#1a0d00)', accent: '#f4c430', art: 'jackpot' },
               { name: 'Crash Games', count: '15+ Games', bg: 'linear-gradient(135deg,#2d0020,#1a0010)', accent: '#ff2d78', art: 'crash' },
               { name: 'Virtual Sports', count: '25+ Games', bg: 'linear-gradient(135deg,#001a40,#000d26)', accent: '#7c3aed', art: 'sports' },
@@ -2329,7 +2383,7 @@ export default function LobbyPage() {
                   )}
                 </div>
 
-                <div style={{ fontSize: 16, fontWeight: 800, color: '#f0e8ff', marginBottom: 4 }}>{cat.name}</div>
+                <div style={{ fontSize: 16, fontWeight: 800, color: '#f1efe9', marginBottom: 4 }}>{cat.name}</div>
                 <div style={{ fontSize: 12, color: cat.accent, fontWeight: 600 }}>{cat.count}</div>
 
                 <div style={{ position: 'absolute', right: 20, bottom: 20, width: 10, height: 10, borderRight: `2px solid ${cat.accent}50`, borderTop: `2px solid ${cat.accent}50`, transform: 'rotate(45deg)' }} />
@@ -2351,7 +2405,7 @@ export default function LobbyPage() {
             boxShadow: '0 0 60px rgba(244,196,48,0.04)',
             animation: 'borderGlow 4s ease-in-out infinite',
           }}>
-            <div style={{ padding: '36px 44px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24, borderBottom: '1px solid rgba(124,58,237,0.2)' }}>
+            <div style={{ padding: '36px 44px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24, borderBottom: '1px solid rgba(244,196,48,0.2)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
                 <div style={{
                   width: 70, height: 70, borderRadius: 18,
@@ -2373,8 +2427,8 @@ export default function LobbyPage() {
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontSize: 24, fontWeight: 900, color: '#f0e8ff', letterSpacing: '-0.3px', marginBottom: 4 }}>VIP Programı</div>
-                  <div style={{ fontSize: 14, color: '#9b8ab8' }}>Oynadıkça özel ödüllerin kilidini aç</div>
+                  <div style={{ fontSize: 24, fontWeight: 900, color: '#f1efe9', letterSpacing: '-0.3px', marginBottom: 4 }}>VIP Programı</div>
+                  <div style={{ fontSize: 14, color: '#a6a6ae' }}>Oynadıkça özel ödüllerin kilidini aç</div>
                 </div>
               </div>
 
@@ -2385,7 +2439,7 @@ export default function LobbyPage() {
                       <div style={{ width: 14, height: 14, borderRadius: '50%', background: `radial-gradient(circle,${level.color},${level.color}80)` }} />
                     </div>
                     <div style={{ fontSize: 10, fontWeight: 800, color: level.color, letterSpacing: '1px' }}>{level.name}</div>
-                    <div style={{ fontSize: 9, color: '#6b5d8a', marginTop: 2 }}>{level.perks[0]}</div>
+                    <div style={{ fontSize: 9, color: '#7d7d86', marginTop: 2 }}>{level.perks[0]}</div>
                   </div>
                 ))}
               </div>
@@ -2395,7 +2449,7 @@ export default function LobbyPage() {
                 background: 'linear-gradient(135deg,#7c3aed,#5b21b6)',
                 color: '#fff', fontSize: 14, fontWeight: 800, border: 'none', cursor: 'pointer',
                 letterSpacing: '1px', fontFamily: "'Outfit',sans-serif",
-                boxShadow: '0 8px 30px rgba(124,58,237,0.35)',
+                boxShadow: '0 8px 30px rgba(244,196,48,0.35)',
                 transition: 'transform 0.2s', flexShrink: 0,
               }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; }}
@@ -2407,7 +2461,7 @@ export default function LobbyPage() {
             <div style={{ padding: '28px 44px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                 <div>
-                  <span style={{ fontSize: 14, color: '#9b8ab8' }}>Your progress to </span>
+                  <span style={{ fontSize: 14, color: '#a6a6ae' }}>Your progress to </span>
                   <span style={{ fontSize: 14, fontWeight: 800, color: '#f4c430' }}>Gold VIP</span>
                 </div>
                 <span style={{ fontSize: 14, color: '#f4c430', fontWeight: 700 }}>3,240 / 5,000 points</span>
@@ -2426,7 +2480,7 @@ export default function LobbyPage() {
                 {VIP_LEVELS.map((lvl, i) => (
                   <div key={lvl.name} style={{ textAlign: 'center', opacity: i <= 1 ? 1 : 0.4 }}>
                     <div style={{ width: 8, height: 8, borderRadius: '50%', background: i <= 1 ? lvl.color : '#3d1f6e', margin: '0 auto 4px', boxShadow: i <= 1 ? `0 0 8px ${lvl.color}` : 'none' }} />
-                    <div style={{ fontSize: 9, color: i <= 1 ? lvl.color : '#6b5d8a', fontWeight: 700 }}>{lvl.name}</div>
+                    <div style={{ fontSize: 9, color: i <= 1 ? lvl.color : '#7d7d86', fontWeight: 700 }}>{lvl.name}</div>
                   </div>
                 ))}
               </div>
@@ -2656,12 +2710,12 @@ function LiveSupportWidget() {
                         ? 'linear-gradient(135deg, #7c3aed, #5b21b6)'
                         : 'rgba(61,31,110,0.6)',
                       border: msg.sender === 'player'
-                        ? '1px solid rgba(124,58,237,0.4)'
+                        ? '1px solid rgba(244,196,48,0.4)'
                         : '1px solid rgba(244,196,48,0.2)',
                       borderRadius: msg.sender === 'player' ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
                       padding: '10px 14px',
                     }}>
-                      <div style={{ fontSize: 13, color: '#f0e8ff', lineHeight: 1.5 }}>{msg.text}</div>
+                      <div style={{ fontSize: 13, color: '#f1efe9', lineHeight: 1.5 }}>{msg.text}</div>
                       <div style={{ fontSize: 10, color: '#7c6fa0', marginTop: 4 }}>
                         {msg.time ? new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now'}
                       </div>
@@ -2710,7 +2764,7 @@ function LiveSupportWidget() {
                     placeholder="Type your message..."
                     style={{
                       flex: 1, background: 'transparent', border: 'none',
-                      color: '#f0e8ff', fontSize: 13, outline: 'none',
+                      color: '#f1efe9', fontSize: 13, outline: 'none',
                     }}
                   />
                   <button
