@@ -401,8 +401,15 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
 
   /* ── render ──────────────────────────────────────────────────────────── */
 
+  const assets = manifest.theme.assets;
+  const symbolSrc = (id: string | undefined) =>
+    id ? assets?.symbols?.[id] : undefined;
+  const rootBackground = assets?.background
+    ? `linear-gradient(rgba(2, 8, 20, 0.5), rgba(2, 8, 20, 0.72)), url(${assets.background}) center / cover no-repeat fixed, ${manifest.theme.bgGradient}`
+    : manifest.theme.bgGradient;
+
   return (
-    <div className="fg-root" style={{ background: manifest.theme.bgGradient }}>
+    <div className={`fg-root${bigWin ? ' fg-shake' : ''}`} style={{ background: rootBackground }}>
       {/* Header */}
       <header className="fg-header">
         <div className="fg-title-block">
@@ -485,9 +492,14 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                   <div className="fg-strip">
                     {Array.from({ length: manifest.rows * 3 }, (_, i) => {
                       const sym = manifest.symbols[(c * 7 + i * 3) % manifest.symbols.length];
+                      const src = symbolSrc(sym.id);
                       return (
                         <div key={i} className="fg-cell fg-cell-blur">
-                          <span>{sym.label}</span>
+                          {src ? (
+                            <img className="fg-sym-img" src={src} alt="" draggable={false} />
+                          ) : (
+                            <span>{sym.label}</span>
+                          )}
                         </div>
                       );
                     })}
@@ -511,7 +523,16 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                             : {}),
                         }}
                       >
-                        <span style={{ color: sym?.color }}>{sym?.label}</span>
+                        {symbolSrc(id) ? (
+                          <img
+                            className="fg-sym-img"
+                            src={symbolSrc(id)}
+                            alt={sym?.label ?? ''}
+                            draggable={false}
+                          />
+                        ) : (
+                          <span style={{ color: sym?.color }}>{sym?.label}</span>
+                        )}
                         {bomb && (
                           <span
                             className="fg-bomb-badge"
@@ -679,6 +700,15 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                   }}
                 />
               ))}
+              {Array.from({ length: 12 }, (_, i) => (
+                <span
+                  key={`coin-${i}`}
+                  className="fg-coin"
+                  style={{ left: `${(i * 41 + 17) % 100}%`, animationDelay: `${(i * 0.14) % 1.4}s` }}
+                >
+                  🪙
+                </span>
+              ))}
             </div>
           </div>
         </div>
@@ -808,8 +838,14 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-col-tense { box-shadow: 0 0 22px rgba(255, 220, 100, 0.8); }
         .fg-strip { display: flex; flex-direction: column; gap: 8px; animation: fgStrip 0.24s linear infinite; }
         @keyframes fgStrip { from { transform: translateY(-34%); } to { transform: translateY(0); } }
-        .fg-cell { position: relative; width: clamp(52px, 8.5vw, 92px); height: clamp(52px, 8.5vw, 92px); display: flex; align-items: center; justify-content: center; font-size: clamp(26px, 4.5vw, 46px); background: rgba(255,255,255,0.06); border-radius: 10px; }
+        .fg-cell { position: relative; width: clamp(52px, 8.5vw, 92px); height: clamp(52px, 8.5vw, 92px); display: flex; align-items: center; justify-content: center; font-size: clamp(26px, 4.5vw, 46px); background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03)); border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -6px 12px rgba(0,0,0,0.35); }
         .fg-cell-blur { filter: blur(2px); opacity: 0.75; }
+        .fg-sym-img { width: 86%; height: 86%; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)); pointer-events: none; }
+        .fg-hit .fg-sym-img { filter: drop-shadow(0 0 14px rgba(255,255,255,0.75)) drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+        .fg-shake { animation: fgShake 0.5s ease; }
+        @keyframes fgShake { 0%,100% { transform: none; } 20% { transform: translate(-6px, 3px); } 40% { transform: translate(5px, -4px); } 60% { transform: translate(-4px, -3px); } 80% { transform: translate(3px, 4px); } }
+        .fg-coin { position: absolute; top: -20px; font-size: 26px; animation: fgCoinFall 1.5s cubic-bezier(0.4, 0.1, 0.7, 1) infinite; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+        @keyframes fgCoinFall { to { transform: translateY(75vh) rotate(360deg); opacity: 0.15; } }
         .fg-drop { animation: fgDrop 0.32s cubic-bezier(0.34, 1.4, 0.64, 1) backwards; }
         @keyframes fgDrop { from { transform: translateY(-120%); opacity: 0.4; } to { transform: none; opacity: 1; } }
         .fg-hit { animation: fgPulse 0.5s ease infinite alternate; z-index: 2; }

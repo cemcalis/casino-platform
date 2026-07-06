@@ -79,6 +79,15 @@ export interface ThemeSpec {
   /** Ambient music synth profile for the layered audio engine. */
   music: 'mystic' | 'festive' | 'epic' | 'serene' | 'arcade';
   storageKey: string;
+  /**
+   * Optional image assets (public/ paths). The runtime renders these when
+   * present and falls back to label/color tiles when absent, so a game is
+   * playable before its art is generated.
+   */
+  assets?: {
+    background?: string;
+    symbols?: Record<string, string>;
+  };
 }
 
 /** One payline or scatter-group win found during an evaluation pass. */

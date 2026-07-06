@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a4a6e"/>
+      <stop offset="0.35" stop-color="#083454"/>
+      <stop offset="0.7" stop-color="#061f3d"/>
+      <stop offset="1" stop-color="#020a1a"/>
+    </linearGradient>
+    <linearGradient id="ray" x1="0" y1="0" x2="0.25" y2="1">
+      <stop offset="0" stop-color="#7ee8ff" stop-opacity="0.28"/>
+      <stop offset="0.7" stop-color="#4fc3e8" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#4fc3e8" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.32" r="0.75">
+      <stop offset="0" stop-color="#1e6f9c" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#1e6f9c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="reefA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d3a54"/>
+      <stop offset="1" stop-color="#051424"/>
+    </linearGradient>
+    <linearGradient id="reefB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#124a66"/>
+      <stop offset="1" stop-color="#07203a"/>
+    </linearGradient>
+    <radialGradient id="pearl" cx="0.4" cy="0.35" r="0.8">
+      <stop offset="0" stop-color="#e8fbff" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#9fdcf0" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#9fdcf0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#sea)"/>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+
+  <!-- God rays -->
+  <g>
+    <polygon points="380,-40 660,-40 300,1080 80,1080" fill="url(#ray)"/>
+    <polygon points="820,-40 1000,-40 760,1080 560,1080" fill="url(#ray)" opacity="0.7"/>
+    <polygon points="1320,-40 1560,-40 1520,1080 1240,1080" fill="url(#ray)" opacity="0.85"/>
+  </g>
+
+  <!-- Distant sunken ruins -->
+  <g opacity="0.5" filter="url(#soft)">
+    <rect x="150" y="560" width="70" height="360" rx="8" fill="#0b2c44"/>
+    <rect x="132" y="530" width="106" height="34" rx="8" fill="#0d3350"/>
+    <rect x="1690" y="600" width="64" height="320" rx="8" fill="#0b2c44"/>
+    <rect x="1674" y="572" width="96" height="30" rx="8" fill="#0d3350"/>
+    <path d="M 900 640 L 1020 640 L 990 900 L 930 900 Z" fill="#0a2940"/>
+  </g>
+
+  <!-- Reef silhouettes -->
+  <path d="M0,1080 L0,880 Q120,800 220,860 Q300,780 420,830 Q520,760 640,840 L640,1080 Z" fill="url(#reefA)"/>
+  <path d="M1920,1080 L1920,860 Q1800,780 1690,850 Q1580,770 1470,845 Q1380,790 1280,860 L1280,1080 Z" fill="url(#reefA)"/>
+  <path d="M0,1080 L0,970 Q240,900 480,960 Q760,890 1040,965 Q1340,905 1620,960 Q1780,930 1920,965 L1920,1080 Z" fill="url(#reefB)"/>
+
+  <!-- Coral shapes -->
+  <g opacity="0.8">
+    <path d="M310,975 q-14,-70 8,-120 q6,44 22,60 q-2,-60 22,-96 q4,58 18,84 q10,-38 30,-54 q-8,64 -18,126 Z" fill="#155e75"/>
+    <path d="M1560,970 q-12,-64 10,-110 q4,40 20,56 q0,-56 22,-88 q2,52 16,78 q10,-34 28,-48 q-8,58 -18,112 Z" fill="#155e75"/>
+    <g fill="#0e7490">
+      <circle cx="700" cy="1005" r="26"/>
+      <circle cx="742" cy="1018" r="18"/>
+      <circle cx="668" cy="1022" r="15"/>
+      <circle cx="1180" cy="1008" r="24"/>
+      <circle cx="1222" cy="1022" r="16"/>
+    </g>
+  </g>
+
+  <!-- Seaweed -->
+  <g stroke="#0f766e" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.7">
+    <path d="M520,1080 C 500,1000 545,950 522,870"/>
+    <path d="M560,1080 C 585,1010 540,955 566,885"/>
+    <path d="M1390,1080 C 1370,1005 1412,955 1392,880"/>
+    <path d="M1430,1080 C 1452,1015 1410,960 1436,895"/>
+  </g>
+
+  <!-- Bubbles -->
+  <g fill="none" stroke="#9fdcf0" stroke-opacity="0.35" stroke-width="3">
+    <circle cx="260" cy="420" r="12"/>
+    <circle cx="292" cy="330" r="8"/>
+    <circle cx="245" cy="250" r="5"/>
+    <circle cx="1650" cy="460" r="13"/>
+    <circle cx="1684" cy="360" r="9"/>
+    <circle cx="1662" cy="270" r="5"/>
+    <circle cx="1050" cy="300" r="7"/>
+    <circle cx="1085" cy="220" r="5"/>
+  </g>
+  <g fill="url(#pearl)">
+    <circle cx="260" cy="420" r="12"/>
+    <circle cx="1650" cy="460" r="13"/>
+  </g>
+
+  <!-- Fish school silhouette -->
+  <g fill="#0a3a5a" opacity="0.85">
+    <path d="M1120,180 q22,-12 44,0 q-10,10 -22,10 q14,4 24,14 q-26,6 -46,-10 l-16,10 l4,-14 l-4,-14 Z"/>
+    <path d="M1190,210 q18,-10 36,0 q-8,8 -18,8 q12,4 20,12 q-22,5 -38,-8 l-13,8 l3,-12 l-3,-11 Z" opacity="0.8"/>
+    <path d="M1075,230 q15,-8 30,0 q-7,7 -15,7 q10,3 17,10 q-18,4 -32,-7 l-11,7 l3,-10 l-3,-9 Z" opacity="0.7"/>
+  </g>
+
+  <!-- Vignette -->
+  <rect width="1920" height="1080" fill="url(#glow)" opacity="0.25"/>
+  <rect width="1920" height="1080" fill="black" opacity="0.12"/>
+</svg>

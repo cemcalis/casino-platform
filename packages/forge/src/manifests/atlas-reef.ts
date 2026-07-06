@@ -53,6 +53,21 @@ export function atlasReef(): GameManifest {
       frameColor: '#155e75',
       music: 'mystic',
       storageKey: 'forge_atlas_reef',
+      assets: {
+        background: '/assets/atlas-reef/backgrounds/background.svg',
+        symbols: {
+          bubble: '/assets/atlas-reef/symbols/bubble.svg',
+          shell: '/assets/atlas-reef/symbols/shell.svg',
+          starfish: '/assets/atlas-reef/symbols/starfish.svg',
+          fish: '/assets/atlas-reef/symbols/fish.svg',
+          crab: '/assets/atlas-reef/symbols/crab.svg',
+          octopus: '/assets/atlas-reef/symbols/octopus.svg',
+          shark: '/assets/atlas-reef/symbols/shark.svg',
+          trident: '/assets/atlas-reef/symbols/trident.svg',
+          scatter: '/assets/atlas-reef/symbols/scatter.svg',
+          bomb: '/assets/atlas-reef/symbols/bomb.svg',
+        },
+      },
     },
   };
 }

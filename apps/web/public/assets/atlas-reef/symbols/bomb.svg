@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="p1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbc7e4"/>
+      <stop offset="0.55" stop-color="#e879f9"/>
+      <stop offset="1" stop-color="#9333ea"/>
+    </linearGradient>
+    <radialGradient id="p2" cx="0.38" cy="0.32" r="0.9">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.45" stop-color="#f3e8ff"/>
+      <stop offset="0.8" stop-color="#d8b4fe"/>
+      <stop offset="1" stop-color="#a855f7"/>
+    </radialGradient>
+    <radialGradient id="p3" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#f0abfc" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#f0abfc" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="64" cy="64" r="56" fill="url(#p3)"/>
+  <!-- lower shell -->
+  <path d="M14 74 Q 64 58 114 74 Q 110 106 64 110 Q 18 106 14 74 Z" fill="url(#p1)" stroke="#86198f" stroke-width="2.5"/>
+  <g stroke="#86198f" stroke-width="2" opacity="0.6" fill="none">
+    <path d="M34 82 Q 64 74 94 82"/>
+    <path d="M28 92 Q 64 84 100 92"/>
+  </g>
+  <!-- upper shell -->
+  <path d="M16 70 Q 22 26 64 22 Q 106 26 112 70 Q 64 54 16 70 Z" fill="url(#p1)" stroke="#86198f" stroke-width="2.5"/>
+  <g fill="#f5d0fe" opacity="0.75">
+    <path d="M62 24 L 68 62 L 58 62 Z"/>
+    <path d="M40 30 L 50 62 L 40 62 Z"/>
+    <path d="M88 30 L 86 62 L 76 62 Z"/>
+  </g>
+  <!-- pearl -->
+  <circle cx="64" cy="70" r="19" fill="url(#p2)"/>
+  <ellipse cx="57" cy="63" rx="6.5" ry="4.5" fill="#ffffff" opacity="0.95" transform="rotate(-24 57 63)"/>
+  <!-- sparkles -->
+  <g fill="#fdf4ff">
+    <path d="M92 44 l 2 5 l 5 2 l -5 2 l -2 5 l -2 -5 l -5 -2 l 5 -2 Z"/>
+    <path d="M32 46 l 1.6 4 l 4 1.6 l -4 1.6 l -1.6 4 l -1.6 -4 l -4 -1.6 l 4 -1.6 Z" opacity="0.9"/>
+  </g>
+</svg>
