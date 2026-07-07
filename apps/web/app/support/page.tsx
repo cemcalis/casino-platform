@@ -354,7 +354,7 @@ export default function SupportCRMPage() {
               background: 'linear-gradient(135deg, #f4c430, #f97316)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 20, boxShadow: '0 0 16px rgba(244,196,48,0.4)',
-            }}>🎧</div>
+            }}></div>
             <div>
               <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: 20, fontWeight: 800, letterSpacing: '0.12em', color: '#f4c430', lineHeight: 1 }}>
                 SUPPORT CENTER
@@ -467,7 +467,7 @@ export default function SupportCRMPage() {
             {/* Search */}
             <div style={{ padding: '16px 14px 10px' }}>
               <div style={{ position: 'relative' }}>
-                <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 14, color: '#7c6fa0' }}>🔍</span>
+                <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 14, color: '#7c6fa0' }}></span>
                 <input
                   type="text"
                   placeholder="Search tickets..."
@@ -619,10 +619,10 @@ export default function SupportCRMPage() {
                       fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif",
                     }}
                   >
-                    <option value="new">⚪ New</option>
-                    <option value="open">🔴 Open</option>
-                    <option value="pending">🟡 Pending</option>
-                    <option value="closed">🟢 Closed</option>
+                    <option value="new"> New</option>
+                    <option value="open"> Open</option>
+                    <option value="pending"> Pending</option>
+                    <option value="closed"> Closed</option>
                   </select>
                   {/* Priority selector */}
                   <select
@@ -634,10 +634,10 @@ export default function SupportCRMPage() {
                       fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif",
                     }}
                   >
-                    <option value="urgent">🔴 Urgent</option>
-                    <option value="high">🟠 High</option>
-                    <option value="medium">🟡 Medium</option>
-                    <option value="low">🔵 Low</option>
+                    <option value="urgent"> Urgent</option>
+                    <option value="high"> High</option>
+                    <option value="medium"> Medium</option>
+                    <option value="low"> Low</option>
                   </select>
                   {selectedTicket.status === 'closed' ? (
                     <button onClick={() => handleTicketStatus(selectedTicket.id, 'open')} className="action-btn" style={{
@@ -700,7 +700,7 @@ export default function SupportCRMPage() {
                       borderRadius: 20, padding: '6px 16px', fontSize: 11, color: '#00d4c8',
                       fontStyle: 'italic', textAlign: 'center',
                     }}>
-                      ⚙️ {msg.text} · {new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                       {msg.text} · {new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   ) : (
                     <>
@@ -724,7 +724,7 @@ export default function SupportCRMPage() {
                         }}>
                           {msg.isNote && (
                             <div style={{ fontSize: 10, color: '#f4c430', fontWeight: 700, marginBottom: 4, letterSpacing: '0.06em' }}>
-                              📋 INTERNAL NOTE
+                               INTERNAL NOTE
                             </div>
                           )}
                           <div style={{ fontSize: 13, color: '#f0e8ff', lineHeight: 1.5 }}>{msg.text}</div>
@@ -768,7 +768,7 @@ export default function SupportCRMPage() {
                     cursor: 'pointer', fontFamily: "'Inter', sans-serif", transition: 'all 0.2s',
                   }}
                 >
-                  📋 {isNote ? 'Note ON' : 'Add Note'}
+                   {isNote ? 'Note ON' : 'Add Note'}
                 </button>
                 <div style={{ width: 1, height: 20, background: 'rgba(124,111,160,0.25)' }} />
                 {quickReplies.map(qr => (
@@ -782,7 +782,7 @@ export default function SupportCRMPage() {
                       fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif", transition: 'all 0.2s',
                     }}
                   >
-                    ⚡ {qr}
+                     {qr}
                   </button>
                 ))}
               </div>
@@ -797,7 +797,7 @@ export default function SupportCRMPage() {
                   value={messageInput}
                   onChange={e => setMessageInput(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
-                  placeholder={isNote ? '📋 Write internal note (not visible to player)...' : 'Type your message... (Enter to send)'}
+                  placeholder={isNote ? ' Write internal note (not visible to player)...' : 'Type your message... (Enter to send)'}
                   rows={3}
                   style={{
                     width: '100%', background: 'transparent', border: 'none',
@@ -810,7 +810,7 @@ export default function SupportCRMPage() {
                   padding: '8px 14px', borderTop: '1px solid rgba(124,111,160,0.15)',
                 }}>
                   <div style={{ display: 'flex', gap: 10 }}>
-                    {['📎', '😊', '🖼️'].map(icon => (
+                    {['', '', ''].map(icon => (
                       <button key={icon} style={{
                         background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, padding: '2px 4px',
                         borderRadius: 4, transition: 'background 0.2s',
@@ -832,7 +832,7 @@ export default function SupportCRMPage() {
                       letterSpacing: '0.04em',
                     }}
                   >
-                    SEND ➤
+                    SEND 
                   </button>
                 </div>
               </div>
@@ -858,7 +858,7 @@ export default function SupportCRMPage() {
                 boxShadow: '0 4px 16px rgba(34,197,94,0.1)',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                  <span style={{ fontSize: 14 }}>🤖</span>
+                  <span style={{ fontSize: 14 }}></span>
                   <div style={{ fontSize: 13, fontWeight: 700, color: '#22c55e' }}>Auto-Assignment Log</div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxHeight: 150, overflowY: 'auto' }}>
@@ -897,12 +897,12 @@ export default function SupportCRMPage() {
                 <div style={{
                   position: 'absolute', top: -6, right: -6, fontSize: 20,
                   filter: 'drop-shadow(0 0 4px rgba(244,196,48,0.6))',
-                }}>👑</div>
+                }}></div>
               </div>
               <div style={{ fontSize: 17, fontWeight: 800, color: '#f0e8ff', fontFamily: "'Outfit', sans-serif", marginBottom: 2 }}>{selectedTicket?.player ?? 'No player selected'}</div>
               <div style={{ fontSize: 11, color: '#7c6fa0', marginBottom: 8 }}>Demo player profile · mock data</div>
               <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
-                <span style={{ background: 'rgba(244,196,48,0.12)', border: '1px solid rgba(244,196,48,0.35)', color: '#f4c430', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 700 }}>👑 VIP GOLD</span>
+                <span style={{ background: 'rgba(244,196,48,0.12)', border: '1px solid rgba(244,196,48,0.35)', color: '#f4c430', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 700 }}> VIP GOLD</span>
                 <span style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.35)', color: '#22c55e', borderRadius: 20, padding: '4px 12px', fontSize: 11, fontWeight: 700 }}>● ACTIVE</span>
               </div>
               <div style={{ fontSize: 11, color: '#7c6fa0', marginTop: 8 }}>Member since Mar 12, 2022</div>
@@ -999,19 +999,19 @@ export default function SupportCRMPage() {
                 cursor: 'pointer', fontFamily: "'Inter', sans-serif", transition: 'all 0.2s',
                 letterSpacing: '0.04em',
               }}>
-                👤 View Full Profile
+                 View Full Profile
               </button>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
                 <button className="action-btn" style={{
                   background: 'rgba(244,196,48,0.08)', border: '1px solid rgba(244,196,48,0.3)',
                   color: '#f4c430', borderRadius: 8, padding: '8px 10px', fontSize: 12,
                   fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif", transition: 'all 0.2s',
-                }}>📋 Add Note</button>
+                }}> Add Note</button>
                 <button className="action-btn" style={{
                   background: 'rgba(255,45,120,0.08)', border: '1px solid rgba(255,45,120,0.3)',
                   color: '#ff2d78', borderRadius: 8, padding: '8px 10px', fontSize: 12,
                   fontWeight: 600, cursor: 'pointer', fontFamily: "'Inter', sans-serif", transition: 'all 0.2s',
-                }}>🚩 Flag Account</button>
+                }}> Flag Account</button>
               </div>
               <button className="action-btn" style={{
                 background: 'linear-gradient(135deg, rgba(249,115,22,0.15), rgba(249,115,22,0.05))',
@@ -1020,7 +1020,7 @@ export default function SupportCRMPage() {
                 cursor: 'pointer', fontFamily: "'Inter', sans-serif", transition: 'all 0.2s',
                 letterSpacing: '0.04em',
               }}>
-                ⬆️ Escalate to Manager
+                 Escalate to Manager
               </button>
             </div>
           </div>

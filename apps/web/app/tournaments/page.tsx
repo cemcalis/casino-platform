@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LobbyHeader from '../components/lobby/LobbyHeader';
@@ -29,9 +30,9 @@ const TOURNAMENTS: Tournament[] = [
 ];
 
 const LEADERBOARD = [
-  { rank: 1, name: 'velvet_king', score: '128,400 pts', prize: '15,000 VCOIN', medal: '🥇' },
-  { rank: 2, name: 'neon_phoenix', score: '112,900 pts', prize: '8,000 VCOIN', medal: '🥈' },
-  { rank: 3, name: 'vortex_x', score: '98,250 pts', prize: '4,000 VCOIN', medal: '🥉' },
+  { rank: 1, name: 'velvet_king', score: '128,400 pts', prize: '15,000 VCOIN', medal: 'gold' },
+  { rank: 2, name: 'neon_phoenix', score: '112,900 pts', prize: '8,000 VCOIN', medal: 'silver' },
+  { rank: 3, name: 'vortex_x', score: '98,250 pts', prize: '4,000 VCOIN', medal: 'bronze' },
   { rank: 4, name: 'ace_king99', score: '87,600 pts', prize: '2,000 VCOIN', medal: '' },
   { rank: 5, name: 'cyber_rider', score: '79,140 pts', prize: '1,000 VCOIN', medal: '' },
 ];
@@ -129,7 +130,7 @@ export default function TournamentsPage() {
         {/* Tournament grid */}
         {filtered.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '48px 20px', color: LC.textDim }}>
-            <div style={{ fontSize: 32, marginBottom: 10 }}>⚔️</div>
+            <div style={{ fontSize: 32, marginBottom: 10 }}></div>
             No {filter !== 'All' ? filter.toLowerCase() : ''} tournaments right now — check back soon.
           </div>
         ) : (

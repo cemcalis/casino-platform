@@ -31,7 +31,7 @@ const DEMO_RECENT: RecentBonus[] = [
 
 const API = process.env['NEXT_PUBLIC_API_URL'] ?? 'http://localhost:4000/api/v1';
 const BONUS_COLORS: Record<string, string> = { WELCOME: '#f4c430', DAILY: '#00d4c8', CASHBACK: '#a855f7' };
-const BONUS_ICONS: Record<string, string> = { WELCOME: '🎉', DAILY: '🎁', CASHBACK: '💰' };
+const BONUS_ICONS: Record<string, string> = { WELCOME: '', DAILY: '', CASHBACK: '' };
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function BonusesPage() {
@@ -138,7 +138,7 @@ export default function BonusesPage() {
               <span style={{ color: '#ff2d78', fontSize: 12, fontWeight: 700, letterSpacing: '.1em' }}>LIVE</span>
             </div>
             <div style={{ position: 'relative', cursor: 'pointer' }} onClick={() => setNotifOpen(!notifOpen)}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(240,232,255,.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, border: '1px solid rgba(240,232,255,.1)' }}>🔔</div>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(240,232,255,.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, border: '1px solid rgba(240,232,255,.1)' }}></div>
               <span style={{ position: 'absolute', top: -4, right: -4, background: '#ff2d78', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: '50%', width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'pulseRed 2s infinite' }}>2</span>
               {notifOpen && (
                 <div style={{ position: 'absolute', top: 48, right: 0, background: '#1a0d30', border: '1px solid rgba(244,196,48,.2)', borderRadius: 12, padding: 12, width: 240, zIndex: 200 }}>
@@ -179,7 +179,7 @@ export default function BonusesPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 32, animation: 'slideUp .5s ease .1s both' }}>
             {cfgList.map(cfg => {
               const color = BONUS_COLORS[cfg.type] ?? '#f4c430';
-              const icon = BONUS_ICONS[cfg.type] ?? '🎁';
+              const icon = BONUS_ICONS[cfg.type] ?? '';
               const key = cfg.type.toLowerCase() as keyof AdminConfig;
               const isSavingThis = saving === cfg.type;
 

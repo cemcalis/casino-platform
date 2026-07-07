@@ -107,7 +107,7 @@ export default function DashboardPage() {
     try {
       const res = await bonusApi.claimDaily(token);
       setWallet((w) => (w ? { ...w, balance: res.balance } : w));
-      setBonusMessage('🎁 +1,000 coins claimed!');
+      setBonusMessage(' +1,000 coins claimed!');
       setBonusNextAt(new Date(res.nextClaimAt));
     } catch (err) {
       if (err instanceof ApiError && err.status === 400) {
@@ -231,7 +231,7 @@ export default function DashboardPage() {
               {bonusClaiming ? 'Claiming…' : 'Claim 1,000 Coins'}
             </button>
             {bonusMessage && (
-              <p className={`text-sm text-center ${bonusMessage.startsWith('🎁') ? 'text-green-400' : 'text-gray-400'}`}>
+              <p className={`text-sm text-center ${bonusMessage.startsWith('') ? 'text-green-400' : 'text-gray-400'}`}>
                 {bonusMessage}
               </p>
             )}

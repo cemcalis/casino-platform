@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import { useMemo, useState } from 'react';
 import LobbyHeader from '../components/lobby/LobbyHeader';
 import { LC, LOBBY_BASE_CSS } from '../components/lobby/theme';
@@ -28,11 +29,11 @@ const INITIAL_NOTIFICATIONS: Notification[] = [
 ];
 
 const TYPE_META: Record<NotifType, { icon: string; color: string; label: string }> = {
-  win: { icon: '🏆', color: LC.gold, label: 'Win' },
-  bonus: { icon: '🎁', color: LC.green, label: 'Bonus' },
-  tournament: { icon: '⚔️', color: LC.magenta, label: 'Tournament' },
-  vip: { icon: '👑', color: LC.purple, label: 'VIP' },
-  system: { icon: '⚙️', color: LC.cyan, label: 'System' },
+  win: { icon: 'trophy', color: LC.gold, label: 'Win' },
+  bonus: { icon: 'gift', color: LC.green, label: 'Bonus' },
+  tournament: { icon: 'swords', color: LC.magenta, label: 'Tournament' },
+  vip: { icon: 'crown', color: LC.purple, label: 'VIP' },
+  system: { icon: 'gear', color: LC.cyan, label: 'System' },
 };
 
 const FILTERS = ['All', 'Unread', 'Win', 'Bonus', 'Tournament', 'VIP', 'System'] as const;
@@ -116,7 +117,7 @@ export default function NotificationsPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {filtered.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: LC.textDim }}>
-              <div style={{ fontSize: 36, marginBottom: 10 }}>🔔</div>
+              <div style={{ fontSize: 36, marginBottom: 10 }}></div>
               No notifications here.
             </div>
           ) : (
@@ -151,7 +152,7 @@ export default function NotificationsPage() {
                       flexShrink: 0,
                     }}
                   >
-                    {meta.icon}
+                    <AppIcon name={meta.icon} />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>

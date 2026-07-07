@@ -155,7 +155,7 @@ function EmptyState() {
         padding: '70px 24px',
       }}
     >
-      <div style={{ fontSize: 56 }}>🎲</div>
+      <div style={{ fontSize: 56 }}></div>
       <div
         style={{
           fontSize: 15,
@@ -182,7 +182,7 @@ function EmptyState() {
           boxShadow: `0 4px 20px ${T.purple}55`,
         }}
       >
-        🎰 GO TO LOBBY
+         GO TO LOBBY
       </Link>
     </div>
   );
@@ -288,7 +288,7 @@ export default function HistoryPage() {
               textShadow: `0 0 16px ${T.gold}88`,
             }}
           >
-            🎰 NEON PALACE
+             NEON PALACE
           </Link>
 
           <Link
@@ -352,13 +352,13 @@ export default function HistoryPage() {
                 justifyContent: 'center',
               }}
             >
-              <StatCard label="TOTAL SPINS" value={totalSpins.toLocaleString()} icon="🎰" color={T.cyan} />
-              <StatCard label="WAGERED" value={`${fmtCoins(totalWagered)} VC`} icon="💰" color={T.textDim} />
-              <StatCard label="WON" value={`${fmtCoins(totalWon)} VC`} icon="🏆" color={T.gold} />
+              <StatCard label="TOTAL SPINS" value={totalSpins.toLocaleString()} icon="" color={T.cyan} />
+              <StatCard label="WAGERED" value={`${fmtCoins(totalWagered)} VC`} icon="" color={T.textDim} />
+              <StatCard label="WON" value={`${fmtCoins(totalWon)} VC`} icon="" color={T.gold} />
               <StatCard
                 label="NET"
                 value={`${netResult >= 0 ? '+' : ''}${fmtCoins(netResult)} VC`}
-                icon={netResult >= 0 ? '📈' : '📉'}
+                icon={netResult >= 0 ? '' : ''}
                 color={netResult >= 0 ? T.green : T.red}
               />
             </div>
@@ -514,7 +514,7 @@ export default function HistoryPage() {
                         color: isBigWin ? T.goldBright : T.textDim,
                       }}
                     >
-                      {isBigWin && <span style={{ marginRight: 3 }}>⭐</span>}
+                      {isBigWin && <span style={{ marginRight: 3 }}></span>}
                       {multiplier.toFixed(2)}x
                     </span>
 

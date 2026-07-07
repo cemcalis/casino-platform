@@ -275,7 +275,7 @@ export default function PlayersPage() {
             </div>
             <h1 style={{ fontSize: 26, fontWeight: 800, color: '#f0e8ff' }}>Player Management</h1>
             <p style={{ color: '#a08bc0', fontSize: 13, marginTop: 4 }}>
-              {useMock ? '⚠ Mock data — API unavailable or not authenticated' : `${pagination.total.toLocaleString()} total players`}
+              {useMock ? ' Mock data — API unavailable or not authenticated' : `${pagination.total.toLocaleString()} total players`}
             </p>
           </div>
         </div>
@@ -283,7 +283,7 @@ export default function PlayersPage() {
         {/* Search + Filters */}
         <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginBottom: 20 }}>
           <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
-            <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#a08bc0' }}>🔍</span>
+            <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#a08bc0' }}></span>
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}

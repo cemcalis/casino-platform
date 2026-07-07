@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import { useState, useEffect, useRef } from 'react';
 
 /* ─────────────────────────────────────────────
@@ -56,11 +57,11 @@ const TRANSACTIONS = [
 ];
 
 const RISK_ALERTS = [
-  { level: 'HIGH',   color: C.red,    bg: 'rgba(239,68,68,0.12)',    icon: '🔴', msg: 'Player #8421 – Unusual withdrawal pattern ($50,000)',  time: '2m ago' },
-  { level: 'MEDIUM', color: C.orange, bg: 'rgba(249,115,22,0.12)',   icon: '🟠', msg: 'RTP spike on Neon Palace Slots (98.2%)',               time: '11m ago' },
-  { level: 'LOW',    color: C.yellow, bg: 'rgba(234,179,8,0.12)',    icon: '🟡', msg: 'New IP login detected for VIP player #1204',           time: '18m ago' },
-  { level: 'INFO',   color: C.blue,   bg: 'rgba(59,130,246,0.12)',   icon: '🔵', msg: 'Daily GGR target reached 94% – on track',             time: '34m ago' },
-  { level: 'MEDIUM', color: C.orange, bg: 'rgba(249,115,22,0.12)',   icon: '🟠', msg: 'Chargeback request submitted – $2,300',                time: '1h ago' },
+  { level: 'HIGH',   color: C.red,    bg: 'rgba(239,68,68,0.12)',    icon: 'dot', msg: 'Player #8421 – Unusual withdrawal pattern ($50,000)',  time: '2m ago' },
+  { level: 'MEDIUM', color: C.orange, bg: 'rgba(249,115,22,0.12)',   icon: 'dot', msg: 'RTP spike on Neon Palace Slots (98.2%)',               time: '11m ago' },
+  { level: 'LOW',    color: C.yellow, bg: 'rgba(234,179,8,0.12)',    icon: 'dot', msg: 'New IP login detected for VIP player #1204',           time: '18m ago' },
+  { level: 'INFO',   color: C.blue,   bg: 'rgba(59,130,246,0.12)',   icon: 'dot', msg: 'Daily GGR target reached 94% – on track',             time: '34m ago' },
+  { level: 'MEDIUM', color: C.orange, bg: 'rgba(249,115,22,0.12)',   icon: 'dot', msg: 'Chargeback request submitted – $2,300',                time: '1h ago' },
 ];
 
 const PAYMENT_METHODS = [
@@ -320,7 +321,7 @@ function AnalyticsCard({ label, value, icon, color, sub, trend, up, delay }: Ana
         background: `radial-gradient(circle, ${color}25 0%, transparent 70%)`,
       }} />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-        <span style={{ fontSize: 22 }}>{icon}</span>
+        <span style={{ fontSize: 22, display: 'inline-flex' }}><AppIcon name={icon} size={22} color={color} /></span>
         <span style={{
           fontSize: 10, fontWeight: 700, color: up ? C.green : C.red,
           background: (up ? C.green : C.red) + '20',
@@ -482,7 +483,7 @@ export default function FinancePage() {
                   display: 'inline-block',
                   animation: spinning ? 'spin 0.6s linear infinite' : undefined,
                   fontSize: 14,
-                }}>🔄</span>
+                }}></span>
                 <span>Just now</span>
               </div>
               <button className="action-btn" onClick={handleRefresh} style={{
@@ -495,7 +496,7 @@ export default function FinancePage() {
                 background: `linear-gradient(135deg, ${C.gold}, ${C.goldDim})`,
                 color: C.bgDeep, cursor: 'pointer',
                 fontSize: 12, fontWeight: 700, fontFamily: 'Inter, sans-serif', transition: 'opacity 0.2s',
-              }}>⬇ Export</button>
+              }}> Export</button>
             </div>
           </div>
         </div>
@@ -554,7 +555,7 @@ export default function FinancePage() {
             }}>
               <h3 style={{ margin: '0 0 20px', fontSize: 15, fontWeight: 700,
                 fontFamily: 'Outfit, sans-serif', color: C.text }}>
-                💰 Deposit / Withdrawal Breakdown
+                 Deposit / Withdrawal Breakdown
               </h3>
 
               {/* Donut Chart */}
@@ -635,7 +636,7 @@ export default function FinancePage() {
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ fontSize: 18 }}>🛡️</span>
+                  <span style={{ fontSize: 18 }}></span>
                   <h3 style={{ margin: 0, fontSize: 15, fontWeight: 700,
                     fontFamily: 'Outfit, sans-serif', color: C.text }}>Risk Alerts</h3>
                 </div>
@@ -659,7 +660,7 @@ export default function FinancePage() {
                     transition: 'all 0.3s ease',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-                      <span style={{ fontSize: 14, marginTop: 1, flexShrink: 0 }}>{alert.icon}</span>
+                      <span style={{ fontSize: 14, marginTop: 1, flexShrink: 0 }}><AppIcon name={alert.icon} /></span>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
                           <span style={{
@@ -806,10 +807,10 @@ export default function FinancePage() {
           {/* ── ANALYTICS BOTTOM ROW ── */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
             {[
-              { label: 'Average Deposit', value: '$342', icon: '💳', color: C.gold, sub: 'per transaction', trend: '+4.2%', up: true },
-              { label: 'Avg Withdrawal Time', value: '4.2 min', icon: '⚡', color: C.teal, sub: 'processing speed', trend: '-12%', up: true },
-              { label: 'Conversion Rate', value: '23.4%', icon: '📈', color: C.green, sub: 'visitor to player', trend: '+1.8%', up: true },
-              { label: 'Active Bonuses', value: '1,247', icon: '🎁', color: C.purple, sub: 'currently running', trend: '+89', up: true },
+              { label: 'Average Deposit', value: '$342', icon: 'card', color: C.gold, sub: 'per transaction', trend: '+4.2%', up: true },
+              { label: 'Avg Withdrawal Time', value: '4.2 min', icon: 'bolt', color: C.teal, sub: 'processing speed', trend: '-12%', up: true },
+              { label: 'Conversion Rate', value: '23.4%', icon: 'chart', color: C.green, sub: 'visitor to player', trend: '+1.8%', up: true },
+              { label: 'Active Bonuses', value: '1,247', icon: 'gift', color: C.purple, sub: 'currently running', trend: '+89', up: true },
             ].map((card, i) => (
               <AnalyticsCard
                 key={card.label}

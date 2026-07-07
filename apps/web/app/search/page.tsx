@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LobbyHeader from '../components/lobby/LobbyHeader';
@@ -20,22 +21,22 @@ interface SearchResult {
 }
 
 const INDEX: SearchResult[] = [
-  { id: 'neon-palace', kind: 'game', title: 'Neon Palace', subtitle: 'Slots · Forge Studio · RTP 96.5%', href: '/games/neon-palace', icon: '🎰', accent: LC.gold, tags: ['slot', 'hot', 'neon'] },
-  { id: 'blackjack-pro', kind: 'game', title: 'Blackjack Pro', subtitle: 'Table · Neon Originals · RTP 99.5%', href: '/games/blackjack-pro', icon: '🃏', accent: LC.green, tags: ['table', 'cards'] },
-  { id: 'cyber-roulette', kind: 'game', title: 'Cyber Roulette', subtitle: 'Table · Forge Studio · RTP 97.3%', href: '/games/cyber-roulette', icon: '🎡', accent: LC.cyan, tags: ['table', 'roulette'] },
-  { id: 'mega-moolah', kind: 'game', title: 'Mega Savanna', subtitle: 'Jackpot · Neon Originals · RTP 96.0%', href: '/games/mega-moolah', icon: '💰', accent: '#f97316', tags: ['jackpot', 'slot'] },
-  { id: 'gonzo-quest', kind: 'game', title: "Golden Conquest", subtitle: 'Slots · Neon Originals · RTP 96.0%', href: '/games/gonzo-quest', icon: '🗿', accent: '#84cc16', tags: ['slot', 'adventure'] },
-  { id: 'book-of-dead', kind: 'game', title: 'Tome of Anubis', subtitle: 'Slots · Forge Studio · RTP 96.21%', href: '/games/book-of-dead', icon: '📖', accent: '#d4a848', tags: ['slot', 'egypt'] },
-  { id: 'baccarat', kind: 'game', title: 'Baccarat', subtitle: 'Table · Live Forge · RTP 98.94%', href: '/games/baccarat', icon: '🎴', accent: LC.gold, tags: ['table', 'cards'] },
-  { id: 'video-poker', kind: 'game', title: 'Video Poker', subtitle: 'Table · Neon Originals · RTP 99.5%', href: '/games/video-poker', icon: '🂡', accent: LC.cyan, tags: ['table', 'cards'] },
-  { id: 'welcome-bonus', kind: 'promotion', title: 'Welcome Bonus', subtitle: '100% up to 1,000 VCOIN + 200 free spins', href: '/promotions', icon: '🎉', accent: LC.gold, tags: ['bonus', 'new player'] },
-  { id: 'weekly-reload', kind: 'promotion', title: 'Weekly Reload', subtitle: '50% reload every Monday', href: '/promotions', icon: '🔄', accent: LC.cyan, tags: ['bonus', 'weekly'] },
-  { id: 'vip-cashback', kind: 'promotion', title: 'VIP Cashback', subtitle: '20% weekly cashback for VIP Gold+', href: '/promotions', icon: '👑', accent: LC.purple, tags: ['vip', 'cashback'] },
-  { id: 'wallet', kind: 'page', title: 'Wallet', subtitle: 'Deposit, withdraw, and view transactions', href: '/wallet', icon: '💳', accent: LC.green, tags: ['cashier', 'balance'] },
-  { id: 'vip-club', kind: 'page', title: 'VIP Club', subtitle: 'Loyalty tiers and exclusive perks', href: '/vip', icon: '👑', accent: LC.purple, tags: ['loyalty', 'tiers'] },
-  { id: 'tournaments', kind: 'page', title: 'Tournaments', subtitle: 'Compete for VCOIN prize pools', href: '/tournaments', icon: '⚔️', accent: LC.magenta, tags: ['compete', 'leaderboard'] },
-  { id: 'leaderboard', kind: 'page', title: 'Leaderboard', subtitle: 'Top players this week', href: '/leaderboard', icon: '🏅', accent: LC.gold, tags: ['ranking'] },
-  { id: 'history', kind: 'page', title: 'History', subtitle: 'Your past spins and transactions', href: '/history', icon: '📜', accent: LC.textDim, tags: ['spins', 'log'] },
+  { id: 'neon-palace', kind: 'game', title: 'Neon Palace', subtitle: 'Slots · Forge Studio · RTP 96.5%', href: '/games/neon-palace', icon: 'slots', accent: LC.gold, tags: ['slot', 'hot', 'neon'] },
+  { id: 'blackjack-pro', kind: 'game', title: 'Blackjack Pro', subtitle: 'Table · Neon Originals · RTP 99.5%', href: '/games/blackjack-pro', icon: 'cards', accent: LC.green, tags: ['table', 'cards'] },
+  { id: 'cyber-roulette', kind: 'game', title: 'Cyber Roulette', subtitle: 'Table · Forge Studio · RTP 97.3%', href: '/games/cyber-roulette', icon: 'wheel', accent: LC.cyan, tags: ['table', 'roulette'] },
+  { id: 'mega-moolah', kind: 'game', title: 'Mega Savanna', subtitle: 'Jackpot · Neon Originals · RTP 96.0%', href: '/games/mega-moolah', icon: 'money', accent: '#f97316', tags: ['jackpot', 'slot'] },
+  { id: 'gonzo-quest', kind: 'game', title: "Golden Conquest", subtitle: 'Slots · Neon Originals · RTP 96.0%', href: '/games/gonzo-quest', icon: '', accent: '#84cc16', tags: ['slot', 'adventure'] },
+  { id: 'book-of-dead', kind: 'game', title: 'Tome of Anubis', subtitle: 'Slots · Forge Studio · RTP 96.21%', href: '/games/book-of-dead', icon: '', accent: '#d4a848', tags: ['slot', 'egypt'] },
+  { id: 'baccarat', kind: 'game', title: 'Baccarat', subtitle: 'Table · Live Forge · RTP 98.94%', href: '/games/baccarat', icon: '', accent: LC.gold, tags: ['table', 'cards'] },
+  { id: 'video-poker', kind: 'game', title: 'Video Poker', subtitle: 'Table · Neon Originals · RTP 99.5%', href: '/games/video-poker', icon: '', accent: LC.cyan, tags: ['table', 'cards'] },
+  { id: 'welcome-bonus', kind: 'promotion', title: 'Welcome Bonus', subtitle: '100% up to 1,000 VCOIN + 200 free spins', href: '/promotions', icon: 'spark', accent: LC.gold, tags: ['bonus', 'new player'] },
+  { id: 'weekly-reload', kind: 'promotion', title: 'Weekly Reload', subtitle: '50% reload every Monday', href: '/promotions', icon: 'refresh', accent: LC.cyan, tags: ['bonus', 'weekly'] },
+  { id: 'vip-cashback', kind: 'promotion', title: 'VIP Cashback', subtitle: '20% weekly cashback for VIP Gold+', href: '/promotions', icon: 'crown', accent: LC.purple, tags: ['vip', 'cashback'] },
+  { id: 'wallet', kind: 'page', title: 'Wallet', subtitle: 'Deposit, withdraw, and view transactions', href: '/wallet', icon: 'card', accent: LC.green, tags: ['cashier', 'balance'] },
+  { id: 'vip-club', kind: 'page', title: 'VIP Club', subtitle: 'Loyalty tiers and exclusive perks', href: '/vip', icon: 'crown', accent: LC.purple, tags: ['loyalty', 'tiers'] },
+  { id: 'tournaments', kind: 'page', title: 'Tournaments', subtitle: 'Compete for VCOIN prize pools', href: '/tournaments', icon: 'swords', accent: LC.magenta, tags: ['compete', 'leaderboard'] },
+  { id: 'leaderboard', kind: 'page', title: 'Leaderboard', subtitle: 'Top players this week', href: '/leaderboard', icon: 'medal', accent: LC.gold, tags: ['ranking'] },
+  { id: 'history', kind: 'page', title: 'History', subtitle: 'Your past spins and transactions', href: '/history', icon: 'scroll', accent: LC.textDim, tags: ['spins', 'log'] },
 ];
 
 const KIND_LABEL: Record<ResultKind, string> = { game: 'Game', promotion: 'Promotion', page: 'Page' };
@@ -73,7 +74,7 @@ export default function SearchPage() {
       <div style={{ maxWidth: 820, margin: '0 auto', padding: '32px 20px 80px' }}>
         {/* Search input */}
         <div style={{ position: 'relative', marginBottom: 18 }}>
-          <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontSize: 16, color: LC.textDim }}>🔍</span>
+          <span style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', fontSize: 16, color: LC.textDim }}></span>
           <input
             autoFocus
             value={query}
@@ -149,7 +150,7 @@ export default function SearchPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {results.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px', color: LC.textDim }}>
-              <div style={{ fontSize: 36, marginBottom: 10 }}>🔎</div>
+              <div style={{ fontSize: 36, marginBottom: 10 }}></div>
               No results for &ldquo;{query}&rdquo;
             </div>
           ) : (
@@ -187,7 +188,7 @@ export default function SearchPage() {
                     flexShrink: 0,
                   }}
                 >
-                  {r.icon}
+                  <AppIcon name={r.icon} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: 14, fontWeight: 800, color: LC.text }}>{r.title}</div>

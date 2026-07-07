@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
@@ -116,31 +117,31 @@ const SESSIONS: Session[] = [
 ];
 
 const PLAYERS: Player[] = [
-  { id: '#P-00192', username: 'ace_king99', flag: '🇺🇸', balance: '$12,480', totalBet: '$284,100', status: 'VIP', email: 'ace.king99@email.com', kycLevel: 3, lastLogin: '2 min ago', vipLevel: 'Gold' },
-  { id: '#P-00204', username: 'midnight_rose', flag: '🇬🇧', balance: '$3,240', totalBet: '$98,400', status: 'Active', email: 'midnight.rose@email.com', kycLevel: 2, lastLogin: '15 min ago', vipLevel: 'Silver' },
-  { id: '#P-00218', username: 'vortex_x', flag: '🇩🇪', balance: '$8,910', totalBet: '$167,800', status: 'VIP', email: 'vortex.x@email.com', kycLevel: 3, lastLogin: '1 hour ago', vipLevel: 'Platinum' },
-  { id: '#P-00231', username: 'dark_knight', flag: '🇫🇷', balance: '$540', totalBet: '$45,200', status: 'Active', email: 'dark.knight@email.com', kycLevel: 1, lastLogin: '3 hours ago', vipLevel: 'Bronze' },
-  { id: '#P-00245', username: 'silver_storm', flag: '🇧🇷', balance: '$0', totalBet: '$12,300', status: 'Suspended', email: 'silver.storm@email.com', kycLevel: 1, lastLogin: '2 days ago', vipLevel: 'None' },
-  { id: '#P-00259', username: 'neon_phoenix', flag: '🇯🇵', balance: '$21,000', totalBet: '$398,500', status: 'VIP', email: 'neon.phoenix@email.com', kycLevel: 3, lastLogin: '5 min ago', vipLevel: 'Diamond' },
-  { id: '#P-00267', username: 'quantum_rush', flag: '🇦🇺', balance: '$1,890', totalBet: '$67,400', status: 'Active', email: 'quantum.rush@email.com', kycLevel: 2, lastLogin: '30 min ago', vipLevel: 'Silver' },
-  { id: '#P-00281', username: 'lucky_blaze', flag: '🇨🇦', balance: '$420', totalBet: '$23,100', status: 'Active', email: 'lucky.blaze@email.com', kycLevel: 1, lastLogin: '45 min ago', vipLevel: 'Bronze' },
-  { id: '#P-00294', username: 'cyber_rider', flag: '🇰🇷', balance: '$5,600', totalBet: '$112,900', status: 'Active', email: 'cyber.rider@email.com', kycLevel: 2, lastLogin: '20 min ago', vipLevel: 'Gold' },
-  { id: '#P-00301', username: 'velvet_king', flag: '🇦🇪', balance: '$48,200', totalBet: '$892,000', status: 'VIP', email: 'velvet.king@email.com', kycLevel: 3, lastLogin: 'Just now', vipLevel: 'Diamond' },
+  { id: '#P-00192', username: 'ace_king99', flag: '', balance: '$12,480', totalBet: '$284,100', status: 'VIP', email: 'ace.king99@email.com', kycLevel: 3, lastLogin: '2 min ago', vipLevel: 'Gold' },
+  { id: '#P-00204', username: 'midnight_rose', flag: '', balance: '$3,240', totalBet: '$98,400', status: 'Active', email: 'midnight.rose@email.com', kycLevel: 2, lastLogin: '15 min ago', vipLevel: 'Silver' },
+  { id: '#P-00218', username: 'vortex_x', flag: '', balance: '$8,910', totalBet: '$167,800', status: 'VIP', email: 'vortex.x@email.com', kycLevel: 3, lastLogin: '1 hour ago', vipLevel: 'Platinum' },
+  { id: '#P-00231', username: 'dark_knight', flag: '', balance: '$540', totalBet: '$45,200', status: 'Active', email: 'dark.knight@email.com', kycLevel: 1, lastLogin: '3 hours ago', vipLevel: 'Bronze' },
+  { id: '#P-00245', username: 'silver_storm', flag: '', balance: '$0', totalBet: '$12,300', status: 'Suspended', email: 'silver.storm@email.com', kycLevel: 1, lastLogin: '2 days ago', vipLevel: 'None' },
+  { id: '#P-00259', username: 'neon_phoenix', flag: '', balance: '$21,000', totalBet: '$398,500', status: 'VIP', email: 'neon.phoenix@email.com', kycLevel: 3, lastLogin: '5 min ago', vipLevel: 'Diamond' },
+  { id: '#P-00267', username: 'quantum_rush', flag: '', balance: '$1,890', totalBet: '$67,400', status: 'Active', email: 'quantum.rush@email.com', kycLevel: 2, lastLogin: '30 min ago', vipLevel: 'Silver' },
+  { id: '#P-00281', username: 'lucky_blaze', flag: '', balance: '$420', totalBet: '$23,100', status: 'Active', email: 'lucky.blaze@email.com', kycLevel: 1, lastLogin: '45 min ago', vipLevel: 'Bronze' },
+  { id: '#P-00294', username: 'cyber_rider', flag: '', balance: '$5,600', totalBet: '$112,900', status: 'Active', email: 'cyber.rider@email.com', kycLevel: 2, lastLogin: '20 min ago', vipLevel: 'Gold' },
+  { id: '#P-00301', username: 'velvet_king', flag: '', balance: '$48,200', totalBet: '$892,000', status: 'VIP', email: 'velvet.king@email.com', kycLevel: 3, lastLogin: 'Just now', vipLevel: 'Diamond' },
 ];
 
 const ACTIVITY: ActivityItem[] = [
   { type: 'win', message: 'ace_king99 won $4,820 on Neon Palace Slots', time: '12s ago' },
   { type: 'deposit', message: 'velvet_king deposited $10,000', time: '45s ago' },
-  { type: 'login', message: 'neon_phoenix logged in from 🇯🇵 Tokyo', time: '1m ago' },
+  { type: 'login', message: 'neon_phoenix logged in from  Tokyo', time: '1m ago' },
   { type: 'withdrawal', message: 'midnight_rose requested $2,500 withdrawal', time: '2m ago' },
   { type: 'win', message: 'vortex_x won $12,400 on Gold Rush Crash', time: '3m ago' },
   { type: 'flag', message: 'silver_storm flagged for suspicious activity', time: '4m ago' },
   { type: 'deposit', message: 'dark_knight deposited $1,000', time: '5m ago' },
-  { type: 'login', message: 'cyber_rider logged in from 🇰🇷 Seoul', time: '6m ago' },
+  { type: 'login', message: 'cyber_rider logged in from  Seoul', time: '6m ago' },
   { type: 'win', message: 'quantum_rush won $880 on Royal Blackjack', time: '8m ago' },
   { type: 'withdrawal', message: 'lucky_blaze requested $500 withdrawal', time: '9m ago' },
   { type: 'deposit', message: 'fire_bolt deposited $3,000', time: '11m ago' },
-  { type: 'login', message: 'zenith_x logged in from 🇮🇳 Mumbai', time: '13m ago' },
+  { type: 'login', message: 'zenith_x logged in from  Mumbai', time: '13m ago' },
   { type: 'win', message: 'velvet_king won $28,000 on Royal Blackjack', time: '15m ago' },
   { type: 'flag', message: 'unknown_user flagged for bot behavior', time: '18m ago' },
   { type: 'deposit', message: 'new_player joined and deposited $200', time: '22m ago' },
@@ -159,10 +160,10 @@ const CHART_DATA = [
 const MAX_CHART = 300000;
 
 const KPI_CARDS: KpiCard[] = [
-  { label: 'Total Players', value: 48291, change: '+12.3%', changePositive: true, color: '#f4c430', icon: '👥' },
-  { label: 'Online Now', value: 1847, change: 'LIVE', changePositive: true, color: '#00d4c8', icon: '🟢', live: true },
-  { label: 'Revenue Today', value: 284750, prefix: '$', change: '+8.1%', changePositive: true, color: '#ff2d78', icon: '💰' },
-  { label: 'Platform RTP', value: 96.2, suffix: '%', change: 'Stable', changePositive: true, color: '#a855f7', icon: '🎯' },
+  { label: 'Total Players', value: 48291, change: '+12.3%', changePositive: true, color: '#f4c430', icon: 'players' },
+  { label: 'Online Now', value: 1847, change: 'LIVE', changePositive: true, color: '#00d4c8', icon: 'dot', live: true },
+  { label: 'Revenue Today', value: 284750, prefix: '$', change: '+8.1%', changePositive: true, color: '#ff2d78', icon: 'money' },
+  { label: 'Platform RTP', value: 96.2, suffix: '%', change: 'Stable', changePositive: true, color: '#a855f7', icon: 'target' },
 ];
 
 function useCountUp(target: number, duration = 1800, delay = 0, decimals = 0) {
@@ -234,7 +235,7 @@ function KpiCounter({ card, delay }: { card: KpiCard; delay: number }) {
           fontSize: 22,
           border: `1px solid ${card.color}44`,
         }}>
-          {card.icon}
+          <AppIcon name={card.icon} />
         </div>
       </div>
       <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -381,11 +382,11 @@ function LineChart({ animated }: { animated: boolean }) {
 
 function ActivityIcon({ type }: { type: ActivityItem['type'] }) {
   const map: Record<ActivityItem['type'], { icon: string; color: string }> = {
-    login: { icon: '🔐', color: '#00d4c8' },
-    win: { icon: '🏆', color: '#f4c430' },
-    deposit: { icon: '💳', color: '#4ade80' },
-    withdrawal: { icon: '💸', color: '#ff8c00' },
-    flag: { icon: '🚩', color: '#ff2d78' },
+    login: { icon: 'lock', color: '#00d4c8' },
+    win: { icon: 'trophy', color: '#f4c430' },
+    deposit: { icon: 'card', color: '#4ade80' },
+    withdrawal: { icon: 'cashout', color: '#ff8c00' },
+    flag: { icon: 'flagmark', color: '#ff2d78' },
   };
   const { icon, color } = map[type];
   return (
@@ -600,7 +601,7 @@ export default function AdminPage() {
     const activities = [
       { type: 'win' as const, message: 'ace_king99 won $4,820 on Neon Palace Slots', time: 'Just now' },
       { type: 'deposit' as const, message: 'velvet_king deposited $10,000', time: 'Just now' },
-      { type: 'login' as const, message: 'neon_phoenix logged in from 🇯🇵 Tokyo', time: 'Just now' },
+      { type: 'login' as const, message: 'neon_phoenix logged in from  Tokyo', time: 'Just now' },
       { type: 'withdrawal' as const, message: 'midnight_rose requested $2,500 withdrawal', time: 'Just now' },
       { type: 'flag' as const, message: 'vortex_x flagged for suspicious activity', time: 'Just now' },
     ];
@@ -719,7 +720,7 @@ export default function AdminPage() {
             {/* Bell */}
             <div style={{ position: 'relative', cursor: 'pointer' }} onClick={() => setNotifOpen(!notifOpen)}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(240,232,255,0.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, border: '1px solid rgba(240,232,255,0.1)', transition: 'background 0.2s' }}>
-                🔔
+                
               </div>
               <span style={{ position: 'absolute', top: -4, right: -4, background: '#ff2d78', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: '50%', width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'pulseRed 2s infinite' }}>7</span>
               {notifOpen && (
@@ -885,7 +886,7 @@ export default function AdminPage() {
                 {/* Search + Filter */}
                 <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                   <div style={{ position: 'relative', flex: 1, minWidth: 200 }}>
-                    <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#a08bc0', fontSize: 14 }}>🔍</span>
+                    <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#a08bc0', fontSize: 14 }}></span>
                     <input
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
