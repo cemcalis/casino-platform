@@ -47,6 +47,20 @@ export function emberFalls(): GameManifest {
       frameColor: '#7c2d12',
       music: 'epic',
       storageKey: 'forge_ember_falls',
+      assets: {
+        background: '/assets/ember-falls/backgrounds/background.png',
+        symbols: {
+          ash: '/assets/ember-falls/symbols/ash.png',
+          fern: '/assets/ember-falls/symbols/fern.png',
+          opal: '/assets/ember-falls/symbols/opal.png',
+          amber: '/assets/ember-falls/symbols/amber.png',
+          wolf: '/assets/ember-falls/symbols/wolf.png',
+          hawk: '/assets/ember-falls/symbols/hawk.png',
+          ember: '/assets/ember-falls/symbols/ember.png',
+          wild: '/assets/ember-falls/symbols/wild.png',
+          scatter: '/assets/ember-falls/symbols/scatter.png',
+        },
+      },
     },
   };
 }
@@ -101,6 +115,21 @@ export function sugarRealm(): GameManifest {
       frameColor: '#7e22ce',
       music: 'festive',
       storageKey: 'forge_sugar_realm',
+      assets: {
+        background: '/assets/sugar-realm/backgrounds/background.png',
+        symbols: {
+          mint: '/assets/sugar-realm/symbols/mint.png',
+          berry: '/assets/sugar-realm/symbols/berry.png',
+          grape: '/assets/sugar-realm/symbols/grape.png',
+          lemon: '/assets/sugar-realm/symbols/lemon.png',
+          cherry: '/assets/sugar-realm/symbols/cherry.png',
+          ring: '/assets/sugar-realm/symbols/ring.png',
+          crown: '/assets/sugar-realm/symbols/crown.png',
+          heartgem: '/assets/sugar-realm/symbols/heartgem.png',
+          scatter: '/assets/sugar-realm/symbols/scatter.png',
+          bomb: '/assets/sugar-realm/symbols/bomb.png',
+        },
+      },
     },
   };
 }

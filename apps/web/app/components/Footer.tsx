@@ -247,11 +247,11 @@ export default function Footer() {
             GAME PROVIDERS
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <ProviderPill name="Pragmatic Play" />
-            <ProviderPill name="NetEnt" />
-            <ProviderPill name="Microgaming" />
+            <ProviderPill name="Forge Studio" />
+            <ProviderPill name="Neon Originals" />
+            <ProviderPill name="Neon Originals" />
             <ProviderPill name="EGT" />
-            <ProviderPill name="Novomatic" />
+            <ProviderPill name="Forge Studio" />
           </div>
         </div>
       </div>

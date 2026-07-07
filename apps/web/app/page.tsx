@@ -64,6 +64,28 @@ const SLIDER_GAMES: SliderGame[] = [
     accentColor: '#22d3ee',
   },
   {
+    id: 'ember-falls',
+    name: 'Ember Falls',
+    provider: 'Forge Studio',
+    rtp: '94.6%',
+    badge: 'YENİ',
+    badgeColor: '#fb923c',
+    category: 'Slots',
+    bg: 'linear-gradient(160deg, #2a0f0a 0%, #3d1a0e 45%, #7c2d12 75%, #120503 100%)',
+    accentColor: '#fb923c',
+  },
+  {
+    id: 'sugar-realm',
+    name: 'Sugar Realm',
+    provider: 'Forge Studio',
+    rtp: '94.9%',
+    badge: 'YENİ',
+    badgeColor: '#e879f9',
+    category: 'Slots',
+    bg: 'linear-gradient(160deg, #3b0764 0%, #4a1a78 45%, #7e22ce 75%, #0a0416 100%)',
+    accentColor: '#e879f9',
+  },
+  {
     id: 'pyramid-quest',
     name: 'Pyramid Quest',
     provider: 'In-House Studio',
@@ -77,7 +99,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'neon-palace',
     name: 'Neon Palace',
-    provider: 'Pragmatic Play',
+    provider: 'Forge Studio',
     rtp: '96.5%',
     badge: 'HOT',
     badgeColor: '#ff2d78',
@@ -88,7 +110,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'dragons-fortune',
     name: "Dragon's Fortune",
-    provider: 'NetEnt',
+    provider: 'Neon Originals',
     rtp: '96.8%',
     badge: 'TOP',
     badgeColor: '#f4c430',
@@ -110,7 +132,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'golden-vault',
     name: 'Golden Vault',
-    provider: 'Microgaming',
+    provider: 'Neon Originals',
     rtp: '97.1%',
     badge: 'HOT',
     badgeColor: '#ff2d78',
@@ -121,7 +143,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'cyber-roulette',
     name: 'Cyber Roulette',
-    provider: 'Novomatic',
+    provider: 'Forge Studio',
     rtp: '97.3%',
     badge: 'LIVE',
     badgeColor: '#22c55e',
@@ -132,7 +154,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'crystal-caverns',
     name: 'Crystal Caverns',
-    provider: 'Pragmatic Play',
+    provider: 'Forge Studio',
     rtp: '96.2%',
     badge: 'NEW',
     badgeColor: '#00d4c8',
@@ -154,7 +176,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'solar-wilds',
     name: 'Solar Wilds',
-    provider: 'NetEnt',
+    provider: 'Neon Originals',
     rtp: '96.9%',
     badge: 'POPULAR',
     badgeColor: '#f4c430',
@@ -166,7 +188,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'blackjack-pro',
     name: 'Blackjack Pro',
-    provider: 'NetEnt',
+    provider: 'Neon Originals',
     rtp: '99.5%',
     badge: 'HOT',
     badgeColor: '#ff2d78',
@@ -176,8 +198,8 @@ const SLIDER_GAMES: SliderGame[] = [
   },
   {
     id: 'mega-moolah',
-    name: 'Mega Moolah',
-    provider: 'Microgaming',
+    name: 'Mega Savanna',
+    provider: 'Neon Originals',
     rtp: '96.0%',
     badge: 'MEGA',
     badgeColor: '#f97316',
@@ -187,8 +209,8 @@ const SLIDER_GAMES: SliderGame[] = [
   },
   {
     id: 'starburst',
-    name: 'Starburst',
-    provider: 'NetEnt',
+    name: 'Star Prism',
+    provider: 'Neon Originals',
     rtp: '96.1%',
     badge: 'NEW',
     badgeColor: '#00d4c8',
@@ -198,8 +220,8 @@ const SLIDER_GAMES: SliderGame[] = [
   },
   {
     id: 'gonzo-quest',
-    name: "Gonzo's Quest",
-    provider: 'NetEnt',
+    name: "Golden Conquest",
+    provider: 'Neon Originals',
     rtp: '96.0%',
     badge: 'TOP',
     badgeColor: '#f4c430',
@@ -209,8 +231,8 @@ const SLIDER_GAMES: SliderGame[] = [
   },
   {
     id: 'book-of-dead',
-    name: 'Book of Dead',
-    provider: 'Pragmatic Play',
+    name: 'Tome of Anubis',
+    provider: 'Forge Studio',
     rtp: '96.21%',
     badge: 'HOT',
     badgeColor: '#ff2d78',
@@ -220,8 +242,8 @@ const SLIDER_GAMES: SliderGame[] = [
   },
   {
     id: 'lightning-roulette',
-    name: 'Lightning Roulette',
-    provider: 'Evolution',
+    name: 'Volt Roulette',
+    provider: 'Live Forge',
     rtp: '97.3%',
     badge: 'LIVE',
     badgeColor: '#22c55e',
@@ -231,8 +253,8 @@ const SLIDER_GAMES: SliderGame[] = [
   },
   {
     id: 'dream-catcher',
-    name: 'Dream Catcher',
-    provider: 'Evolution',
+    name: 'Wheel of Fortuna',
+    provider: 'Live Forge',
     rtp: '96.58%',
     badge: 'LIVE',
     badgeColor: '#22c55e',
@@ -242,8 +264,8 @@ const SLIDER_GAMES: SliderGame[] = [
   },
   {
     id: 'crazy-time',
-    name: 'Crazy Time',
-    provider: 'Evolution',
+    name: 'Chaos Wheel',
+    provider: 'Live Forge',
     rtp: '96.08%',
     badge: 'LIVE',
     badgeColor: '#22c55e',
@@ -254,7 +276,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'baccarat',
     name: 'Baccarat',
-    provider: 'Evolution',
+    provider: 'Live Forge',
     rtp: '98.94%',
     badge: 'LIVE',
     badgeColor: '#22c55e',
@@ -265,7 +287,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'dragon-fortune',
     name: 'Dragon Fortune',
-    provider: 'Pragmatic Play',
+    provider: 'Forge Studio',
     rtp: '96.4%',
     badge: 'NEW',
     badgeColor: '#00d4c8',
@@ -276,7 +298,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'fruit-frenzy',
     name: 'Fruit Frenzy',
-    provider: 'NetEnt',
+    provider: 'Neon Originals',
     rtp: '96.3%',
     badge: 'POPULAR',
     badgeColor: '#f4c430',
@@ -287,7 +309,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'pharaohs-treasure',
     name: "Pharaoh's Treasure",
-    provider: 'Pragmatic Play',
+    provider: 'Forge Studio',
     rtp: '96.5%',
     badge: 'HOT',
     badgeColor: '#ff2d78',
@@ -298,7 +320,7 @@ const SLIDER_GAMES: SliderGame[] = [
   {
     id: 'video-poker',
     name: 'Video Poker',
-    provider: 'NetEnt',
+    provider: 'Neon Originals',
     rtp: '99.5%',
     badge: 'TOP',
     badgeColor: '#f4c430',
@@ -352,11 +374,11 @@ const VOLATILITY_OPTIONS = ['All', 'Low', 'Medium', 'High'];
 
 const CATEGORY_MAP: Record<string, string[]> = {
   All: SLIDER_GAMES.map(g => g.id),
-  Slots: ['atlas-reef', 'pyramid-quest', 'neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure'],
+  Slots: ['atlas-reef', 'ember-falls', 'sugar-realm', 'pyramid-quest', 'neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure'],
   Table: ['cyber-roulette', 'blackjack-pro', 'baccarat', 'video-poker'],
   Live: ['cyber-roulette', 'lightning-roulette', 'dream-catcher', 'crazy-time', 'baccarat'],
   Jackpots: ['golden-vault', 'mega-moolah'],
-  New: ['atlas-reef', 'olympus-strikes', 'crystal-caverns', 'starburst', 'dragon-fortune'],
+  New: ['atlas-reef', 'ember-falls', 'sugar-realm', 'olympus-strikes', 'crystal-caverns', 'starburst', 'dragon-fortune'],
   Popular: ['pyramid-quest', 'neon-palace', 'dragons-fortune', 'solar-wilds', 'gonzo-quest', 'fruit-frenzy'],
 };
 
@@ -427,15 +449,15 @@ const HERO_SLIDES = [
 ];
 
 const LIVE_CASINO_GAMES = [
-  { id: 'lightning-roulette', name: 'Lightning Roulette', provider: 'Evolution', players: '1,247', color: '#fbbf24' },
-  { id: 'dream-catcher', name: 'Dream Catcher', provider: 'Evolution', players: '892', color: '#f0abfc' },
-  { id: 'crazy-time', name: 'Crazy Time', provider: 'Evolution', players: '2,103', color: '#4ade80' },
-  { id: 'blackjack-pro', name: 'Blackjack Pro', provider: 'NetEnt', players: '443', color: '#22c55e' },
+  { id: 'lightning-roulette', name: 'Volt Roulette', provider: 'Live Forge', players: '1,247', color: '#fbbf24' },
+  { id: 'dream-catcher', name: 'Wheel of Fortuna', provider: 'Live Forge', players: '892', color: '#f0abfc' },
+  { id: 'crazy-time', name: 'Chaos Wheel', provider: 'Live Forge', players: '2,103', color: '#4ade80' },
+  { id: 'blackjack-pro', name: 'Blackjack Pro', provider: 'Neon Originals', players: '443', color: '#22c55e' },
 ];
 
 const PROVIDERS = [
-  'Pragmatic Play', 'NetEnt', 'Microgaming', 'EGT', 'Novomatic',
-  'Evolution', 'Playtech', 'Yggdrasil', 'Red Tiger', 'Push Gaming',
+  'Forge Studio', 'Neon Originals', 'Neon Originals', 'EGT', 'Forge Studio',
+  'Live Forge', 'Playtech', 'Yggdrasil', 'Red Tiger', 'Push Gaming',
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -701,7 +723,7 @@ function MegaMoolahArt() {
   );
 }
 
-function StarburstArt() {
+function StarPrismArt() {
   return (
     <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
       {/* Cosmic rays */}
@@ -833,8 +855,19 @@ function AtlasReefArt() {
   );
 }
 
+function KeyArtCard({ src, accent }: { src: string; accent: string }) {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+      <img src={src} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.92 }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: `linear-gradient(90deg,transparent,${accent},transparent)`, boxShadow: `0 0 20px ${accent}` }} />
+    </div>
+  );
+}
+
 const GAME_ARTS: Record<string, () => JSX.Element> = {
   'atlas-reef': AtlasReefArt,
+  'ember-falls': () => <KeyArtCard src="/assets/ember-falls/ui/lobby-card.png" accent="#fb923c" />,
+  'sugar-realm': () => <KeyArtCard src="/assets/sugar-realm/ui/lobby-card.png" accent="#e879f9" />,
   'pyramid-quest': PyramidQuestArt,
   'neon-palace': NeonPalaceArt,
   'dragons-fortune': DragonArt,
@@ -846,7 +879,7 @@ const GAME_ARTS: Record<string, () => JSX.Element> = {
   'solar-wilds': SolarWildsArt,
   'blackjack-pro': BlackjackProArt,
   'mega-moolah': MegaMoolahArt,
-  'starburst': StarburstArt,
+  'starburst': StarPrismArt,
   'gonzo-quest': GonzoQuestArt,
   'book-of-dead': BookOfDeadArt,
   'lightning-roulette': LightningRouletteArt,
@@ -863,7 +896,7 @@ function GameSliderCard({ game, isActive, onUnderConstruction }: { game: SliderG
   const router = useRouter();
   const ArtComponent = GAME_ARTS[game.id] ?? (() => <div />);
   const PLAYABLE_GAMES = new Set([
-    'atlas-reef',
+    'atlas-reef', 'ember-falls', 'sugar-realm',
     'pyramid-quest', 'neon-palace', 'lucky-7s', 'blackjack-pro', 'cyber-roulette',
     'dragons-fortune', 'crystal-caverns', 'solar-wilds', 'starburst',
     'gonzo-quest', 'book-of-dead', 'golden-vault', 'olympus-strikes',
