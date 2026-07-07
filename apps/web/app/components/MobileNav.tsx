@@ -51,9 +51,9 @@ export default function MobileNav() {
             position: fixed;
             bottom: 0; left: 0; right: 0;
             z-index: 90;
-            background: rgba(12, 5, 26, 0.94);
+            background: rgba(9, 9, 11, 0.94);
             backdrop-filter: blur(14px);
-            border-top: 1px solid rgba(244, 196, 48, 0.18);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
             justify-content: space-around;
           }
