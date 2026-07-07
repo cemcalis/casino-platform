@@ -1,1 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Outfit", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050506;
+  color: #f1efe9;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Lobby keyframes shared by art components */
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1);}50%{opacity:.9;transform:scale(1.5);}}
+@keyframes floatOrb{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-18px) scale(1.04);}}
+@keyframes shimmer{0%{background-position:-400% center;}100%{background-position:400% center;}}
+@keyframes jackpotFlash{0%,100%{text-shadow:0 0 20px rgba(233,195,73,0.5),0 0 40px rgba(233,195,73,0.3);}50%{text-shadow:0 0 40px rgba(233,195,73,1),0 0 80px rgba(233,195,73,0.7),0 0 160px rgba(233,195,73,0.4);}}
+@keyframes winnerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@keyframes providerScroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@keyframes winnerFeedUp{0%{transform:translateY(0);}100%{transform:translateY(-50%);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes cardShine{0%{left:-100%;}60%,100%{left:150%;}}
+@keyframes liveDot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.4);}}
+@keyframes heroSlide{from{opacity:0;transform:translateX(60px);}to{opacity:1;transform:translateX(0);}}
+@keyframes heroPop{from{opacity:0;transform:scale(0.92);}to{opacity:1;transform:scale(1);}}
+@keyframes rotateSlow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes scalePop{0%{transform:scale(0.8);opacity:0;}100%{transform:scale(1);opacity:1;}}

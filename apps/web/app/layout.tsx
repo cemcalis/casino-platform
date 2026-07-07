@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
-import DemoBanner from './components/DemoBanner';
-import Footer from './components/Footer';
-import MobileNav from './components/MobileNav';
+import AppShell from './components/shell/AppShell';
 
 export const metadata: Metadata = {
   title: 'Neon Palace Casino | Social Casino Games',
@@ -13,12 +11,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="tr">
       <body>
-        <DemoBanner />
-        {children}
-        <Footer />
-        <MobileNav />
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );
