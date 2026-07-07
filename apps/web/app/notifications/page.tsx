@@ -24,7 +24,7 @@ const INITIAL_NOTIFICATIONS: Notification[] = [
   { id: 'N-5', type: 'system', title: 'Scheduled Maintenance', message: 'Brief maintenance window tonight at 3:00 AM UTC.', time: '6h ago', read: true },
   { id: 'N-6', type: 'win', title: 'Free Spins Triggered', message: 'You unlocked 8 free spins on Gonzo\'s Quest.', time: '1d ago', read: true },
   { id: 'N-7', type: 'bonus', title: 'Weekly Cashback Credited', message: '7% cashback (1,240 VCOIN) added to your wallet.', time: '2d ago', read: true },
-  { id: 'N-8', type: 'tournament', title: 'Tournament Results', message: 'Gonzo Quest Gauntlet ended — you placed #14.', time: '3d ago', read: true },
+  { id: 'N-8', type: 'tournament', title: 'Tournament Results', message: 'Golden Conquest Gauntlet ended — you placed #14.', time: '3d ago', read: true },
 ];
 
 const TYPE_META: Record<NotifType, { icon: string; color: string; label: string }> = {

@@ -3,8 +3,8 @@ import SlotDemo from '../_shared/SlotDemo';
 
 const config = {
   gameId: 'gonzo-quest',
-  gameName: "Gonzo's Quest",
-  provider: 'NetEnt',
+  gameName: "Golden Conquest",
+  provider: 'Neon Originals',
   rtp: '96.0%',
   bgGradient: 'radial-gradient(ellipse at top, #003d00 0%, #001500 50%, #000500 100%)',
   accentColor: '#84cc16',

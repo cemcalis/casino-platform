@@ -1,0 +1,26 @@
+{
+  "game": "sugar-realm",
+  "style": "glossy 3D-rendered casino slot art, candy kingdom theme, vibrant saturated colors, dramatic rim lighting, dark purple backgrounds, centered subject, no text, no watermark",
+  "totalCount": 12,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/sugar-realm/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background scene for a casino slot game: whimsical candy kingdom at night, giant lollipop trees and frosted cupcake hills, chocolate river, floating candy sparkles, deep violet-to-black gradient sky with soft magenta glow, cinematic lighting, painterly high-detail digital art, NO text, NO logo, center slightly darker for a reel grid overlay",
+      "size": { "width": 1280, "height": 720 },
+      "seed": 3001
+    },
+    { "id": "mint", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/mint.png", "generationPrompt": "Casino slot game symbol icon: a glossy round mint-green hard candy with swirl pattern, translucent shine, glossy 3D cartoon style, dramatic rim light, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3008 },
+    { "id": "berry", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/berry.png", "generationPrompt": "Casino slot game symbol icon: a glossy blue berry-flavored gummy candy, jelly translucency, glossy 3D cartoon style, dramatic rim light, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3015 },
+    { "id": "grape", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/grape.png", "generationPrompt": "Casino slot game symbol icon: a cluster of glossy purple grape jelly candies, jelly translucency, glossy 3D cartoon style, dramatic rim light, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3022 },
+    { "id": "lemon", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/lemon.png", "generationPrompt": "Casino slot game symbol icon: a glossy yellow lemon drop candy with sugar crystals, glossy 3D cartoon style, dramatic rim light, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3029 },
+    { "id": "cherry", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/cherry.png", "generationPrompt": "Casino slot game symbol icon: a pair of glossy red candied cherries with stems, glossy 3D cartoon style, dramatic rim light, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3036 },
+    { "id": "ring", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/ring.png", "generationPrompt": "Casino slot game premium symbol icon: a pink frosted candy ring with sprinkles and a candy jewel, glossy 3D cartoon style, dramatic rim light, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3043 },
+    { "id": "crown", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/crown.png", "generationPrompt": "Casino slot game premium symbol icon: a golden crown made of caramel with candy gems, glossy 3D cartoon style, dramatic rim light, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3050 },
+    { "id": "heartgem", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/heartgem.png", "generationPrompt": "Casino slot game top premium symbol icon: a radiant pink heart-shaped crystal candy gem with inner sparkle and glow, glossy 3D style, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3057 },
+    { "id": "scatter", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/scatter.png", "generationPrompt": "Casino slot game scatter symbol icon: a magical rainbow swirl lollipop emitting sparkle particles, glossy 3D cartoon style, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3064 },
+    { "id": "bomb", "type": "symbol", "outputPath": "apps/web/public/assets/sugar-realm/symbols/bomb.png", "generationPrompt": "Casino slot game multiplier symbol icon: a round striped candy bomb with a sparkling sugar fuse, playful not scary, glossy 3D cartoon style, centered on a solid dark violet background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 3071 },
+    { "id": "lobby-card", "type": "ui", "outputPath": "apps/web/public/assets/sugar-realm/ui/lobby-card.png", "generationPrompt": "Vertical casino game lobby card artwork: a candy kingdom castle made of sweets under a violet night sky, rainbow lollipop trees, floating sugar sparkles, premium slot-game key art, violet palette with pink and gold accents, NO text, NO logo, portrait composition", "size": { "width": 512, "height": 768 }, "seed": 3078 }
+  ]
+}

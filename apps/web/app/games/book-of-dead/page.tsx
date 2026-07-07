@@ -3,8 +3,8 @@ import SlotDemo from '../_shared/SlotDemo';
 
 const config = {
   gameId: 'book-of-dead',
-  gameName: 'Book of Dead',
-  provider: 'Pragmatic Play',
+  gameName: 'Tome of Anubis',
+  provider: 'Forge Studio',
   rtp: '96.21%',
   bgGradient: 'radial-gradient(ellipse at top, #1a0d00 0%, #080400 50%, #020100 100%)',
   accentColor: '#d4a848',

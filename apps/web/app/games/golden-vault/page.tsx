@@ -4,7 +4,7 @@ import SlotDemo from '../_shared/SlotDemo';
 const config = {
   gameId: 'golden-vault',
   gameName: 'Golden Vault',
-  provider: 'Microgaming',
+  provider: 'Neon Originals',
   rtp: '97.1%',
   bgGradient: 'radial-gradient(ellipse at top, #1a0d00 0%, #0a0500 50%, #020100 100%)',
   accentColor: '#f4c430',

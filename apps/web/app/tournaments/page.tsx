@@ -23,9 +23,9 @@ const TOURNAMENTS: Tournament[] = [
   { id: 'T-501', name: 'Neon Palace Showdown', game: 'Neon Palace', status: 'live', prizePool: '50,000 VCOIN', entrants: 842, endsIn: '4h 12m', accent: LC.gold },
   { id: 'T-502', name: 'Cyber Roulette Rush', game: 'Cyber Roulette', status: 'live', prizePool: '20,000 VCOIN', entrants: 311, endsIn: '1h 03m', accent: LC.cyan },
   { id: 'T-503', name: 'Dragon Fortune Clash', game: 'Dragon Fortune', status: 'upcoming', prizePool: '35,000 VCOIN', entrants: 0, startsIn: '6h 30m', accent: LC.magenta },
-  { id: 'T-504', name: 'Mega Moolah Marathon', game: 'Mega Moolah', status: 'upcoming', prizePool: '100,000 VCOIN', entrants: 0, startsIn: '1d 4h', accent: LC.purple },
-  { id: 'T-498', name: 'Gonzo Quest Gauntlet', game: "Gonzo's Quest", status: 'ended', prizePool: '25,000 VCOIN', entrants: 1204, accent: LC.textDim },
-  { id: 'T-497', name: 'Book of Dead Blitz', game: 'Book of Dead', status: 'ended', prizePool: '18,000 VCOIN', entrants: 905, accent: LC.textDim },
+  { id: 'T-504', name: 'Mega Savanna Marathon', game: 'Mega Savanna', status: 'upcoming', prizePool: '100,000 VCOIN', entrants: 0, startsIn: '1d 4h', accent: LC.purple },
+  { id: 'T-498', name: 'Golden Conquest Gauntlet', game: "Golden Conquest", status: 'ended', prizePool: '25,000 VCOIN', entrants: 1204, accent: LC.textDim },
+  { id: 'T-497', name: 'Tome of Anubis Blitz', game: 'Tome of Anubis', status: 'ended', prizePool: '18,000 VCOIN', entrants: 905, accent: LC.textDim },
 ];
 
 const LEADERBOARD = [

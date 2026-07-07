@@ -1,0 +1,25 @@
+{
+  "game": "ember-falls",
+  "style": "glossy 3D-rendered casino slot art, volcanic valley theme, ember orange and gold palette, dramatic rim lighting, dark backgrounds, centered subject, no text, no watermark",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/ember-falls/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background scene for a casino slot game: volcanic mountain valley at dusk, rivers of glowing lava between dark basalt rocks, ember particles floating in the air, silhouetted pine forest in foreground corners, deep charcoal-to-black gradient sky with warm orange glow, cinematic lighting, painterly high-detail digital art, NO text, NO logo, center slightly darker for a reel grid overlay",
+      "size": { "width": 1280, "height": 720 },
+      "seed": 2001
+    },
+    { "id": "ash", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/ash.png", "generationPrompt": "Casino slot game symbol icon: a rounded grey basalt stone with faint glowing cracks, glossy 3D cartoon style, dramatic warm rim light, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2008 },
+    { "id": "fern", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/fern.png", "generationPrompt": "Casino slot game symbol icon: a vivid green fern sprig with dewdrops, glossy 3D cartoon style, dramatic warm rim light, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2015 },
+    { "id": "opal", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/opal.png", "generationPrompt": "Casino slot game symbol icon: a faceted blue opal gemstone with inner sparkle, glossy 3D style, dramatic rim light, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2022 },
+    { "id": "amber", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/amber.png", "generationPrompt": "Casino slot game symbol icon: a polished orange amber stone with a tiny ancient insect inside, warm inner glow, glossy 3D style, dramatic rim light, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2029 },
+    { "id": "wolf", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/wolf.png", "generationPrompt": "Casino slot game premium symbol icon: a noble grey wolf head in profile with amber eyes, detailed fur, glossy 3D cartoon style, dramatic warm rim light, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2036 },
+    { "id": "hawk", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/hawk.png", "generationPrompt": "Casino slot game premium symbol icon: a fierce golden hawk head with sharp beak and piercing eyes, glossy 3D cartoon style, dramatic warm rim light, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2043 },
+    { "id": "ember", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/ember.png", "generationPrompt": "Casino slot game premium symbol icon: a blazing stylized flame with white-hot core and orange tongues, floating sparks, glossy 3D style, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2050 },
+    { "id": "wild", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/wild.png", "generationPrompt": "Casino slot game WILD symbol icon: an erupting stylized volcano with glowing lava crown and golden ornate frame, epic glow, glossy 3D style, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2057 },
+    { "id": "scatter", "type": "symbol", "outputPath": "apps/web/public/assets/ember-falls/symbols/scatter.png", "generationPrompt": "Casino slot game scatter symbol icon: a radiant violet crystal shard cluster emitting magical purple light rays, glossy 3D style, centered on a solid near-black charcoal background, square composition, no text", "size": { "width": 512, "height": 512 }, "seed": 2064 },
+    { "id": "lobby-card", "type": "ui", "outputPath": "apps/web/public/assets/ember-falls/ui/lobby-card.png", "generationPrompt": "Vertical casino game lobby card artwork: an erupting volcano with glowing lava rivers under a dark sky, a noble wolf silhouette howling on a ridge, ember particles, premium slot-game key art, charcoal palette with orange and gold accents, NO text, NO logo, portrait composition", "size": { "width": 512, "height": 768 }, "seed": 2071 }
+  ]
+}

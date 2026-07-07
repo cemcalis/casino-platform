@@ -3,8 +3,8 @@ import SlotDemo from '../_shared/SlotDemo';
 
 const config = {
   gameId: 'mega-moolah',
-  gameName: 'Mega Moolah',
-  provider: 'Microgaming',
+  gameName: 'Mega Savanna',
+  provider: 'Neon Originals',
   rtp: '96.0%',
   bgGradient: 'radial-gradient(ellipse at top, #1a0d00 0%, #080400 50%, #020100 100%)',
   accentColor: '#f97316',

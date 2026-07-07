@@ -20,14 +20,14 @@ interface SearchResult {
 }
 
 const INDEX: SearchResult[] = [
-  { id: 'neon-palace', kind: 'game', title: 'Neon Palace', subtitle: 'Slots · Pragmatic Play · RTP 96.5%', href: '/games/neon-palace', icon: '🎰', accent: LC.gold, tags: ['slot', 'hot', 'neon'] },
-  { id: 'blackjack-pro', kind: 'game', title: 'Blackjack Pro', subtitle: 'Table · NetEnt · RTP 99.5%', href: '/games/blackjack-pro', icon: '🃏', accent: LC.green, tags: ['table', 'cards'] },
-  { id: 'cyber-roulette', kind: 'game', title: 'Cyber Roulette', subtitle: 'Table · Novomatic · RTP 97.3%', href: '/games/cyber-roulette', icon: '🎡', accent: LC.cyan, tags: ['table', 'roulette'] },
-  { id: 'mega-moolah', kind: 'game', title: 'Mega Moolah', subtitle: 'Jackpot · Microgaming · RTP 96.0%', href: '/games/mega-moolah', icon: '💰', accent: '#f97316', tags: ['jackpot', 'slot'] },
-  { id: 'gonzo-quest', kind: 'game', title: "Gonzo's Quest", subtitle: 'Slots · NetEnt · RTP 96.0%', href: '/games/gonzo-quest', icon: '🗿', accent: '#84cc16', tags: ['slot', 'adventure'] },
-  { id: 'book-of-dead', kind: 'game', title: 'Book of Dead', subtitle: 'Slots · Pragmatic Play · RTP 96.21%', href: '/games/book-of-dead', icon: '📖', accent: '#d4a848', tags: ['slot', 'egypt'] },
-  { id: 'baccarat', kind: 'game', title: 'Baccarat', subtitle: 'Table · Evolution · RTP 98.94%', href: '/games/baccarat', icon: '🎴', accent: LC.gold, tags: ['table', 'cards'] },
-  { id: 'video-poker', kind: 'game', title: 'Video Poker', subtitle: 'Table · NetEnt · RTP 99.5%', href: '/games/video-poker', icon: '🂡', accent: LC.cyan, tags: ['table', 'cards'] },
+  { id: 'neon-palace', kind: 'game', title: 'Neon Palace', subtitle: 'Slots · Forge Studio · RTP 96.5%', href: '/games/neon-palace', icon: '🎰', accent: LC.gold, tags: ['slot', 'hot', 'neon'] },
+  { id: 'blackjack-pro', kind: 'game', title: 'Blackjack Pro', subtitle: 'Table · Neon Originals · RTP 99.5%', href: '/games/blackjack-pro', icon: '🃏', accent: LC.green, tags: ['table', 'cards'] },
+  { id: 'cyber-roulette', kind: 'game', title: 'Cyber Roulette', subtitle: 'Table · Forge Studio · RTP 97.3%', href: '/games/cyber-roulette', icon: '🎡', accent: LC.cyan, tags: ['table', 'roulette'] },
+  { id: 'mega-moolah', kind: 'game', title: 'Mega Savanna', subtitle: 'Jackpot · Neon Originals · RTP 96.0%', href: '/games/mega-moolah', icon: '💰', accent: '#f97316', tags: ['jackpot', 'slot'] },
+  { id: 'gonzo-quest', kind: 'game', title: "Golden Conquest", subtitle: 'Slots · Neon Originals · RTP 96.0%', href: '/games/gonzo-quest', icon: '🗿', accent: '#84cc16', tags: ['slot', 'adventure'] },
+  { id: 'book-of-dead', kind: 'game', title: 'Tome of Anubis', subtitle: 'Slots · Forge Studio · RTP 96.21%', href: '/games/book-of-dead', icon: '📖', accent: '#d4a848', tags: ['slot', 'egypt'] },
+  { id: 'baccarat', kind: 'game', title: 'Baccarat', subtitle: 'Table · Live Forge · RTP 98.94%', href: '/games/baccarat', icon: '🎴', accent: LC.gold, tags: ['table', 'cards'] },
+  { id: 'video-poker', kind: 'game', title: 'Video Poker', subtitle: 'Table · Neon Originals · RTP 99.5%', href: '/games/video-poker', icon: '🂡', accent: LC.cyan, tags: ['table', 'cards'] },
   { id: 'welcome-bonus', kind: 'promotion', title: 'Welcome Bonus', subtitle: '100% up to 1,000 VCOIN + 200 free spins', href: '/promotions', icon: '🎉', accent: LC.gold, tags: ['bonus', 'new player'] },
   { id: 'weekly-reload', kind: 'promotion', title: 'Weekly Reload', subtitle: '50% reload every Monday', href: '/promotions', icon: '🔄', accent: LC.cyan, tags: ['bonus', 'weekly'] },
   { id: 'vip-cashback', kind: 'promotion', title: 'VIP Cashback', subtitle: '20% weekly cashback for VIP Gold+', href: '/promotions', icon: '👑', accent: LC.purple, tags: ['vip', 'cashback'] },
@@ -42,7 +42,7 @@ const KIND_LABEL: Record<ResultKind, string> = { game: 'Game', promotion: 'Promo
 const KIND_FILTERS = ['All', 'Games', 'Promotions', 'Pages'] as const;
 type KindFilter = (typeof KIND_FILTERS)[number];
 
-const TRENDING = ['Neon Palace', 'Mega Moolah', 'Cyber Roulette', 'VIP Club'];
+const TRENDING = ['Neon Palace', 'Mega Savanna', 'Cyber Roulette', 'VIP Club'];
 
 export default function SearchPage() {
   const router = useRouter();
