@@ -11,6 +11,7 @@ import {
   type SpinResult,
 } from '@casino/forge';
 import { forgeAudio } from './forge-audio';
+import { BoltIcon, CoinIcon, InfoIcon, SoundOffIcon, SoundOnIcon } from './forge-icons';
 
 const BETS = [10, 25, 50, 100, 200, 500];
 const START_BALANCE = 10_000;
@@ -110,6 +111,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
   );
   const [spinningCols, setSpinningCols] = useState<boolean[]>([]);
   const [anticipationCol, setAnticipationCol] = useState(-1);
+  const [landCol, setLandCol] = useState(-1);
   const [hitCells, setHitCells] = useState<Set<string>>(new Set());
   const [burstCells, setBurstCells] = useState<Set<string>>(new Set());
   const [dropKey, setDropKey] = useState(0);
@@ -147,7 +149,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
     const msgs = [
       `MAKS KAZANÇ ${manifest.maxWinMultiplier.toLocaleString('tr-TR')}X`,
       manifest.tagline.toUpperCase(),
-      `${minTrigger}+ ${symbolMap.get(scatterId)?.label ?? ''} FREE SPIN BAŞLATIR`,
+      `${minTrigger}+ SCATTER FREE SPIN BAŞLATIR`,
     ];
     if (manifest.freeSpins.bombValues?.length) {
       const top = Math.max(...manifest.freeSpins.bombValues.map((b) => b.value));
@@ -229,12 +231,14 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         next[c] = false;
         return next;
       });
+      setLandCol(c);
       forgeAudio.play('reelStop');
       for (let r = 0; r < manifest.rows; r++) {
         if (result.steps[0].grid[c][r] === scatterId) visibleScatters++;
       }
     }
     setAnticipationCol(-1);
+    setLandCol(-1);
 
     // Replay evaluation/tumble steps.
     let runningWin = 0;
@@ -424,7 +428,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         <div className="fg-balance-block">
           <div className="fg-balance-lbl">BAKİYE</div>
           <div className="fg-balance" style={{ color: manifest.theme.accentColor2 }}>
-            {balance.toLocaleString('tr-TR')} 🪙
+            {balance.toLocaleString('tr-TR')} <CoinIcon size={16} />
           </div>
         </div>
       </header>
@@ -474,7 +478,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           {fsSession && (
             <div className="fg-fs-banner" style={{ background: manifest.theme.accentColor }}>
               FREE SPIN {fsSession.spinIndex}/{fsSession.totalAwarded} — KALAN {fsSession.remaining} —
-              TOPLAM {(fsSession.accumulatedWin * bet).toLocaleString('tr-TR')} 🪙
+              TOPLAM {(fsSession.accumulatedWin * bet).toLocaleString('tr-TR')}
             </div>
           )}
           <div
@@ -486,7 +490,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                 key={c}
                 className={`fg-col${spinningCols[c] ? ' fg-col-spin' : ''}${
                   anticipationCol === c && spinningCols[c] ? ' fg-col-tense' : ''
-                }`}
+                }${landCol === c ? ' fg-col-land' : ''}`}
               >
                 {spinningCols[c] ? (
                   <div className="fg-strip">
@@ -555,7 +559,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           )}
           {winDisplay > 0 && !bigWin && !fsSummary && (
             <div className="fg-win-line" style={{ color: manifest.theme.accentColor2 }}>
-              KAZANÇ: {Math.round(winDisplay).toLocaleString('tr-TR')} 🪙
+              KAZANÇ: {Math.round(winDisplay).toLocaleString('tr-TR')} <CoinIcon size={13} />
             </div>
           )}
         </div>
@@ -573,7 +577,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           }}
           title="Ses"
         >
-          {muted ? '🔇' : '🔊'}
+          {muted ? <SoundOffIcon /> : <SoundOnIcon />}
         </button>
         <button
           className="fg-icon-btn"
@@ -583,7 +587,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           }}
           title="Ödeme tablosu"
         >
-          ℹ️
+          <InfoIcon />
         </button>
 
         <div className="fg-bet-block">
@@ -610,7 +614,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           </div>
           {anteActive && manifest.anteBet && (
             <span className="fg-ante-note">
-              maliyet: {anteCostLabel.toLocaleString('tr-TR')} 🪙
+              maliyet: {anteCostLabel.toLocaleString('tr-TR')} <CoinIcon size={11} />
             </span>
           )}
         </div>
@@ -625,7 +629,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
             title="Turbo spin"
             style={turbo ? { borderColor: manifest.theme.accentColor2 } : undefined}
           >
-            ⚡
+            <BoltIcon color={turbo ? '#fde047' : '#e5e7eb'} />
           </button>
 
           <div className="fg-auto-wrap">
@@ -675,7 +679,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
 
       <div className="fg-demo-note">
         Demo mod — sanal para. RTP hedefi %{(manifest.targetRtp.min * 100).toFixed(0)}–
-        {(manifest.targetRtp.max * 100).toFixed(0)} · Volatilite {'⚡'.repeat(manifest.volatility)}
+        {(manifest.targetRtp.max * 100).toFixed(0)} · Volatilite {Array.from({ length: manifest.volatility }, (_, i) => (<BoltIcon key={i} size={11} color="#fbbf24" />))}
       </div>
 
       {/* Overlays */}
@@ -686,7 +690,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
               {bigWin.tier}
             </div>
             <div className="fg-bigwin-amount">
-              {Math.round(winDisplay).toLocaleString('tr-TR')} 🪙
+              {Math.round(winDisplay).toLocaleString('tr-TR')} <CoinIcon size={30} />
             </div>
             <div className="fg-particles">
               {Array.from({ length: 26 }, (_, i) => (
@@ -706,7 +710,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                   className="fg-coin"
                   style={{ left: `${(i * 41 + 17) % 100}%`, animationDelay: `${(i * 0.14) % 1.4}s` }}
                 >
-                  🪙
+                  <CoinIcon size={24} />
                 </span>
               ))}
             </div>
@@ -730,7 +734,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           <div className="fg-fs-intro">
             <div className="fg-fs-lbl">FREE SPIN BİTTİ</div>
             <div className="fg-fs-count" style={{ color: manifest.theme.accentColor2 }}>
-              {fsSummary.toLocaleString('tr-TR')} 🪙
+              {fsSummary.toLocaleString('tr-TR')} <CoinIcon size={30} />
             </div>
           </div>
         </div>
@@ -749,7 +753,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
             <p>
               Free spin turunu doğrudan başlat:{' '}
               <strong>
-                {(bet * manifest.bonusBuy.costMultiplier).toLocaleString('tr-TR')} 🪙
+                {(bet * manifest.bonusBuy.costMultiplier).toLocaleString('tr-TR')} <CoinIcon size={13} />
               </strong>{' '}
               ({manifest.bonusBuy.costMultiplier}x bahis)
             </p>
@@ -788,7 +792,11 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                 .map((s) => (
                   <div key={s.id} className="fg-pt-row">
                     <span className="fg-pt-sym" style={{ color: s.color }}>
-                      {s.label}
+                      {symbolSrc(s.id) ? (
+                        <img className="fg-pt-img" src={symbolSrc(s.id)} alt={s.id} />
+                      ) : (
+                        s.label
+                      )}
                     </span>
                     <span className="fg-pt-pays">
                       {Object.entries(s.payouts)
@@ -799,7 +807,13 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                   </div>
                 ))}
               <div className="fg-pt-row">
-                <span className="fg-pt-sym">{symbolMap.get(scatterId)?.label}</span>
+                <span className="fg-pt-sym">
+                  {symbolSrc(scatterId) ? (
+                    <img className="fg-pt-img" src={symbolSrc(scatterId)} alt="scatter" />
+                  ) : (
+                    symbolMap.get(scatterId)?.label
+                  )}
+                </span>
                 <span className="fg-pt-pays">
                   SCATTER —{' '}
                   {Object.entries(manifest.freeSpins.awards)
@@ -836,7 +850,9 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-board { display: grid; gap: 8px; }
         .fg-col { display: flex; flex-direction: column; gap: 8px; overflow: hidden; border-radius: 10px; }
         .fg-col-tense { box-shadow: 0 0 22px rgba(255, 220, 100, 0.8); }
-        .fg-strip { display: flex; flex-direction: column; gap: 8px; animation: fgStrip 0.24s linear infinite; }
+        .fg-col-land { animation: fgColLand 0.28s cubic-bezier(0.22, 1.4, 0.36, 1); }
+        @keyframes fgColLand { 0% { transform: translateY(-10px); } 55% { transform: translateY(4px); } 100% { transform: none; } }
+        .fg-strip { display: flex; flex-direction: column; gap: 8px; animation: fgStrip 0.16s linear infinite; will-change: transform; }
         @keyframes fgStrip { from { transform: translateY(-34%); } to { transform: translateY(0); } }
         .fg-cell { position: relative; width: clamp(52px, 8.5vw, 92px); height: clamp(52px, 8.5vw, 92px); display: flex; align-items: center; justify-content: center; font-size: clamp(26px, 4.5vw, 46px); background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03)); border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -6px 12px rgba(0,0,0,0.35); }
         .fg-cell-blur { filter: blur(2px); opacity: 0.75; }
@@ -849,6 +865,8 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-drop { animation: fgDrop 0.32s cubic-bezier(0.34, 1.4, 0.64, 1) backwards; }
         @keyframes fgDrop { from { transform: translateY(-120%); opacity: 0.4; } to { transform: none; opacity: 1; } }
         .fg-hit { animation: fgPulse 0.5s ease infinite alternate; z-index: 2; }
+        .fg-hit::after { content: ''; position: absolute; inset: -3px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.85); animation: fgRing 0.7s ease-out infinite; pointer-events: none; }
+        @keyframes fgRing { 0% { opacity: 0.9; transform: scale(0.96); } 100% { opacity: 0; transform: scale(1.22); } }
         @keyframes fgPulse { from { transform: scale(1); } to { transform: scale(1.12); } }
         .fg-burst { animation: fgBurst 0.36s ease forwards; }
         @keyframes fgBurst { to { transform: scale(0); opacity: 0; } }
@@ -900,7 +918,8 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-pt-note { font-size: 13px; opacity: 0.75; }
         .fg-pt-grid { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
         .fg-pt-row { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.05); border-radius: 10px; padding: 8px 12px; }
-        .fg-pt-sym { font-size: 26px; width: 40px; text-align: center; }
+        .fg-pt-sym { font-size: 26px; width: 44px; text-align: center; }
+        .fg-pt-img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
         .fg-pt-pays { font-size: 12.5px; opacity: 0.9; }
         @media (max-width: 900px) {
           .fg-root { overflow-x: hidden; }

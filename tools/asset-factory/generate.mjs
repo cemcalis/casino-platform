@@ -7,7 +7,8 @@
  * returned PNG to the item's outputPath.
  *
  * Providers:
- *   gemini (default) — model gemini-2.5-flash-image via generativelanguage API.
+ *   pollinations (default) — keyless free generation via image.pollinations.ai.
+ *   gemini — model gemini-2.5-flash-image via generativelanguage API.
  *     Requires GEMINI_API_KEY in .env (repo root, gitignored). NOTE: Google
  *     serves image models only to billing-enabled keys; a free-tier key gets
  *     HTTP 429 with "limit: 0" — enable billing in AI Studio to unlock.
@@ -40,7 +41,7 @@ const args = Object.fromEntries(
 const game = args.game ?? 'neon-palace';
 const only = args.only ?? null;
 const dryRun = 'dry-run' in args;
-const provider = process.env.ASSET_PROVIDER ?? 'gemini';
+const provider = process.env.ASSET_PROVIDER ?? 'pollinations';
 
 const qPath = join(root, 'assets', game, 'queue.json');
 if (!existsSync(qPath)) {
@@ -62,7 +63,7 @@ if (provider === 'manual' || dryRun) {
 }
 
 const API_KEYS = [process.env.GEMINI_API_KEY, process.env.GEMINI_API_KEY_BACKUP].filter(Boolean);
-if (API_KEYS.length === 0) {
+if (provider === 'gemini' && API_KEYS.length === 0) {
   warn('GEMINI_API_KEY not set in .env — aborting. (Manual mode: --dry-run to print prompts.)');
   process.exit(1);
 }
@@ -72,7 +73,32 @@ const ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${MODE
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/** Keyless provider — free flux-based generation, one GET per image. */
+async function generatePollinations(item, attempt = 0) {
+  const size = item.size ?? { width: 512, height: 512 };
+  const seed = item.seed ?? 42;
+  const url =
+    'https://image.pollinations.ai/prompt/' +
+    encodeURIComponent(item.generationPrompt) +
+    `?width=${size.width}&height=${size.height}&nologo=true&seed=${seed}`;
+  const res = await fetch(url, { signal: AbortSignal.timeout(120_000) });
+  if (!res.ok) {
+    if (attempt < 5) {
+      // Anonymous tier is roughly one image per ~15s — wait it out.
+      const wait = 20_000 + 10_000 * attempt;
+      dim(`    HTTP ${res.status} — retrying in ${wait / 1000}s`);
+      await sleep(wait);
+      return generatePollinations(item, attempt + 1);
+    }
+    throw new Error(`HTTP ${res.status} after ${attempt + 1} attempts`);
+  }
+  const buf = Buffer.from(await res.arrayBuffer());
+  if (buf.length < 5000) throw new Error(`response too small (${buf.length} bytes) — likely an error page`);
+  return buf;
+}
+
 async function generateOne(item, keyIndex = 0, attempt = 0) {
+  if (provider === 'pollinations') return generatePollinations(item);
   const res = await fetch(ENDPOINT, {
     method: 'POST',
     headers: { 'x-goog-api-key': API_KEYS[keyIndex], 'Content-Type': 'application/json' },
@@ -117,7 +143,7 @@ for (const item of items) {
     writeFileSync(outAbs, png);
     ok(`  saved (${(png.length / 1024).toFixed(0)} KB)`);
     done++;
-    await sleep(1500); // stay under per-minute limits
+    await sleep(provider === 'pollinations' ? 20_000 : 1500); // stay under per-minute limits
   } catch (err) {
     warn(`  FAILED: ${err.message}`);
     failed++;
