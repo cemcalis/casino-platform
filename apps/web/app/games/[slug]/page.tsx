@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../../components/icons';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -24,7 +25,7 @@ const GAME_REGISTRY: Record<string, GameMeta> = {
       'High-stakes European Roulette in a cyberpunk city. Place your bets across neon-lit numbers as the city hums with electricity. Single-zero wheel, authentic physics, live leaderboards.',
     releaseHint: 'Q3 2026',
     accentColor: '#00e5ff',
-    icon: '🎡',
+    icon: 'wheel',
     features: [
       { label: 'Wheel', value: 'European Single-Zero' },
       { label: 'Min Bet', value: '10 VCOIN' },
@@ -39,7 +40,7 @@ const GAME_REGISTRY: Record<string, GameMeta> = {
       'Watch the multiplier rocket skyward — cash out before the crash! The higher you hold, the bigger the reward. Provably fair outcomes, real-time multiplier chart, instant settlements.',
     releaseHint: 'Q3 2026',
     accentColor: '#f4c430',
-    icon: '🚀',
+    icon: '',
     features: [
       { label: 'Max Multiplier', value: '1,000×' },
       { label: 'Auto Cash-Out', value: 'Supported' },
@@ -54,7 +55,7 @@ const GAME_REGISTRY: Record<string, GameMeta> = {
       'Classic 21 with a royal twist. The highest RTP in the palace — pure strategy, low house edge. Supports split, double-down, and insurance with Vegas-rule precision.',
     releaseHint: 'Q4 2026',
     accentColor: '#a855f7',
-    icon: '🃏',
+    icon: 'cards',
     features: [
       { label: 'Decks', value: '6-Deck Shoe' },
       { label: 'Dealer Hits', value: 'Soft 17' },
@@ -69,7 +70,7 @@ const GAME_REGISTRY: Record<string, GameMeta> = {
       'Roll the virtual dice and predict the outcome. Bet over/under with variable targets — the narrower your range, the higher the multiplier. Provably fair, instant results.',
     releaseHint: 'Q4 2026',
     accentColor: '#22c55e',
-    icon: '🎲',
+    icon: 'dice',
     features: [
       { label: 'Win Chance', value: '1% – 98%' },
       { label: 'Max Win', value: '9,900×' },
@@ -84,7 +85,7 @@ const GAME_REGISTRY: Record<string, GameMeta> = {
       'Scratch the surface, reveal your fortune. Match three gems to unlock multipliers, bonus rounds, and jackpot tiles. Instant win mechanics — no spinning, no waiting.',
     releaseHint: 'Q2 2026',
     accentColor: '#ec4899',
-    icon: '💎',
+    icon: 'gem',
     features: [
       { label: 'Cards per Play', value: '1 or 3' },
       { label: 'Top Prize', value: '5,000× Bet' },
@@ -159,7 +160,7 @@ export default function ComingSoonPage() {
               boxShadow: `0 0 40px ${game.accentColor}30`,
             }}
           >
-            {game.icon}
+            <AppIcon name={game.icon} />
           </div>
         </div>
 

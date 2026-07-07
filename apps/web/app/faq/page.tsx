@@ -301,7 +301,7 @@ export default function FAQPage() {
             padding: 32,
             textAlign: 'center',
           }}>
-            <div style={{ fontSize: 32, marginBottom: 12 }}>💬</div>
+            <div style={{ fontSize: 32, marginBottom: 12 }}></div>
             <h3 style={{ fontSize: 18, fontWeight: 800, color: C.text, marginBottom: 8 }}>Still have questions?</h3>
             <p style={{ fontSize: 13, color: C.textDim, marginBottom: 20 }}>
               Our support team is available 24/7. Average response time: under 2 hours.

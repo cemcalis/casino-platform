@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import LobbyHeader from '../components/lobby/LobbyHeader';
@@ -11,13 +12,13 @@ const PROFILE = {
   username: 'NeonRider_88',
   email: 'n••••r88@email.com',
   joined: 'March 12, 2024',
-  avatar: '🦊',
+  avatar: '',
   vipTier: 'Gold',
   vipColor: LC.gold,
-  country: '🇺🇸 United States',
+  country: ' United States',
 };
 
-const AVATARS = ['🦊', '🐉', '🦁', '🐯', '🦅', '🐺', '🦈', '🃏'];
+const AVATARS = ['', '', '', '', '', '', '', ''];
 
 const STATS = [
   { label: 'Total Spins', value: '12,480', color: LC.text },
@@ -29,19 +30,19 @@ const STATS = [
 ];
 
 const ACHIEVEMENTS = [
-  { icon: '🏆', title: 'High Roller', desc: 'Wagered over 500,000 VCOIN', unlocked: true },
-  { icon: '🔥', title: 'Hot Streak', desc: 'Won 5 spins in a row', unlocked: true },
-  { icon: '🎰', title: 'Slot Explorer', desc: 'Played 10 different games', unlocked: true },
-  { icon: '💎', title: 'Diamond Hands', desc: 'Reach Diamond VIP tier', unlocked: false },
-  { icon: '🌙', title: 'Night Owl', desc: 'Play between 2–4 AM', unlocked: true },
-  { icon: '🎯', title: 'Jackpot Hunter', desc: 'Hit a progressive jackpot', unlocked: false },
+  { icon: 'trophy', title: 'High Roller', desc: 'Wagered over 500,000 VCOIN', unlocked: true },
+  { icon: 'fire', title: 'Hot Streak', desc: 'Won 5 spins in a row', unlocked: true },
+  { icon: 'slots', title: 'Slot Explorer', desc: 'Played 10 different games', unlocked: true },
+  { icon: 'gem', title: 'Diamond Hands', desc: 'Reach Diamond VIP tier', unlocked: false },
+  { icon: '', title: 'Night Owl', desc: 'Play between 2–4 AM', unlocked: true },
+  { icon: 'target', title: 'Jackpot Hunter', desc: 'Hit a progressive jackpot', unlocked: false },
 ];
 
 const QUICK_LINKS = [
-  { icon: '💰', label: 'Wallet', href: '/wallet' },
-  { icon: '👑', label: 'VIP Club', href: '/vip' },
-  { icon: '📜', label: 'History', href: '/history' },
-  { icon: '⚙️', label: 'Settings', href: '/settings' },
+  { icon: 'money', label: 'Wallet', href: '/wallet' },
+  { icon: 'crown', label: 'VIP Club', href: '/vip' },
+  { icon: 'scroll', label: 'History', href: '/history' },
+  { icon: 'gear', label: 'Settings', href: '/settings' },
 ];
 
 export default function ProfilePage() {
@@ -97,7 +98,7 @@ export default function ProfilePage() {
               cursor: 'pointer',
             }}
           >
-            ✎
+            
           </button>
 
           {pickerOpen && (
@@ -144,7 +145,7 @@ export default function ProfilePage() {
           {PROFILE.username}
         </h1>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', fontSize: 12, color: LC.textDim }}>
-          <span style={{ color: PROFILE.vipColor, fontWeight: 800, letterSpacing: 1 }}>👑 {PROFILE.vipTier} TIER</span>
+          <span style={{ color: PROFILE.vipColor, fontWeight: 800, letterSpacing: 1 }}> {PROFILE.vipTier} TIER</span>
           <span>·</span>
           <span>{PROFILE.country}</span>
           <span>·</span>
@@ -175,7 +176,7 @@ export default function ProfilePage() {
               onMouseEnter={(e) => { e.currentTarget.style.borderColor = LC.gold; e.currentTarget.style.transform = 'translateY(-2px)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.borderColor = LC.cardBorder; e.currentTarget.style.transform = 'translateY(0)'; }}
             >
-              <span style={{ fontSize: 20 }}>{q.icon}</span>
+              <span style={{ fontSize: 20 }}><AppIcon name={q.icon} /></span>
               <span style={{ fontSize: 13, fontWeight: 700 }}>{q.label}</span>
             </button>
           ))}
@@ -231,7 +232,7 @@ export default function ProfilePage() {
                   opacity: a.unlocked ? 1 : 0.5,
                 }}
               >
-                <span style={{ fontSize: 22 }}>{a.icon}</span>
+                <span style={{ fontSize: 22 }}><AppIcon name={a.icon} /></span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 800 }}>{a.title}</div>
                   <div style={{ fontSize: 11, color: LC.textDim, marginTop: 2 }}>{a.desc}</div>

@@ -260,7 +260,7 @@ export default function ReportsPage() {
               <span style={{ color: '#ff2d78', fontSize: 12, fontWeight: 700, letterSpacing: '.1em' }}>LIVE</span>
             </div>
             <div style={{ position: 'relative', cursor: 'pointer' }} onClick={() => setNotifOpen(!notifOpen)}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(240,232,255,.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, border: '1px solid rgba(240,232,255,.1)' }}>🔔</div>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(240,232,255,.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, border: '1px solid rgba(240,232,255,.1)' }}></div>
               <span style={{ position: 'absolute', top: -4, right: -4, background: '#ff2d78', color: '#fff', fontSize: 10, fontWeight: 700, borderRadius: '50%', width: 18, height: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'pulseRed 2s infinite' }}>3</span>
               {notifOpen && (
                 <div style={{ position: 'absolute', top: 48, right: 0, background: '#1a0d30', border: '1px solid rgba(244,196,48,.2)', borderRadius: 12, padding: 12, width: 260, zIndex: 200, boxShadow: '0 16px 40px rgba(0,0,0,.6)' }}>
@@ -302,17 +302,17 @@ export default function ReportsPage() {
                 {loading && <div style={{ width: 14, height: 14, border: '2px solid #f4c43044', borderTopColor: '#f4c430', borderRadius: '50%', animation: 'spin .7s linear infinite' }} />}
               </div>
               <button onClick={() => exportCsv(data)} style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'linear-gradient(135deg,#f4c430,#ff8c00)', border: 'none', color: '#0d0618', fontSize: 13, fontWeight: 700, padding: '10px 20px', borderRadius: 10, cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                ⬇ Export CSV
+                 Export CSV
               </button>
             </div>
           </div>
 
           {/* KPI ROW 1 */}
           <div style={{ display: 'flex', gap: 20, marginBottom: 20, flexWrap: 'wrap', animation: 'slideUp .5s ease .1s both' }}>
-            <MetricCard label="Total Bets" value={`${fmt(parseFloat(s.totalBets))} VC`} sub={`${fmt(s.totalSessions)} spins`} color="#00d4c8" icon="🎲" />
-            <MetricCard label="Total Wins Paid" value={`${fmt(parseFloat(s.totalWins))} VC`} color="#a855f7" icon="🏆" />
-            <MetricCard label="Gross Gaming Revenue" value={`${fmt(ggrNum)} VC`} sub={`${((ggrNum / parseFloat(s.totalBets)) * 100).toFixed(2)}% margin`} color="#f4c430" icon="💰" />
-            <MetricCard label="Net Gaming Revenue" value={`${fmt(parseFloat(s.ngr))} VC`} sub="After 15% operator cost" color="#4ade80" icon="📈" />
+            <MetricCard label="Total Bets" value={`${fmt(parseFloat(s.totalBets))} VC`} sub={`${fmt(s.totalSessions)} spins`} color="#00d4c8" icon="" />
+            <MetricCard label="Total Wins Paid" value={`${fmt(parseFloat(s.totalWins))} VC`} color="#a855f7" icon="" />
+            <MetricCard label="Gross Gaming Revenue" value={`${fmt(ggrNum)} VC`} sub={`${((ggrNum / parseFloat(s.totalBets)) * 100).toFixed(2)}% margin`} color="#f4c430" icon="" />
+            <MetricCard label="Net Gaming Revenue" value={`${fmt(parseFloat(s.ngr))} VC`} sub="After 15% operator cost" color="#4ade80" icon="" />
           </div>
 
           {/* KPI ROW 2 */}
@@ -463,7 +463,7 @@ export default function ReportsPage() {
                       onMouseEnter={e => (e.currentTarget.style.background = 'rgba(168,85,247,.07)')}
                       onMouseLeave={e => (e.currentTarget.style.background = i % 2 === 0 ? 'rgba(240,232,255,.02)' : 'transparent')}>
                       <td style={{ padding: '13px 20px', color: i < 3 ? '#f4c430' : '#6b5a8a', fontWeight: 700, fontSize: 14 }}>
-                        {i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`}
+                        {i === 0 ? '' : i === 1 ? '' : i === 2 ? '' : `#${i + 1}`}
                       </td>
                       <td style={{ padding: '13px 20px', color: '#f0e8ff', fontWeight: 600, fontSize: 14 }}>{p.username}</td>
                       <td style={{ padding: '13px 20px', color: '#00d4c8', fontWeight: 600, fontSize: 14 }}>{fmt(p.bets)}</td>

@@ -90,7 +90,7 @@ function Podium({ entries }: { entries: LeaderboardEntry[] }) {
   const order = [second, first, third];
   const heights = [100, 136, 80];
   const colors = [T.silver, T.goldBright, T.bronze];
-  const medals = ['🥈', '🥇', '🥉'];
+  const medals = ['', '', ''];
   const labels = ['2nd', '1st', '3rd'];
 
   if (!first) return null;
@@ -153,7 +153,7 @@ function Podium({ entries }: { entries: LeaderboardEntry[] }) {
             </div>
             {/* Coin amount */}
             <div style={{ fontSize: 11, color: T.textDim, letterSpacing: '0.04em', textAlign: 'center' }}>
-              🪙 {fmtCoins(entry.totalWon)}
+               {fmtCoins(entry.totalWon)}
             </div>
             {/* Podium block */}
             <div
@@ -225,7 +225,7 @@ function EmptyState() {
           boxShadow: `0 0 24px ${T.purple}33`,
         }}
       >
-        <div style={{ fontSize: 28 }}>🎰</div>
+        <div style={{ fontSize: 28 }}></div>
         <div style={{ fontSize: 10, color: T.textDim, letterSpacing: '0.1em' }}>SPIN!</div>
       </div>
       <div style={{ fontSize: 15, color: T.textDim, letterSpacing: '0.06em', textAlign: 'center' }}>
@@ -321,7 +321,7 @@ export default function LeaderboardPage() {
               flexShrink: 0,
             }}
           >
-            🎰 NEON PALACE
+             NEON PALACE
           </Link>
 
           {/* Period tabs */}
@@ -515,7 +515,7 @@ export default function LeaderboardPage() {
                         }}
                       >
                         {entry.rank <= 3
-                          ? ['🥇', '🥈', '🥉'][entry.rank - 1]
+                          ? ['', '', ''][entry.rank - 1]
                           : `#${entry.rank}`}
                       </span>
                       {/* Avatar */}
@@ -548,7 +548,7 @@ export default function LeaderboardPage() {
                           letterSpacing: '0.04em',
                         }}
                       >
-                        🪙 {fmtCoins(entry.totalWon)}
+                         {fmtCoins(entry.totalWon)}
                       </span>
                       {/* Total won */}
                       <span
@@ -617,7 +617,7 @@ export default function LeaderboardPage() {
                     whiteSpace: 'nowrap',
                   }}
                 >
-                  🎰 PLAY NOW
+                   PLAY NOW
                 </Link>
               </div>
 

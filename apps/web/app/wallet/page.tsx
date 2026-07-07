@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { userApi } from '../../lib/api-user';
@@ -40,11 +41,11 @@ function entryLabel(entry: LedgerEntry): string {
 
 function entryIcon(entry: LedgerEntry): string {
   const ref = entry.referenceId;
-  if (ref === 'daily-bonus' || ref === 'daily_bonus') return '🎁';
-  if (ref === 'welcome-bonus' || ref === 'welcome_bonus') return '🎉';
-  if (ref === 'cashback-bonus') return '💰';
-  if (ref?.startsWith('spin_') && entry.type === 'CREDIT') return '🏆';
-  if (ref?.startsWith('spin_') && entry.type === 'DEBIT') return '🎰';
+  if (ref === 'daily-bonus' || ref === 'daily_bonus') return '';
+  if (ref === 'welcome-bonus' || ref === 'welcome_bonus') return '';
+  if (ref === 'cashback-bonus') return '';
+  if (ref?.startsWith('spin_') && entry.type === 'CREDIT') return '';
+  if (ref?.startsWith('spin_') && entry.type === 'DEBIT') return '';
   return entry.type === 'CREDIT' ? '↑' : '↓';
 }
 
@@ -469,7 +470,7 @@ export default function WalletPage() {
                   {bonusState === 'claiming' ? 'CLAIMING…'
                     : bonusState === 'claimed' ? '✓ CLAIMED'
                     : bonusState === 'error' ? bonusError.split('—')[0]?.trim() ?? 'UNAVAILABLE'
-                    : '🎁 CLAIM DAILY'}
+                    : ' CLAIM DAILY'}
                 </button>
               </div>
             </div>
@@ -573,7 +574,7 @@ export default function WalletPage() {
 
               {entries.length === 0 ? (
                 <div style={{ padding: '64px 28px', textAlign: 'center', color: C.textDim }}>
-                  <div style={{ fontSize: 40, marginBottom: 12 }}>📋</div>
+                  <div style={{ fontSize: 40, marginBottom: 12 }}></div>
                   No transactions yet
                 </div>
               ) : (
@@ -662,10 +663,10 @@ export default function WalletPage() {
         {/* ── Quick Actions ──────────────────────────────────────────────── */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 10, marginTop: 28 }}>
           {[
-            { label: 'Play Neon Palace', icon: '🎰', action: () => router.push('/games/neon-palace'), color: C.purple },
-            { label: 'Leaderboard', icon: '🏆', action: () => router.push('/leaderboard'), color: C.gold },
-            { label: 'VIP Club', icon: '💎', action: () => router.push('/vip'), color: C.cyan },
-            { label: 'Dashboard', icon: '👤', action: () => router.push('/dashboard'), color: C.magenta },
+            { label: 'Play Neon Palace', icon: 'slots', action: () => router.push('/games/neon-palace'), color: C.purple },
+            { label: 'Leaderboard', icon: 'trophy', action: () => router.push('/leaderboard'), color: C.gold },
+            { label: 'VIP Club', icon: 'gem', action: () => router.push('/vip'), color: C.cyan },
+            { label: 'Dashboard', icon: 'user', action: () => router.push('/dashboard'), color: C.magenta },
           ].map(({ label, icon, action, color }) => (
             <button key={label} onClick={action} style={{
               background: C.card, border: `1px solid ${C.cardBorder}`,

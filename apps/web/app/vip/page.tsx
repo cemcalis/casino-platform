@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { apiClient } from '../../lib/api-client';
@@ -93,10 +94,10 @@ function TierCard({ tier, isCurrent }: { tier: VipStatus['allTiers'][number]; is
         <div style={{
           position: 'absolute', top: 16, right: 16,
           fontSize: 18, opacity: 0.4,
-        }}>🔒</div>
+        }}></div>
       )}
 
-      <div style={{ fontSize: 40, marginBottom: 8 }}>{tier.icon}</div>
+      <div style={{ fontSize: 40, marginBottom: 8 }}><AppIcon name={tier.icon} /></div>
       <div style={{ fontSize: 22, fontWeight: 900, color: tier.color, marginBottom: 4, letterSpacing: 1 }}>
         {tier.name.toUpperCase()}
       </div>
@@ -216,7 +217,7 @@ export default function VipPage() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
               {(['Bronze','Silver','Gold','Platinum'] as const).map((name, i) => (
-                <TierCard key={name} tier={{ name, icon: ['🥉','🥈','🥇','💎'][i]!, color: ['#cd7f32','#c0c0c0','#f4c430','#e5e4e2'][i]!, minBet: [0,1000,10000,50000][i]!, cashback: [0,3,7,15][i]!, dailyBonus: [500,1000,2000,5000][i]!, unlocked: false }} isCurrent={false} />
+                <TierCard key={name} tier={{ name, icon: ['','','',''][i]!, color: ['#cd7f32','#c0c0c0','#f4c430','#e5e4e2'][i]!, minBet: [0,1000,10000,50000][i]!, cashback: [0,3,7,15][i]!, dailyBonus: [500,1000,2000,5000][i]!, unlocked: false }} isCurrent={false} />
               ))}
             </div>
           </>
@@ -275,7 +276,7 @@ export default function VipPage() {
                     )}
                     {!vipStatus.nextTierName && (
                       <div style={{ fontSize: 13, color: C.gold, fontWeight: 700, letterSpacing: 1 }}>
-                        💎 Maximum tier achieved — you are a Platinum member!
+                         Maximum tier achieved — you are a Platinum member!
                       </div>
                     )}
                   </div>
@@ -297,10 +298,10 @@ export default function VipPage() {
                 <h3 style={{ fontSize: 15, fontWeight: 800, color: C.text, letterSpacing: 1, marginBottom: 16 }}>HOW VIP WORKS</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 20 }}>
                   {[
-                    { icon: '🎰', title: 'Spin to Earn', desc: 'Every bet counts toward your VIP progress. The more VCOIN you wager, the faster you advance.' },
-                    { icon: '📈', title: 'Automatic Upgrade', desc: 'Tier upgrades happen automatically when your total wager threshold is reached.' },
-                    { icon: '💰', title: 'Weekly Cashback', desc: 'Your cashback is calculated every Sunday and credited to your wallet on Monday.' },
-                    { icon: '🎁', title: 'Daily Bonus', desc: 'Higher tiers unlock larger daily bonuses. Claim them from the Promotions page.' },
+                    { icon: 'slots', title: 'Spin to Earn', desc: 'Every bet counts toward your VIP progress. The more VCOIN you wager, the faster you advance.' },
+                    { icon: 'chart', title: 'Automatic Upgrade', desc: 'Tier upgrades happen automatically when your total wager threshold is reached.' },
+                    { icon: 'money', title: 'Weekly Cashback', desc: 'Your cashback is calculated every Sunday and credited to your wallet on Monday.' },
+                    { icon: 'gift', title: 'Daily Bonus', desc: 'Higher tiers unlock larger daily bonuses. Claim them from the Promotions page.' },
                   ].map(({ icon, title, desc }) => (
                     <div key={title}>
                       <div style={{ fontSize: 28, marginBottom: 8 }}>{icon}</div>

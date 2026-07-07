@@ -96,26 +96,26 @@ export default function SettingsPage() {
 
         <LobbyCard>
           <LobbySectionTitle>Notifications</LobbySectionTitle>
-          <SettingRow icon="🏆" label="Win alerts" desc="Notify me when I win a spin or jackpot" on={notifWins} onChange={() => setNotifWins((v) => !v)} />
-          <SettingRow icon="🎁" label="Bonus reminders" desc="Daily bonus and cashback availability" on={notifBonus} onChange={() => setNotifBonus((v) => !v)} />
-          <SettingRow icon="⚔️" label="Tournament updates" desc="Tournament start times and results" on={notifTournaments} onChange={() => setNotifTournaments((v) => !v)} />
-          <SettingRow icon="📣" label="Promotional offers" desc="New promotions and limited-time deals" on={notifMarketing} onChange={() => setNotifMarketing((v) => !v)} />
+          <SettingRow icon="" label="Win alerts" desc="Notify me when I win a spin or jackpot" on={notifWins} onChange={() => setNotifWins((v) => !v)} />
+          <SettingRow icon="" label="Bonus reminders" desc="Daily bonus and cashback availability" on={notifBonus} onChange={() => setNotifBonus((v) => !v)} />
+          <SettingRow icon="" label="Tournament updates" desc="Tournament start times and results" on={notifTournaments} onChange={() => setNotifTournaments((v) => !v)} />
+          <SettingRow icon="" label="Promotional offers" desc="New promotions and limited-time deals" on={notifMarketing} onChange={() => setNotifMarketing((v) => !v)} />
           <div style={{ paddingTop: 12 }}>
-            <SettingRow icon="📧" label="Weekly email digest" desc="Summary of your activity and offers" on={emailDigest} onChange={() => setEmailDigest((v) => !v)} />
+            <SettingRow icon="" label="Weekly email digest" desc="Summary of your activity and offers" on={emailDigest} onChange={() => setEmailDigest((v) => !v)} />
           </div>
         </LobbyCard>
 
         <LobbyCard accent={LC.cyan}>
           <LobbySectionTitle accent={LC.cyan}>Gameplay</LobbySectionTitle>
-          <SettingRow icon="🔊" label="Sound effects" desc="Spin, win, and button sounds" on={soundEffects} onChange={() => setSoundEffects((v) => !v)} />
-          <SettingRow icon="🎵" label="Background music" desc="Ambient music while playing" on={musicEnabled} onChange={() => setMusicEnabled((v) => !v)} />
-          <SettingRow icon="🌀" label="Reduce motion" desc="Minimize reel animations and particle effects" on={reduceMotion} onChange={() => setReduceMotion((v) => !v)} />
-          <SettingRow icon="✅" label="Confirm before auto-spin" desc="Ask for confirmation when starting auto-spin" on={autoSpinConfirm} onChange={() => setAutoSpinConfirm((v) => !v)} />
+          <SettingRow icon="" label="Sound effects" desc="Spin, win, and button sounds" on={soundEffects} onChange={() => setSoundEffects((v) => !v)} />
+          <SettingRow icon="" label="Background music" desc="Ambient music while playing" on={musicEnabled} onChange={() => setMusicEnabled((v) => !v)} />
+          <SettingRow icon="" label="Reduce motion" desc="Minimize reel animations and particle effects" on={reduceMotion} onChange={() => setReduceMotion((v) => !v)} />
+          <SettingRow icon="" label="Confirm before auto-spin" desc="Ask for confirmation when starting auto-spin" on={autoSpinConfirm} onChange={() => setAutoSpinConfirm((v) => !v)} />
         </LobbyCard>
 
         <LobbyCard accent={LC.purple}>
           <LobbySectionTitle accent={LC.purple}>Privacy & Responsible Gaming</LobbySectionTitle>
-          <SettingRow icon="🏅" label="Show me on leaderboards" desc="Display my username in public rankings" on={showOnLeaderboard} onChange={() => setShowOnLeaderboard((v) => !v)} />
+          <SettingRow icon="" label="Show me on leaderboards" desc="Display my username in public rankings" on={showOnLeaderboard} onChange={() => setShowOnLeaderboard((v) => !v)} />
           <SettingRow icon="⏰" label="Session time reminders" desc="Gentle reminder every hour of play" on={sessionReminders} onChange={() => setSessionReminders((v) => !v)} />
         </LobbyCard>
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { AppIcon } from '../components/icons';
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { userApi } from '../../lib/api-user';
@@ -102,7 +103,7 @@ function PromoCard({
 
       {/* Content */}
       <div style={{ padding: '32px 28px 24px' }}>
-        <div style={{ fontSize: 36, marginBottom: 12 }}>{promo.icon}</div>
+        <div style={{ fontSize: 36, marginBottom: 12 }}><AppIcon name={promo.icon} /></div>
 
         <div style={{ fontSize: 11, color: promo.accentColor, letterSpacing: 3, fontWeight: 700, marginBottom: 6 }}>
           {promo.subtitle}
@@ -248,7 +249,7 @@ export default function PromotionsPage() {
       accentColor: C.magenta,
       glowColor: C.magenta,
       bgGradient: 'linear-gradient(145deg, #2d0030 0%, #1a0020 60%, #0d000f 100%)',
-      icon: '🎉',
+      icon: 'spark',
       claimKey: 'welcome',
       ctaLabel: 'CLAIM 5,000 VCOIN',
     },
@@ -265,7 +266,7 @@ export default function PromotionsPage() {
       accentColor: C.gold,
       glowColor: C.gold,
       bgGradient: 'linear-gradient(145deg, #2a1a00 0%, #1a0d00 60%, #0d0600 100%)',
-      icon: '🌅',
+      icon: '',
       claimKey: 'daily',
       ctaLabel: 'CLAIM 500 VCOIN',
     },
@@ -282,7 +283,7 @@ export default function PromotionsPage() {
       accentColor: C.teal,
       glowColor: C.teal,
       bgGradient: 'linear-gradient(145deg, #001a1a 0%, #000d12 60%, #000609 100%)',
-      icon: '🏆',
+      icon: 'trophy',
       claimKey: undefined,
       ctaLabel: 'VIEW LEADERBOARD',
       ctaAction: () => router.push('/leaderboard'),
@@ -300,7 +301,7 @@ export default function PromotionsPage() {
       accentColor: C.purple,
       glowColor: C.purple,
       bgGradient: 'linear-gradient(145deg, #0d0030 0%, #07001a 60%, #030009 100%)',
-      icon: '💎',
+      icon: 'gem',
       claimKey: undefined,
       ctaLabel: 'JOIN WAITLIST',
       ctaAction: () => {},
@@ -318,7 +319,7 @@ export default function PromotionsPage() {
       accentColor: '#22c55e',
       glowColor: '#22c55e',
       bgGradient: 'linear-gradient(145deg, #001a0a 0%, #000d05 60%, #000602 100%)',
-      icon: '👥',
+      icon: 'players',
       claimKey: undefined,
       ctaLabel: 'GET REFERRAL CODE',
       ctaAction: () => {},
@@ -336,7 +337,7 @@ export default function PromotionsPage() {
       accentColor: '#ff9500',
       glowColor: '#ff9500',
       bgGradient: 'linear-gradient(145deg, #1a0a00 0%, #0d0500 60%, #060200 100%)',
-      icon: '⚡',
+      icon: 'bolt',
       claimKey: undefined,
       ctaLabel: 'PLAY NOW',
       ctaAction: () => router.push('/games/neon-palace'),
@@ -478,7 +479,7 @@ export default function PromotionsPage() {
             background: `${C.green}11`, border: `1px solid ${C.green}33`,
             display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center',
           }}>
-            <span style={{ fontSize: 20 }}>🎊</span>
+            <span style={{ fontSize: 20 }}></span>
             <div>
               <div style={{ fontSize: 14, fontWeight: 700, color: C.green }}>Bonuses Claimed This Session</div>
               <div style={{ fontSize: 12, color: C.textDim, marginTop: 4 }}>
