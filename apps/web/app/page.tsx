@@ -2,6 +2,17 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import {
+  CardsIcon,
+  CoinIcon,
+  CrownIcon,
+  DiceIcon,
+  HeadsetIcon,
+  JackpotIcon,
+  LiveIcon,
+  SlotsIcon,
+  TrophyIcon,
+} from './components/icons';
 import { userApi } from '../lib/api-user';
 import {
   appendMessage,
@@ -350,14 +361,14 @@ const CATEGORY_MAP: Record<string, string[]> = {
 };
 
 const WINNERS: Winner[] = [
-  { initials: 'DK', username: 'Dragon***', game: 'Neon Palace', amount: '24,750 🪙', avatarBg: 'linear-gradient(135deg,#f4c430,#d97706)' },
-  { initials: 'RM', username: 'Royal***', game: 'Atlas Reef', amount: '18,200 🪙', avatarBg: 'linear-gradient(135deg,#ff2d78,#9f1239)' },
-  { initials: 'LK', username: 'Lucky***', game: 'Cyber Roulette', amount: '12,500 🪙', avatarBg: 'linear-gradient(135deg,#00d4c8,#0e7490)' },
-  { initials: 'MX', username: 'Mega***', game: 'Golden Vault', amount: '9,800 🪙', avatarBg: 'linear-gradient(135deg,#7c3aed,#4c1d95)' },
-  { initials: 'ST', username: 'Star***', game: 'Crystal Caverns', amount: '8,400 🪙', avatarBg: 'linear-gradient(135deg,#a855f7,#7c3aed)' },
-  { initials: 'NX', username: 'Neon***', game: 'Solar Wilds', amount: '7,200 🪙', avatarBg: 'linear-gradient(135deg,#ff9500,#d97706)' },
-  { initials: 'PK', username: 'Phoenix***', game: 'Lucky 7s Classic', amount: '6,100 🪙', avatarBg: 'linear-gradient(135deg,#22c55e,#15803d)' },
-  { initials: 'AX', username: 'Apex***', game: 'Olympus Strikes', amount: '5,500 🪙', avatarBg: 'linear-gradient(135deg,#00d4c8,#7c3aed)' },
+  { initials: 'DK', username: 'Dragon***', game: 'Neon Palace', amount: '24,750', avatarBg: 'linear-gradient(135deg,#f4c430,#d97706)' },
+  { initials: 'RM', username: 'Royal***', game: 'Atlas Reef', amount: '18,200', avatarBg: 'linear-gradient(135deg,#ff2d78,#9f1239)' },
+  { initials: 'LK', username: 'Lucky***', game: 'Cyber Roulette', amount: '12,500', avatarBg: 'linear-gradient(135deg,#00d4c8,#0e7490)' },
+  { initials: 'MX', username: 'Mega***', game: 'Golden Vault', amount: '9,800', avatarBg: 'linear-gradient(135deg,#7c3aed,#4c1d95)' },
+  { initials: 'ST', username: 'Star***', game: 'Crystal Caverns', amount: '8,400', avatarBg: 'linear-gradient(135deg,#a855f7,#7c3aed)' },
+  { initials: 'NX', username: 'Neon***', game: 'Solar Wilds', amount: '7,200', avatarBg: 'linear-gradient(135deg,#ff9500,#d97706)' },
+  { initials: 'PK', username: 'Phoenix***', game: 'Lucky 7s Classic', amount: '6,100', avatarBg: 'linear-gradient(135deg,#22c55e,#15803d)' },
+  { initials: 'AX', username: 'Apex***', game: 'Olympus Strikes', amount: '5,500', avatarBg: 'linear-gradient(135deg,#00d4c8,#7c3aed)' },
 ];
 
 const VIP_LEVELS = [
@@ -810,7 +821,7 @@ function AtlasReefArt() {
       {/* Deep sea glow */}
       <div style={{ position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%,-50%)', width: 130, height: 130, borderRadius: '50%', background: 'radial-gradient(circle, rgba(34,211,238,0.35), transparent 70%)' }} />
       {/* Trident */}
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', fontSize: 64, filter: 'drop-shadow(0 0 18px rgba(253,224,71,0.7))' }}>🔱</div>
+      <img src="/assets/atlas-reef/ui/lobby-card.png" alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.92 }} />
       {/* Rising bubbles */}
       {[14, 32, 58, 76, 88].map((left, i) => (
         <div key={i} style={{ position: 'absolute', bottom: -10, left: `${left}%`, width: 8 + (i % 3) * 5, height: 8 + (i % 3) * 5, borderRadius: '50%', border: '1.5px solid rgba(125,211,252,0.5)', animation: `floatY 6s ease-in-out ${i * 0.7}s infinite` }} />
@@ -1289,7 +1300,7 @@ export default function LobbyPage() {
             initials: name.slice(0, 2).toUpperCase(),
             username: `${name}***`,
             game: game.name,
-            amount: `${amount.toLocaleString('en-US')} 🪙`,
+            amount: `${amount.toLocaleString('en-US')}`,
             avatarBg: PALETTES[Math.floor(Math.random() * PALETTES.length)],
           },
           ...prev,
@@ -1606,7 +1617,7 @@ export default function LobbyPage() {
                 <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'linear-gradient(135deg,#f4c430,#d97706)', flexShrink: 0, boxShadow: '0 0 10px rgba(244,196,48,0.4)' }} />
                 <div>
                   <div style={{ fontSize: 10, color: '#7d7d86', fontWeight: 600, letterSpacing: '1px' }}>BAKİYE</div>
-                  <div style={{ fontSize: 13, fontWeight: 800, color: '#f4c430', fontFamily: 'monospace' }}>{balance} 🪙</div>
+                  <div style={{ fontSize: 13, fontWeight: 800, color: '#f4c430', fontFamily: 'monospace' }}>{balance} <CoinIcon size={13} style={{ verticalAlign: 'middle' }} /></div>
                 </div>
               </div>
             )}
@@ -1757,16 +1768,16 @@ export default function LobbyPage() {
       {/* ── LEFT ICON RAIL (desktop) — reference-lobby pattern ── */}
       <aside className="lobby-rail" aria-label="Hızlı gezinme">
         {[
-          { icon: '🎰', label: 'Slots', action: () => setActiveCategory('Slots') },
-          { icon: '🃏', label: 'Masa', action: () => setActiveCategory('Table') },
-          { icon: '🎥', label: 'Canlı', action: () => setActiveCategory('Live') },
-          { icon: '💰', label: 'Jackpot', action: () => setActiveCategory('Jackpots') },
-          { icon: '🏆', label: 'Turnuva', action: () => router.push('/tournaments') },
-          { icon: '👑', label: 'VIP', action: () => router.push('/vip') },
-          { icon: '🎧', label: 'Destek', action: () => router.push('/support') },
+          { Icon: SlotsIcon, label: 'Slots', action: () => setActiveCategory('Slots') },
+          { Icon: CardsIcon, label: 'Masa', action: () => setActiveCategory('Table') },
+          { Icon: LiveIcon, label: 'Canlı', action: () => setActiveCategory('Live') },
+          { Icon: JackpotIcon, label: 'Jackpot', action: () => setActiveCategory('Jackpots') },
+          { Icon: TrophyIcon, label: 'Turnuva', action: () => router.push('/tournaments') },
+          { Icon: CrownIcon, label: 'VIP', action: () => router.push('/vip') },
+          { Icon: HeadsetIcon, label: 'Destek', action: () => router.push('/support') },
         ].map((item) => (
           <button key={item.label} className="lobby-rail-btn" onClick={item.action} title={item.label}>
-            <span className="lobby-rail-ico">{item.icon}</span>
+            <span className="lobby-rail-ico"><item.Icon size={20} /></span>
             <span className="lobby-rail-lbl">{item.label}</span>
           </button>
         ))}
@@ -1840,7 +1851,7 @@ export default function LobbyPage() {
                 animation: `shimmer 3s linear infinite${jpFlash ? ', jackpotFlash 0.3s ease' : ''}`,
                 transition: 'all 0.15s',
               }}>
-                {megaJP.toLocaleString('tr-TR')} 🪙
+                {megaJP.toLocaleString('tr-TR')} <CoinIcon size={34} style={{ verticalAlign: 'middle' }} />
               </div>
             </div>
 
@@ -1857,7 +1868,7 @@ export default function LobbyPage() {
                 }}>
                   <div style={{ fontSize: 10, color: '#7d7d86', fontWeight: 700, letterSpacing: '2px', marginBottom: 4 }}>{jp.label}</div>
                   <div style={{ fontSize: 22, fontWeight: 900, color: jp.color, animation: jpFlash ? 'jackpotNum 0.15s ease' : 'none' }}>
-                    {jp.value.toLocaleString('tr-TR')} 🪙
+                    {jp.value.toLocaleString('tr-TR')} <CoinIcon size={14} style={{ verticalAlign: 'middle' }} />
                   </div>
                 </div>
               ))}
@@ -1896,7 +1907,7 @@ export default function LobbyPage() {
                 { label: 'ÇEVRİMİÇİ OYUNCU', value: '2.847', dotColor: '#22c55e' },
                 { label: 'OYUN SAYISI', value: '500+', dotColor: '#f4c430' },
                 { label: 'BUGÜNKÜ KAZANANLAR', value: '14.293', dotColor: '#00d4c8' },
-                { label: 'TOPLAM ÖDENEN', value: '2,8Mr 🪙', dotColor: '#a855f7' },
+                { label: 'TOPLAM ÖDENEN', value: '2,8Mr', dotColor: '#a855f7' },
               ].map(s => (
                 <div key={s.label} style={{ textAlign: 'center' }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 4 }}>
@@ -1943,7 +1954,9 @@ export default function LobbyPage() {
                   <span style={{ fontSize: 13, color: '#a6a6ae', whiteSpace: 'nowrap' }}>
                     <span style={{ color: '#f1efe9', fontWeight: 700 }}>{w.username}</span>
                     <span style={{ color: '#7d7d86' }}> — {w.game}: </span>
-                    <span style={{ color: '#f4c430', fontWeight: 800 }}>{w.amount}</span>
+                    <span style={{ color: '#f4c430', fontWeight: 800 }}>
+                      {w.amount} <CoinIcon size={12} style={{ verticalAlign: 'middle' }} />
+                    </span>
                     {' kazandı'}
                   </span>
                 </div>
@@ -2207,7 +2220,7 @@ export default function LobbyPage() {
                 transition: 'all 0.2s',
               }}
             >
-              🎲 Rastgele Oyun
+              <DiceIcon size={15} /> Rastgele Oyun
             </button>
 
             {/* Results count */}
@@ -2637,7 +2650,7 @@ function LiveSupportWidget() {
                   background: 'linear-gradient(135deg, #f4c430, #f97316)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   fontSize: 16,
-                }}>🎧</div>
+                }}><HeadsetIcon size={16} color="#f4c430" /></div>
                 <div style={{
                   position: 'absolute', bottom: 0, right: 0,
                   width: 12, height: 12, borderRadius: '50%',
@@ -2810,7 +2823,13 @@ function LiveSupportWidget() {
         onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.1)'; }}
         onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
       >
-        {isOpen ? '✕' : '💬'}
+        {isOpen ? (
+          '✕'
+        ) : (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6a3 3 0 013-3h10a3 3 0 013 3v8a3 3 0 01-3 3H9l-4.2 3.4a.8.8 0 01-1.3-.6V6z" fill="#fff" />
+          </svg>
+        )}
         {!isOpen && unreadCount > 0 && (
           <span style={{
             position: 'absolute', top: -2, right: -2,

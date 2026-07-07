@@ -80,24 +80,53 @@ class ForgeAudio {
         window.AudioContext ??
         (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
       this.ctx = new Ctor();
+      // Master bus: everything through a gentle compressor so layered SFX
+      // never clip — the "glued" sound of commercial slots.
+      const master = this.ctx.createDynamicsCompressor();
+      master.threshold.value = -18;
+      master.knee.value = 24;
+      master.ratio.value = 5;
+      master.attack.value = 0.004;
+      master.release.value = 0.18;
+      master.connect(this.ctx.destination);
+
       this.musicGain = this.ctx.createGain();
       this.musicGain.gain.value = 0.05;
-      this.musicGain.connect(this.ctx.destination);
+      this.musicGain.connect(master);
       this.sfxGain = this.ctx.createGain();
       this.sfxGain.gain.value = 0.25;
-      this.sfxGain.connect(this.ctx.destination);
-      // Short feedback delay gives one-shot synth SFX a room tail.
+      this.sfxGain.connect(master);
+
+      // Synthesized room reverb: exponentially decaying stereo noise impulse.
+      const seconds = 1.6;
+      const rate = this.ctx.sampleRate;
+      const impulse = this.ctx.createBuffer(2, rate * seconds, rate);
+      for (let ch = 0; ch < 2; ch++) {
+        const data = impulse.getChannelData(ch);
+        for (let i = 0; i < data.length; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / data.length, 2.8);
+        }
+      }
+      const convolver = this.ctx.createConvolver();
+      convolver.buffer = impulse;
+      const reverbWet = this.ctx.createGain();
+      reverbWet.gain.value = 0.16;
+      this.sfxGain.connect(convolver);
+      convolver.connect(reverbWet);
+      reverbWet.connect(master);
+
+      // Short feedback delay adds width to one-shot SFX.
       const delay = this.ctx.createDelay(0.5);
       delay.delayTime.value = 0.16;
       const feedback = this.ctx.createGain();
-      feedback.gain.value = 0.22;
+      feedback.gain.value = 0.2;
       const wet = this.ctx.createGain();
-      wet.gain.value = 0.18;
+      wet.gain.value = 0.12;
       this.sfxGain.connect(delay);
       delay.connect(feedback);
       feedback.connect(delay);
       delay.connect(wet);
-      wet.connect(this.ctx.destination);
+      wet.connect(master);
     }
     if (this.ctx.state === 'suspended') void this.ctx.resume();
     return this.ctx;
@@ -220,8 +249,10 @@ class ForgeAudio {
         noise(0.4, { gain: 0.07 });
         break;
       case 'reelStop':
-        tone(330, 0.07, { type: 'triangle', gain: 0.4 });
-        noise(0.05, { gain: 0.12 });
+        // Mechanical thud: low knock + short damped click.
+        tone(110, 0.09, { type: 'sine', gain: 0.55, slideTo: 70 });
+        tone(360, 0.045, { type: 'triangle', gain: 0.3 });
+        noise(0.045, { gain: 0.18 });
         break;
       case 'anticipation':
         for (let i = 0; i < 6; i++) tone(523 + i * 60, 0.09, { at: i * 0.11, gain: 0.25 });
@@ -267,8 +298,9 @@ class ForgeAudio {
         noise(0.5, { gain: 0.09 });
         break;
       case 'coin':
-        tone(1567.98, 0.08, { gain: 0.25 });
-        tone(2093, 0.1, { at: 0.05, gain: 0.2 });
+        tone(1567.98, 0.09, { gain: 0.28, detune: 5 });
+        tone(2093, 0.12, { at: 0.05, gain: 0.22, detune: 5 });
+        tone(2637, 0.1, { at: 0.11, gain: 0.14 });
         break;
     }
   }

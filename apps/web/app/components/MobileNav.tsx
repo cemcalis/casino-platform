@@ -1,13 +1,14 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { GiftIcon, HomeIcon, SlotsIcon, TrophyIcon, WalletIcon } from './icons';
 
 const ITEMS = [
-  { href: '/', icon: '🏠', label: 'Lobi' },
-  { href: '/search', icon: '🎰', label: 'Oyunlar' },
-  { href: '/promotions', icon: '🎁', label: 'Bonuslar' },
-  { href: '/tournaments', icon: '🏆', label: 'Turnuva' },
-  { href: '/wallet', icon: '🪙', label: 'Cüzdan' },
+  { href: '/', Icon: HomeIcon, label: 'Lobi' },
+  { href: '/search', Icon: SlotsIcon, label: 'Oyunlar' },
+  { href: '/promotions', Icon: GiftIcon, label: 'Bonuslar' },
+  { href: '/tournaments', Icon: TrophyIcon, label: 'Turnuva' },
+  { href: '/wallet', Icon: WalletIcon, label: 'Cüzdan' },
 ];
 
 /**
@@ -33,7 +34,7 @@ export default function MobileNav() {
               onClick={() => router.push(item.href)}
             >
               <span className="mnav-ico" aria-hidden="true">
-                {item.icon}
+                <item.Icon size={20} />
               </span>
               <span className="mnav-lbl">{item.label}</span>
             </button>

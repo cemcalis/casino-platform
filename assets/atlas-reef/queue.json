@@ -7,73 +7,133 @@
       "id": "background",
       "type": "background",
       "outputPath": "apps/web/public/assets/atlas-reef/backgrounds/background.png",
-      "generationPrompt": "Wide 16:9 underwater background scene for a casino slot game: sunken ancient kingdom ruins with marble columns, glowing teal god rays from the surface, coral reef silhouettes and seaweed in the foreground corners, deep navy-to-black gradient, small bubbles rising, cinematic lighting, painterly high-detail digital art, NO text, NO logo, center area slightly darker so a reel grid can sit on top"
+      "generationPrompt": "Wide 16:9 underwater background scene for a casino slot game: sunken ancient kingdom ruins with marble columns, glowing teal god rays from the surface, coral reef silhouettes and seaweed in the foreground corners, deep navy-to-black gradient, small bubbles rising, cinematic lighting, painterly high-detail digital art, NO text, NO logo, center area slightly darker so a reel grid can sit on top",
+      "seed": 1000,
+      "size": {
+        "width": 1280,
+        "height": 720
+      }
     },
     {
       "id": "bubble",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/bubble.png",
-      "generationPrompt": "Casino slot game symbol icon: a cluster of glossy air bubbles, translucent cyan with white highlights, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game symbol icon: a cluster of glossy air bubbles, translucent cyan with white highlights, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1007,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "shell",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/shell.png",
-      "generationPrompt": "Casino slot game symbol icon: a pink scallop seashell with pearlescent ridges, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game symbol icon: a pink scallop seashell with pearlescent ridges, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1014,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "starfish",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/starfish.png",
-      "generationPrompt": "Casino slot game symbol icon: a golden-orange starfish with textured dots, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game symbol icon: a golden-orange starfish with textured dots, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1021,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "fish",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/fish.png",
-      "generationPrompt": "Casino slot game symbol icon: a cheerful tropical fish, bright blue body with golden-yellow fins and stripes, big expressive eye, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game symbol icon: a cheerful tropical fish, bright blue body with golden-yellow fins and stripes, big expressive eye, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1028,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "crab",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/crab.png",
-      "generationPrompt": "Casino slot game symbol icon: a friendly red crab with raised claws and big cartoon eyes, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game symbol icon: a friendly red crab with raised claws and big cartoon eyes, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1035,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "octopus",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/octopus.png",
-      "generationPrompt": "Casino slot game symbol icon: a charismatic purple octopus with curling tentacles and suction cups, big friendly eyes, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game symbol icon: a charismatic purple octopus with curling tentacles and suction cups, big friendly eyes, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1042,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "shark",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/shark.png",
-      "generationPrompt": "Casino slot game symbol icon: a sleek grey shark in profile with a confident grin showing white teeth, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game symbol icon: a sleek grey shark in profile with a confident grin showing white teeth, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1049,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "trident",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/trident.png",
-      "generationPrompt": "Casino slot game premium symbol icon: an ornate golden trident with an embedded glowing cyan gem, jeweled crossguard, radiant golden glow, glossy 3D style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game premium symbol icon: an ornate golden trident with an embedded glowing cyan gem, jeweled crossguard, radiant golden glow, glossy 3D style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1056,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "scatter",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/scatter.png",
-      "generationPrompt": "Casino slot game scatter symbol icon: a swirling luminous cyan whirlpool portal with sparkling star particles, magical glow, glossy 3D style, dramatic lighting, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game scatter symbol icon: a swirling luminous cyan whirlpool portal with sparkling star particles, magical glow, glossy 3D style, dramatic lighting, centered on a solid dark navy background, square composition, no text",
+      "seed": 1063,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "bomb",
       "type": "symbol",
       "outputPath": "apps/web/public/assets/atlas-reef/symbols/bomb.png",
-      "generationPrompt": "Casino slot game multiplier symbol icon: an open oyster shell in magenta-purple tones holding a large radiant white pearl, sparkles around the pearl, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text"
+      "generationPrompt": "Casino slot game multiplier symbol icon: an open oyster shell in magenta-purple tones holding a large radiant white pearl, sparkles around the pearl, glossy 3D cartoon style, dramatic rim light, centered on a solid dark navy background, square composition, no text",
+      "seed": 1070,
+      "size": {
+        "width": 512,
+        "height": 512
+      }
     },
     {
       "id": "lobby-card",
       "type": "ui",
       "outputPath": "apps/web/public/assets/atlas-reef/ui/lobby-card.png",
-      "generationPrompt": "Vertical casino game lobby card artwork: an ornate golden trident rising from a sunken underwater kingdom, teal god rays, coral and bubbles framing the edges, glossy premium slot-game key art, dark navy palette with gold and cyan accents, NO text, NO logo, portrait composition"
+      "generationPrompt": "Vertical casino game lobby card artwork: an ornate golden trident rising from a sunken underwater kingdom, teal god rays, coral and bubbles framing the edges, glossy premium slot-game key art, dark navy palette with gold and cyan accents, NO text, NO logo, portrait composition",
+      "seed": 1077,
+      "size": {
+        "width": 512,
+        "height": 768
+      }
     }
   ]
 }
