@@ -201,6 +201,9 @@ function Reel({
           <div
             className="fg-land-strip"
             style={{
+              // Inline start transform = the 0% keyframe, so the first paint
+              // can never flash the result before the slide begins.
+              transform: `translateY(-${landStartPct}%)`,
               ['--fg-land' as string]: `-${landStartPct}%`,
               animationDuration: turbo ? '0.28s' : '0.62s',
             }}
@@ -1056,7 +1059,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-strip-clip { position: absolute; inset: 0; overflow: hidden; border-radius: 10px; }
         .fg-land-strip { display: flex; flex-direction: column; animation: fgLand 0.62s cubic-bezier(0.24, 0.9, 0.34, 1) forwards; will-change: transform; }
         .fg-land-strip .fg-cell { margin-bottom: 8px; }
-        @keyframes fgLand { 0% { transform: translateY(var(--fg-land)); } 80% { transform: translateY(1.6%); } 100% { transform: translateY(0); } }
+        @keyframes fgLand { 0% { transform: translateY(var(--fg-land)); } 85% { transform: translateY(0.8%); } 100% { transform: translateY(0); } }
         .fg-col-tense { box-shadow: 0 0 22px rgba(255, 220, 100, 0.8); }
         .fg-col-land { animation: fgColLand 0.28s cubic-bezier(0.22, 1.4, 0.36, 1); }
         @keyframes fgColLand { 0% { transform: translateY(-10px); } 55% { transform: translateY(4px); } 100% { transform: none; } }
