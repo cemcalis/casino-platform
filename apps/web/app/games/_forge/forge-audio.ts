@@ -134,7 +134,92 @@ class ForgeAudio {
 
   setMuted(muted: boolean): void {
     this.muted = muted;
-    if (muted) this.stopMusic();
+    if (muted) {
+      this.stopMusic();
+      this.stopSpinLoop();
+    }
+  }
+
+  private spinLoopGain: GainNode | null = null;
+  private spinLoopNodes: { stop(): void }[] = [];
+
+  /** Continuous mechanical whirr while reels are turning. */
+  startSpinLoop(): void {
+    if (this.muted) return;
+    const ctx = this.ensureCtx();
+    if (!ctx || !this.sfxGain || this.spinLoopGain) return;
+
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.09, ctx.currentTime + 0.15);
+    gain.connect(this.sfxGain);
+    this.spinLoopGain = gain;
+
+    // Band-passed looping noise = air/whirr bed.
+    const seconds = 1;
+    const buffer = ctx.createBuffer(1, ctx.sampleRate * seconds, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
+    src.loop = true;
+    const bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = 620;
+    bp.Q.value = 1.2;
+    src.connect(bp);
+    bp.connect(gain);
+    src.start();
+
+    // Low rumble under the noise.
+    const rumble = ctx.createOscillator();
+    rumble.type = 'triangle';
+    rumble.frequency.value = 46;
+    const rumbleGain = ctx.createGain();
+    rumbleGain.gain.value = 0.5;
+    rumble.connect(rumbleGain);
+    rumbleGain.connect(gain);
+    rumble.start();
+
+    // Fast soft ticker suggests symbols passing.
+    const tick = ctx.createOscillator();
+    tick.type = 'square';
+    tick.frequency.value = 8;
+    const tickShaper = ctx.createGain();
+    tickShaper.gain.value = 0.02;
+    const tickCarrier = ctx.createOscillator();
+    tickCarrier.type = 'triangle';
+    tickCarrier.frequency.value = 980;
+    const tickOut = ctx.createGain();
+    tickOut.gain.value = 0;
+    tick.connect(tickShaper);
+    tickShaper.connect(tickOut.gain);
+    tickCarrier.connect(tickOut);
+    tickOut.connect(gain);
+    tick.start();
+    tickCarrier.start();
+
+    this.spinLoopNodes = [src, rumble, tick, tickCarrier];
+  }
+
+  stopSpinLoop(): void {
+    const ctx = this.ctx;
+    if (!ctx || !this.spinLoopGain) return;
+    const gain = this.spinLoopGain;
+    const nodes = this.spinLoopNodes;
+    this.spinLoopGain = null;
+    this.spinLoopNodes = [];
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
+    setTimeout(() => {
+      for (const n of nodes) {
+        try {
+          n.stop();
+        } catch {
+          /* already stopped */
+        }
+      }
+      gain.disconnect();
+    }, 200);
   }
 
   startMusic(profile: MusicProfile): void {

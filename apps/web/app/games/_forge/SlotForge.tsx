@@ -186,6 +186,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
       aliveRef.current = false;
       clearInterval(t);
       forgeAudio.stopMusic();
+      forgeAudio.stopSpinLoop();
     };
   }, []);
 
@@ -211,6 +212,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
     setSpinningCols(Array.from({ length: manifest.columns }, () => true));
     setGrid(result.steps[0].grid);
     forgeAudio.play('spin');
+    forgeAudio.startSpinLoop();
 
     // Staggered reel stops with scatter anticipation on the tail columns.
     let visibleScatters = 0;
@@ -239,6 +241,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
     }
     setAnticipationCol(-1);
     setLandCol(-1);
+    forgeAudio.stopSpinLoop();
 
     // Replay evaluation/tumble steps.
     let runningWin = 0;
