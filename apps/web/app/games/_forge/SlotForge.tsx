@@ -475,6 +475,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           className="fg-board-wrap"
           style={{ borderColor: manifest.theme.frameColor, background: manifest.theme.reelBg }}
         >
+          <div className="fg-maxwin-chip">MAX WIN {manifest.maxWinMultiplier.toLocaleString('tr-TR')}x</div>
           {fsSession && (
             <div className="fg-fs-banner" style={{ background: manifest.theme.accentColor }}>
               FREE SPIN {fsSession.spinIndex}/{fsSession.totalAwarded} — KALAN {fsSession.remaining} —
@@ -494,19 +495,26 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
               >
                 {spinningCols[c] ? (
                   <div className="fg-strip">
-                    {Array.from({ length: manifest.rows * 3 }, (_, i) => {
-                      const sym = manifest.symbols[(c * 7 + i * 3) % manifest.symbols.length];
-                      const src = symbolSrc(sym.id);
-                      return (
-                        <div key={i} className="fg-cell fg-cell-blur">
-                          {src ? (
-                            <img className="fg-sym-img" src={src} alt="" draggable={false} />
-                          ) : (
-                            <span>{sym.label}</span>
-                          )}
-                        </div>
-                      );
-                    })}
+                    {/* Two identical halves → translateY(-50%) loops seamlessly. */}
+                    {Array.from({ length: 2 }, (_, half) =>
+                      Array.from({ length: manifest.rows + 2 }, (_, i) => {
+                        const sym = manifest.symbols[(c * 3 + i) % manifest.symbols.length];
+                        const src = symbolSrc(sym.id);
+                        return (
+                          <div key={`${half}-${i}`} className="fg-cell fg-cell-spin">
+                            {src ? (
+                              <img className="fg-sym-img" src={src} alt="" draggable={false} />
+                            ) : (
+                              <span style={{ color: sym.color }}>{sym.label}</span>
+                            )}
+                            {sym.kind === 'wild' && <span className="fg-ribbon fg-ribbon-wild">WILD</span>}
+                            {sym.kind === 'scatter' && (
+                              <span className="fg-ribbon fg-ribbon-scatter">SCATTER</span>
+                            )}
+                          </div>
+                        );
+                      }),
+                    )}
                   </div>
                 ) : (
                   Array.from({ length: manifest.rows }, (_, r) => {
@@ -536,6 +544,10 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                           />
                         ) : (
                           <span style={{ color: sym?.color }}>{sym?.label}</span>
+                        )}
+                        {sym?.kind === 'wild' && <span className="fg-ribbon fg-ribbon-wild">WILD</span>}
+                        {sym?.kind === 'scatter' && (
+                          <span className="fg-ribbon fg-ribbon-scatter">SCATTER</span>
                         )}
                         {bomb && (
                           <span
@@ -852,10 +864,17 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-col-tense { box-shadow: 0 0 22px rgba(255, 220, 100, 0.8); }
         .fg-col-land { animation: fgColLand 0.28s cubic-bezier(0.22, 1.4, 0.36, 1); }
         @keyframes fgColLand { 0% { transform: translateY(-10px); } 55% { transform: translateY(4px); } 100% { transform: none; } }
-        .fg-strip { display: flex; flex-direction: column; gap: 8px; animation: fgStrip 0.16s linear infinite; will-change: transform; }
-        @keyframes fgStrip { from { transform: translateY(-34%); } to { transform: translateY(0); } }
+        .fg-strip { display: flex; flex-direction: column; animation: fgStrip 0.55s linear infinite; will-change: transform; }
+        .fg-strip .fg-cell { margin-bottom: 8px; }
+        @keyframes fgStrip { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+        .fg-col-tense .fg-strip { animation-duration: 1s; }
+        .fg-cell-spin { filter: saturate(1.05) brightness(0.96); }
+        .fg-cell-spin .fg-sym-img { filter: drop-shadow(0 6px 10px rgba(0,0,0,0.5)); }
+        .fg-ribbon { position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); font-size: 8.5px; font-weight: 900; letter-spacing: 1.2px; padding: 1px 7px; border-radius: 999px; color: #0b0b0d; pointer-events: none; text-shadow: none; box-shadow: 0 2px 6px rgba(0,0,0,0.55); }
+        .fg-ribbon-wild { background: linear-gradient(135deg, #c4b5fd, #8b5cf6); color: #1e1b4b; }
+        .fg-ribbon-scatter { background: linear-gradient(135deg, #ffe088, #d4af37); color: #3a2a00; }
+        .fg-maxwin-chip { position: absolute; top: -14px; right: 16px; background: rgba(0,0,0,0.8); border: 1px solid rgba(212,175,55,0.5); color: #ffe088; font-size: 11px; font-weight: 900; letter-spacing: 1.5px; padding: 3px 12px; border-radius: 999px; z-index: 3; box-shadow: 0 4px 14px rgba(0,0,0,0.5); }
         .fg-cell { position: relative; width: clamp(52px, 8.5vw, 92px); height: clamp(52px, 8.5vw, 92px); display: flex; align-items: center; justify-content: center; font-size: clamp(26px, 4.5vw, 46px); background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.03)); border-radius: 10px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -6px 12px rgba(0,0,0,0.35); }
-        .fg-cell-blur { filter: blur(2px); opacity: 0.75; }
         .fg-sym-img { width: 86%; height: 86%; object-fit: contain; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.55)); pointer-events: none; }
         .fg-hit .fg-sym-img { filter: drop-shadow(0 0 14px rgba(255,255,255,0.75)) drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
         .fg-shake { animation: fgShake 0.5s ease; }
