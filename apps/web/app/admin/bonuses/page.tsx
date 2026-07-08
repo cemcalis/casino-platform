@@ -176,7 +176,7 @@ export default function BonusesPage() {
           </div>
 
           {/* Bonus Config Cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, marginBottom: 32, animation: 'slideUp .5s ease .1s both' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, marginBottom: 32, animation: 'slideUp .5s ease .1s both' }}>
             {cfgList.map(cfg => {
               const color = BONUS_COLORS[cfg.type] ?? '#f4c430';
               const icon = BONUS_ICONS[cfg.type] ?? '';

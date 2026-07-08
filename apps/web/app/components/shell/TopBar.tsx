@@ -64,10 +64,10 @@ export default function TopBar() {
     <header className="h-20 bg-zinc-950 border-b border-white/10 flex items-center justify-between px-4 md:px-8 select-none z-20 relative">
       {/* MEGAPOOL */}
       <div className="hidden lg:flex items-center gap-3">
-        <Sparkles className="w-5 h-5 text-[#e9c349] animate-pulse" />
+        <Sparkles className="w-5 h-5 text-[#d4af37] animate-pulse" />
         <div className="text-left">
           <span className="text-[10px] text-white/30 uppercase font-black tracking-wider block">NEON PALACE MEGAPOOL</span>
-          <span className="font-display text-base font-black text-[#e9c349] drop-shadow-[0_0_10px_rgba(233,195,73,0.3)] flex items-center gap-1.5">
+          <span className="font-display text-base font-black text-[#d4af37] drop-shadow-[0_0_10px_rgba(212,175,55,0.3)] flex items-center gap-1.5">
             {megapool.toLocaleString('en-US')} <CoinIcon size={14} />
           </span>
         </div>
@@ -76,7 +76,7 @@ export default function TopBar() {
       <div className="flex items-center gap-3 md:gap-4 ml-auto">
         {/* BALANCE HUB */}
         <div className="bg-zinc-900/60 border border-white/5 rounded-xl px-3 md:px-4 py-2 flex items-center gap-3 shadow-[0_4px_15px_rgba(0,0,0,0.3)]">
-          <div className="p-1.5 rounded-lg bg-[#a078ff]/10 text-[#d0bcff]">
+          <div className="p-1.5 rounded-lg bg-[#8b5cf6]/10 text-[#c4b5fd]">
             <Wallet className="w-4 h-4" />
           </div>
           <div className="text-left">
@@ -91,7 +91,7 @@ export default function TopBar() {
         <div className="hidden sm:flex items-center gap-2">
           <button
             onClick={() => setShowTopUp(true)}
-            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#e9c349] to-[#ca801e] hover:from-[#ffe088] hover:to-[#e9c349] text-black font-semibold text-xs flex items-center gap-1.5 transition-all hover:scale-105 cursor-pointer shadow-[0_4px_15px_rgba(233,195,73,0.15)]"
+            className="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#d4af37] to-[#a16207] hover:from-[#e8cd6b] hover:to-[#d4af37] text-black font-semibold text-xs flex items-center gap-1.5 transition-all hover:scale-105 cursor-pointer shadow-[0_4px_15px_rgba(212,175,55,0.15)]"
           >
             <ArrowDownLeft className="w-4 h-4 stroke-[2.5]" />
             Coin Yükle
@@ -115,14 +115,14 @@ export default function TopBar() {
             <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500" />
           </Link>
           <Link href={username ? '/profile' : '/login'} className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#a078ff] to-[#ffe088] p-0.5 shadow-[0_0_12px_rgba(160,120,255,0.3)]">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#8b5cf6] to-[#e8cd6b] p-0.5 shadow-[0_0_12px_rgba(139,92,246,0.3)]">
               <div className="w-full h-full bg-black rounded-[10px] flex items-center justify-center">
-                <User className="w-4 h-4 text-[#e9c349]" />
+                <User className="w-4 h-4 text-[#d4af37]" />
               </div>
             </div>
             <div className="hidden md:block text-left">
               <p className="text-white text-xs font-bold font-display leading-none">{username ?? 'Misafir'}</p>
-              <span className="text-[9px] uppercase font-bold tracking-wider text-[#e9c349]">
+              <span className="text-[9px] uppercase font-bold tracking-wider text-[#d4af37]">
                 {username ? 'VIP Üye' : 'Giriş Yap'}
               </span>
             </div>
@@ -166,7 +166,7 @@ export default function TopBar() {
                           onClick={() => setPack(val)}
                           className={`py-2.5 rounded-lg border text-[11px] font-bold transition-all flex flex-col items-center gap-0.5 ${
                             pack === val
-                              ? 'bg-[#e9c349] text-black border-transparent'
+                              ? 'bg-[#d4af37] text-black border-transparent'
                               : 'bg-zinc-900/60 border-white/5 text-white/60 hover:border-white/15'
                           }`}
                         >
@@ -185,7 +185,7 @@ export default function TopBar() {
                   <button
                     onClick={handleTopUp}
                     disabled={isClaiming}
-                    className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#e9c349] to-[#ca801e] hover:from-[#ffe088] hover:to-[#e9c349] text-black font-display font-black text-xs uppercase tracking-wider transition-all disabled:opacity-50"
+                    className="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#d4af37] to-[#a16207] hover:from-[#e8cd6b] hover:to-[#d4af37] text-black font-display font-black text-xs uppercase tracking-wider transition-all disabled:opacity-50"
                   >
                     {isClaiming ? 'COINLER YÜKLENİYOR...' : 'COINLERI AL'}
                   </button>

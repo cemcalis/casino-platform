@@ -119,7 +119,7 @@ function HeroBanner() {
         <p className="text-white/60 text-xs md:text-sm mt-2 max-w-md">{slide.desc}</p>
         <button
           onClick={() => router.push(slide.ctaLink)}
-          className="mt-5 w-fit px-7 py-3 rounded-xl bg-gradient-to-r from-[#e9c349] to-[#ca801e] hover:from-[#ffe088] hover:to-[#e9c349] text-black font-display font-black text-xs uppercase tracking-widest transition-all hover:scale-105 shadow-[0_4px_20px_rgba(233,195,73,0.25)]"
+          className="mt-5 w-fit px-7 py-3 rounded-xl bg-gradient-to-r from-[#d4af37] to-[#a16207] hover:from-[#e8cd6b] hover:to-[#d4af37] text-black font-display font-black text-xs uppercase tracking-widest transition-all hover:scale-105 shadow-[0_4px_20px_rgba(212,175,55,0.25)]"
         >
           {slide.cta}
         </button>
@@ -139,7 +139,7 @@ function HeroBanner() {
             key={s.id}
             onClick={() => setIndex(i)}
             aria-label={s.title}
-            className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-[#e9c349]' : 'w-1.5 bg-white/25 hover:bg-white/50'}`}
+            className={`h-1.5 rounded-full transition-all ${i === index ? 'w-6 bg-[#d4af37]' : 'w-1.5 bg-white/25 hover:bg-white/50'}`}
           />
         ))}
         <button
@@ -171,44 +171,123 @@ function GameCard({ game, onUnderConstruction }: { game: SliderGame; onUnderCons
     game.badge === 'LIVE' ? 'bg-green-600/90' :
     game.badge === 'HOT' ? 'bg-red-600/90' :
     game.badge === 'NEW' || game.badge === 'YENİ' ? 'bg-[#7c3aed]/90' :
-    game.badge === 'MEGA' ? 'bg-orange-600/90' : 'bg-[#e9c349]/90 text-black';
+    game.badge === 'MEGA' ? 'bg-orange-600/90' : 'bg-[#d4af37]/90 text-black';
 
   return (
     <div
       onClick={handlePlay}
-      className="group relative rounded-2xl bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-300 hover:border-[#a078ff]/30 hover:shadow-[0_10px_30px_rgba(160,120,255,0.08)] hover:-translate-y-1 cursor-pointer flex flex-col"
+      className="group relative rounded-2xl bg-zinc-900/40 border border-white/5 overflow-hidden transition-all duration-300 hover:border-[#8b5cf6]/30 hover:shadow-[0_10px_30px_rgba(139,92,246,0.08)] hover:-translate-y-1 cursor-pointer flex flex-col"
     >
-      {/* Art banner */}
-      <div className="relative aspect-[4/5] overflow-hidden" style={{ background: game.bg }}>
+      {/* Art banner — 3:4 vertical key-art, reference style */}
+      <div className="relative aspect-[3/4] overflow-hidden" style={{ background: game.bg }}>
         <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500">
           {Art ? <Art /> : null}
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
 
         <span className={`absolute top-3 left-3 text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider shadow-lg ${badgeTone}`}>
           {game.badge}
         </span>
-        <span className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-[#e9c349] text-[10px] font-bold px-2 py-0.5 rounded-full border border-[#e9c349]/25">
+        <span className="absolute top-3 right-3 bg-black/60 backdrop-blur-sm text-[#d4af37] text-[10px] font-bold px-2 py-0.5 rounded-full border border-[#d4af37]/25">
           RTP {game.rtp}
         </span>
 
         {/* Hover play overlay */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
-          <span className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#a078ff] to-[#b691ff] text-black font-black text-xs uppercase tracking-wider shadow-[0_4px_20px_rgba(160,120,255,0.4)] scale-90 group-hover:scale-100 transition-transform">
+          <span className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#8b5cf6] to-[#a78bfa] text-black font-black text-xs uppercase tracking-wider shadow-[0_4px_20px_rgba(139,92,246,0.4)] scale-90 group-hover:scale-100 transition-transform">
             <Play className="w-3.5 h-3.5 fill-black" /> OYNA
           </span>
         </div>
-      </div>
 
-      {/* Details */}
-      <div className="p-3.5">
-        <h3 className="font-display text-sm font-bold text-white tracking-wide truncate">{game.name}</h3>
-        <div className="flex items-center justify-between mt-1">
-          <span className="text-[10px] text-white/40 truncate">{game.provider}</span>
-          <span className="text-[10px] text-[#d0bcff] font-medium">{game.category}</span>
+        {/* Title over the art, reference style */}
+        <div className="absolute bottom-0 left-0 right-0 p-3">
+          <h3 className="font-display text-sm font-bold text-white tracking-wide truncate drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            {game.name}
+          </h3>
+          <div className="flex items-center justify-between mt-0.5">
+            <span className="text-[10px] text-white/50 truncate">{game.provider}</span>
+            <span className="text-[10px] text-[#c4b5fd] font-medium">{game.category}</span>
+          </div>
         </div>
       </div>
     </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LIVE WINS COLUMN (desktop, reference right rail)
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface LiveWin {
+  id: number;
+  user: string;
+  game: string;
+  amount: string;
+  hue: string;
+}
+
+const WIN_HUES = ['#8b5cf6', '#d4af37', '#22c55e', '#ef4444', '#06b6d4'];
+
+function LiveWinsRail() {
+  const [wins, setWins] = useState<LiveWin[]>(() =>
+    Array.from({ length: 6 }, (_, i) => ({
+      id: i,
+      user: ['Alex_M***', 'Crypto***', 'Sarah9***', 'JohnD***', 'Kartal***', 'Nova***'][i],
+      game: SLIDER_GAMES[(i * 3) % SLIDER_GAMES.length].name,
+      amount: (1200 + i * 830).toLocaleString('en-US'),
+      hue: WIN_HUES[i % WIN_HUES.length],
+    })),
+  );
+
+  useEffect(() => {
+    const NAMES = ['Tiger', 'Comet', 'Blaze', 'Nova', 'Falcon', 'Viper', 'Storm', 'Atlas', 'Zafer', 'Deniz'];
+    const t = setInterval(() => {
+      const name = NAMES[Math.floor(Math.random() * NAMES.length)];
+      const game = SLIDER_GAMES[Math.floor(Math.random() * SLIDER_GAMES.length)];
+      setWins(prev =>
+        [
+          {
+            id: Date.now(),
+            user: `${name}***`,
+            game: game.name,
+            amount: Math.floor(500 + Math.random() * 30000).toLocaleString('en-US'),
+            hue: WIN_HUES[Math.floor(Math.random() * WIN_HUES.length)],
+          },
+          ...prev,
+        ].slice(0, 8),
+      );
+    }, 5000);
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <aside className="hidden 2xl:block w-64 flex-shrink-0">
+      <div className="sticky top-4 bg-zinc-950/70 border border-white/5 rounded-2xl p-4">
+        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-[liveDot_1.5s_ease_infinite]" />
+          CANLI KAZANÇLAR
+        </div>
+        <div className="space-y-2.5">
+          {wins.map(w => (
+            <div key={w.id} className="flex items-center gap-2.5 animate-[fadeIn_0.5s_ease]">
+              <div
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-black text-black flex-shrink-0"
+                style={{ background: `linear-gradient(135deg, ${w.hue}, ${w.hue}88)` }}
+              >
+                {w.user.slice(0, 2).toUpperCase()}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] font-bold text-white truncate leading-tight">{w.user}</p>
+                <p className="text-[9px] text-white/35 truncate">{w.game}</p>
+              </div>
+              <span className="text-[11px] font-black text-[#d4af37] flex items-center gap-0.5 flex-shrink-0">
+                +{w.amount} <CoinIcon size={9} />
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </aside>
   );
 }
 
@@ -240,21 +319,63 @@ export default function LobbyPage() {
   return (
     <div className="relative min-h-full">
       <StarBackground />
-      <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-[#a078ff]/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 left-1/3 w-[500px] h-[500px] bg-[#8b5cf6]/5 rounded-full blur-[150px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-5 space-y-8 pb-16">
+      <div className="relative z-10 max-w-[1500px] mx-auto px-4 md:px-8 py-5 flex gap-6 items-start">
+        <div className="flex-1 min-w-0 space-y-8 pb-16">
         {/* PROGRESSIVE JACKPOT POOLS */}
         <JackpotTicker />
 
         {/* HERO */}
         <HeroBanner />
 
+        {/* TOP PICKS STRIP */}
+        <section>
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-lg font-bold text-white tracking-wide flex items-center gap-2">
+              <Flame className="w-4 h-4 text-red-500" /> Top Seçimler
+            </h2>
+            <button
+              onClick={() => setActiveCategory('Popular')}
+              className="text-[10px] font-black uppercase tracking-widest text-[#8b5cf6] hover:text-[#a78bfa] transition-colors"
+            >
+              TÜMÜNÜ GÖR
+            </button>
+          </div>
+          <div className="flex gap-3 mt-3 overflow-x-auto pb-2 scrollbar-none">
+            {(CATEGORY_MAP['Popular'] ?? []).map(id => {
+              const game = SLIDER_GAMES.find(g => g.id === id);
+              if (!game) return null;
+              const Art = GAME_ARTS[game.id];
+              return (
+                <div
+                  key={game.id}
+                  onClick={() => {
+                    if (PLAYABLE_GAMES.has(game.id)) router.push(`/games/${game.id}`);
+                    else setOverlayGame(game.name);
+                  }}
+                  className="group relative w-32 md:w-36 flex-shrink-0 aspect-[3/4] rounded-xl overflow-hidden border border-white/5 cursor-pointer transition-all hover:border-[#8b5cf6]/40 hover:-translate-y-1"
+                  style={{ background: game.bg }}
+                >
+                  <div className="absolute inset-0 group-hover:scale-105 transition-transform duration-500">
+                    {Art ? <Art /> : null}
+                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
+                  <p className="absolute bottom-2 left-2.5 right-2.5 text-[11px] font-bold text-white truncate drop-shadow">
+                    {game.name}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
         {/* GAME LOBBY */}
         <section id="games" className="scroll-mt-24">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-white tracking-wide flex items-center gap-2.5">
-                <Flame className="w-6 h-6 text-[#e9c349]" /> OYUN LOBİSİ
+                <Flame className="w-6 h-6 text-[#d4af37]" /> OYUN LOBİSİ
               </h2>
               <p className="text-white/40 text-xs md:text-sm mt-1">
                 Gerçek RTP matematiği ile kalibre edilmiş, tamamen ücretsiz sosyal slotlar.
@@ -268,7 +389,7 @@ export default function LobbyPage() {
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 placeholder="Oyun ara..."
-                className="w-full bg-zinc-900/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#a078ff]/50 transition-all"
+                className="w-full bg-zinc-900/60 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/30 focus:outline-none focus:border-[#8b5cf6]/50 transition-all"
               />
             </div>
           </div>
@@ -281,7 +402,7 @@ export default function LobbyPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-5 py-2.5 rounded-full text-xs font-semibold whitespace-nowrap border transition-all cursor-pointer ${
                   activeCategory === cat
-                    ? 'bg-gradient-to-r from-[#a078ff] to-[#d0bcff] text-black border-transparent shadow-[0_0_15px_rgba(160,120,255,0.35)]'
+                    ? 'bg-gradient-to-r from-[#8b5cf6] to-[#c4b5fd] text-black border-transparent shadow-[0_0_15px_rgba(139,92,246,0.35)]'
                     : 'bg-zinc-900/40 border-white/5 text-white/60 hover:text-white hover:border-white/15'
                 }`}
               >
@@ -304,7 +425,7 @@ export default function LobbyPage() {
         {/* LIVE CASINO */}
         <section id="live" className="scroll-mt-24">
           <h2 className="font-display text-2xl font-bold text-white tracking-wide flex items-center gap-2.5">
-            <Tv className="w-6 h-6 text-[#a078ff]" /> CANLI CASINO SALONU
+            <Tv className="w-6 h-6 text-[#8b5cf6]" /> CANLI CASINO SALONU
           </h2>
           <p className="text-white/40 text-xs md:text-sm mt-1">Canlı masa hissi — krupiye animasyonlu stüdyo masaları.</p>
 
@@ -313,7 +434,7 @@ export default function LobbyPage() {
               <div
                 key={game.id}
                 onClick={() => router.push(`/games/${game.id}`)}
-                className="group rounded-2xl bg-zinc-900/40 border border-white/5 p-5 cursor-pointer transition-all hover:border-[#a078ff]/30 hover:-translate-y-1"
+                className="group rounded-2xl bg-zinc-900/40 border border-white/5 p-5 cursor-pointer transition-all hover:border-[#8b5cf6]/30 hover:-translate-y-1"
               >
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1.5 text-[10px] font-bold text-green-400 uppercase tracking-wider">
@@ -335,7 +456,7 @@ export default function LobbyPage() {
         {/* PROMOTIONS */}
         <section>
           <h2 className="font-display text-2xl font-bold text-white tracking-wide flex items-center gap-2.5">
-            <Gift className="w-6 h-6 text-[#e9c349]" /> PROMOSYONLAR
+            <Gift className="w-6 h-6 text-[#d4af37]" /> PROMOSYONLAR
           </h2>
           <div className="relative rounded-2xl overflow-hidden border mt-5 h-44 md:h-48 transition-all"
             style={{ background: PROMO_CARDS[promoIndex].bg, borderColor: PROMO_CARDS[promoIndex].border }}
@@ -384,6 +505,9 @@ export default function LobbyPage() {
             ))}
           </div>
         </section>
+        </div>
+
+        <LiveWinsRail />
       </div>
 
       {/* UNDER CONSTRUCTION OVERLAY */}
