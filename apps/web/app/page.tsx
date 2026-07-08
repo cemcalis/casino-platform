@@ -106,7 +106,17 @@ function HeroBanner() {
         className="absolute -right-20 -top-20 w-80 h-80 rounded-full blur-[100px] pointer-events-none"
         style={{ background: slide.glowColor }}
       />
-      <div key={slide.id} className="relative z-10 h-full flex flex-col justify-center px-6 md:px-12 animate-[heroSlide_0.5s_ease]">
+      {'art' in slide && slide.art && (
+        <div key={`art-${slide.id}`} className="absolute right-0 top-0 bottom-0 w-1/2 md:w-2/5 pointer-events-none animate-[fadeIn_0.6s_ease]">
+          <img
+            src={slide.art}
+            alt=""
+            className="w-full h-full object-cover object-top opacity-90"
+            style={{ maskImage: 'linear-gradient(90deg, transparent 0%, black 35%)', WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 35%)' }}
+          />
+        </div>
+      )}
+      <div key={slide.id} className="relative z-10 h-full flex flex-col justify-center px-6 md:px-12 animate-[heroSlide_0.5s_ease] max-w-[65%]">
         <span
           className="text-[10px] md:text-xs uppercase font-black tracking-[3px] mb-2"
           style={{ color: slide.accentColor }}
