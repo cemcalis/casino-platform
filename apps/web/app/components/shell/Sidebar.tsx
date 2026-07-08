@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
+  Rocket,
   Sparkles,
   Gamepad2,
   Tv,
@@ -41,6 +42,7 @@ const NAV_SECTIONS: { label: string; items: { name: string; href: string; icon: 
       { name: 'Slotlar', href: '/#games', icon: Gamepad2, badge: 'HOT', badgeTone: 'bg-red-600/15 text-red-400' },
       { name: 'Canlı Casino', href: '/#live', icon: Tv, badge: 'POPÜLER', badgeTone: 'bg-[#8b5cf6]/15 text-[#c4b5fd]' },
       { name: 'Spor Bahisleri', href: '/sports', icon: TrendingUp, badge: 'YAKINDA', badgeTone: 'bg-green-600/15 text-green-400 animate-pulse' },
+      { name: 'Rocket Rush', href: '/games/rocket-rush', icon: Rocket, badge: 'YENİ', badgeTone: 'bg-[#8b5cf6]/15 text-[#c4b5fd]' },
     ],
   },
   {

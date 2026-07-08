@@ -18,6 +18,7 @@ import { GAME_ARTS, StarBackground, WelcomePromoArt, ReloadPromoArt, VIPPromoArt
 import LiveSupportWidget from './components/lobby/LiveSupportWidget';
 
 const PLAYABLE_GAMES = new Set([
+  'rocket-rush',
   'atlas-reef', 'ember-falls', 'sugar-realm',
   'pyramid-quest', 'neon-palace', 'lucky-7s', 'blackjack-pro', 'cyber-roulette',
   'dragons-fortune', 'crystal-caverns', 'solar-wilds', 'starburst',

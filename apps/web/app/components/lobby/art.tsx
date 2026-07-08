@@ -358,7 +358,26 @@ export function KeyArtCard({ src, accent }: { src: string; accent: string }) {
   );
 }
 
+
+export function RocketRushArt() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+      {[12, 30, 55, 72, 88].map((left, i) => (
+        <div key={i} style={{ position: 'absolute', left: `${left}%`, top: `${(i * 19 + 8) % 90}%`, width: 2, height: 2, borderRadius: '50%', background: 'rgba(255,255,255,0.7)', boxShadow: '0 0 6px rgba(255,255,255,0.8)' }} />
+      ))}
+      <div style={{ position: 'absolute', left: '18%', bottom: '22%', width: '64%', height: 3, background: 'linear-gradient(90deg, transparent, rgba(139,92,246,0.9))', transform: 'rotate(-32deg)', transformOrigin: 'left bottom', borderRadius: 3, boxShadow: '0 0 14px rgba(139,92,246,0.7)' }} />
+      <div style={{ position: 'absolute', right: '14%', top: '26%', width: 54, height: 54, transform: 'rotate(-38deg)' }}>
+        <div style={{ position: 'absolute', inset: '10% 30%', background: 'linear-gradient(180deg, #e4e4e7, #a1a1aa)', borderRadius: '50% 50% 40% 40%' }} />
+        <div style={{ position: 'absolute', left: '38%', top: '22%', width: 12, height: 12, borderRadius: '50%', background: '#312e81', border: '2px solid #c4b5fd' }} />
+        <div style={{ position: 'absolute', left: '30%', bottom: '-16%', width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderTop: '22px solid #f97316', filter: 'blur(1px)' }} />
+      </div>
+      <div style={{ position: 'absolute', left: 12, bottom: 70, fontSize: 26, fontWeight: 900, color: '#d4af37', textShadow: '0 0 18px rgba(212,175,55,0.6)' }}>2.47x</div>
+    </div>
+  );
+}
+
 export const GAME_ARTS: Record<string, () => JSX.Element> = {
+  'rocket-rush': RocketRushArt,
   'atlas-reef': AtlasReefArt,
   'ember-falls': () => <KeyArtCard src="/assets/ember-falls/ui/lobby-card.png" accent="#fb923c" />,
   'sugar-realm': () => <KeyArtCard src="/assets/sugar-realm/ui/lobby-card.png" accent="#e879f9" />,

@@ -22,6 +22,17 @@ export interface Winner {
 
 export const SLIDER_GAMES: SliderGame[] = [
   {
+    id: 'rocket-rush',
+    name: 'Rocket Rush',
+    provider: 'Forge Studio',
+    rtp: '96.0%',
+    badge: 'YENİ',
+    badgeColor: '#8b5cf6',
+    category: 'Crash',
+    bg: 'linear-gradient(160deg, #1e1b4b 0%, #312e81 45%, #4c1d95 75%, #0a0a14 100%)',
+    accentColor: '#8b5cf6',
+  },
+  {
     id: 'atlas-reef',
     name: 'Atlas Reef',
     provider: 'Forge Studio',
@@ -335,7 +346,7 @@ export const PROMO_CARDS = [
   },
 ];
 
-export const CATEGORIES_LIST = ['All', 'Slots', 'Table', 'Live', 'Jackpots', 'New', 'Popular'];
+export const CATEGORIES_LIST = ['All', 'Slots', 'Crash', 'Table', 'Live', 'Jackpots', 'New', 'Popular'];
 
 export const SORT_OPTIONS = ['Popular', 'Newest', 'Highest RTP', 'A-Z', 'Z-A'];
 
@@ -346,9 +357,10 @@ export const CATEGORY_MAP: Record<string, string[]> = {
   Slots: ['atlas-reef', 'ember-falls', 'sugar-realm', 'pyramid-quest', 'neon-palace', 'dragons-fortune', 'olympus-strikes', 'crystal-caverns', 'lucky-7s', 'solar-wilds', 'starburst', 'gonzo-quest', 'book-of-dead', 'dragon-fortune', 'fruit-frenzy', 'pharaohs-treasure'],
   Table: ['cyber-roulette', 'blackjack-pro', 'baccarat', 'video-poker'],
   Live: ['cyber-roulette', 'lightning-roulette', 'dream-catcher', 'crazy-time', 'baccarat'],
+  Crash: ['rocket-rush'],
   Jackpots: ['golden-vault', 'mega-moolah'],
-  New: ['atlas-reef', 'ember-falls', 'sugar-realm', 'olympus-strikes', 'crystal-caverns', 'starburst', 'dragon-fortune'],
-  Popular: ['pyramid-quest', 'neon-palace', 'dragons-fortune', 'solar-wilds', 'gonzo-quest', 'fruit-frenzy'],
+  New: ['rocket-rush', 'atlas-reef', 'ember-falls', 'sugar-realm', 'olympus-strikes', 'crystal-caverns', 'starburst', 'dragon-fortune'],
+  Popular: ['rocket-rush', 'pyramid-quest', 'neon-palace', 'dragons-fortune', 'solar-wilds', 'gonzo-quest', 'fruit-frenzy'],
 };
 
 export const WINNERS: Winner[] = [
