@@ -1,0 +1,63 @@
+Neon Palace Casino - UI/UX Design Strategy & Research
+
+Reference Analysis
+
+
+
+
+
+Safirbet: High-Contrast Professional. Navy & Safety Yellow. Sticky sidebars for rapid navigation.
+
+
+
+Betlesene: Conversion Density. Classic 3-column grid. Efficient data display.
+
+
+
+Elitbahis: Luxury/Elite. Forest Green & Gold. Minimalist flat design for high-rollers.
+
+
+
+Thebet: Gamified & Modern. Heavy use of 'Dark Space' (padding) and progress bars.
+
+
+
+Pragmatic Play / EGT: Live-Data Lobby. Hot/Cold indicators, 3D jackpot animations, 9:16 vertical video assets.
+
+The "Neon Palace" Identity
+
+Neon Palace will merge the Luxury of Elitbahis with the Live-Data Engagement of Pragmatic Play.
+
+
+
+
+
+Palette: Deep Obsidian (#0A0A0B), Neon Electric Violet (#8B5CF6), and Champagne Gold (#D4AF37).
+
+
+
+Typography: Inter for clarity, Space Grotesk for high-tech accents.
+
+
+
+UX Goal: Reduce cognitive load through "Dark Space" while increasing FOMO via real-time win feeds and "Hot" game indicators.
+
+Screen Roadmap
+
+
+
+
+
+Lobby (Homepage): Dynamic hero with 3D jackpot, horizontal game categories, and "Live Wins" sidebar.
+
+
+
+Slots Page: Pragmatic Play style grid with hover-play demos and volatility filters.
+
+
+
+Live Casino: Immersive dark UI with real-time dealer status and bet minimums.
+
+
+
+Sportsbook: Modern, clean layout focusing on live odds and 1-click betting.
