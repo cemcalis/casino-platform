@@ -245,6 +245,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
   const [hitCells, setHitCells] = useState<Set<string>>(new Set());
   const [burstCells, setBurstCells] = useState<Set<string>>(new Set());
   const [dropKey, setDropKey] = useState(0);
+  const [fallMap, setFallMap] = useState<Map<string, number>>(new Map());
   const [bombs, setBombs] = useState<{ cell: [number, number]; value: number }[]>([]);
   const [stepMultiplier, setStepMultiplier] = useState(1);
   const [winDisplay, animateWin, skipWin] = useTickUp();
@@ -340,6 +341,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
     const t = timing();
     setHitCells(new Set());
     setBurstCells(new Set());
+    setFallMap(new Map());
     setBombs([]);
     setStepMultiplier(1);
     setSpinningCols(Array.from({ length: manifest.columns }, () => true));
@@ -409,6 +411,26 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         if (!aliveRef.current) return;
         setBurstCells(new Set());
         setStepMultiplier(1);
+        // Survivors keep their symbol and only slide down by the gap they
+        // fill; new symbols fall in from above. Distances in cell units.
+        const falls = new Map<string, number>();
+        for (let c = 0; c < manifest.columns; c++) {
+          const removedRows = new Set<number>();
+          for (const cellKey of cells) {
+            const [cc, rr] = cellKey.split(':').map(Number);
+            if (cc === c) removedRows.add(rr);
+          }
+          const d = removedRows.size;
+          if (d === 0) continue;
+          let k = 0;
+          for (let r = 0; r < manifest.rows; r++) {
+            if (removedRows.has(r)) continue;
+            falls.set(`${c}:${d + k}`, d + k - r);
+            k++;
+          }
+          for (let r = 0; r < d; r++) falls.set(`${c}:${r}`, d);
+        }
+        setFallMap(falls);
         setDropKey((k) => k + 1);
         setGrid(result.steps[i + 1].grid);
         await sleep(t.drop);
@@ -659,11 +681,11 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                     return (
                       <div
                         key={`${key}-${dropKey}`}
-                        className={`fg-cell${dropKey > 0 ? ' fg-drop' : ''}${hitCells.has(key) ? ' fg-hit' : ''}${
+                        className={`fg-cell fg-fall${hitCells.has(key) ? ' fg-hit' : ''}${
                           burstCells.has(key) ? ' fg-burst' : ''
                         }${sym?.kind === 'scatter' ? ' fg-scatter' : ''}`}
                         style={{
-                          animationDelay: `${r * 0.05}s`,
+                          ['--fall' as string]: fallMap.get(key) ?? 0,
                           ...(hitCells.has(key)
                             ? { boxShadow: `0 0 18px ${manifest.theme.accentColor}` }
                             : {}),
@@ -1028,7 +1050,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-feature-sub { display: block; font-size: 10px; opacity: 0.75; margin-top: 4px; font-weight: 600; }
         .fg-board-wrap { position: relative; border: 3px solid; border-radius: 18px; padding: 14px; box-shadow: 0 10px 50px rgba(0,0,0,0.55), inset 0 0 40px rgba(0,0,0,0.35); }
         .fg-fs-banner { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); white-space: nowrap; padding: 5px 18px; border-radius: 999px; font-size: 12px; font-weight: 800; color: #111; letter-spacing: 1px; box-shadow: 0 4px 14px rgba(0,0,0,0.5); z-index: 3; }
-        .fg-board { display: grid; gap: 8px; }
+        .fg-board { display: grid; gap: 8px; --fg-gap: 8px; }
         .fg-col { display: flex; flex-direction: column; gap: 8px; overflow: hidden; border-radius: 10px; position: relative; }
         .fg-cell-ghost { visibility: hidden; }
         .fg-strip-clip { position: absolute; inset: 0; overflow: hidden; border-radius: 10px; }
@@ -1055,8 +1077,8 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         @keyframes fgShake { 0%,100% { transform: none; } 20% { transform: translate(-6px, 3px); } 40% { transform: translate(5px, -4px); } 60% { transform: translate(-4px, -3px); } 80% { transform: translate(3px, 4px); } }
         .fg-coin { position: absolute; top: -20px; font-size: 26px; animation: fgCoinFall 1.5s cubic-bezier(0.4, 0.1, 0.7, 1) infinite; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
         @keyframes fgCoinFall { to { transform: translateY(75vh) rotate(360deg); opacity: 0.15; } }
-        .fg-drop { animation: fgDrop 0.32s cubic-bezier(0.34, 1.4, 0.64, 1) backwards; }
-        @keyframes fgDrop { from { transform: translateY(-120%); opacity: 0.4; } to { transform: none; opacity: 1; } }
+        .fg-fall { animation: fgFall 0.42s cubic-bezier(0.3, 1.26, 0.5, 1) backwards; }
+        @keyframes fgFall { from { transform: translateY(calc((-100% - var(--fg-gap, 8px)) * var(--fall, 0))); } to { transform: none; } }
         .fg-hit { animation: fgPulse 0.5s ease infinite alternate; z-index: 2; }
         .fg-hit::after { content: ''; position: absolute; inset: -3px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.85); animation: fgRing 0.7s ease-out infinite; pointer-events: none; }
         @keyframes fgRing { 0% { opacity: 0.9; transform: scale(0.96); } 100% { opacity: 0; transform: scale(1.22); } }
@@ -1125,7 +1147,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           .fg-title { font-size: 20px; }
           .fg-balance { font-size: 16px; }
           .fg-board-wrap { padding: 8px; border-width: 2px; }
-          .fg-board { gap: 5px; }
+          .fg-board { gap: 5px; --fg-gap: 5px; }
           .fg-col { gap: 5px; }
           .fg-strip .fg-cell, .fg-land-strip .fg-cell { margin-bottom: 5px; }
           .fg-cell { width: clamp(44px, 13.5vw, 64px); height: clamp(44px, 13.5vw, 64px); }
