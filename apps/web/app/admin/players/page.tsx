@@ -130,7 +130,7 @@ function PlayerDrawer({ player, onClose, onBanToggle }: {
         </div>
 
         {/* Stats grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 12, marginBottom: 24 }}>
           {[
             { label: 'Balance', value: `${fmt(player.balance)} VCOIN`, color: '#4ade80' },
             { label: 'Total Bet', value: `${fmt(player.totalBet)} VCOIN`, color: '#f4c430' },

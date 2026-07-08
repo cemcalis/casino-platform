@@ -218,7 +218,7 @@ function KpiCounter({ card, delay }: { card: KpiCard; delay: number }) {
         opacity: visible ? 1 : 0,
         cursor: 'default',
         flex: 1,
-        minWidth: 0,
+        minWidth: 220,
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -653,6 +653,10 @@ export default function AdminPage() {
         @media (max-width: 1100px) {
           .dash-grid { grid-template-columns: 1fr !important; }
         }
+        @media (max-width: 700px) {
+          .adm-nav { padding: 0 14px !important; }
+          .adm-main { padding: 16px 14px !important; }
+        }
       `}</style>
 
       {/* Root wrapper */}
@@ -672,7 +676,7 @@ export default function AdminPage() {
         }} />
 
         {/* ── TOP NAV ─────────────────────────────────────────────────────── */}
-        <nav style={{
+        <nav className="adm-nav" style={{
           position: 'sticky', top: 0, zIndex: 100,
           background: 'rgba(13,6,24,0.85)',
           backdropFilter: 'blur(20px)',
@@ -746,7 +750,7 @@ export default function AdminPage() {
         </nav>
 
         {/* ── MAIN CONTENT ─────────────────────────────────────────────────── */}
-        <main style={{ padding: '32px', maxWidth: 1600, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <main className="adm-main" style={{ padding: '32px', maxWidth: 1600, margin: '0 auto', position: 'relative', zIndex: 1 }}>
 
           {/* Page title */}
           <div style={{ marginBottom: 28, animation: 'slideUp 0.5s ease forwards' }}>

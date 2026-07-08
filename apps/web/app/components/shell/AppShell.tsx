@@ -21,7 +21,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="w-screen h-screen bg-[#050506] text-white flex flex-col md:flex-row overflow-hidden antialiased">
+    <div className="w-full h-dvh bg-[#0a0a0b] text-white flex flex-col md:flex-row overflow-hidden antialiased">
       <div className="hidden md:block h-full flex-shrink-0">
         <Sidebar />
       </div>

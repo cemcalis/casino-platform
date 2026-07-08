@@ -6,8 +6,8 @@ import { TrendingUp, ArrowLeft } from 'lucide-react';
 export default function SportsPage() {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-6">
-      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#a078ff]/20 to-[#e9c349]/20 border border-white/10 flex items-center justify-center mb-5">
-        <TrendingUp className="w-8 h-8 text-[#a078ff]" />
+      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[#8b5cf6]/20 to-[#d4af37]/20 border border-white/10 flex items-center justify-center mb-5">
+        <TrendingUp className="w-8 h-8 text-[#8b5cf6]" />
       </div>
       <h1 className="font-display text-2xl md:text-3xl font-black text-white tracking-wide">SPOR BAHİSLERİ</h1>
       <p className="text-white/45 text-sm mt-2 max-w-md">
