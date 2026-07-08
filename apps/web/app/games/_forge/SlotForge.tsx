@@ -12,6 +12,7 @@ import {
 } from '@casino/forge';
 import { forgeAudio } from './forge-audio';
 import { BoltIcon, CoinIcon, InfoIcon, SoundOffIcon, SoundOnIcon } from './forge-icons';
+import { GambleOverlay, JackpotOverlay, tickPools } from './forge-features';
 
 const BETS = [10, 25, 50, 100, 200, 500];
 const START_BALANCE = 10_000;
@@ -131,6 +132,9 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
   const [muted, setMuted] = useState(false);
   const [anteActive, setAnteActive] = useState(false);
   const [marqueeIdx, setMarqueeIdx] = useState(0);
+  const [gambleStake, setGambleStake] = useState(0);
+  const [gambleOpen, setGambleOpen] = useState(false);
+  const [jackpotOpen, setJackpotOpen] = useState(false);
 
   const scatterId = useMemo(
     () => manifest.symbols.find((s) => s.kind === 'scatter')?.id ?? '',
@@ -340,7 +344,9 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
     if (cost > balance) return;
 
     setPhase('spinning');
+    setGambleStake(0);
     setBalance((b) => Math.round((b - cost) * 100) / 100);
+    tickPools(cost);
     skipWin();
     await animateWin(0, 0, 1);
 
@@ -356,6 +362,9 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
     if (result.totalWin > 0) {
       setBalance((b) => Math.round((b + result.totalWin * bet) * 100) / 100);
       await presentTotalWin(result.totalWin);
+      if (result.freeSpinsAwarded === 0 && autoRef.current === 0) {
+        setGambleStake(result.totalWin * bet);
+      }
     }
 
     if (result.freeSpinsAwarded > 0) {
@@ -366,6 +375,12 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
     }
     if (!aliveRef.current) return;
     setPhase('idle');
+
+    // Rare mystery-jackpot trigger (pool-funded by the spin contribution).
+    if (!opts.buyBonus && autoRef.current === 0 && rngRef.current.next() < 1 / 400) {
+      setGambleStake(0);
+      setJackpotOpen(true);
+    }
 
     // Autoplay continuation.
     if (autoRef.current > 0 && !stopAutoRef.current) {
@@ -675,6 +690,18 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
             )}
           </div>
 
+          {gambleStake > 0 && !busy && (
+            <button
+              className="fg-gamble-btn"
+              onClick={() => {
+                forgeAudio.play('click');
+                setGambleOpen(true);
+              }}
+            >
+              RİSKE AT
+              <span className="fg-feature-sub">{gambleStake.toLocaleString('tr-TR')}</span>
+            </button>
+          )}
           <button
             className="fg-spin-btn"
             disabled={!canSpin}
@@ -759,6 +786,29 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         <div className="fg-toast" style={{ background: manifest.theme.accentColor }}>
           +{retriggerToast} FREE SPIN!
         </div>
+      )}
+
+      {gambleOpen && (
+        <GambleOverlay
+          stake={gambleStake}
+          rng={() => rngRef.current.next()}
+          accent={manifest.theme.accentColor2}
+          onClose={(finalAmount) => {
+            setGambleOpen(false);
+            setBalance((b) => Math.round((b - gambleStake + finalAmount) * 100) / 100);
+            setGambleStake(0);
+          }}
+        />
+      )}
+
+      {jackpotOpen && (
+        <JackpotOverlay
+          rng={() => rngRef.current.next()}
+          onClose={(amount) => {
+            setJackpotOpen(false);
+            if (amount > 0) setBalance((b) => Math.round((b + amount) * 100) / 100);
+          }}
+        />
       )}
 
       {showBuyModal && manifest.bonusBuy && (
@@ -913,6 +963,8 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-auto-menu { position: absolute; bottom: 110%; left: 0; background: #111827; border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; overflow: hidden; z-index: 6; min-width: 110px; }
         .fg-auto-menu button { display: block; width: 100%; background: none; border: none; color: #e5e7eb; padding: 9px 14px; font-size: 13px; cursor: pointer; text-align: left; }
         .fg-auto-menu button:hover { background: rgba(255,255,255,0.1); }
+        .fg-gamble-btn { background: linear-gradient(135deg, #7f1d1d, #18181b); border: 1px solid rgba(239,68,68,0.5); color: #fca5a5; border-radius: 12px; padding: 10px 16px; font-weight: 900; font-size: 12px; letter-spacing: 1px; cursor: pointer; animation: fgZoom 0.3s ease; }
+        .fg-gamble-btn:hover { box-shadow: 0 0 14px rgba(239,68,68,0.4); }
         .fg-spin-btn { border: none; border-radius: 999px; color: #fff; font-size: 18px; font-weight: 900; letter-spacing: 2px; padding: 16px 44px; cursor: pointer; box-shadow: 0 6px 24px rgba(0,0,0,0.45); transition: transform 0.12s; }
         .fg-spin-btn:hover:not(:disabled) { transform: scale(1.06); }
         .fg-spin-btn:disabled { opacity: 0.5; cursor: default; }
