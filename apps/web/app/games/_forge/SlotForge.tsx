@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   cryptoRng,
+  seededRng,
   runSpin,
   startFreeSpins,
   playFreeSpin,
@@ -26,6 +27,7 @@ interface Timing {
   burst: number;
   drop: number;
   stepGap: number;
+  land: number;
 }
 
 const NORMAL: Timing = {
@@ -36,6 +38,7 @@ const NORMAL: Timing = {
   burst: 380,
   drop: 420,
   stepGap: 260,
+  land: 620,
 };
 
 const TURBO: Timing = {
@@ -46,6 +49,7 @@ const TURBO: Timing = {
   burst: 160,
   drop: 180,
   stepGap: 100,
+  land: 280,
 };
 
 type Phase = 'idle' | 'spinning' | 'resolving' | 'freespins';
@@ -91,6 +95,131 @@ function useTickUp(): [number, (from: number, to: number, ms: number) => Promise
 
   const skip = useCallback(() => skipRef.current?.(), []);
   return [value, animate, skip];
+}
+
+
+/* -- reel column ---------------------------------------------------------
+   Fixed-height clip window; a weighted symbol strip loops downward while
+   spinning, then a landing strip decelerates INTO the actual result so
+   what you watch is what stops. Nothing ever renders outside the board. */
+
+function weightedSequence(manifest: GameManifest, seed: number, count: number): string[] {
+  const rng = seededRng(seed);
+  const total = manifest.symbols.reduce((a, s) => a + (s.weight || 1), 0);
+  return Array.from({ length: count }, () => {
+    let r = rng.next() * total;
+    for (const s of manifest.symbols) {
+      r -= s.weight || 1;
+      if (r <= 0) return s.id;
+    }
+    return manifest.symbols[0].id;
+  });
+}
+
+function StripCell({
+  id,
+  manifest,
+  src,
+}: {
+  id: string;
+  manifest: GameManifest;
+  src?: string;
+}) {
+  const sym = manifest.symbols.find((s) => s.id === id);
+  return (
+    <div className="fg-cell fg-cell-spin">
+      {src ? (
+        <img className="fg-sym-img" src={src} alt="" draggable={false} />
+      ) : (
+        <span style={{ color: sym?.color }}>{sym?.label}</span>
+      )}
+      {sym?.kind === 'wild' && <span className="fg-ribbon fg-ribbon-wild">WILD</span>}
+      {sym?.kind === 'scatter' && <span className="fg-ribbon fg-ribbon-scatter">SCATTER</span>}
+    </div>
+  );
+}
+
+function Reel({
+  manifest,
+  col,
+  spinning,
+  tense,
+  turbo,
+  resultIds,
+  symbolSrc,
+  onLanded,
+  children,
+}: {
+  manifest: GameManifest;
+  col: number;
+  spinning: boolean;
+  tense: boolean;
+  turbo: boolean;
+  resultIds: string[];
+  symbolSrc: (id: string | undefined) => string | undefined;
+  onLanded: () => void;
+  children: React.ReactNode;
+}) {
+  const [mode, setMode] = useState<'stopped' | 'loop' | 'land'>('stopped');
+
+  const loopSeq = useMemo(
+    () => weightedSequence(manifest, col * 7919 + 101, manifest.rows + 3),
+    [manifest, col],
+  );
+  const fillers = manifest.rows + 3;
+  const landFillers = useMemo(
+    () => weightedSequence(manifest, col * 104729 + 7, fillers),
+    [manifest, col, fillers],
+  );
+
+  useEffect(() => {
+    if (spinning) setMode('loop');
+    else setMode((m) => (m === 'loop' ? 'land' : m));
+  }, [spinning]);
+
+  if (mode === 'stopped') return <>{children}</>;
+
+  const landStartPct = (fillers / (fillers + manifest.rows)) * 100;
+  return (
+    <>
+      {Array.from({ length: manifest.rows }, (_, r) => (
+        <div key={r} className="fg-cell fg-cell-ghost" aria-hidden />
+      ))}
+      <div className="fg-strip-clip">
+        {mode === 'loop' ? (
+          <div
+            className="fg-strip"
+            style={{ animationDuration: turbo ? '0.3s' : tense ? '1s' : '0.55s' }}
+          >
+            {[0, 1].map((half) =>
+              loopSeq.map((id, i) => (
+                <StripCell key={`${half}-${i}`} id={id} manifest={manifest} src={symbolSrc(id)} />
+              )),
+            )}
+          </div>
+        ) : (
+          <div
+            className="fg-land-strip"
+            style={{
+              ['--fg-land' as string]: `-${landStartPct}%`,
+              animationDuration: turbo ? '0.28s' : '0.62s',
+            }}
+            onAnimationEnd={() => {
+              setMode('stopped');
+              onLanded();
+            }}
+          >
+            {resultIds.map((id, i) => (
+              <StripCell key={`r-${i}`} id={id} manifest={manifest} src={symbolSrc(id)} />
+            ))}
+            {landFillers.map((id, i) => (
+              <StripCell key={`f-${i}`} id={id} manifest={manifest} src={symbolSrc(id)} />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
+  );
 }
 
 export default function SlotForge({ manifest }: { manifest: GameManifest }) {
@@ -238,7 +367,6 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         return next;
       });
       setLandCol(c);
-      forgeAudio.play('reelStop');
       for (let r = 0; r < manifest.rows; r++) {
         if (result.steps[0].grid[c][r] === scatterId) visibleScatters++;
       }
@@ -246,6 +374,8 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
     setAnticipationCol(-1);
     setLandCol(-1);
     forgeAudio.stopSpinLoop();
+    await sleep(t.land);
+    if (!aliveRef.current) return;
 
     // Replay evaluation/tumble steps.
     let runningWin = 0;
@@ -507,35 +637,21 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
             {Array.from({ length: manifest.columns }, (_, c) => (
               <div
                 key={c}
-                className={`fg-col${spinningCols[c] ? ' fg-col-spin' : ''}${
+                className={`fg-col${
                   anticipationCol === c && spinningCols[c] ? ' fg-col-tense' : ''
-                }${landCol === c ? ' fg-col-land' : ''}`}
+                }`}
               >
-                {spinningCols[c] ? (
-                  <div className="fg-strip">
-                    {/* Two identical halves → translateY(-50%) loops seamlessly. */}
-                    {Array.from({ length: 2 }, (_, half) =>
-                      Array.from({ length: manifest.rows + 2 }, (_, i) => {
-                        const sym = manifest.symbols[(c * 3 + i) % manifest.symbols.length];
-                        const src = symbolSrc(sym.id);
-                        return (
-                          <div key={`${half}-${i}`} className="fg-cell fg-cell-spin">
-                            {src ? (
-                              <img className="fg-sym-img" src={src} alt="" draggable={false} />
-                            ) : (
-                              <span style={{ color: sym.color }}>{sym.label}</span>
-                            )}
-                            {sym.kind === 'wild' && <span className="fg-ribbon fg-ribbon-wild">WILD</span>}
-                            {sym.kind === 'scatter' && (
-                              <span className="fg-ribbon fg-ribbon-scatter">SCATTER</span>
-                            )}
-                          </div>
-                        );
-                      }),
-                    )}
-                  </div>
-                ) : (
-                  Array.from({ length: manifest.rows }, (_, r) => {
+                <Reel
+                  manifest={manifest}
+                  col={c}
+                  spinning={!!spinningCols[c]}
+                  tense={anticipationCol === c}
+                  turbo={turboRef.current}
+                  resultIds={grid[c] ?? []}
+                  symbolSrc={symbolSrc}
+                  onLanded={() => forgeAudio.play('reelStop')}
+                >
+                  {Array.from({ length: manifest.rows }, (_, r) => {
                     const id = grid[c]?.[r];
                     const sym = id ? symbolMap.get(id) : undefined;
                     const key = `${c}:${r}`;
@@ -543,7 +659,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                     return (
                       <div
                         key={`${key}-${dropKey}`}
-                        className={`fg-cell fg-drop${hitCells.has(key) ? ' fg-hit' : ''}${
+                        className={`fg-cell${dropKey > 0 ? ' fg-drop' : ''}${hitCells.has(key) ? ' fg-hit' : ''}${
                           burstCells.has(key) ? ' fg-burst' : ''
                         }${sym?.kind === 'scatter' ? ' fg-scatter' : ''}`}
                         style={{
@@ -577,8 +693,8 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
                         )}
                       </div>
                     );
-                  })
-                )}
+                  })}
+                </Reel>
               </div>
             ))}
           </div>
@@ -913,7 +1029,12 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
         .fg-board-wrap { position: relative; border: 3px solid; border-radius: 18px; padding: 14px; box-shadow: 0 10px 50px rgba(0,0,0,0.55), inset 0 0 40px rgba(0,0,0,0.35); }
         .fg-fs-banner { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); white-space: nowrap; padding: 5px 18px; border-radius: 999px; font-size: 12px; font-weight: 800; color: #111; letter-spacing: 1px; box-shadow: 0 4px 14px rgba(0,0,0,0.5); z-index: 3; }
         .fg-board { display: grid; gap: 8px; }
-        .fg-col { display: flex; flex-direction: column; gap: 8px; overflow: hidden; border-radius: 10px; }
+        .fg-col { display: flex; flex-direction: column; gap: 8px; overflow: hidden; border-radius: 10px; position: relative; }
+        .fg-cell-ghost { visibility: hidden; }
+        .fg-strip-clip { position: absolute; inset: 0; overflow: hidden; border-radius: 10px; }
+        .fg-land-strip { display: flex; flex-direction: column; animation: fgLand 0.62s cubic-bezier(0.24, 0.9, 0.34, 1) forwards; will-change: transform; }
+        .fg-land-strip .fg-cell { margin-bottom: 8px; }
+        @keyframes fgLand { 0% { transform: translateY(var(--fg-land)); } 80% { transform: translateY(1.6%); } 100% { transform: translateY(0); } }
         .fg-col-tense { box-shadow: 0 0 22px rgba(255, 220, 100, 0.8); }
         .fg-col-land { animation: fgColLand 0.28s cubic-bezier(0.22, 1.4, 0.36, 1); }
         @keyframes fgColLand { 0% { transform: translateY(-10px); } 55% { transform: translateY(4px); } 100% { transform: none; } }
@@ -1006,6 +1127,7 @@ export default function SlotForge({ manifest }: { manifest: GameManifest }) {
           .fg-board-wrap { padding: 8px; border-width: 2px; }
           .fg-board { gap: 5px; }
           .fg-col { gap: 5px; }
+          .fg-strip .fg-cell, .fg-land-strip .fg-cell { margin-bottom: 5px; }
           .fg-cell { width: clamp(44px, 13.5vw, 64px); height: clamp(44px, 13.5vw, 64px); }
           .fg-controls { gap: 8px; padding: 12px 10px 6px; }
           .fg-chip { padding: 5px 10px; font-size: 12px; }
