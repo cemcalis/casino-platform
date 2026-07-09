@@ -1,0 +1,128 @@
+{
+  "game": "pyramid-quest",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/pyramid-quest/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: interior of a golden Egyptian pyramid tomb at torchlight, hieroglyph walls, sand haze, treasure glints, cinematic, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 5254
+    },
+    {
+      "id": "papyrus",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/papyrus.png",
+      "generationPrompt": "Casino slot game symbol icon: a rolled PAPYRUS scroll with hieroglyphs, beige parchment. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2762
+    },
+    {
+      "id": "ankh",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/ankh.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLDEN ankh cross artifact. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8846
+    },
+    {
+      "id": "lotus",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/lotus.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLUE lotus flower with gold trim. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5013
+    },
+    {
+      "id": "scarab",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/scarab.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN-emerald scarab beetle with gold legs. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1128
+    },
+    {
+      "id": "jackal",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/jackal.png",
+      "generationPrompt": "Casino slot game symbol icon: a PURPLE-black jackal head statue with gold collar. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3536
+    },
+    {
+      "id": "falcon",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/falcon.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE-gold falcon head with pharaonic headdress. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5633
+    },
+    {
+      "id": "pharaoh",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/pharaoh.png",
+      "generationPrompt": "Casino slot game symbol icon: a golden PHARAOH death mask with blue stripes. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2657
+    },
+    {
+      "id": "wild",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/wild.png",
+      "generationPrompt": "Casino slot game symbol icon: a glowing golden PYRAMID with light beam from its tip. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7136
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pyramid-quest/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: the EYE OF RA glowing cyan-turquoise with gold frame. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, polished golden 3D render, dramatic rim light, flat solid very dark brown background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8987
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/pyramid-quest/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: a golden Egyptian pyramid under a starry desert night, glowing entrance, treasure light beams, premium slot art, gold and deep brown palette, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 5284
+    }
+  ]
+}

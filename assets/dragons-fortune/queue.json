@@ -1,0 +1,128 @@
+{
+  "game": "dragons-fortune",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/dragons-fortune/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: oriental dragon palace at night, red lanterns, gold rooftops, drifting embers, cinematic, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 6743
+    },
+    {
+      "id": "coincharm",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/coincharm.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLD Chinese coin charm with square hole and red ribbon. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 6378
+    },
+    {
+      "id": "jade",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/jade.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN jade disc ornament. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5158
+    },
+    {
+      "id": "fan",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/fan.png",
+      "generationPrompt": "Casino slot game symbol icon: a PINK-red folding hand fan, open. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5423
+    },
+    {
+      "id": "lantern",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/lantern.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE-red paper lantern with gold tassel. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8157
+    },
+    {
+      "id": "koi",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/koi.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLUE-white koi fish curved in a splash. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 528
+    },
+    {
+      "id": "tiger",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/tiger.png",
+      "generationPrompt": "Casino slot game symbol icon: an AMBER tiger head with fierce eyes. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5754
+    },
+    {
+      "id": "dragon",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/dragon.png",
+      "generationPrompt": "Casino slot game symbol icon: a RED oriental dragon head with golden whiskers. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3106
+    },
+    {
+      "id": "wild",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/wild.png",
+      "generationPrompt": "Casino slot game symbol icon: a fiery ORANGE dragon claw holding a pearl. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4181
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragons-fortune/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a glowing GOLD yin-yang medallion with flames. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, glossy oriental 3D render, dramatic rim light, flat solid very dark red background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1922
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/dragons-fortune/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: a golden-red oriental dragon coiling around a pagoda, ember sparks, premium slot art, red-gold palette, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 218
+    }
+  ]
+}

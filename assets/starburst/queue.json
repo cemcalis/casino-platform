@@ -1,0 +1,139 @@
+{
+  "game": "starburst",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 12,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/starburst/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: deep space nebula in violet and magenta, distant stars, soft cosmic dust, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 4849
+    },
+    {
+      "id": "shard-green",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/shard-green.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN crystal shard glowing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1221
+    },
+    {
+      "id": "shard-blue",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/shard-blue.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLUE crystal shard glowing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7287
+    },
+    {
+      "id": "shard-violet",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/shard-violet.png",
+      "generationPrompt": "Casino slot game symbol icon: a VIOLET crystal shard glowing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4135
+    },
+    {
+      "id": "nova",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/nova.png",
+      "generationPrompt": "Casino slot game symbol icon: a YELLOW exploding star nova. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4877
+    },
+    {
+      "id": "comet",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/comet.png",
+      "generationPrompt": "Casino slot game symbol icon: a RED comet with bright tail. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 553
+    },
+    {
+      "id": "ring",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/ring.png",
+      "generationPrompt": "Casino slot game symbol icon: a PINK ringed planet. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2297
+    },
+    {
+      "id": "pulsar",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/pulsar.png",
+      "generationPrompt": "Casino slot game symbol icon: an AMBER pulsar star with radiating beams. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4818
+    },
+    {
+      "id": "prism",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/prism.png",
+      "generationPrompt": "Casino slot game symbol icon: a MAGENTA diamond prism splitting light into rainbow. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7293
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a CYAN glowing star portal with sparkles. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1623
+    },
+    {
+      "id": "bomb",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/starburst/symbols/bomb.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE supernova core about to burst, energy cracks. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, luminous cosmic 3D render, dramatic rim light, flat solid very dark violet background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4363
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/starburst/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: a radiant prism crystal exploding into rainbow light in deep space, premium slot art, violet-magenta palette, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 5741
+    }
+  ]
+}

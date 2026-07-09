@@ -1,0 +1,139 @@
+{
+  "game": "crystal-caverns",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 12,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/crystal-caverns/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: vast underground crystal cavern, giant teal crystals glowing, reflective pools, mist, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 5759
+    },
+    {
+      "id": "pebble",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/pebble.png",
+      "generationPrompt": "Casino slot game symbol icon: a GRAY smooth cave pebble with cracks. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2119
+    },
+    {
+      "id": "moss",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/moss.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN glowing moss clump. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8067
+    },
+    {
+      "id": "quartz",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/quartz.png",
+      "generationPrompt": "Casino slot game symbol icon: a WHITE quartz crystal cluster. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1535
+    },
+    {
+      "id": "geode",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/geode.png",
+      "generationPrompt": "Casino slot game symbol icon: a PURPLE open geode half with crystals inside. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5070
+    },
+    {
+      "id": "stalactite",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/stalactite.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLUE icy stalactite spike. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1975
+    },
+    {
+      "id": "lantern",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/lantern.png",
+      "generationPrompt": "Casino slot game symbol icon: an AMBER miner lantern glowing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7014
+    },
+    {
+      "id": "golem",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/golem.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN crystal golem head. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3910
+    },
+    {
+      "id": "heartstone",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/heartstone.png",
+      "generationPrompt": "Casino slot game symbol icon: a CYAN heart-shaped crystal core glowing intensely. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 861
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a VIOLET floating rune crystal with energy ring. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3592
+    },
+    {
+      "id": "bomb",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/crystal-caverns/symbols/bomb.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE unstable crystal charge with sparks. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, cool glowing 3D render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5880
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/crystal-caverns/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: explorer lantern lighting a giant teal crystal geode cave, premium slot art, teal-cyan palette, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 4195
+    }
+  ]
+}
