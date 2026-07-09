@@ -246,7 +246,241 @@ export function crystalCaverns(): GameManifest {
   });
 }
 
+
+/** Retro fruit hall — chrome sevens and neon bars. */
+export function luckySevens(): GameManifest {
+  const ids = ['cherry7', 'lemon7', 'plum7', 'bell7', 'bar', 'doublebar', 'seven', 'wild', 'scatter'];
+  return reskin(emberFalls(), {
+    gameId: 'lucky-7s',
+    gameName: 'Lucky 7s Classic',
+    tagline: 'Krom yediler, neon barlar — klasik salon ruhu',
+    skins: [
+      { id: 'cherry7', label: 'CH', color: '#ef4444' },
+      { id: 'lemon7', label: 'LE', color: '#fde047' },
+      { id: 'plum7', label: 'PL', color: '#c084fc' },
+      { id: 'bell7', label: 'BE', color: '#fbbf24' },
+      { id: 'bar', label: 'BAR', color: '#e4e4e7' },
+      { id: 'doublebar', label: 'DBR', color: '#a5f3fc' },
+      { id: 'seven', label: '7', color: '#ef4444' },
+      { id: 'wild', label: 'W', color: '#f4c430' },
+      { id: 'scatter', label: 'S', color: '#22d3ee' },
+    ],
+    theme: {
+      bgGradient: 'radial-gradient(ellipse at top, #5a0020 0%, #2d0010 55%, #1a0010 100%)',
+      reelBg: 'rgba(40, 0, 18, 0.85)',
+      accentColor: '#f4c430',
+      accentColor2: '#ffe088',
+      frameColor: '#7a0030',
+      music: 'arcade',
+      storageKey: 'forge_lucky_7s',
+      assets: assetBlock('lucky-7s', ids),
+    },
+  });
+}
+
+
+/** Bank heist vault — gold bars under laser light. */
+export function goldenVault(): GameManifest {
+  const ids = ['key', 'blueprint', 'dynamite', 'gembag', 'goldbar', 'safe', 'crownjewel', 'wild', 'scatter'];
+  return reskin(emberFalls(), {
+    gameId: 'golden-vault',
+    gameName: 'Golden Vault',
+    tagline: 'Kasanın kapısı açıldı — altın külçe yağmuru',
+    skins: [
+      { id: 'key', label: 'KE', color: '#a1a1aa' },
+      { id: 'blueprint', label: 'BP', color: '#60a5fa' },
+      { id: 'dynamite', label: 'DY', color: '#fb923c' },
+      { id: 'gembag', label: 'GB', color: '#c084fc' },
+      { id: 'goldbar', label: 'GO', color: '#fbbf24' },
+      { id: 'safe', label: 'SA', color: '#e4e4e7' },
+      { id: 'crownjewel', label: 'CJ', color: '#f472b6' },
+      { id: 'wild', label: 'W', color: '#f4c430' },
+      { id: 'scatter', label: 'S', color: '#22d3ee' },
+    ],
+    theme: {
+      bgGradient: 'radial-gradient(ellipse at top, #3d2800 0%, #1a1000 55%, #0d0800 100%)',
+      reelBg: 'rgba(35, 24, 0, 0.85)',
+      accentColor: '#f4c430',
+      accentColor2: '#ffe088',
+      frameColor: '#8a6d1a',
+      music: 'epic',
+      storageKey: 'forge_golden_vault',
+      assets: assetBlock('golden-vault', ids),
+    },
+  });
+}
+
+
+/** Storm over Olympus — gods hurl thunder. */
+export function olympusStrikes(): GameManifest {
+  const ids = ['laurel', 'amphora', 'harp', 'helmet', 'pegasus', 'poseidon', 'zeusking', 'wild', 'scatter'];
+  return reskin(emberFalls(), {
+    gameId: 'olympus-strikes',
+    gameName: 'Olympus Strikes',
+    tagline: 'Gök gürlüyor — tanrıların gazabı makaralarda',
+    skins: [
+      { id: 'laurel', label: 'LA', color: '#84cc16' },
+      { id: 'amphora', label: 'AM', color: '#d6c391' },
+      { id: 'harp', label: 'HA', color: '#fbbf24' },
+      { id: 'helmet', label: 'HE', color: '#a1a1aa' },
+      { id: 'pegasus', label: 'PE', color: '#e4e4e7' },
+      { id: 'poseidon', label: 'PO', color: '#22d3ee' },
+      { id: 'zeusking', label: 'ZE', color: '#fde047' },
+      { id: 'wild', label: 'W', color: '#00d4c8' },
+      { id: 'scatter', label: 'S', color: '#a78bfa' },
+    ],
+    theme: {
+      bgGradient: 'radial-gradient(ellipse at top, #003080 0%, #001a3d 55%, #000d26 100%)',
+      reelBg: 'rgba(0, 22, 55, 0.85)',
+      accentColor: '#00d4c8',
+      accentColor2: '#a5f3fc',
+      frameColor: '#1e3a8a',
+      music: 'epic',
+      storageKey: 'forge_olympus_strikes',
+      assets: assetBlock('olympus-strikes', ids),
+    },
+  });
+}
+
+
+/** Nile treasure barge — turquoise river gold. */
+export function pharaohsTreasure(): GameManifest {
+  const ids = ['reed', 'oar', 'fishnile', 'ibis', 'barge', 'queen', 'treasure', 'wild', 'scatter'];
+  return reskin(emberFalls(), {
+    gameId: 'pharaohs-treasure',
+    gameName: "Pharaoh's Treasure",
+    tagline: 'Nil boyunca altın mavna — firavunun hazinesi',
+    skins: [
+      { id: 'reed', label: 'RE', color: '#84cc16' },
+      { id: 'oar', label: 'OA', color: '#d6c391' },
+      { id: 'fishnile', label: 'FI', color: '#60a5fa' },
+      { id: 'ibis', label: 'IB', color: '#e4e4e7' },
+      { id: 'barge', label: 'BA', color: '#fb923c' },
+      { id: 'queen', label: 'QU', color: '#f472b6' },
+      { id: 'treasure', label: 'TR', color: '#fde047' },
+      { id: 'wild', label: 'W', color: '#22d3ee' },
+      { id: 'scatter', label: 'S', color: '#f4c430' },
+    ],
+    theme: {
+      bgGradient: 'radial-gradient(ellipse at top, #0e5a52 0%, #073d38 55%, #02201d 100%)',
+      reelBg: 'rgba(3, 40, 36, 0.85)',
+      accentColor: '#22d3ee',
+      accentColor2: '#99f6e4',
+      frameColor: '#0f766e',
+      music: 'serene',
+      storageKey: 'forge_pharaohs_treasure',
+      assets: assetBlock('pharaohs-treasure', ids),
+    },
+  });
+}
+
+
+/** Juicy orchard chaos — 6x5 fruit cluster blasts. */
+export function fruitFrenzy(): GameManifest {
+  const ids = ['kiwi', 'blueberry', 'grapef', 'banana', 'strawberry', 'pineapple', 'watermelon', 'goldapple', 'scatter', 'bomb'];
+  return reskin(sugarRealm(), {
+    gameId: 'fruit-frenzy',
+    gameName: 'Fruit Frenzy',
+    tagline: 'Meyve bahçesinde zincirleme patlamalar',
+    skins: [
+      { id: 'kiwi', label: 'KI', color: '#84cc16' },
+      { id: 'blueberry', label: 'BL', color: '#60a5fa' },
+      { id: 'grapef', label: 'GR', color: '#c084fc' },
+      { id: 'banana', label: 'BA', color: '#fde047' },
+      { id: 'strawberry', label: 'ST', color: '#f87171' },
+      { id: 'pineapple', label: 'PI', color: '#fbbf24' },
+      { id: 'watermelon', label: 'WA', color: '#4ade80' },
+      { id: 'goldapple', label: 'GA', color: '#f4c430' },
+      { id: 'scatter', label: 'S', color: '#f472b6' },
+      { id: 'bomb', label: 'B', color: '#f97316' },
+    ],
+    theme: {
+      bgGradient: 'radial-gradient(ellipse at top, #14532d 0%, #052e16 55%, #01140a 100%)',
+      reelBg: 'rgba(5, 40, 20, 0.85)',
+      accentColor: '#4ade80',
+      accentColor2: '#bbf7d0',
+      frameColor: '#166534',
+      music: 'festive',
+      storageKey: 'forge_fruit_frenzy',
+      assets: assetBlock('fruit-frenzy', ids),
+    },
+  });
+}
+
+
+/** Night carnival on the savanna — jackpot beasts. */
+export function megaSavanna(): GameManifest {
+  const ids = ['paw', 'tusk', 'maskgnu', 'giraffe', 'hippo', 'buffalo', 'elephant', 'lionking', 'scatter', 'bomb'];
+  return reskin(sugarRealm(), {
+    gameId: 'mega-moolah',
+    gameName: 'Mega Savanna',
+    tagline: 'Gece savanında dev kazanç sürüsü',
+    skins: [
+      { id: 'paw', label: 'PA', color: '#d6c391' },
+      { id: 'tusk', label: 'TU', color: '#e4e4e7' },
+      { id: 'maskgnu', label: 'GN', color: '#a1a1aa' },
+      { id: 'giraffe', label: 'GI', color: '#fbbf24' },
+      { id: 'hippo', label: 'HI', color: '#c084fc' },
+      { id: 'buffalo', label: 'BU', color: '#fb923c' },
+      { id: 'elephant', label: 'EL', color: '#60a5fa' },
+      { id: 'lionking', label: 'LK', color: '#f59e0b' },
+      { id: 'scatter', label: 'S', color: '#fde047' },
+      { id: 'bomb', label: 'B', color: '#f97316' },
+    ],
+    theme: {
+      bgGradient: 'radial-gradient(ellipse at top, #4a2500 0%, #241100 55%, #0d0600 100%)',
+      reelBg: 'rgba(38, 19, 0, 0.85)',
+      accentColor: '#f97316',
+      accentColor2: '#fed7aa',
+      frameColor: '#7c3a12',
+      music: 'festive',
+      storageKey: 'forge_mega_moolah',
+      assets: assetBlock('mega-moolah', ids),
+    },
+  });
+}
+
+
+/** Frost dragon hoard — icy jade cluster pays. */
+export function dragonFortune(): GameManifest {
+  const ids = ['snowflake', 'icecoin', 'jadeleaf', 'frostgem', 'silverbell', 'foxspirit', 'icetiger', 'frostdragon', 'scatter', 'bomb'];
+  return reskin(sugarRealm(), {
+    gameId: 'dragon-fortune',
+    gameName: 'Dragon Fortune',
+    tagline: 'Buz ejderinin hazinesinde zincirleme donmalar',
+    skins: [
+      { id: 'snowflake', label: 'SN', color: '#a5f3fc' },
+      { id: 'icecoin', label: 'IC', color: '#e4e4e7' },
+      { id: 'jadeleaf', label: 'JL', color: '#4ade80' },
+      { id: 'frostgem', label: 'FG', color: '#60a5fa' },
+      { id: 'silverbell', label: 'SB', color: '#c4b5fd' },
+      { id: 'foxspirit', label: 'FX', color: '#f0abfc' },
+      { id: 'icetiger', label: 'IT', color: '#93c5fd' },
+      { id: 'frostdragon', label: 'FD', color: '#22d3ee' },
+      { id: 'scatter', label: 'S', color: '#fde047' },
+      { id: 'bomb', label: 'B', color: '#f97316' },
+    ],
+    theme: {
+      bgGradient: 'radial-gradient(ellipse at top, #164e63 0%, #082f3d 55%, #02141a 100%)',
+      reelBg: 'rgba(4, 34, 44, 0.85)',
+      accentColor: '#22d3ee',
+      accentColor2: '#cffafe',
+      frameColor: '#155e75',
+      music: 'mystic',
+      storageKey: 'forge_dragon_fortune',
+      assets: assetBlock('dragon-fortune', ids),
+    },
+  });
+}
+
 export const CATALOG = [
+  luckySevens,
+  goldenVault,
+  olympusStrikes,
+  pharaohsTreasure,
+  fruitFrenzy,
+  megaSavanna,
+  dragonFortune,
   pyramidQuest,
   tomeOfAnubis,
   dragonsFortune,

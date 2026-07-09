@@ -1,0 +1,128 @@
+{
+  "game": "pharaohs-treasure",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: golden treasure barge floating on the turquoise Nile at dusk, palm silhouettes, lantern light, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 3580
+    },
+    {
+      "id": "reed",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/reed.png",
+      "generationPrompt": "Casino slot game symbol icon: GREEN papyrus reeds bundle. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3667
+    },
+    {
+      "id": "oar",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/oar.png",
+      "generationPrompt": "Casino slot game symbol icon: a beige-gold ceremonial OAR. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7565
+    },
+    {
+      "id": "fishnile",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/fishnile.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLUE Nile tilapia fish ornament. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8810
+    },
+    {
+      "id": "ibis",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/ibis.png",
+      "generationPrompt": "Casino slot game symbol icon: a WHITE ibis bird standing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 134
+    },
+    {
+      "id": "barge",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/barge.png",
+      "generationPrompt": "Casino slot game symbol icon: a small ORANGE-gold royal barge boat. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3989
+    },
+    {
+      "id": "queen",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/queen.png",
+      "generationPrompt": "Casino slot game symbol icon: a PINK-gold Egyptian queen profile with headdress. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2400
+    },
+    {
+      "id": "treasure",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/treasure.png",
+      "generationPrompt": "Casino slot game symbol icon: an overflowing GOLD treasure chest. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7755
+    },
+    {
+      "id": "wild",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/wild.png",
+      "generationPrompt": "Casino slot game symbol icon: a TURQUOISE scarab with spread gold wings. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5457
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLD sun disk with cobra crown glowing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, turquoise-gold painterly render, dramatic rim light, flat solid very dark teal background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 6103
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/pharaohs-treasure/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: a golden royal barge loaded with treasure on the turquoise Nile at dusk, premium slot art, teal-gold palette, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 1992
+    }
+  ]
+}
