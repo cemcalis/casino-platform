@@ -81,7 +81,19 @@ async function generatePollinations(item, attempt = 0) {
     'https://image.pollinations.ai/prompt/' +
     encodeURIComponent(item.generationPrompt) +
     `?width=${size.width}&height=${size.height}&nologo=true&seed=${seed}`;
-  const res = await fetch(url, { signal: AbortSignal.timeout(120_000) });
+  let res;
+  try {
+    res = await fetch(url, { signal: AbortSignal.timeout(120_000) });
+  } catch (err) {
+    // Transient network drop — same backoff as rate limiting.
+    if (attempt < 5) {
+      const wait = 15_000 + 10_000 * attempt;
+      dim(`    ${err.message} — retrying in ${wait / 1000}s`);
+      await sleep(wait);
+      return generatePollinations(item, attempt + 1);
+    }
+    throw err;
+  }
   if (!res.ok) {
     if (attempt < 5) {
       // Anonymous tier is roughly one image per ~15s — wait it out.
@@ -134,8 +146,10 @@ async function generateOne(item, keyIndex = 0, attempt = 0) {
 
 let done = 0;
 let failed = 0;
+const onlyMissing = process.argv.includes('--missing');
 for (const item of items) {
   const outAbs = join(root, item.outputPath);
+  if (onlyMissing && existsSync(outAbs)) continue;
   process.stdout.write(`${c.bold}${item.id}${c.reset} → ${item.outputPath}\n`);
   try {
     const png = await generateOne(item);

@@ -1,0 +1,128 @@
+{
+  "game": "book-of-dead",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/book-of-dead/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: shadowy Egyptian underworld hall, giant Anubis statues, violet torch flames, floating dust, ominous, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 6444
+    },
+    {
+      "id": "bone",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/bone.png",
+      "generationPrompt": "Casino slot game symbol icon: crossed ancient BONES, pale ivory. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3589
+    },
+    {
+      "id": "serpent",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/serpent.png",
+      "generationPrompt": "Casino slot game symbol icon: a coiled GREEN serpent with raised head. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2999
+    },
+    {
+      "id": "urn",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/urn.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE canopic urn with a carved lid. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1839
+    },
+    {
+      "id": "amulet",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/amulet.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLUE faience amulet on a cord. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4834
+    },
+    {
+      "id": "bastet",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/bastet.png",
+      "generationPrompt": "Casino slot game symbol icon: a VIOLET cat goddess Bastet statue. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 6230
+    },
+    {
+      "id": "horus",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/horus.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLD Horus falcon emblem with spread wings. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1411
+    },
+    {
+      "id": "anubis",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/anubis.png",
+      "generationPrompt": "Casino slot game symbol icon: an INDIGO-black Anubis jackal god head with gold trim. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7617
+    },
+    {
+      "id": "wild",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/wild.png",
+      "generationPrompt": "Casino slot game symbol icon: an open golden TOME radiating dark magic. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 6726
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/book-of-dead/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a VIOLET glowing ankh amulet with energy aura. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, dark painterly fantasy render, dramatic rim light, flat solid very dark indigo background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1687
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/book-of-dead/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: Anubis silhouette holding a glowing tome, violet underworld mist, gold accents, premium dark slot art, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 6535
+    }
+  ]
+}

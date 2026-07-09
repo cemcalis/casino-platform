@@ -1,0 +1,128 @@
+{
+  "game": "solar-wilds",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/solar-wilds/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: African savanna at golden hour, huge sun, acacia silhouettes, warm dust haze, cinematic, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 1429
+    },
+    {
+      "id": "acacia",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/acacia.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN flat-top acacia tree. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4944
+    },
+    {
+      "id": "horn",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/horn.png",
+      "generationPrompt": "Casino slot game symbol icon: a beige KUDU spiral horn. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 6064
+    },
+    {
+      "id": "drum",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/drum.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE African djembe drum. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 665
+    },
+    {
+      "id": "meerkat",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/meerkat.png",
+      "generationPrompt": "Casino slot game symbol icon: a YELLOW-tan meerkat standing upright. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3334
+    },
+    {
+      "id": "zebra",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/zebra.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLACK-WHITE zebra head with mane. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2572
+    },
+    {
+      "id": "rhino",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/rhino.png",
+      "generationPrompt": "Casino slot game symbol icon: a GRAY rhino head with big horn. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2385
+    },
+    {
+      "id": "lion",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/lion.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLDEN lion head with full mane. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7701
+    },
+    {
+      "id": "wild",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/wild.png",
+      "generationPrompt": "Casino slot game symbol icon: a blazing ORANGE sun disk with rays. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5281
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/solar-wilds/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a glowing GOLD tribal medallion with gem. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80% of frame, warm painterly golden-hour render, dramatic rim light, flat solid very dark amber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3603
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/solar-wilds/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: lion silhouette on a rock before a giant golden sun, savanna dusk, premium slot art, amber palette, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 1800
+    }
+  ]
+}

@@ -10,3 +10,4 @@ export * from './manifest';
 export * from './reference-manifests';
 export * from './manifests/atlas-reef';
 export * from './crash';
+export * from './manifests/catalog';
