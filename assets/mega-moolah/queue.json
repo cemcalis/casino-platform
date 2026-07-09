@@ -1,0 +1,139 @@
+{
+  "game": "mega-moolah",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 12,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/mega-moolah/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: night carnival on the savanna, string lights between acacia trees, drums and torches, festive, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 2340
+    },
+    {
+      "id": "paw",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/paw.png",
+      "generationPrompt": "Casino slot game symbol icon: a beige lion PAW print emblem. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 9064
+    },
+    {
+      "id": "tusk",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/tusk.png",
+      "generationPrompt": "Casino slot game symbol icon: a WHITE curved ivory tusk. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1511
+    },
+    {
+      "id": "maskgnu",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/maskgnu.png",
+      "generationPrompt": "Casino slot game symbol icon: a GRAY tribal wildebeest mask. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3355
+    },
+    {
+      "id": "giraffe",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/giraffe.png",
+      "generationPrompt": "Casino slot game symbol icon: a YELLOW giraffe head with ossicones. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5287
+    },
+    {
+      "id": "hippo",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/hippo.png",
+      "generationPrompt": "Casino slot game symbol icon: a PURPLE hippo head yawning. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 6103
+    },
+    {
+      "id": "buffalo",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/buffalo.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE-brown buffalo head with horns. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 251
+    },
+    {
+      "id": "elephant",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/elephant.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLUE-gray elephant head with raised trunk. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8197
+    },
+    {
+      "id": "lionking",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/lionking.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLDEN crowned lion head. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8815
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLD carnival medallion sun glowing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8209
+    },
+    {
+      "id": "bomb",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/mega-moolah/symbols/bomb.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE tribal drum charge with sparks, playful. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, vibrant cartoon safari render, dramatic rim light, flat solid very dark umber background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3030
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/mega-moolah/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: a majestic lion with a golden crown at a night savanna carnival, string lights, premium slot art, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 3074
+    }
+  ]
+}

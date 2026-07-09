@@ -1,0 +1,139 @@
+{
+  "game": "fruit-frenzy",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 12,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: lush orchard at night, giant glowing fruits, fireflies, juicy splashes, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 3598
+    },
+    {
+      "id": "kiwi",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/kiwi.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN kiwi half with black seeds. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 491
+    },
+    {
+      "id": "blueberry",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/blueberry.png",
+      "generationPrompt": "Casino slot game symbol icon: a cluster of BLUE blueberries. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3174
+    },
+    {
+      "id": "grapef",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/grapef.png",
+      "generationPrompt": "Casino slot game symbol icon: a bunch of PURPLE grapes. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 644
+    },
+    {
+      "id": "banana",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/banana.png",
+      "generationPrompt": "Casino slot game symbol icon: a YELLOW banana pair. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3730
+    },
+    {
+      "id": "strawberry",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/strawberry.png",
+      "generationPrompt": "Casino slot game symbol icon: a RED strawberry with seeds. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 9009
+    },
+    {
+      "id": "pineapple",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/pineapple.png",
+      "generationPrompt": "Casino slot game symbol icon: an AMBER pineapple with crown leaves. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2769
+    },
+    {
+      "id": "watermelon",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/watermelon.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN-red watermelon wedge. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2598
+    },
+    {
+      "id": "goldapple",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/goldapple.png",
+      "generationPrompt": "Casino slot game symbol icon: a glowing GOLDEN apple. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7553
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a PINK juice splash star glowing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4861
+    },
+    {
+      "id": "bomb",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/symbols/bomb.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE citrus bomb with lit fuse, playful. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, juicy glossy 3D render, dramatic rim light, flat solid very dark green background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2399
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/fruit-frenzy/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: an explosion of giant juicy fruits with splash droplets on dark green, premium slot art, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 2018
+    }
+  ]
+}

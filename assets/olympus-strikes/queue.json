@@ -1,0 +1,128 @@
+{
+  "game": "olympus-strikes",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/olympus-strikes/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: storm clouds over Mount Olympus, marble temple, lightning bolts, god rays, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 5601
+    },
+    {
+      "id": "laurel",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/laurel.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN laurel wreath. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8376
+    },
+    {
+      "id": "amphora",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/amphora.png",
+      "generationPrompt": "Casino slot game symbol icon: a beige Greek AMPHORA vase with meander pattern. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 485
+    },
+    {
+      "id": "harp",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/harp.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLDEN lyre harp. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 9000
+    },
+    {
+      "id": "helmet",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/helmet.png",
+      "generationPrompt": "Casino slot game symbol icon: a SILVER Corinthian helmet with red plume. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1951
+    },
+    {
+      "id": "pegasus",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/pegasus.png",
+      "generationPrompt": "Casino slot game symbol icon: a WHITE pegasus head with wings. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 730
+    },
+    {
+      "id": "poseidon",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/poseidon.png",
+      "generationPrompt": "Casino slot game symbol icon: a TEAL trident with water swirl. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1583
+    },
+    {
+      "id": "zeusking",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/zeusking.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLD bearded god face with lightning crown. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1295
+    },
+    {
+      "id": "wild",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/wild.png",
+      "generationPrompt": "Casino slot game symbol icon: a TEAL glowing lightning bolt. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2058
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/olympus-strikes/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a VIOLET storm orb with electric arcs. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, epic mythological painterly render, dramatic rim light, flat solid very dark navy background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2241
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/olympus-strikes/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: Zeus-like god silhouette hurling a lightning bolt from storm clouds over a marble temple, teal-gold palette, premium slot art, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 7224
+    }
+  ]
+}

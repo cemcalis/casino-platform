@@ -1,0 +1,128 @@
+{
+  "game": "golden-vault",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/golden-vault/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: inside a massive bank vault, stacked gold bars, laser security beams, dramatic spotlights, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 3582
+    },
+    {
+      "id": "key",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/key.png",
+      "generationPrompt": "Casino slot game symbol icon: an ornate SILVER vault key. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1727
+    },
+    {
+      "id": "blueprint",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/blueprint.png",
+      "generationPrompt": "Casino slot game symbol icon: a rolled BLUE heist blueprint. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4055
+    },
+    {
+      "id": "dynamite",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/dynamite.png",
+      "generationPrompt": "Casino slot game symbol icon: a bundle of ORANGE dynamite with fuse. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 1565
+    },
+    {
+      "id": "gembag",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/gembag.png",
+      "generationPrompt": "Casino slot game symbol icon: a PURPLE velvet bag spilling gems. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8237
+    },
+    {
+      "id": "goldbar",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/goldbar.png",
+      "generationPrompt": "Casino slot game symbol icon: a stack of three shiny GOLD bars. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4095
+    },
+    {
+      "id": "safe",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/safe.png",
+      "generationPrompt": "Casino slot game symbol icon: a small chrome SAFE with dial. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2178
+    },
+    {
+      "id": "crownjewel",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/crownjewel.png",
+      "generationPrompt": "Casino slot game symbol icon: a PINK crown jewel on a cushion. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2669
+    },
+    {
+      "id": "wild",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/wild.png",
+      "generationPrompt": "Casino slot game symbol icon: a glowing golden vault wheel handle. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7338
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/golden-vault/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a CYAN laser-lit diamond. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, cinematic metallic 3D render, dramatic rim light, flat solid very dark bronze background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3306
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/golden-vault/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: an open bank vault door revealing glowing gold bars, laser beams, premium slot art, gold palette, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 6733
+    }
+  ]
+}

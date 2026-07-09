@@ -1,0 +1,128 @@
+{
+  "game": "lucky-7s",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 11,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/lucky-7s/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: retro neon slot hall, chrome and crimson, glowing tubes, checker floor bokeh, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 1525
+    },
+    {
+      "id": "cherry7",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/cherry7.png",
+      "generationPrompt": "Casino slot game symbol icon: two glossy RED cherries, retro casino style. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4553
+    },
+    {
+      "id": "lemon7",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/lemon7.png",
+      "generationPrompt": "Casino slot game symbol icon: a glossy YELLOW lemon, retro casino style. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 900
+    },
+    {
+      "id": "plum7",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/plum7.png",
+      "generationPrompt": "Casino slot game symbol icon: a glossy PURPLE plum, retro casino style. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5547
+    },
+    {
+      "id": "bell7",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/bell7.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLDEN casino bell with chrome handle. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5488
+    },
+    {
+      "id": "bar",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/bar.png",
+      "generationPrompt": "Casino slot game symbol icon: a chrome BAR ingot plate with beveled edges. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5910
+    },
+    {
+      "id": "doublebar",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/doublebar.png",
+      "generationPrompt": "Casino slot game symbol icon: two stacked chrome-cyan BAR plates. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3033
+    },
+    {
+      "id": "seven",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/seven.png",
+      "generationPrompt": "Casino slot game symbol icon: a glossy chrome-RED number SEVEN digit. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7813
+    },
+    {
+      "id": "wild",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/wild.png",
+      "generationPrompt": "Casino slot game symbol icon: a golden flaming chrome star badge. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3606
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/lucky-7s/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a CYAN neon diamond badge glowing. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, chrome retro 3D render, dramatic rim light, flat solid very dark crimson background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8262
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/lucky-7s/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: giant chrome number seven with neon crimson glow in a retro casino, premium slot art, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 7070
+    }
+  ]
+}

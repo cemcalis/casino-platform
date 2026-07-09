@@ -1,0 +1,139 @@
+{
+  "game": "dragon-fortune",
+  "style": "silhouette-first premium slot icon set",
+  "totalCount": 12,
+  "items": [
+    {
+      "id": "background",
+      "type": "background",
+      "outputPath": "apps/web/public/assets/dragon-fortune/backgrounds/background.png",
+      "generationPrompt": "Wide 16:9 background for a casino slot: frozen dragon lair, giant ice crystals, frost mist, jade lanterns, aurora glow, center darker for reel overlay, NO text",
+      "size": {
+        "width": 1280,
+        "height": 720
+      },
+      "seed": 1319
+    },
+    {
+      "id": "snowflake",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/snowflake.png",
+      "generationPrompt": "Casino slot game symbol icon: an intricate CYAN snowflake. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 6567
+    },
+    {
+      "id": "icecoin",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/icecoin.png",
+      "generationPrompt": "Casino slot game symbol icon: a SILVER-ice coin with frost. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 8842
+    },
+    {
+      "id": "jadeleaf",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/jadeleaf.png",
+      "generationPrompt": "Casino slot game symbol icon: a GREEN jade leaf ornament. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2521
+    },
+    {
+      "id": "frostgem",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/frostgem.png",
+      "generationPrompt": "Casino slot game symbol icon: a BLUE frosted gem. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5272
+    },
+    {
+      "id": "silverbell",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/silverbell.png",
+      "generationPrompt": "Casino slot game symbol icon: a LAVENDER silver bell with ice. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 2365
+    },
+    {
+      "id": "foxspirit",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/foxspirit.png",
+      "generationPrompt": "Casino slot game symbol icon: a PINK-white spirit fox head. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 7986
+    },
+    {
+      "id": "icetiger",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/icetiger.png",
+      "generationPrompt": "Casino slot game symbol icon: a PALE-BLUE ice tiger head. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 4591
+    },
+    {
+      "id": "frostdragon",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/frostdragon.png",
+      "generationPrompt": "Casino slot game symbol icon: a CYAN-white frost dragon head with icy whiskers. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 764
+    },
+    {
+      "id": "scatter",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/scatter.png",
+      "generationPrompt": "Casino slot game symbol icon: a GOLD glowing yin pearl in ice ring. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 5972
+    },
+    {
+      "id": "bomb",
+      "type": "symbol",
+      "outputPath": "apps/web/public/assets/dragon-fortune/symbols/bomb.png",
+      "generationPrompt": "Casino slot game symbol icon: an ORANGE cracking ice charge with sparks. bold distinct silhouette, thick dark outline, premium casino slot symbol icon, consistent icon-set style, single object centered filling 80 percent of frame, icy luminous 3D render, dramatic rim light, flat solid very dark ice blue background, no text, no watermark",
+      "size": {
+        "width": 512,
+        "height": 512
+      },
+      "seed": 3758
+    },
+    {
+      "id": "lobby-card",
+      "type": "ui",
+      "outputPath": "apps/web/public/assets/dragon-fortune/ui/lobby-card.png",
+      "generationPrompt": "Vertical casino lobby key art: a white-blue frost dragon coiled around a frozen jade pagoda under aurora, premium slot art, ice palette, NO text, portrait",
+      "size": {
+        "width": 512,
+        "height": 768
+      },
+      "seed": 6829
+    }
+  ]
+}
